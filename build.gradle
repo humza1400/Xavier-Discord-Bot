@@ -7,6 +7,9 @@
  */
 
 plugins {
+    // Apply the gradle shadow plugin for fatjar creation
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+
     // Apply the java plugin to add support for Java
     id 'java'
 
@@ -32,14 +35,35 @@ dependencies {
     implementation group: 'com.google.apis', name: 'google-api-services-youtube', version: 'v3-rev212-1.25.0'
     implementation group: 'org.codehaus.groovy', name: 'groovy-jsr223', version: '3.0.0-alpha-4'
     implementation group: 'com.jagrosh', name: 'jda-utilities-commons', version: '3.0.2'
+    compile("club.minnced:discord-webhooks:0.1.8")
+//    implementation group: 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
 
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
 
+jar {
+    manifest {
+        attributes "Main-Class": 'me.comu.exeter.core.Core'
+    }
+}
+
+//task fatJar(type: jar) {
+//
+//        manifest {
+//            attributes "Main-Class": 'me.comu.exeter.core.Core',
+//            'Implementation-Title' : 'Discord Bot',
+//            'Implementation-Version' : '1.0'
+//        }
+//        from {
+//            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//        }
+//
+//    with jar
+//}
+
 application {
     // Define the main class for the application
     mainClassName = 'me.comu.exeter.core.Core'
-
 }

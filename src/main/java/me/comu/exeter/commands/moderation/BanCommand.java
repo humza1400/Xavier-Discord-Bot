@@ -18,7 +18,7 @@ public class BanCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
-        if (args.isEmpty()) {
+        if (args.isEmpty() || mentionedMembers.isEmpty()) {
             channel.sendMessage("Please specify a valid user to ban").queue();
             return;
         }

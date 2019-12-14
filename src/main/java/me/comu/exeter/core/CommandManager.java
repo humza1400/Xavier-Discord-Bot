@@ -89,6 +89,8 @@ public class CommandManager {
         register(new EconomyUsersCommand());
         register(new SetBalanceCommand());
         register(new CoinflipCommand());
+        register(new ShopCommand());
+        register(new RobCommand());
         // lookup command (use event.getJDA and look up ID make embed with in guild check, name, etc
         // marry system
         // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage

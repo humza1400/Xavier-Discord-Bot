@@ -67,6 +67,6 @@ public class CoinflipCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"gamble","coinflip","cf"};
+        return new String[] {"gamble","coinflip","cf","bet"};
     }
 }
