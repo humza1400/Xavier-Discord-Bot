@@ -21,7 +21,7 @@ public class Core {
     public static  JDA jda;
     public final static String[] WHITELISTEDPEOPLE = new String[]{"175728291460808706"/*comu*/, "492828741555453972"/*tarik*/, "234394647324131328" /*tarik alt*/, "217090758593871872" /*del*/, "544668778600988672" /*macmiller*/};
     public static final long OWNERID = 175728291460808706L;
-    private static final String TOKEN = "NjUwODAyNzAzOTQ5MjM0MTg1.XeQqdQ.S1i70yT5BlisQxKN4wxDCthhLQM";
+    private static final String TOKEN = "NjMxNjU0MzE5MzQyNjE2NTk2.XfLsXw.RFnQayLGY5lmr38NAk79JDNvp3s";
     private static final boolean WHITELIST = false;
     public static boolean WHITELISTPERMS = true;
     public static final String DEBUG = "[DEBUG] ";
@@ -46,7 +46,7 @@ public class Core {
             new Timer().scheduleAtFixedRate(new TimerTask(){
                 @Override
                 public void run(){
-                       jda.getPresence().setActivity(Activity.watching(String.format("over %s users!", jda.getGuildById("650686846363500564").getMembers().size())));
+                       jda.getPresence().setActivity(Activity.watching(String.format("over %s users", jda.getGuildById("645841446817103912").getMembers().size())));
                 }
             },0,5000);
             jda.addEventListener(new KickEvent());
@@ -54,6 +54,7 @@ public class Core {
            jda.addEventListener(new LogMessageReceivedEvent());
            jda.addEventListener(new RainbowRoleEvent());
            jda.addEventListener(new AntiRaidEvent());
+           jda.addEventListener(new EditEvent());
            jda.addEventListener(new GuildMemberJoinedEvent());
             jda.addEventListener(new GuildMemberLeaveEvent());
             jda.addEventListener(new GuildMessageListenerResponderEvent());

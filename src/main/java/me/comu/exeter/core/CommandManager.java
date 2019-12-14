@@ -2,8 +2,14 @@ package me.comu.exeter.core;
 
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import me.comu.exeter.commands.*;
+import me.comu.exeter.commands.admin.*;
+import me.comu.exeter.commands.bot.*;
+import me.comu.exeter.commands.economy.*;
+import me.comu.exeter.commands.marriage.MarryCommand;
+import me.comu.exeter.commands.misc.*;
+import me.comu.exeter.commands.moderation.*;
 import me.comu.exeter.commands.music.*;
+import me.comu.exeter.commands.nuke.CreateRoleCommand;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
@@ -38,14 +44,13 @@ public class CommandManager {
         register(new PrefixCommand());
         register(new BindLogChannelCommand(eventWaiter));
         register(new SetRainbowRoleCommand());
-        register(new SpamDMCommand());
+        register(new MassDMCommand());
         register(new SKSKSK());
         register(new ClearCommand());
         register(new KickCommand());
         register(new BanCommand());
         register(new UserInfoCommand());
         register(new ServerInfoCommand());
-        register(new SpamDMCommand());
         register(new WarnCommand());
         register(new UnbanCommand());
         register(new MuteCommand());
@@ -67,6 +72,26 @@ public class CommandManager {
         register(new SetLeaveChannelCommand());
         register(new UnbanAllCommand());
         register(new CreateRoleCommand());
+        register(new AntiRaidConfigCommand());
+        register(new WebhookCommand());
+        register(new AntiRaidWhitelistCommand());
+        register(new SayCommand());
+        register(new InviteCommand());
+        register(new WhitelistedCommand());
+        register(new MarryCommand(eventWaiter));
+        register(new LockdownCommand());
+        register(new SetLockdownRoleCommand());
+        register(new UnlockdownCommand());
+        register(new SlowmodeCommand());
+        register(new UnbindLogs());
+        register(new CheckBalanceCommand());
+        register(new AddBalanceCommand());
+        register(new EconomyUsersCommand());
+        register(new SetBalanceCommand());
+        register(new CoinflipCommand());
+        // lookup command (use event.getJDA and look up ID make embed with in guild check, name, etc
+        // marry system
+        // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage
         // add new event for guildmemberjoin to update the bots status so it doesnt have to continually update every 5 secs when it dont need to
         // use edit event to test if its edited to a command
         // makes a admin role and gives it to me

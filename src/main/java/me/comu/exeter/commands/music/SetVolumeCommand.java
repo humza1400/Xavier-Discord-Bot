@@ -15,6 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SetVolumeCommand implements ICommand {
+
+    int volume = 10;
+
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         PlayerManager playerManager = PlayerManager.getInstance();
@@ -35,14 +38,14 @@ public class SetVolumeCommand implements ICommand {
             event.getChannel().sendMessage("You need to be in the same voice channel as me to adjust the volume").queue();
             return;
         }
-        int volume = 10;
         try {
             if (Integer.parseInt(args.get(0)) > 200)
                 volume = 200;
             else
                 volume = Integer.parseInt(args.get(0));
         } catch (NumberFormatException ex) {
-            textChannel.sendMessage("That number is either too large to change the volume to or is a floating point number (integers only)").queue();
+            textChannel.sendMessage("That number is either invalid or too large to change the volume to or is a floating point number (integers only)").queue();
+            return;
         }
         guildMusicManager.player.setVolume(volume);
         event.getChannel().sendMessage("Volume adjusted to " + Integer.parseInt(args.get(0))).queue();
@@ -51,7 +54,7 @@ public class SetVolumeCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Adjusts the volume of the music\n`" + Core.PREFIX + getInvoke() + " [volume]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Adjusts the volume of the music\n`" + Core.PREFIX + getInvoke() + " [volume]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`\nCurrent volume: `" + volume + "`";
     }
 
     @Override

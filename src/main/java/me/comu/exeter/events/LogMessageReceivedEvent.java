@@ -1,6 +1,6 @@
 package me.comu.exeter.events;
 
-import me.comu.exeter.commands.BindLogChannelCommand;
+import me.comu.exeter.commands.moderation.BindLogChannelCommand;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -16,7 +16,7 @@ public class LogMessageReceivedEvent extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@Nonnull net.dv8tion.jda.api.events.message.MessageReceivedEvent event) {
-        if (event.isFromType(ChannelType.TEXT) && BindLogChannelCommand.bound && !event.getMessage().getAuthor().isBot()) {
+        if (event.isFromType(ChannelType.TEXT) && BindLogChannelCommand.bound && !event.getMessage().getAuthor().getId().equals("631654319342616596")) {
             DateFormat df = new SimpleDateFormat("MM/dd/yy hh:mm:ss a");
             Date dateobj = new Date();
             TextChannel textChannel = event.getGuild().getTextChannelById(BindLogChannelCommand.logChannelID);

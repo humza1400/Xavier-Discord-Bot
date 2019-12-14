@@ -1,7 +1,7 @@
 package me.comu.exeter.events;
 
-import me.comu.exeter.commands.SetLeaveChannelCommand;
-import me.comu.exeter.commands.ToggleLeaveChannelCommand;
+import me.comu.exeter.commands.moderation.SetLeaveChannelCommand;
+import me.comu.exeter.commands.moderation.ToggleLeaveChannelCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 

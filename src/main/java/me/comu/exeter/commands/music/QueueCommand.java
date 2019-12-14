@@ -34,7 +34,7 @@ public class QueueCommand implements ICommand {
 
         int trackCount = Math.min(queue.size(), 20);
         List<AudioTrack> tracks = new ArrayList<>(queue);
-        EmbedBuilder builder = new EmbedBuilder().setTitle("Music Queue (" + queue.size() + ")").setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now());
+        EmbedBuilder builder = new EmbedBuilder().setTitle("Music Queue (" + queue.size() + 1 + ")").setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now());
 
         for (int i = 0; i < trackCount; i++) {
             AudioTrack track = tracks.get(i);

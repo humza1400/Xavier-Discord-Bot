@@ -1,6 +1,6 @@
 package me.comu.exeter.events;
 
-import me.comu.exeter.commands.SetRainbowRoleCommand;
+import me.comu.exeter.commands.moderation.SetRainbowRoleCommand;
 import me.comu.exeter.core.Core;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;

@@ -12,7 +12,7 @@ public class EditEvent extends ListenerAdapter {
     public void onGuildMessageUpdate(@Nonnull GuildMessageUpdateEvent event) {
         if (event.getMessage().getContentRaw().startsWith(Core.PREFIX))
         {
-            event.getChannel().sendMessage(Core.DEBUG + "attempting to execute invoke on edit (BETA)").queue();
+            event.getChannel().sendMessage(Core.DEBUG + "attempting to invoke on edit").queue();
         }
 
     }
