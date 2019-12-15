@@ -48,7 +48,7 @@ public class AddBalanceCommand implements ICommand {
             EconomyManager.setBalance(memberList.get(0), EconomyManager.getBalance(memberList.get(0)) + amount);
             event.getChannel().sendMessage(String.format("Added **%s** credits to the balance of %s!", amount, memberList.get(0).getAsMention())).queue();
         }
-
+        EcoJSONLoader.saveEconomyConfig();
     }
 
     @Override

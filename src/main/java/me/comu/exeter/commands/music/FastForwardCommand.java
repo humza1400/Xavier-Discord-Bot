@@ -6,6 +6,7 @@ import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.musicplayer.TrackScheduler;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -41,17 +42,18 @@ public class FastForwardCommand implements ICommand {
         int time = -1;
         try {
             time = Integer.parseInt(args.get(0));
+
         }  catch (NumberFormatException ex) {
-            textChannel.sendMessage("That number is either too large to change the volume to or is a floating point number (integers only)").queue();
+            textChannel.sendMessage("Please insert a valid number to seek to.").queue();
         }
-        player.getPlayingTrack().setPosition(time);
-        event.getChannel().sendMessage("Fast-forwarded by " + time).queue();
+        player.getPlayingTrack().setPosition(Wrapper.timeToMS(0, 0, time));
+        event.getChannel().sendMessage("Fast-forwarded by " + time + " seconds").queue();
 
     }
 
     @Override
     public String getHelp() {
-        return "Fast-forwards the current song playing\n`" + Core.PREFIX + getInvoke() + " [amount]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Fast-forwards the current song playing\n`" + Core.PREFIX + getInvoke() + " [seconds]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -61,6 +63,6 @@ public class FastForwardCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"ff"};
+        return new String[] {"ff","seek"};
     }
 }

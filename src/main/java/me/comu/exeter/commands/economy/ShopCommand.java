@@ -15,16 +15,16 @@ public class ShopCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle(String.format("%s Marketplace", event.getGuild().getName()));
-        embed.addField("Weapons", "**1.** Operational: **`null`**\n **2.** Range **`null`**", true);
-        embed.addField("Food", "**3.** Operational: **`null`**\n **4.** Range **`null`**", true);
-        embed.addField("Clothes", "**5.** Operational: **`null`**\n **6.** Range **`null`**", true);
-        embed.addField("idk yet", "**7.** Operational: **`null`**\n **8.** Range **`null`**", true);
-        embed.addField("idk yet", "**9.** Operational: **`null`**\n **10.** Range **`null`**", true);
-        embed.addField("idk yet", "**11.** Operational: **`null`**", true);
-        embed.addField("idk yet", "**** DM?: **`\u2705`**", true);
+        embed.addField("Nitro Code", "**1.** Cost: **`null`**\n **2.** Stock: **`null`**", true);
+        embed.addField("Custom Role", "**3.** Cost: **`null`**\n **4.** Stock: **`null`**", true);
+        embed.addField("Hoisted Role", "**5.** Cost: **`null`**\n **6.** Stock: **`null`**", true);
+        embed.addField("Custom VC", "**7.** Cost: **`null`**\n **8.** Stock: **`null`**", true);
+        embed.addField("Custom Perms", "**9.** Cost: **`null`**\n **10.** Stock: **`null`**", true);
+        embed.addField("Staff Role", "**11.** Cost: **`null`**\n **12** Stock: **`null`**", true);
+//        embed.addField("Staff Role", "**** DM?: **`\u2705`**", true);
         embed.setFooter("Requested by " + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator(), event.getMember().getUser().getAvatarUrl());
         embed.setTimestamp(Instant.now());
-        embed.setDescription("Current Sale: **`50%`**");
+        embed.setDescription("Current Sale: **50%**");
         event.getChannel().sendMessage(embed.build()).queue();
     }
 
@@ -40,6 +40,6 @@ public class ShopCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"marketplace"};
+        return new String[] {"market","marketplace"};
     }
 }

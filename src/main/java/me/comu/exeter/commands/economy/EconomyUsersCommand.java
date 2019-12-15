@@ -17,7 +17,7 @@ public class EconomyUsersCommand implements ICommand {
             EconomyManager.getUsers().put(event.getMember(), 0.0);
         }
         event.getChannel().sendMessage(EconomyManager.getUsers().toString()).queue();
-
+        EcoJSONLoader.saveEconomyConfig();
     }
 
     @Override

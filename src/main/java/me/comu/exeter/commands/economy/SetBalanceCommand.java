@@ -45,7 +45,7 @@ public class SetBalanceCommand implements ICommand {
             EconomyManager.setBalance(memberList.get(0), amount);
             event.getChannel().sendMessage(String.format("Set the balance of %s to **%s**!", memberList.get(0).getAsMention(), amount)).queue();
         }
-
+        EcoJSONLoader.saveEconomyConfig();
     }
 
     @Override

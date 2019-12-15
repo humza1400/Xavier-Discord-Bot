@@ -52,7 +52,7 @@ public class CoinflipCommand implements ICommand {
                 event.getChannel().sendMessage("Yikes, you lost your wager of " + wager + " credits better luck next time.").queue();
             }
         }
-
+        EcoJSONLoader.saveEconomyConfig();
     }
 
     @Override

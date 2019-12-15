@@ -28,7 +28,7 @@ public class CheckBalanceCommand implements ICommand {
             double balance = EconomyManager.getUsers().get(event.getMember());
             event.getChannel().sendMessage(event.getMember().getAsMention() + " has a balance of " + String.format("**%s** credits.", balance)).queue();
         }
-
+        EcoJSONLoader.saveEconomyConfig();
     }
 
     @Override

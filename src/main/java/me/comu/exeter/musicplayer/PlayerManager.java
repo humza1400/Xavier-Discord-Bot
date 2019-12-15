@@ -17,6 +17,7 @@ public class PlayerManager {
     private static PlayerManager INSTANCE;
     private final AudioPlayerManager playerManager;
     private final Map<Long, GuildMusicManager> musicManagers;
+    public static boolean loop;
 
     private PlayerManager() {
         this.musicManagers = new HashMap<>();

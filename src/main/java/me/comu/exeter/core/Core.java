@@ -1,6 +1,8 @@
 package me.comu.exeter.core;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import me.comu.exeter.commands.economy.EcoJSONLoader;
+import me.comu.exeter.commands.economy.EconomyManager;
 import me.comu.exeter.events.*;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.AccountType;
@@ -8,10 +10,12 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
+import java.io.File;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,14 +39,15 @@ public class Core {
     }
 
     private Core() {
-
         EventWaiter eventWaiter = new EventWaiter();
         CommandManager commandManager = new CommandManager(eventWaiter);
         Listener listener = new Listener(commandManager);
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
         WebUtils.setUserAgent("Mozilla/5.0 Exeter Discord Bot/Comu#0691");
+
         try {
            jda = new JDABuilder(AccountType.BOT).setToken(TOKEN)./*setActivity((Activity.streaming("ily comu", "https://www.twitch.tv/ilycomu/")))*/setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
+           EcoJSONLoader.loadEconomyConfig(new File("src/main/java/me/comu/exeter/commands/economy/economy.json"));
             new Timer().scheduleAtFixedRate(new TimerTask(){
                 @Override
                 public void run(){

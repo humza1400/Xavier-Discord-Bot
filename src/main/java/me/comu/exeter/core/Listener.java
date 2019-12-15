@@ -1,6 +1,7 @@
 package me.comu.exeter.core;
 
 
+import me.comu.exeter.commands.economy.EcoJSONLoader;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -57,8 +58,9 @@ class  Listener extends ListenerAdapter {
            long numberOfHours = uptimeInSeconds / (60 * 60);
            long numberOfMinutes = (uptimeInSeconds / 60) - (numberOfHours * 60);
            long numberOfSeconds = uptimeInSeconds % 60;
-           event.getChannel().sendMessage("Shutting Down... (Existed for " + numberOfHours + " hour(s) " + numberOfMinutes+ " minute(s) " + numberOfSeconds + " second(s)" + ")").queue();
-           logger.info("Shutdown thread called");
+           event.getChannel().sendMessage("Shutting Down... Existed for `" + numberOfHours + "` hour(s) `" + numberOfMinutes+ "` minute(s) `" + numberOfSeconds + "` second(s)" + "").queue();
+           EcoJSONLoader.saveEconomyConfig();
+           logger.info("Shutdown thread called; Saved modules...");
            Core.shutdownThread();
            return;
         }

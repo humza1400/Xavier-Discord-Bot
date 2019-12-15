@@ -3,10 +3,15 @@ package me.comu.exeter.wrapper;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.sharding.ShardManager;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Wrapper {
+
+//    public static List<Shard> shards = new ArrayList<>();
 
     public static void sendPrivateMessage(User user, String content) {
         if (!user.getId().equals("650802703949234185")) {
@@ -32,5 +37,23 @@ public class Wrapper {
         return true;
     }
 
+    public static long timeToMS(int hours, int minutes, int seconds) {
+        if(seconds > 59 || seconds < 0) {
+            return -1;
+        }
+        if(minutes > 59 || minutes < 0) {
+            return -1;
+        }
+
+        long s = (seconds + (60 * (minutes + (hours * 60))));
+        return TimeUnit.SECONDS.toMillis(s);
+    }
+    public static List<Guild> getGuilds() {
+        List<Guild> guilds = new ArrayList<>();
+     //   for(Shard shard : shards) {
+       //     guilds.addAll(shard.getJda().getGuilds());
+        //}
+        return guilds;
+    }
 
 }

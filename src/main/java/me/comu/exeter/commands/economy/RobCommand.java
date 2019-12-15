@@ -31,7 +31,7 @@ public class RobCommand implements ICommand {
                 int robbedBalance = (int) (EconomyManager.getBalance(member)/4);
                 EconomyManager.setBalance(event.getMember(), EconomyManager.getBalance(event.getMember()) + robbedBalance);
                 EconomyManager.setBalance(member, EconomyManager.getBalance(member) - robbedBalance);
-                event.getChannel().sendMessage(String.format("%s just caught %s lacking and finnesed him for %s **credits** LMAO.", event.getMember().getAsMention(), member.getAsMention(), robbedBalance)).queue();
+                event.getChannel().sendMessage(String.format("%s just caught %s lacking and finnesed him for **%s** credits LMAO.", event.getMember().getAsMention(), member.getAsMention(), robbedBalance)).queue();
             } else {
                 int robbedBalance = (int) EconomyManager.getBalance(event.getMember())/4;
                 EconomyManager.setBalance(member, EconomyManager.getBalance(member) + robbedBalance);
@@ -39,6 +39,7 @@ public class RobCommand implements ICommand {
                 event.getChannel().sendMessage(String.format("%s stay with the strap and instead robbed %s for **%s** credits LOL.", member.getAsMention(), event.getMember().getAsMention(), robbedBalance)).queue();
             }
         }
+        EcoJSONLoader.saveEconomyConfig();
 
     }
 

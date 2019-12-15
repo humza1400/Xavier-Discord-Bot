@@ -21,7 +21,6 @@ public class RepeatCommand implements ICommand {
         GuildMusicManager guildMusicManager = playerManager.getGuildMusicManager(event.getGuild());
         AudioManager audioManager = event.getGuild().getAudioManager();
         VoiceChannel voiceChannel = audioManager.getConnectedChannel();
-        TrackScheduler scheduler = guildMusicManager.scheduler;
         AudioPlayer player = guildMusicManager.player;
         TextChannel textChannel = event.getChannel();
 
@@ -38,7 +37,13 @@ public class RepeatCommand implements ICommand {
             textChannel.sendMessage("There is no song playing to loop").queue();
             return;
         }
-        event.getChannel().sendMessage("Current track will now be looped").queue();
+        if(playerManager.loop) {
+            playerManager.loop = false;
+            event.getChannel().sendMessage("Current track will no longer be looped").queue();
+        }else {
+            playerManager.loop = true;
+            event.getChannel().sendMessage("Current track will now be looped").queue();
+        }
 
     }
 

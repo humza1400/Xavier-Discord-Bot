@@ -91,6 +91,11 @@ public class CommandManager {
         register(new CoinflipCommand());
         register(new ShopCommand());
         register(new RobCommand());
+        register(new IDLookupCommand());
+        register(new RepeatCommand());
+        register(new HastebinCommand());
+        register(new EcoConfigCommand());
+        // add log command that logs all event updates
         // lookup command (use event.getJDA and look up ID make embed with in guild check, name, etc
         // marry system
         // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage
