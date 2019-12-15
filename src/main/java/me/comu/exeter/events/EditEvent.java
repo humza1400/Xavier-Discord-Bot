@@ -8,11 +8,17 @@ import javax.annotation.Nonnull;
 
 public class EditEvent extends ListenerAdapter {
 
+    public static String message = null;
+
     @Override
     public void onGuildMessageUpdate(@Nonnull GuildMessageUpdateEvent event) {
+
         if (event.getMessage().getContentRaw().startsWith(Core.PREFIX))
         {
-            event.getChannel().sendMessage(Core.DEBUG + "attempting to invoke on edit").queue();
+            String content = event.getMessage().getContentRaw();
+            String[] args = content.split("\\s+");
+             message = args[0].replaceFirst(Core.PREFIX, "");
+            event.getChannel().sendMessage(Core.DEBUG + "attempting to invoke on edit: " + message).queue();
         }
 
     }

@@ -45,8 +45,12 @@ public class HelpCommand implements ICommand {
         StringBuilder stringBuilder = embedBuilder.getDescriptionBuilder();
             manager.getCommands().forEach((command) -> stringBuilder.append('`').append(command.getInvoke()).append("` ")
             );
-
-        event.getChannel().sendMessage(embedBuilder.build()).queue();
+        try {
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+        } catch (IllegalStateException ex)
+        {
+            event.getChannel().sendMessage("Too many commands to display! Caught IllegalStateException (!)").queue();
+        }
 
     }
 

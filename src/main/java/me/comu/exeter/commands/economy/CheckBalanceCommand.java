@@ -12,21 +12,21 @@ public class CheckBalanceCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (EconomyManager.verifyMember(event.getMember()))
+        if (EconomyManager.verifyUser(event.getMember().getUser().getId()))
         {
-            EconomyManager.getUsers().put(event.getMember(), 0.0);
+            EconomyManager.getUsers().put(event.getMember().getUser().getId(), 0);
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
         if (!memberList.isEmpty())
         {
             Member member = memberList.get(0);
-            if (EconomyManager.verifyMember(member)) EconomyManager.getUsers().put(member, 0.0);
-            double balance = EconomyManager.getBalance(member);
-            event.getChannel().sendMessage(memberList.get(0).getAsMention() + " has a balance of " + String.format("**%s** credits.", balance)).queue();
+            if (EconomyManager.verifyUser(member.getUser().getId())) EconomyManager.getUsers().put(member.getUser().getId(), 690);
+            double balance = EconomyManager.getBalance(member.getUser().getId());
+            event.getChannel().sendMessage(memberList.get(0).getUser().getAsMention() + " has a balance of " + String.format("**%s** credits.", balance)).queue();
         } else {
 
-            double balance = EconomyManager.getUsers().get(event.getMember());
-            event.getChannel().sendMessage(event.getMember().getAsMention() + " has a balance of " + String.format("**%s** credits.", balance)).queue();
+            double balance = EconomyManager.getBalance((event.getMember().getUser().getId()));
+            event.getChannel().sendMessage(event.getMember().getUser().getAsMention() + " has a balance of " + String.format("**%s** credits.", balance)).queue();
         }
         EcoJSONLoader.saveEconomyConfig();
     }

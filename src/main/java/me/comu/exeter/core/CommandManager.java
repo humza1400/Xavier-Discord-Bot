@@ -10,6 +10,7 @@ import me.comu.exeter.commands.misc.*;
 import me.comu.exeter.commands.moderation.*;
 import me.comu.exeter.commands.music.*;
 import me.comu.exeter.commands.nuke.CreateRoleCommand;
+import me.comu.exeter.events.EditEvent;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
@@ -95,6 +96,8 @@ public class CommandManager {
         register(new RepeatCommand());
         register(new HastebinCommand());
         register(new EcoConfigCommand());
+        register(new EcoSaveConfigCommand());
+        register(new UserToIDCommand());
         // add log command that logs all event updates
         // lookup command (use event.getJDA and look up ID make embed with in guild check, name, etc
         // marry system

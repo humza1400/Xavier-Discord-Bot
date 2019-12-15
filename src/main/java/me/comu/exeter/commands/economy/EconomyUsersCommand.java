@@ -12,9 +12,9 @@ public class EconomyUsersCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event)  {
 
-        if (EconomyManager.verifyMember(event.getMember()))
+        if (EconomyManager.verifyUser(event.getMember().getUser().getId()))
         {
-            EconomyManager.getUsers().put(event.getMember(), 0.0);
+            EconomyManager.getUsers().put(event.getMember().getUser().getId(), 0);
         }
         event.getChannel().sendMessage(EconomyManager.getUsers().toString()).queue();
         EcoJSONLoader.saveEconomyConfig();

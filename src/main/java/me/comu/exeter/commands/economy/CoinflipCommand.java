@@ -18,19 +18,19 @@ public class CoinflipCommand implements ICommand {
             event.getChannel().sendMessage("Please specify an amount to coinflip").queue();
             return;
         }
-        if (EconomyManager.verifyMember(event.getMember())) {
-            EconomyManager.getUsers().put(event.getMember(), 0.0);
+        if (EconomyManager.verifyUser(event.getMember().getUser().getId())) {
+            EconomyManager.getUsers().put(event.getMember().getUser().getId(), 0);
         }
         Member member = event.getMember();
-        double balance = EconomyManager.getBalance(member);
-        double wager;
-        if (EconomyManager.getBalance(member) == 0)
+        int balance = EconomyManager.getBalance(member.getUser().getId());
+        int  wager;
+        if (EconomyManager.getBalance(member.getUser().getId()) == 0)
         {
             event.getChannel().sendMessage("You have no money to coinflip! Maybe try begging on the streets scrub!").queue();
             return;
         }
         try {
-            wager = Double.parseDouble(args.get(0));
+            wager = Integer.parseInt(args.get(0));
         } catch (NumberFormatException ex) {
             event.getChannel().sendMessage("That number is either invalid or too large").queue();
             return;
@@ -45,10 +45,10 @@ public class CoinflipCommand implements ICommand {
             Random random = new Random();
             if (random.nextInt() % 2 == 0)
             {
-                EconomyManager.setBalance(member, balance + wager);
+                EconomyManager.setBalance(member.getUser().getId(), balance + wager);
                 event.getChannel().sendMessage("**Congratulations!** You have won your wager of **" + wager + "** credits.").queue();
             } else {
-                EconomyManager.setBalance(member, balance - wager);
+                EconomyManager.setBalance(member.getUser().getId(), balance - wager);
                 event.getChannel().sendMessage("Yikes, you lost your wager of " + wager + " credits better luck next time.").queue();
             }
         }

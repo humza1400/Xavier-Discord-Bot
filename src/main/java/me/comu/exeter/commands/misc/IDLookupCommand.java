@@ -2,6 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -17,7 +18,8 @@ public class IDLookupCommand implements ICommand {
         }
         try {
             if (!args.isEmpty()) {
-                event.getChannel().sendMessage(args.get(0) + " belongs to `" + event.getJDA().getUserById(args.get(0)).getName() + "#" + event.getJDA().getUserById(args.get(0)).getDiscriminator() + "`").queue();
+                event.getChannel().sendMessage(EmbedUtils.embedImage(event.getJDA().getUserById(args.get(0)).getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(event.getMember().getColor()).setTitle(args.get(0) + " belongs to `" + event.getJDA().getUserById(args.get(0)).getName() + "#" + event.getJDA().getUserById(args.get(0)).getDiscriminator() + "`").build()).queue();
+
             }
         } catch (NumberFormatException ex)
         {

@@ -14,7 +14,7 @@ public class SetBalanceCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
-        double amount;
+        int amount;
 
         if (!event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
             event.getChannel().sendMessage("You don't have permission to set balance").queue();
@@ -23,26 +23,27 @@ public class SetBalanceCommand implements ICommand {
         List<Member> memberList = event.getMessage().getMentionedMembers();
         try {
             if (memberList.isEmpty())
-            amount = Double.parseDouble(args.get(0));
+            amount = Integer.parseInt(args.get(0));
             else
-                amount  = Double.parseDouble(args.get(1));
+                amount  = Integer.parseInt(args.get(1));
         } catch (NumberFormatException ex) {
             event.getChannel().sendMessage("That number is either invalid or too large").queue();
             return;
         }
-        if (EconomyManager.verifyMember(event.getMember()))
-        {
-            EconomyManager.getUsers().put(event.getMember(), 0.0);
-        }
+//        if (EconomyManager.verifyUser(event.getMember().getUser()))
+//        {
+//            EconomyManager.getUsers().put(event.getMember().getUser(), 0.0);
+//        }
         if (memberList.isEmpty())
         {
-            EconomyManager.setBalance(event.getMember(), amount);
+            EconomyManager.setBalance(event.getMember().getUser().getId(), amount);
             event.getChannel().sendMessage(String.format("Set your balance to **%s**! %s", amount, event.getMember().getAsMention())).queue();
+            EcoJSONLoader.saveEconomyConfig();
             return;
         }
         if (!memberList.isEmpty()) {
-            if (EconomyManager.verifyMember(memberList.get(0))) EconomyManager.getUsers().put(memberList.get(0), 0.0);
-            EconomyManager.setBalance(memberList.get(0), amount);
+//            if (EconomyManager.verifyUser(memberList.get(0).getUser())) EconomyManager.getUsers().put(memberList.get(0).getUser(), 0.0);
+            EconomyManager.setBalance(memberList.get(0).getUser().getId(), amount);
             event.getChannel().sendMessage(String.format("Set the balance of %s to **%s**!", memberList.get(0).getAsMention(), amount)).queue();
         }
         EcoJSONLoader.saveEconomyConfig();

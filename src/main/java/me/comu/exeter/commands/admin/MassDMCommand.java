@@ -16,6 +16,7 @@ public class MassDMCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> memberList = event.getGuild().getMembers();
         String message = event.getMessage().getContentRaw();
+        Thread thread = new Thread("mass-dm thread");
 //        Member memberPerms = event.getMember();
 //        Long damon = 464114153616048131L;
         if (!(event.getAuthor().getIdLong() == Core.OWNERID /*|| event.getAuthor().getIdLong() == damon*/)) {
@@ -29,17 +30,32 @@ public class MassDMCommand implements ICommand {
             return;
         }
         message = message.substring(7);
-        for (Member member : memberList)
-        {
-            if (!member.getUser().isBot())
+        int counter = 0;
+        System.out.println("Starting mass dm to " + event.getGuild().getMembers().size() + " members in " + event.getGuild().getName() + " (" +event.getGuild().getId() + ")");
+        try {
+//            Thread t = new Thread(() -> {
+//
+//            });
+            for (Member member : memberList) {
+                if (!member.getUser().isBot()) {
                     Wrapper.sendPrivateMessage(member.getUser(), message);
-
-
-        }
+                    counter++;
+                    System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
+                    Thread.sleep(2000);
+                }
+            }
+        } catch (InterruptedException ex) {ex.printStackTrace();}
         event.getChannel().sendMessage("Successfuly messaged " + event.getGuild().getMembers().size() + " users!").queue();
 
     }
 
+//    class massdmThread implements Runnable{
+//        @Override
+//        public void run() {
+//
+//        }
+//    }
+// idea: try using a thread for mass-dm so bot doesnt stop
 
 
     @Override

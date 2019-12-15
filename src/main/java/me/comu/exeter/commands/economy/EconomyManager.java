@@ -2,44 +2,41 @@ package me.comu.exeter.commands.economy;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.HashMap;
 
 public class EconomyManager {
 
-    private static  HashMap<Member, Double> users = new HashMap<Member, Double>();
+    private static HashMap<String, Integer> users = new HashMap<String, Integer>();
 
-    public EconomyManager(Guild guild)
-    {
-        for (Member member : guild.getMembers())
-        {
-            users.put(member, 0.0);
-        }
-    }
+//    public EconomyManager(Guild guild)
+//    {
+//        for (Member member : guild.getMembers())
+//        {
+//            users.put(member, 0.0);
+//        }
+//    }
 
-    public static void setBalance(Member user, double amount)
-    {
+    public static void setBalance(String user, int amount) {
         users.put(user, amount);
     }
 
-    public static double getBalance(Member user)
-    {
+    public static int getBalance(String user) {
         return users.get(user);
     }
+
     // Used to establish members in the hashmap that are not yet established; should prevent potential errors
-    public static boolean verifyMember(Member member)
-    {
-        return !users.containsKey(member);
+    public static boolean verifyUser(String user) {
+        return !users.containsKey(user);
     }
 
-    public static HashMap<Member, Double> getUsers()
-    {
+    public static HashMap<String, Integer> getUsers() {
         return users;
     }
 
     // Used for loading ocnfig
-    public static HashMap<Member, Double> setUsers(HashMap<Member, Double> hashMap)
-    {
+    public static HashMap<String, Integer> setUsers(HashMap<String, Integer> hashMap) {
         return users = hashMap;
     }
 }
