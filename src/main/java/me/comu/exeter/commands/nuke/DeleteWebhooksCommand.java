@@ -15,6 +15,9 @@ import java.util.Random;
 public class DeleteWebhooksCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
         List<Webhook> webhooks = event.getGuild().retrieveWebhooks().complete();
         int tcSize = webhooks.size();
             try {
@@ -32,10 +35,6 @@ public class DeleteWebhooksCommand implements ICommand {
 
 
     }
-    private int getRandom() {
-        Random randy = new Random();
-        return randy.nextInt();
-    }
     @Override
     public String getHelp() {
         return "Deletes all webhooks\n`" + Core.PREFIX + getInvoke() + "`\nAliases: " + Arrays.deepToString(getAlias()) + "`";
@@ -48,6 +47,6 @@ public class DeleteWebhooksCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"dweb","deleteweb","deletebhooks","deletewebhook"};
+        return new String[] {"dweb","deleteweb","deletebhook","deletewebhook"};
     }
 }

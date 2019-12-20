@@ -12,14 +12,14 @@ import javax.annotation.Nonnull;
 public class GuildMessageListenerResponderEvent extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
-        String[] args = event.getMessage().getContentRaw().split("\\s+");
+//        String[] args = event.getMessage().getContentRaw().split("\\s+");
         String msg = event.getMessage().getContentRaw().toLowerCase();
         if (!event.getMessage().getAuthor().isBot()) {
 //            if (msg.contains("andrew") || msg.contains("andrw") || msg.contains("<@447803380958756864>")) {
-//                event.getChannel().sendMessage(EmbedUtils.embedImage("https://cdn.discordapp.com/attachments/645878040865406986/649289541156601876/image1.jpg").setColor(event.getMember().getColor()).addField("30 year old Pedophile:", "<@447803380958756864>", false).build()).queue();
-//                event.getChannel().sendMessage(EmbedUtils.embedImage( "https://cdn.discordapp.com/attachments/645878040865406986/649289540673994752/image0.jpg").setColor(event.getMember().getColor()).addField("Dated 11 year old named tae:", "<@447803380958756864>", false).build()).queue();
+//                event.getChannel().sendMessage(EmbedUtils.embedImage("https://cdn.discordapp.com/attachments/645864864752861184/657355587947986952/Screenshot_992.png").setColor(event.getMember().getColor()).addField("30 year old Pedophile:", "<@447803380958756864>", false).build()).queue();
+//                event.getChannel().sendMessage(EmbedUtils.embedImage( "https://cdn.discordapp.com/attachments/645864864752861184/657355585263632414/Screenshot_990.png").setColor(event.getMember().getColor()).addField("Dated 11 year old named tae:", "<@447803380958756864>", false).build()).queue();
 //            }
-            if (msg.contains("<@650802703949234185>")) {
+            if (msg.contains(String.format("<@%s>", event.getJDA().getSelfUser().getId()))) {
                 MessageEmbed embed = new EmbedBuilder().addField("Current prefix:" , Core.PREFIX, false).setColor(Core.getRandomColor()).build();
                 event.getChannel().sendMessage(embed).queue();
             }

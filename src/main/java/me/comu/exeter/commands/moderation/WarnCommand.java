@@ -42,9 +42,10 @@ public class WarnCommand implements ICommand {
                 embedBuilder.setDescription("Warned " + target.getAsMention());
                 embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
                 embedBuilder.setTimestamp(Instant.now());
-                List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
+//                List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
 //                event.getChannel().deleteMessages(messages2).queueAfter(3, TimeUnit.MILLISECONDS);
-                messages2.get(0).delete().queueAfter(3, TimeUnit.MILLISECONDS);
+//                messages2.get(0).delete().queueAfter(3, TimeUnit.MILLISECONDS);
+                event.getMessage().delete().queueAfter(3, TimeUnit.MILLISECONDS);
                 event.getChannel().sendMessage(embedBuilder.build()).queue();
             }
             else  {
@@ -52,14 +53,15 @@ public class WarnCommand implements ICommand {
                     EmbedBuilder embedBuilder = new EmbedBuilder();
                     embedBuilder.setColor(0xFFDE53);
                     embedBuilder.setTitle("⚠Warning⚠");
-                    int subIndex = Core.PREFIX.length() + 4 + target.getAsMention().length();
+                    int subIndex = Core.PREFIX.length() + 5 + target.getAsMention().length();
                     String reason = message.substring(subIndex, message.length());
                     embedBuilder.setDescription("Warned " + target.getAsMention() + " for `" + reason + "`");
                     embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
                     embedBuilder.setTimestamp(Instant.now());
-                List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
+//                List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
 //                event.getChannel().deleteMessages(messages2).queueAfter(3, TimeUnit.MILLISECONDS);
-                messages2.get(0).delete().queueAfter(3, TimeUnit.MILLISECONDS);
+//                messages2.get(0).delete().queueAfter(3, TimeUnit.MILLISECONDS);
+                event.getMessage().delete().queueAfter(3, TimeUnit.MILLISECONDS);
                     event.getChannel().sendMessage(embedBuilder.build()).queue();
 
 

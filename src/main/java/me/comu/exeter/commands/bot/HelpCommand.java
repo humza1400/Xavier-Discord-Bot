@@ -49,7 +49,7 @@ public class HelpCommand implements ICommand {
             event.getChannel().sendMessage(embedBuilder.build()).queue();
         } catch (IllegalStateException ex)
         {
-            event.getChannel().sendMessage("Too many commands to display! Caught IllegalStateException (!)").queue();
+            event.getChannel().sendMessage("null").queue();
         }
 
     }

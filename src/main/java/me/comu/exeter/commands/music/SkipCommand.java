@@ -1,6 +1,7 @@
 package me.comu.exeter.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.GuildMusicManager;
@@ -40,7 +41,9 @@ public class SkipCommand implements ICommand {
             return;
         }
         scheduler.nextTrack();
-        channel.sendMessage("Skipped song!").queue();
+        channel.sendMessage("**Skipped song!**").queue();
+            if (player.getPlayingTrack() != null)
+            channel.sendMessage("Now playing **" + player.getPlayingTrack().getInfo().title + "**").queue();
 
     }
 

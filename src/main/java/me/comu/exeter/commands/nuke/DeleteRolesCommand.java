@@ -15,6 +15,9 @@ public class DeleteRolesCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
         List<Role> roles = event.getGuild().getRoles();
         int roleSize = roles.size();
             try {
@@ -28,9 +31,10 @@ public class DeleteRolesCommand implements ICommand {
             } catch(HierarchyException | ErrorResponseException | ArrayIndexOutOfBoundsException ex) {
 //                event.getChannel().sendMessage(" cannot delete roles higher than mine (skipping)").queue();
             }
-            List<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
-            event.getChannel().deleteMessages(messages).queue();
-            event.getChannel().sendMessage("Deleted roles").queue();
+        event.getMessage().delete().queue();
+//            List<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
+//            event.getChannel().deleteMessages(messages).queue();
+//            event.getChannel().sendMessage("Deleted roles").queue();
     }
 
     @Override

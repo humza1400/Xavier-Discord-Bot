@@ -2,7 +2,6 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.logging.Logger;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -35,12 +34,11 @@ public class ListBans implements ICommand {
             channel.sendMessage("There are no users currently banned!").queue();
             return;
         }
-
+        StringBuffer buffer = new StringBuffer(event.getGuild().getName() + " Banlist (" +banList.size() + ")\n");
         for (int i = 0; i < banList.size(); i++) {
-            event.getGuild().unban(banList.get(i).getUser()).queue();
-            Logger.getLogger().print("Unbanned " + banList.get(i).getUser().getName() + "#" + banList.get(i).getUser().getDiscriminator());
+            buffer.append(" + " + banList.get(i).getUser().getName() + "#" +  banList.get(i).getUser().getDiscriminator() + " | " + banList.get(i).getReason() + "\n");
         }
-        event.getChannel().sendMessage(String.format("Unbanned %s users", banList.size())).queue();
+        event.getChannel().sendMessage(buffer.toString()).queue();
     }
 
     @Override
@@ -55,6 +53,6 @@ public class ListBans implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"banlist"};
+        return new String[]{"banlist","bans"};
     }
 }

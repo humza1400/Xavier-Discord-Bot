@@ -27,7 +27,7 @@ public class SetVolumeCommand implements ICommand {
         TextChannel textChannel = event.getChannel();
 
         if (args.isEmpty()) {
-            textChannel.sendMessage("Please insert a number you would like the volume to be changed to");
+            textChannel.sendMessage("Please insert a number you would like the volume to be changed to\nCurrent volume: `" + volume + "`").queue();
             return;
         }
         if (!audioManager.isConnected()) {

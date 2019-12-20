@@ -11,8 +11,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DeleteTextChannelsCommand implements ICommand {
+
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
         List<TextChannel> textChannels = event.getGuild().getTextChannels();
         int tcSize = textChannels.size();
 

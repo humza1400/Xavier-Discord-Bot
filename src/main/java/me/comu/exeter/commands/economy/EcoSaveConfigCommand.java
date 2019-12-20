@@ -27,6 +27,6 @@ public class EcoSaveConfigCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"ecosaveconfig"};
+        return new String[] {"saveecoconfig","ecosaveconfig"};
     }
 }

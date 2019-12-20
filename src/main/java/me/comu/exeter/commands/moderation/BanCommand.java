@@ -38,7 +38,7 @@ public class BanCommand implements ICommand {
         }
 
         if (reason.equals("")) {
-            event.getGuild().ban(target, 1).reason(String.format("Banned by %#s", event.getAuthor())).queue();
+            event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
             channel.sendMessage(String.format("Banned %s", target.getEffectiveName())).queue();
         }
         else { event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();

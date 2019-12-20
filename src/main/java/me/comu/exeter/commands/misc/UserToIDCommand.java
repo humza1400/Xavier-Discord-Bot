@@ -40,6 +40,6 @@ public class UserToIDCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"usertoid","user2id","getuserid"};
+        return new String[] {"usertoid","userid","user2id","getuserid"};
     }
 }

@@ -1,6 +1,7 @@
 package me.comu.exeter.events;
 
 import me.comu.exeter.commands.admin.AntiRaidCommand;
+import me.comu.exeter.core.Core;
 import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.audit.ActionType;
 import net.dv8tion.jda.api.entities.Member;
@@ -30,25 +31,26 @@ public class AntiRaidEvent extends ListenerAdapter {
         if (active) {
             if (event.getGuild().retrieveAuditLogs().complete().get(0).getType().equals(ActionType.CHANNEL_CREATE) &&event.getGuild().retrieveAuditLogs().complete().get(1).getType().equals(ActionType.CHANNEL_CREATE) && event.getGuild().retrieveAuditLogs().complete().get(2).getType().equals(ActionType.CHANNEL_CREATE)) {
                 String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_CREATE).complete().get(0).getUser().getId();
-                Member member = event.getGuild().getMemberById(id);
-                List<Role> roles = member.getRoles();
-                String[] stringArray = new String[member.getRoles().size()];
-                List<String> strings = Arrays.asList(stringArray);
-                for (int i = 0; i < roles.size(); i++)
-                {
-                    stringArray[i] = roles.get(i).getName();
+                if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360")) {
+                    Member member = event.getGuild().getMemberById(id);
+                    List<Role> roles = member.getRoles();
+                    String[] stringArray = new String[member.getRoles().size()];
+                    List<String> strings = Arrays.asList(stringArray);
+                    for (int i = 0; i < roles.size(); i++) {
+                        stringArray[i] = roles.get(i).getName();
+                    }
+                    stringArray = strings.toArray(new String[strings.size()]);
+                    for (Role role : member.getRoles()) {
+                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                    }
+                    User userComu = event.getJDA().getUserById("175728291460808706");
+                    User userOwner = event.getGuild().retrieveOwner().complete().getUser();
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                    LocalDateTime now = LocalDateTime.now();
+                    System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
+                    Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                    Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
                 }
-                stringArray = strings.toArray(new String[strings.size()]);
-                for (Role role : member.getRoles()) {
-                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
-                }
-                User userComu = event.getJDA().getUserById("175728291460808706");
-                User userAndres = event.getJDA().getUserById("620392170326851625");
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
-                LocalDateTime now = LocalDateTime.now();
-                System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
-                Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
-                Wrapper.sendPrivateMessage(userAndres, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
             }
         }
     }
@@ -59,25 +61,26 @@ public class AntiRaidEvent extends ListenerAdapter {
         if (active) {
             if (event.getGuild().retrieveAuditLogs().complete().get(0).getType().equals(ActionType.CHANNEL_DELETE) && event.getGuild().retrieveAuditLogs().complete().get(1).getType().equals(ActionType.CHANNEL_DELETE) && event.getGuild().retrieveAuditLogs().complete().get(2).getType().equals(ActionType.CHANNEL_DELETE)) {
                 String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_DELETE).complete().get(0).getUser().getId();
-                Member member = event.getGuild().getMemberById(id);
-                List<Role> roles = member.getRoles();
-                String[] stringArray = new String[member.getRoles().size()];
-                List<String> strings = Arrays.asList(stringArray);
-                for (int i = 0; i < roles.size(); i++)
-                {
-                    stringArray[i] = roles.get(i).getName();
+                if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360")) {
+                    Member member = event.getGuild().getMemberById(id);
+                    List<Role> roles = member.getRoles();
+                    String[] stringArray = new String[member.getRoles().size()];
+                    List<String> strings = Arrays.asList(stringArray);
+                    for (int i = 0; i < roles.size(); i++) {
+                        stringArray[i] = roles.get(i).getName();
+                    }
+                    stringArray = strings.toArray(new String[strings.size()]);
+                    for (Role role : member.getRoles()) {
+                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                    }
+                    User userComu = event.getJDA().getUserById("175728291460808706");
+                    User userOwner = event.getJDA().getUserById("620392170326851625");
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                    LocalDateTime now = LocalDateTime.now();
+                    System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
+                    Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                    Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
                 }
-                stringArray = strings.toArray(new String[strings.size()]);
-                for (Role role : member.getRoles()) {
-                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
-                }
-                User userComu = event.getJDA().getUserById("175728291460808706");
-                User userAndres = event.getJDA().getUserById("620392170326851625");
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
-                LocalDateTime now = LocalDateTime.now();
-                System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
-                Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
-                Wrapper.sendPrivateMessage(userAndres, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
             }
         }
     }
@@ -88,26 +91,27 @@ public class AntiRaidEvent extends ListenerAdapter {
         if (active) {
             if (event.getGuild().retrieveAuditLogs().complete().get(0).getType().equals(ActionType.CHANNEL_CREATE) &&event.getGuild().retrieveAuditLogs().complete().get(1).getType().equals(ActionType.CHANNEL_CREATE) && event.getGuild().retrieveAuditLogs().complete().get(2).getType().equals(ActionType.CHANNEL_CREATE)) {
                 String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_CREATE).complete().get(0).getUser().getId();
-                Member member = event.getGuild().getMemberById(id);
-                List<Role> roles = member.getRoles();
-                String[] stringArray = new String[member.getRoles().size()];
-                List<String> strings = Arrays.asList(stringArray);
-                for (int i = 0; i < roles.size(); i++)
-                {
-                    stringArray[i] = roles.get(i).getName();
-                }
-                stringArray = strings.toArray(new String[strings.size()]);
-                for (Role role : member.getRoles()) {
-                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
-                }
+                if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360")) {
+                    Member member = event.getGuild().getMemberById(id);
+                    List<Role> roles = member.getRoles();
+                    String[] stringArray = new String[member.getRoles().size()];
+                    List<String> strings = Arrays.asList(stringArray);
+                    for (int i = 0; i < roles.size(); i++) {
+                        stringArray[i] = roles.get(i).getName();
+                    }
+                    stringArray = strings.toArray(new String[strings.size()]);
+                    for (Role role : member.getRoles()) {
+                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                    }
                     User userComu = event.getJDA().getUserById("175728291460808706");
-                    User userAndres = event.getJDA().getUserById("620392170326851625");
+                    User userOwner = event.getJDA().getUserById("620392170326851625");
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                     LocalDateTime now = LocalDateTime.now();
                     System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
                     Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CHANNEL_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
-                    Wrapper.sendPrivateMessage(userAndres, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CHANNEL_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                    Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CHANNEL_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
 
+                }
             }
         }
     }
@@ -118,27 +122,27 @@ public class AntiRaidEvent extends ListenerAdapter {
         if (active) {
             if (event.getGuild().retrieveAuditLogs().complete().get(0).getType().equals(ActionType.CHANNEL_DELETE) &&event.getGuild().retrieveAuditLogs().complete().get(1).getType().equals(ActionType.CHANNEL_CREATE) && event.getGuild().retrieveAuditLogs().complete().get(2).getType().equals(ActionType.CHANNEL_CREATE)) {
                 String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_DELETE).complete().get(0).getUser().getId();
-                Member member = event.getGuild().getMemberById(id);
-                List<Role> roles = member.getRoles();
-                String[] stringArray = new String[member.getRoles().size()];
-                List<String> strings = Arrays.asList(stringArray);
-                for (int i = 0; i < roles.size(); i++)
-                {
-                    stringArray[i] = roles.get(i).getName();
-                }
-                stringArray = strings.toArray(new String[strings.size()]);
-                for (Role role : member.getRoles()) {
-                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
-                }
+                if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360")) {
+                    Member member = event.getGuild().getMemberById(id);
+                    List<Role> roles = member.getRoles();
+                    String[] stringArray = new String[member.getRoles().size()];
+                    List<String> strings = Arrays.asList(stringArray);
+                    for (int i = 0; i < roles.size(); i++) {
+                        stringArray[i] = roles.get(i).getName();
+                    }
+                    stringArray = strings.toArray(new String[strings.size()]);
+                    for (Role role : member.getRoles()) {
+                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                    }
                     User userComu = event.getJDA().getUserById("175728291460808706");
-                    User userAndres = event.getJDA().getUserById("620392170326851625");
+                    User userOwner = event.getJDA().getUserById("620392170326851625");
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                     LocalDateTime now = LocalDateTime.now();
                     System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
                     Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
-                    Wrapper.sendPrivateMessage(userAndres, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                    Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
 
-
+                }
             }
         }
     }
@@ -149,26 +153,26 @@ public class AntiRaidEvent extends ListenerAdapter {
         if (active) {
             if (event.getGuild().retrieveAuditLogs().complete().get(0).getType().equals(ActionType.CHANNEL_CREATE) &&event.getGuild().retrieveAuditLogs().complete().get(1).getType().equals(ActionType.CHANNEL_CREATE) && event.getGuild().retrieveAuditLogs().complete().get(2).getType().equals(ActionType.CHANNEL_CREATE)) {
                 String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_CREATE).complete().get(0).getUser().getId();
-                Member member = event.getGuild().getMemberById(id);
-                List<Role> roles = member.getRoles();
-                String[] stringArray = new String[member.getRoles().size()];
-                List<String> strings = Arrays.asList(stringArray);
-                for (int i = 0; i < roles.size(); i++)
-                {
-                    stringArray[i] = roles.get(i).getName();
+                if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360")) {
+                    Member member = event.getGuild().getMemberById(id);
+                    List<Role> roles = member.getRoles();
+                    String[] stringArray = new String[member.getRoles().size()];
+                    List<String> strings = Arrays.asList(stringArray);
+                    for (int i = 0; i < roles.size(); i++) {
+                        stringArray[i] = roles.get(i).getName();
+                    }
+                    stringArray = strings.toArray(new String[strings.size()]);
+                    for (Role role : member.getRoles()) {
+                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                    }
+                    User userComu = event.getJDA().getUserById("175728291460808706");
+                    User userOwner = event.getJDA().getUserById("620392170326851625");
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                    LocalDateTime now = LocalDateTime.now();
+                    System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
+                    Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                    Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
                 }
-                stringArray = strings.toArray(new String[strings.size()]);
-                for (Role role : member.getRoles()) {
-                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
-                }
-                User userComu = event.getJDA().getUserById("175728291460808706");
-                User userAndres = event.getJDA().getUserById("620392170326851625");
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
-                LocalDateTime now = LocalDateTime.now();
-                System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now)  + "\nType: Ban\nAction Taken: Banned User");
-                Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
-                Wrapper.sendPrivateMessage(userAndres, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
-
 
             }
         }
@@ -180,27 +184,27 @@ public class AntiRaidEvent extends ListenerAdapter {
         if (active) {
             if (event.getGuild().retrieveAuditLogs().complete().get(0).getType().equals(ActionType.CHANNEL_CREATE) &&event.getGuild().retrieveAuditLogs().complete().get(1).getType().equals(ActionType.CHANNEL_CREATE) && event.getGuild().retrieveAuditLogs().complete().get(2).getType().equals(ActionType.CHANNEL_CREATE)) {
                 String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_CREATE).complete().get(0).getUser().getId();
-                Member member = event.getGuild().getMemberById(id);
-                List<Role> roles = member.getRoles();
-                String[] stringArray = new String[member.getRoles().size()];
-                List<String> strings = Arrays.asList(stringArray);
-                for (int i = 0; i < roles.size(); i++)
-                {
-                    stringArray[i] = roles.get(i).getName();
-                }
-                stringArray = strings.toArray(new String[strings.size()]);
-                for (Role role : member.getRoles()) {
-                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
-                }
+                if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360")) {
+                    Member member = event.getGuild().getMemberById(id);
+                    List<Role> roles = member.getRoles();
+                    String[] stringArray = new String[member.getRoles().size()];
+                    List<String> strings = Arrays.asList(stringArray);
+                    for (int i = 0; i < roles.size(); i++) {
+                        stringArray[i] = roles.get(i).getName();
+                    }
+                    stringArray = strings.toArray(new String[strings.size()]);
+                    for (Role role : member.getRoles()) {
+                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                    }
                     User userComu = event.getJDA().getUserById("175728291460808706");
-                    User userAndres = event.getJDA().getUserById("620392170326851625");
+                    User userOwner = event.getJDA().getUserById("620392170326851625");
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                     LocalDateTime now = LocalDateTime.now();
                     System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
                     Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
-                    Wrapper.sendPrivateMessage(userAndres, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                    Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
 
-
+                }
             }
         }
     }
@@ -211,27 +215,27 @@ public class AntiRaidEvent extends ListenerAdapter {
         if (active) {
             if (event.getGuild().retrieveAuditLogs().complete().get(0).getType().equals(ActionType.ROLE_CREATE) &&event.getGuild().retrieveAuditLogs().complete().get(1).getType().equals(ActionType.ROLE_CREATE) && event.getGuild().retrieveAuditLogs().complete().get(2).getType().equals(ActionType.ROLE_CREATE)) {
                 String id = event.getGuild().retrieveAuditLogs().type(ActionType.ROLE_CREATE).complete().get(0).getUser().getId();
-                Member member = event.getGuild().getMemberById(id);
-                List<Role> roles = member.getRoles();
-                String[] stringArray = new String[member.getRoles().size()];
-                List<String> strings = Arrays.asList(stringArray);
-                for (int i = 0; i < roles.size(); i++)
-                {
-                    stringArray[i] = roles.get(i).getName();
-                }
-                stringArray = strings.toArray(new String[strings.size()]);
-                for (Role role : member.getRoles()) {
-                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
-                }
-                User userComu = event.getJDA().getUserById("175728291460808706");
-                User userAndres = event.getJDA().getUserById("620392170326851625");
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
-                LocalDateTime now = LocalDateTime.now();
-                System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
-                Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
-                Wrapper.sendPrivateMessage(userAndres, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360")) {
+                    Member member = event.getGuild().getMemberById(id);
+                    List<Role> roles = member.getRoles();
+                    String[] stringArray = new String[member.getRoles().size()];
+                    List<String> strings = Arrays.asList(stringArray);
+                    for (int i = 0; i < roles.size(); i++) {
+                        stringArray[i] = roles.get(i).getName();
+                    }
+                    stringArray = strings.toArray(new String[strings.size()]);
+                    for (Role role : member.getRoles()) {
+                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                    }
+                    User userComu = event.getJDA().getUserById("175728291460808706");
+                    User userOwner = event.getJDA().getUserById("620392170326851625");
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                    LocalDateTime now = LocalDateTime.now();
+                    System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
+                    Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                    Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_CREATE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
 
-
+                }
             }
         }
     }
@@ -242,27 +246,27 @@ public class AntiRaidEvent extends ListenerAdapter {
         if (active) {
             if (event.getGuild().retrieveAuditLogs().complete().get(0).getType().equals(ActionType.ROLE_DELETE) &&event.getGuild().retrieveAuditLogs().complete().get(1).getType().equals(ActionType.ROLE_DELETE) && event.getGuild().retrieveAuditLogs().complete().get(2).getType().equals(ActionType.ROLE_DELETE)) {
                 String id = event.getGuild().retrieveAuditLogs().type(ActionType.ROLE_DELETE).complete().get(0).getUser().getId();
-                Member member = event.getGuild().getMemberById(id);
-                List<Role> roles = member.getRoles();
-                String[] stringArray = new String[member.getRoles().size()];
-                List<String> strings = Arrays.asList(stringArray);
-                for (int i = 0; i < roles.size(); i++)
-                {
-                    stringArray[i] = roles.get(i).getName();
-                }
-                stringArray = strings.toArray(new String[strings.size()]);
-                for (Role role : member.getRoles()) {
-                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
-                }
-                User userComu = event.getJDA().getUserById("175728291460808706");
-                User userAndres = event.getJDA().getUserById("620392170326851625");
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
-                LocalDateTime now = LocalDateTime.now();
-                System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
-                Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
-                Wrapper.sendPrivateMessage(userAndres, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360")) {
+                    Member member = event.getGuild().getMemberById(id);
+                    List<Role> roles = member.getRoles();
+                    String[] stringArray = new String[member.getRoles().size()];
+                    List<String> strings = Arrays.asList(stringArray);
+                    for (int i = 0; i < roles.size(); i++) {
+                        stringArray[i] = roles.get(i).getName();
+                    }
+                    stringArray = strings.toArray(new String[strings.size()]);
+                    for (Role role : member.getRoles()) {
+                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                    }
+                    User userComu = event.getJDA().getUserById("175728291460808706");
+                    User userOwner = event.getJDA().getUserById("620392170326851625");
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                    LocalDateTime now = LocalDateTime.now();
+                    System.out.println("**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Ban\nAction Taken: Banned User");
+                    Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                    Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_DELETE`\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
 
-
+                }
             }
         }
     }

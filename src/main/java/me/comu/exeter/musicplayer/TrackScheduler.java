@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -14,6 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer player;
     private final BlockingQueue<AudioTrack> queue;
+    private static TextChannel textChannel;
 
     /**
      * @param player The audio player this scheduler uses
@@ -64,11 +66,21 @@ public class TrackScheduler extends AudioEventAdapter {
         // (FINISHED or LOAD_FAILED)
         if (endReason.mayStartNext) {
             nextTrack();
+            if (textChannel != null && player.getPlayingTrack() != null)
+            textChannel.sendMessage("Now playing **" + player.getPlayingTrack().getInfo().title + "**").queue();
         }
 
         // re add track if loop is enabled
         if (loop) {
             queue(loopTrack);
         }
+    }
+
+    public static TextChannel getTextChannel() {
+        return textChannel;
+    }
+
+    public static void setTextChannel(TextChannel textChannel) {
+        TrackScheduler.textChannel = textChannel;
     }
 }

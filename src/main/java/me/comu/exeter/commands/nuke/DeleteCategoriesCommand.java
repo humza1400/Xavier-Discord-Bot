@@ -13,6 +13,9 @@ import java.util.List;
 public class DeleteCategoriesCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
         List<Category> categories = event.getGuild().getCategories();
         int tcSize = categories.size();
 
