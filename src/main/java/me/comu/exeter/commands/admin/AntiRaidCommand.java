@@ -1,12 +1,7 @@
 package me.comu.exeter.commands.admin;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import me.comu.exeter.commands.moderation.BindLogChannelCommand;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.events.guild.GuildBanEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -15,12 +10,6 @@ import java.util.List;
 public class AntiRaidCommand implements ICommand {
 
     private static boolean active = true;
-    private EventWaiter eventWaiter;
-
-    public AntiRaidCommand(EventWaiter waiter)
-    {
-        this.eventWaiter = waiter;
-    }
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -46,12 +35,6 @@ public class AntiRaidCommand implements ICommand {
             } else
                 event.getChannel().sendMessage("Anti-Raid is already disabled").queue();
         }
-            eventWaiter.waitForEvent(GuildBanEvent.class, (e) -> !e.getUser().isFake(), e -> {
-                event.getChannel().sendMessage((String.format("(%s)[%s]<%#s>: %s", event.getGuild().getName(), e.getGuild().getChannels().get(4), event.getAuthor(), e.getUser()))).queue();
-            });
-            eventWaiter.waitForEvent(MessageReceivedEvent.class, (e) -> e.isFromType(ChannelType.TEXT), e-> {
-                event.getChannel().sendMessage((String.format("(%s)[%s]<%#s>: %s", event.getGuild().getName(), BindLogChannelCommand.logChannelID, event.getAuthor(), e.getMessage()))).queue();
-            });
 
     }
 

@@ -26,7 +26,7 @@ public class BanCommand implements ICommand {
         Member target = mentionedMembers.get(0);
         String reason = String.join(" ", args.subList(1, args.size()));
 
-        if (!member.hasPermission(Permission.BAN_MEMBERS)/* || !member.canInteract(target)*/) {
+        if (!member.hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID/* || !member.canInteract(target)*/) {
             channel.sendMessage("You don't have permission to ban that user").queue();
             return;
         }
@@ -42,7 +42,7 @@ public class BanCommand implements ICommand {
             channel.sendMessage(String.format("Banned %s", target.getEffectiveName())).queue();
         }
         else { event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
-            channel.sendMessage(String.format("Banned %s for %s", target.getEffectiveName(), reason)).queue();}
+            channel.sendMessage(String.format("Banned %s for `%s`", target.getEffectiveName(), reason)).queue();}
     }
 
     @Override

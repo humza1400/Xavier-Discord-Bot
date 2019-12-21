@@ -20,7 +20,7 @@ public class CheckBalanceCommand implements ICommand {
         if (!memberList.isEmpty())
         {
             Member member = memberList.get(0);
-            if (EconomyManager.verifyUser(member.getUser().getId())) EconomyManager.getUsers().put(member.getUser().getId(), 690);
+            if (EconomyManager.verifyUser(member.getUser().getId())) EconomyManager.getUsers().put(member.getUser().getId(), 0);
             double balance = EconomyManager.getBalance(member.getUser().getId());
             event.getChannel().sendMessage(memberList.get(0).getUser().getAsMention() + " has a balance of " + String.format("**%s** credits.", balance)).queue();
         } else {
@@ -28,7 +28,7 @@ public class CheckBalanceCommand implements ICommand {
             double balance = EconomyManager.getBalance((event.getMember().getUser().getId()));
             event.getChannel().sendMessage(event.getMember().getUser().getAsMention() + " has a balance of " + String.format("**%s** credits.", balance)).queue();
         }
-        EcoJSONLoader.saveEconomyConfig();
+        EcoJSONHandler.saveEconomyConfig();
     }
 
     @Override

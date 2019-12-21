@@ -24,11 +24,11 @@ public class DeleteRolesCommand implements ICommand {
                 for (int i = 0; i <= roleSize ; i++) {
                     try {
                         roles.get(i).delete().complete();
-                    } catch (HierarchyException ex1) {
+                    } catch (HierarchyException | UnsupportedOperationException ex1) {
 //                        event.getChannel().sendMessage(" cannot delete roles higher than mine (skipping)").queue();
                     }
                 }
-            } catch(HierarchyException | ErrorResponseException | ArrayIndexOutOfBoundsException ex) {
+            } catch(HierarchyException | UnsupportedOperationException | ErrorResponseException | ArrayIndexOutOfBoundsException ex) {
 //                event.getChannel().sendMessage(" cannot delete roles higher than mine (skipping)").queue();
             }
         event.getMessage().delete().queue();

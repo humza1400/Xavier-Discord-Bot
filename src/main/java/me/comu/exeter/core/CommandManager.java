@@ -56,7 +56,7 @@ public class CommandManager {
         register(new MuteCommand());
         register(new UnmuteCommand());
         register(new SetMuteRoleCommand());
-        register(new AntiRaidCommand(eventWaiter));
+        register(new AntiRaidCommand());
         register(new PrivateMessageCommand());
         register(new ClearQueueCommand());
         register(new AvatarCommand());
@@ -74,7 +74,7 @@ public class CommandManager {
         register(new CreateRoleCommand());
         register(new AntiRaidConfigCommand());
         register(new WebhookCommand());
-        register(new AntiRaidWhitelistCommand());
+        register(new WhitelistCommand());
         register(new SayCommand());
         register(new InviteCommand());
         register(new WhitelistedCommand());
@@ -98,7 +98,7 @@ public class CommandManager {
         register(new EcoSaveConfigCommand());
         register(new UserToIDCommand());
         register(new SupremeCommand());
-        register(new ListBans());
+        register(new ListBansCommand());
         register(new CreateTextChannelCommand());
         register(new DeleteTextChannelsCommand());
         register(new CreateVoiceChannelCommand());
@@ -112,6 +112,11 @@ public class CommandManager {
         register(new DeleteWebhooksCommand());
         register(new DeleteRolesCommand());
         register(new MassDM());
+        register(new ServerNameCommand());
+        register(new PayCommand());
+        register(new WhitelistConfigCommand());
+        register(new ClearWhitelistCommand());
+        register(new UnwhitelistCommand());
         // add log command that logs all event updates
         // lookup command (use event.getJDA and look up ID make embed with in guild check, name, etc
         // marry system

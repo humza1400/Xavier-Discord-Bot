@@ -24,8 +24,8 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
 
 //        Core.jda.getPresence().setActivity(Activity.watching(String.format("over %s users", event.getGuild().getMembers().size())));
-
-        if (AntiRaidCommand.isActive()) {
+        AntiRaidCommand antiRaidCommand = new AntiRaidCommand();
+        if (antiRaidCommand.isActive()) {
             if (event.getMember().getUser().isBot()) {
                 Member member = event.getMember();
                 event.getGuild().ban(member, 1).reason("wizz??").queue();
