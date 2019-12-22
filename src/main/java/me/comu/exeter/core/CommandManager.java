@@ -117,6 +117,7 @@ public class CommandManager {
         register(new WhitelistConfigCommand());
         register(new ClearWhitelistCommand());
         register(new UnwhitelistCommand());
+        register(new ServerPfpCommand());
         // add log command that logs all event updates
         // lookup command (use event.getJDA and look up ID make embed with in guild check, name, etc
         // marry system

@@ -36,12 +36,11 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                 LocalDateTime now = LocalDateTime.now();
                     User user = event.getGuild().retrieveAuditLogs().type(ActionType.BOT_ADD).complete().get(0).getUser();
-                    System.out.println("**Anti-Raid Report For "+ event.getGuild().getName() + "**\nWizzer: " + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")"+ "**\nBot: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")\nWhen: " + dtf.format(now) + "\nType: Added Bot\nAction Taken: Banned Bot");
                     Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")`"+"\nBot: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Added Bot`\nAction Taken: `Banned Bot`");
                     Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")`"+"\nBot: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Added Bot`\nAction Taken: `Banned Bot`");
                 if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                     for (String x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                        if (WhitelistCommand.getWhitelistedIDs().containsValue(event.getGuild().getId())) {
+                        if (WhitelistCommand.getWhitelistedIDs().get(x).equals(event.getGuild().getId())) {
                             User whitelistUser = event.getJDA().getUserById(x);
                             if (!whitelistUser.isBot())
                             Wrapper.sendPrivateMessage(event.getJDA().getUserById(x), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")`" + "\nBot: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Added Bot`\nAction Taken: `Banned Bot`");
