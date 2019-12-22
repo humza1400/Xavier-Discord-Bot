@@ -19,7 +19,7 @@ public class UnlockdownCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.MANAGE_CHANNEL) && (!member.hasPermission(Permission.MANAGE_CHANNEL))) {
+        if (!member.hasPermission(Permission.MANAGE_CHANNEL) && (!member.hasPermission(Permission.MANAGE_CHANNEL)) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to unlockdown the channel").queue();
             return;
         }

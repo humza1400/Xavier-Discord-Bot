@@ -14,9 +14,13 @@ public class SayCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!args.isEmpty()) {
-            List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
-            messages2.get(0).delete().queueAfter(3, TimeUnit.MILLISECONDS);
+        if (args.isEmpty())
+        {
+            event.getChannel().sendMessage("Please specify a message to say through the bot").queue();
+            return;
+        }
+        else {
+            event.getMessage().delete().queue();
             String message = event.getMessage().getContentRaw();
             message = message.replaceAll("@everyone", "everyone");
             message = message.replaceAll("@here", "here");

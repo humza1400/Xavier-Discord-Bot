@@ -15,20 +15,46 @@ public class DisconnectUserCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
-        if (!event.getMember().hasPermission(Permission.VOICE_DEAF_OTHERS)) {
+        if (!event.getMember().hasPermission(Permission.VOICE_MOVE_OTHERS) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to disconnect a user from VC").queue();
             return;
         }
 
-        if (event.getMessage().getMentionedMembers().isEmpty()) {
+        if (!event.getGuild().getSelfMember().hasPermission(Permission.VOICE_MOVE_OTHERS)) {
+            event.getChannel().sendMessage("I don't have permissions to disconnect that user").queue();
+            return;
+        }
+
+        if (args.isEmpty()) {
             event.getChannel().sendMessage("Please specify a user to disconnect from VC").queue();
+            return;
+        }
+        if (!args.isEmpty() && mentionedMembers.isEmpty())
+        {
+            List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
+            if (targets.isEmpty()) {
+                event.getChannel().sendMessage("Couldn't find the user " + args.get(0)).queue();
+                return;
+            } else if (targets.size() > 1) {
+                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                return;
+            }
+            if (targets.get(0).getVoiceState().inVoiceChannel())
+            {
+                event.getGuild().kickVoiceMember(targets.get(0)).queue();
+                event.getChannel().sendMessage("Disconnected " + targets.get(0).getAsMention() + " from VC!").queue();
+            } else {
+                event.getChannel().sendMessage("That user is not in a voice channel.").queue();
+            }
             return;
         }
         Member member = mentionedMembers.get(0);
         if (member.getVoiceState().inVoiceChannel())
         {
-         member.deafen(true);
-
+         event.getGuild().kickVoiceMember(member).queue();
+         event.getChannel().sendMessage("Disconnected " + member.getAsMention() + " from VC!").queue();
+        } else {
+            event.getChannel().sendMessage("That user is not in a voice channel.").queue();
         }
 
     }
@@ -40,11 +66,11 @@ public class DisconnectUserCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "deafen";
+        return "vcdc";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[] {"vcmute","vcmute"};
+        return new String[] {"vcdisconnect","vckick","disconnectvc"};
     }
 }

@@ -1,7 +1,8 @@
 package me.comu.exeter.core;
 
 
-import me.comu.exeter.commands.economy.EcoJSONLoader;
+import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
+import me.comu.exeter.commands.economy.EcoJSONHandler;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -59,7 +60,8 @@ class  Listener extends ListenerAdapter {
            long numberOfMinutes = (uptimeInSeconds / 60) - (numberOfHours * 60);
            long numberOfSeconds = uptimeInSeconds % 60;
            event.getChannel().sendMessage("Shutting Down... Existed for `" + numberOfHours + "` hour(s) `" + numberOfMinutes+ "` minute(s) `" + numberOfSeconds + "` second(s)" + "").queue();
-           EcoJSONLoader.saveEconomyConfig();
+           EcoJSONHandler.saveEconomyConfig();
+           WhitelistedJSONHandler.saveWhitelistConfig();
            logger.info("Shutdown thread called; Saved modules...");
            Core.shutdownThread();
            return;

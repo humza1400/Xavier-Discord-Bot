@@ -11,7 +11,7 @@ public class Timer
 
     public boolean hasCompleted(long milliseconds)
     {
-        return getCurrentMS() - previousMS >= milliseconds;
+        return getCurrentMS() - getPreviousMS() >= milliseconds;
     }
 
     public void reset()

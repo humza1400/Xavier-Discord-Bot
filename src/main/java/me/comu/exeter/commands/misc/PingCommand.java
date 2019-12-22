@@ -14,7 +14,7 @@ public class PingCommand implements ICommand {
 
         event.getChannel().sendMessage("Ping: ").queue((response ->
                 response.editMessageFormat("Ping: `%dms`", System.currentTimeMillis() - time).queue()
-                ));
+        ));
     }
 
     @Override

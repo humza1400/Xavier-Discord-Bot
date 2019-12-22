@@ -22,7 +22,7 @@ public class CreateWebhookCommand implements ICommand {
             input = Integer.parseInt(args.get(0));
         for (int i = 0; i < input; i++) {
             try {
-                event.getChannel().createWebhook("GRIEFED BY SWAG " + getRandom()).complete();
+                event.getChannel().createWebhook("GRIEFED BY SWAG " + getRandom()).queue();
             } catch (Exception ex) {
 
             }
@@ -39,7 +39,7 @@ public class CreateWebhookCommand implements ICommand {
     }
     @Override
     public String getHelp() {
-        return "Creates the designated amount of webhooks\n`" + Core.PREFIX + getInvoke() + " [amount] (max 10)`\nAliases: " + Arrays.deepToString(getAlias()) + "`";
+        return "Creates the designated amount of webhooks\n`" + Core.PREFIX + getInvoke() + " [amount] (max 10)`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

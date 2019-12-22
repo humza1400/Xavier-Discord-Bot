@@ -19,7 +19,7 @@ public class UnbanCommand implements ICommand {
 
         TextChannel channel = event.getChannel();
 
-        if (!event.getMember().hasPermission(Permission.BAN_MEMBERS)) {
+        if (!event.getMember().hasPermission(Permission.BAN_MEMBERS) && event.getMember().getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to unban someone").queue();
             return;
         }

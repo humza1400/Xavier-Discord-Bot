@@ -21,7 +21,7 @@ public class ClearCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.MESSAGE_MANAGE)) {
+        if (!member.hasPermission(Permission.MESSAGE_MANAGE) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to purge messages").queue();
             return;
         }
@@ -40,42 +40,55 @@ public class ClearCommand implements ICommand {
         {
             List<Message> botMessages = new ArrayList<>();
             List<String> botNames = new ArrayList<>();
-            for (Message message : event.getChannel().getHistory().retrievePast(100).complete()) {
-                if (message.getAuthor().isBot()) {
-                    botMessages.add(message);
-                    botNames.add(message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator());
+            event.getChannel().getHistory().retrievePast(100).queue((botmessagesforbuffer -> {
+                for (Message message : botmessagesforbuffer) {
+                    if (message.getAuthor().isBot()) {
+                        botMessages.add(message);
+                        botNames.add(message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator());
+                    }
                 }
-            }
-            try {
-                event.getChannel().deleteMessages(botMessages).complete();
-                StringBuffer buffer = new StringBuffer();
-                for (String s : botNames)
-                    buffer.append(s + ", ");
-                removeDuplicates(botNames);
+                try {
+                    event.getChannel().deleteMessages(botMessages).queue();
+                    StringBuffer buffer = new StringBuffer();
+                    for (String s : botNames)
+                        buffer.append(s + ", ");
+                    removeDuplicates(botNames);
 //            int index = botNames.get(botNames.size()).charAt(botNames.get(botNames.size()).length()-1);
 //            botNames.get(botNames.size()).replace('')
-                event.getChannel().sendMessage(String.format("Deleted `%s` messages by `%s`", botMessages.size(), buffer.toString())).queue();
-                List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
-                event.getChannel().deleteMessages(messages2).queueAfter(3, TimeUnit.SECONDS);
-                return;
-            } catch (IllegalArgumentException ex)
-            {
-                event.getChannel().sendMessage("No bot messages found to purge.").queue();
-            }
+                    event.getChannel().sendMessage(String.format("Deleted `%s` messages by `%s`", botMessages.size(), buffer.toString())).queue();
+                    event.getChannel().getHistory().retrievePast(2).queue((deleteMessages -> {
+                        event.getChannel().deleteMessages(deleteMessages).queueAfter(3, TimeUnit.SECONDS);
+                        return;
+                    }));
+                } catch (IllegalArgumentException ex)
+                {
+                    event.getChannel().sendMessage("No bot messages found to purge.").queue();
+                }
+            }));
+            return;
         }
-            if (Integer.parseInt(args.get(0)) > 100)
-                messages = event.getChannel().getHistory().retrievePast(100).complete();
-            else
-                messages = event.getChannel().getHistory().retrievePast(Integer.parseInt(args.get(0))).complete();
-                event.getChannel().purgeMessages(messages);
+        try {
+            if (Integer.parseInt(args.get(0)) > 100) {
+                event.getChannel().getHistory().retrievePast(100).queue((tempMessages) -> {
+                    event.getChannel().purgeMessages(tempMessages);
+                });
+            } else {
+                event.getChannel().getHistory().retrievePast(Integer.parseInt(args.get(0))).queue((tempMessages) -> {
+                    event.getChannel().purgeMessages(tempMessages);
+                });
+            }
             if (Integer.parseInt(args.get(0)) == 1) {
                 event.getChannel().sendMessage(String.format("Cleared %s message 🥂", args.get(0))).queue();
             } else {
                 event.getChannel().sendMessage(String.format("Cleared %s messages 🥂", args.get(0))).queue();
             }
-            List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
-            event.getChannel().deleteMessages(messages2).queueAfter(3, TimeUnit.SECONDS);
-
+            event.getChannel().getHistory().retrievePast(2).queue((cleanMessages) -> {
+                event.getChannel().deleteMessages(cleanMessages).queueAfter(3, TimeUnit.SECONDS);
+            });
+        } catch (NumberFormatException ex)
+        {
+            event.getChannel().sendMessage("Please insert a valid number of messages to purge or purge the bot messages.").queue();
+        }
     }
 
     @Override

@@ -35,9 +35,7 @@ dependencies {
     implementation group: 'com.google.apis', name: 'google-api-services-youtube', version: 'v3-rev212-1.25.0'
     implementation group: 'org.codehaus.groovy', name: 'groovy-jsr223', version: '3.0.0-alpha-4'
     implementation group: 'com.jagrosh', name: 'jda-utilities-commons', version: '3.0.2'
-    implementation 'com.google.code.gson:gson:2.8.6'    
     compile("club.minnced:discord-webhooks:0.1.8")
-//    implementation group: 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
 
 
     // Use JUnit test framework

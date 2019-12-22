@@ -22,7 +22,7 @@ public class DeleteCategoriesCommand implements ICommand {
         try {
             for (int i = 0; i <= tcSize; i++) {
                 try {
-                    categories.get(i).delete().complete();
+                    categories.get(i).delete().queue();
                 } catch (HierarchyException | IndexOutOfBoundsException ex1) {
 
                 }

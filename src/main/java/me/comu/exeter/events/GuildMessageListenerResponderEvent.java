@@ -1,6 +1,7 @@
 package me.comu.exeter.events;
 
 import me.comu.exeter.core.Core;
+import me.comu.exeter.wrapper.Wrapper;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -19,8 +20,8 @@ public class GuildMessageListenerResponderEvent extends ListenerAdapter {
 //                event.getChannel().sendMessage(EmbedUtils.embedImage("https://cdn.discordapp.com/attachments/645864864752861184/657355587947986952/Screenshot_992.png").setColor(event.getMember().getColor()).addField("30 year old Pedophile:", "<@447803380958756864>", false).build()).queue();
 //                event.getChannel().sendMessage(EmbedUtils.embedImage( "https://cdn.discordapp.com/attachments/645864864752861184/657355585263632414/Screenshot_990.png").setColor(event.getMember().getColor()).addField("Dated 11 year old named tae:", "<@447803380958756864>", false).build()).queue();
 //            }
-            if (msg.contains(String.format("<@%s>", event.getJDA().getSelfUser().getId()))) {
-                MessageEmbed embed = new EmbedBuilder().addField("Current prefix:" , Core.PREFIX, false).setColor(Core.getRandomColor()).build();
+            if (msg.contains("comp")) {
+                MessageEmbed embed = new EmbedBuilder().addField("Current prefix:" , Core.PREFIX, false).setColor(Wrapper.getRandomColor()).build();
                 event.getChannel().sendMessage(embed).queue();
             }
 //            if (msg.contains("comu") || msg.contains("<@175728291460808706>") || msg.contains("august") || msg.contains("auggie") || msg.contains("c o m u")) {
@@ -36,7 +37,7 @@ public class GuildMessageListenerResponderEvent extends ListenerAdapter {
 //
 //            if (!(event.getMessage().getAuthor().getId().equals("175728291460808706"))) {
 //                if (msg.contains("Ńįggã") || msg.contains("nigga") || msg.contains("nigger") || msg.contains("n3gger") || msg.contains("nihga") || msg.contains("Ñįggæ") || msg.contains("n@gg3r") || msg.contains("n!gga") || msg.contains("nword") || msg.contains("n word") || msg.contains("n-word") || msg.contains("n!gger") || msg.contains("negro") || (!msg.contains("night") && msg.contains("nig")) || msg.contains("nigg") || msg.contains("n i g g a")) {
-//                    event.getMessage().delete().complete();
+//                    event.getMessage().delete().queue();
 //                    event.getChannel().sendMessage("No racism or toxicity please! 💋").queue();
 //                }
 //            }

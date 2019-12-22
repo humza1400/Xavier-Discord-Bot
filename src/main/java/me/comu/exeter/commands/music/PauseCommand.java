@@ -22,7 +22,7 @@ public class PauseCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Pauses the music\n`" + Core.PREFIX + getInvoke() + "`\nAliases: " + Arrays.deepToString(getAlias()) + "`";
+        return "Pauses the music\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

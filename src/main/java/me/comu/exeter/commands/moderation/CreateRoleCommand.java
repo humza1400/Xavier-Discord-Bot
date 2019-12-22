@@ -12,7 +12,7 @@ public class CreateRoleCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
-        if (!event.getMember().hasPermission(Permission.MANAGE_ROLES)) {
+        if (!event.getMember().hasPermission(Permission.MANAGE_ROLES) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to unban someone").queue();
             return;
         }

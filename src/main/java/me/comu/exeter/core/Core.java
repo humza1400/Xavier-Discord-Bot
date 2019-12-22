@@ -1,7 +1,8 @@
 package me.comu.exeter.core;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import me.comu.exeter.commands.economy.EcoJSONLoader;
+import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
+import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
 import me.comu.exeter.logging.Logger;
 import me.duncte123.botcommons.web.WebUtils;
@@ -42,24 +43,24 @@ public class Core {
         CommandManager commandManager = new CommandManager(eventWaiter);
         Listener listener = new Listener(commandManager);
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
-        EcoJSONLoader.loadEconomyConfig(new File("src/main/java/me/comu/exeter/commands/economy/economy.json"));
-        Logger.getLogger().print("Loaded economy.json");
+        EcoJSONHandler.loadEconomyConfig(new File("src/main/java/me/comu/exeter/commands/economy/economy.json"));
+        WhitelistedJSONHandler.loadWhitelistConfig(new File("src/main/java/me/comu/exeter/commands/admin/whitelisted.json"));
         WebUtils.setUserAgent("Mozilla/5.0 Exeter Discord Bot/Comu#0691");
 
         try {
            jda = new JDABuilder(AccountType.BOT).setToken(TOKEN)./*setActivity((Activity.streaming("ily comu", "https://www.twitch.tv/ilycomu/")))*/setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
-            new Timer().scheduleAtFixedRate(new TimerTask(){
-                @Override
-                public void run(){
+        //    new Timer().scheduleAtFixedRate(new TimerTask(){
+      //          @Override
+    //            public void run(){
                        jda.getPresence().setActivity(Activity.watching(String.format("over %s users", jda.getGuildById("645841446817103912").getMembers().size())));
-                }
-            },0,5000);
+  //              }
+//            },0,5000);
             jda.addEventListener(new KickEvent());
             jda.addEventListener(new BanEvent());
            jda.addEventListener(new LogMessageReceivedEvent());
            jda.addEventListener(new RainbowRoleEvent());
            jda.addEventListener(new AntiRaidEvent());
-           jda.addEventListener(new EditEvent());
+           jda.addEventListener(new EditEvent(commandManager));
            jda.addEventListener(new GuildMemberJoinedEvent());
             jda.addEventListener(new GuildMemberLeaveEvent());
             jda.addEventListener(new GuildMessageListenerResponderEvent());
@@ -74,14 +75,6 @@ public class Core {
     }
 
 
-    public static Color getRandomColor() {
-        final Random random = new Random();
-        float r = random.nextFloat();
-        float g = random.nextFloat();
-        float b = random.nextFloat();
-
-        return new Color(r, g, b);
-    }
 
 
 }

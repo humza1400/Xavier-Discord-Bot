@@ -17,7 +17,6 @@ import java.util.List;
 public class BindLogChannelCommand implements ICommand {
 
     private EventWaiter eventWaiter;
-    private Logger logger;
     public static boolean bound = false;
     public static long logChannelID;
     public static String channelName;
@@ -28,7 +27,7 @@ public class BindLogChannelCommand implements ICommand {
     }
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to set a log channel").queue();
             return;
         }
@@ -42,8 +41,8 @@ public class BindLogChannelCommand implements ICommand {
         bound = true;
         if (bound) {
             eventWaiter.waitForEvent(MessageReceivedEvent.class, (e) -> e.isFromType(ChannelType.TEXT), e-> {
-                event.getChannel().sendMessage((String.format("(%s)[%s]<%#s>: %s", event.getGuild().getName(), channelName, event.getAuthor(), e.getMessage()))).queue();
-            });
+                channel.sendMessage((String.format("(%s)[%s]<%#s>: %s", event.getGuild().getName(), channelName, event.getAuthor(), e.getMessage()))).queue();
+        });
 //        eventWaiter.waitForEvent(LogMessageReceivedEvent.class, (e) ->
 //                {   if (e.isFromType(ChannelType.TEXT)) {
 //                        return true;
@@ -55,9 +54,9 @@ public class BindLogChannelCommand implements ICommand {
         }
     }
 
-    private void registerWaiter(long messageId, long channelId, ShardManager shardManager) {
+/*    private void registerWaiter(long messageId, long channelId, ShardManager shardManager) {
 
-    }
+    }*/
 
     @Override
     public String getHelp() {

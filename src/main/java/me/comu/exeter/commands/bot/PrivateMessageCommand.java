@@ -27,14 +27,32 @@ public class PrivateMessageCommand implements ICommand {
                 return;
             }
 
-            if (event.getMessage().getMentionedMembers().isEmpty()) {
+            if (args.isEmpty()) {
                 event.getChannel().sendMessage("Please specify a user to private message").queue();
                 return;
             }
+            if (mentionedMembers.isEmpty() && !args.isEmpty())
+            {
+                List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
+                if (targets.isEmpty())
+                {
+                    event.getChannel().sendMessage("Couldn't find the user " + args.get(0)).queue();
+                    return;
+                } else if (targets.size() > 1)
+                {
+                    event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                    return;
+                }
+                int subIndex = Core.PREFIX.length() + getInvoke().length();
+                String postMessage = message.substring(subIndex);
+                event.getMessage().delete().queue();
+                sendPrivateMessage(targets.get(0).getUser(), postMessage.replaceFirst(args.get(0),""));
+                event.getChannel().sendMessage(EmbedUtils.embedMessage("Successfully messaged " + targets.get(0).getEffectiveName()).build()).queue();
+                return;
+            }
         int subIndex = Core.PREFIX.length() + getInvoke().length() + mentionedMembers.get(0).getAsMention().length();
-        String postMessage = message.substring(subIndex, message.length());
-        List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
-        messages2.get(0).delete().queueAfter(3, TimeUnit.MILLISECONDS);
+        String postMessage = message.substring(subIndex);
+        event.getMessage().delete().queue();
             sendPrivateMessage(mentionedMembers.get(0).getUser(), postMessage);
             event.getChannel().sendMessage(EmbedUtils.embedMessage("Successfully messaged " + mentionedMembers.get(0).getEffectiveName()).build()).queue();
         }
@@ -58,7 +76,7 @@ public class PrivateMessageCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"pm", "message"};
+        return new String[]{"pm"};
         }
 
     }

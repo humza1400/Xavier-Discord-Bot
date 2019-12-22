@@ -32,11 +32,11 @@ public class SetServerIconCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "serverpfp";
+        return "changepfp";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[] {"icon","servericon","changepfp"};
+        return new String[] {"changeserverpfp","changeicon"};
     }
 }

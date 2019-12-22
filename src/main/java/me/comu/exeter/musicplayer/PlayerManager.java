@@ -45,7 +45,7 @@ public class PlayerManager {
             @Override
             public void trackLoaded(AudioTrack track) {
                 TrackScheduler.setTextChannel(channel);
-                channel.sendMessage("Adding to queue &&" + track.getInfo().title + "**").queue();
+                channel.sendMessage("Adding to queue **" + track.getInfo().title + "**").queue();
                 play(musicManager, track);
             }
 

@@ -18,7 +18,8 @@ public class UserInfoCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a");
         List<Member> memberList = event.getMessage().getMentionedMembers();
-            if (event.getMessage().getMentionedMembers().isEmpty()) {
+
+            if (event.getMessage().getMentionedMembers().isEmpty() && args.isEmpty()) {
                 try {
                 MessageEmbed embed = new EmbedBuilder().setColor(event.getMember().getColor())
                         .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
@@ -45,7 +46,7 @@ public class UserInfoCommand implements ICommand {
                     event.getChannel().sendMessage(embedEx).queue();
                 }
             }
-            else {
+            if (!args.isEmpty() && !memberList.isEmpty()) {
                 try {
                 MessageEmbed embed = new EmbedBuilder().setColor(memberList.get(0).getColor())
                         .setThumbnail(memberList.get(0).getUser().getEffectiveAvatarUrl())
@@ -55,7 +56,7 @@ public class UserInfoCommand implements ICommand {
                         .addField("Joined Server", memberList.get(0).getTimeJoined().format(timeFormatter), false)
                         .addField("Online Status", memberList.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
                         .addField("Game:", displayGameInfo(memberList.get(0)), false)
-                        .addField(String.format("Roles: (%s)", event.getMember().getRoles().size()), getRolesAsString(memberList.get(0).getRoles()), false)
+                        .addField(String.format("Roles: (%s)", memberList.get(0).getRoles().size()), getRolesAsString(memberList.get(0).getRoles()), false)
                         .addField("Bot Account", memberList.get(0).getUser().isBot() ? "Yes" : "No", false)
                         .build();
                     event.getChannel().sendMessage(embed).queue();
@@ -69,11 +70,51 @@ public class UserInfoCommand implements ICommand {
                             .addField("Joined Server", memberList.get(0).getTimeJoined().format(timeFormatter), false)
                             .addField("Online Status", memberList.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
                             .addField("Game:", displayGameInfo(memberList.get(0)), false)
-                            .addField(String.format("Roles: (%s)", event.getMember().getRoles().size()), getRolesAsString(memberList.get(0).getRoles()), false)
+                            .addField(String.format("Roles: (%s)", memberList.get(0).getRoles().size()), getRolesAsString(memberList.get(0).getRoles()), false)
                             .addField("Bot Account", memberList.get(0).getUser().isBot() ? "Yes" : "No", false)
                             .build();
                         event.getChannel().sendMessage(embedEx).queue();
                 }
+            }
+            if (!args.isEmpty() && memberList.isEmpty())
+            {
+                List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
+                if (targets.isEmpty()) {
+                    event.getChannel().sendMessage("Couldn't find the user " + args.get(0)).queue();
+                    return;
+                } else if (targets.size() > 1) {
+                    event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                    return;
+                }
+                try {
+                    MessageEmbed embed = new EmbedBuilder().setColor(targets.get(0).getColor())
+                            .setThumbnail(targets.get(0).getUser().getEffectiveAvatarUrl())
+                            .addField("Username", targets.get(0).getUser().getAsTag(), false)
+                            .addField("User Id", String.format("%s %s", targets.get(0).getId(), targets.get(0).getAsMention()), false)
+                            .addField("Account Created", targets.get(0).getUser().getTimeCreated().format(timeFormatter), false)
+                            .addField("Joined Server", targets.get(0).getTimeJoined().format(timeFormatter), false)
+                            .addField("Online Status", targets.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
+                            .addField("Game:", displayGameInfo(targets.get(0)), false)
+                            .addField(String.format("Roles: (%s)", targets.get(0).getRoles().size()), getRolesAsString(targets.get(0).getRoles()), false)
+                            .addField("Bot Account", targets.get(0).getUser().isBot() ? "Yes" : "No", false)
+                            .build();
+                    event.getChannel().sendMessage(embed).queue();
+                } catch (IllegalArgumentException ex)
+                {
+                    MessageEmbed embedEx = new EmbedBuilder().setColor(targets.get(0).getColor())
+                            .setThumbnail(targets.get(0).getUser().getEffectiveAvatarUrl())
+                            .addField("Username", targets.get(0).getUser().getAsTag(), false)
+                            .addField("User Id", String.format("%s %s", targets.get(0).getId(), targets.get(0).getAsMention()), false)
+                            .addField("Account Created", targets.get(0).getUser().getTimeCreated().format(timeFormatter), false)
+                            .addField("Joined Server", targets.get(0).getTimeJoined().format(timeFormatter), false)
+                            .addField("Online Status", targets.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
+                            .addField("Game:", displayGameInfo(targets.get(0)), false)
+                            .addField(String.format("Roles: (%s)", targets.get(0).getRoles().size()), getRolesAsString(targets.get(0).getRoles()), false)
+                            .addField("Bot Account", targets.get(0).getUser().isBot() ? "Yes" : "No", false)
+                            .build();
+                    event.getChannel().sendMessage(embedEx).queue();
+                }
+
             }
 
     }
@@ -112,6 +153,6 @@ public class UserInfoCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"userinfo","whois"};
+        return new String[] {"userinfo","whois","ui"};
     }
 }

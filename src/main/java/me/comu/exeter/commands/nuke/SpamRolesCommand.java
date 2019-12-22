@@ -29,7 +29,7 @@ public class SpamRolesCommand implements ICommand {
                     .setName("GRIEFED BY SWAG " + Integer.toString(this.getRandom())).queue();
             if (i == input - 1) {
                 event.getMessage().delete().queue();
-//                List<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
+//                List<Message> messages = event.getChannel().getHistory().retrievePast(2).queue();
 //                event.getChannel().deleteMessages(messages).queue();
 //                event.getChannel().sendMessage("Roles created").queue();
             }

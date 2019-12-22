@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
-public class EcoJSONLoader {
+public class EcoJSONHandler {
 
      public static void saveEconomyConfig()
     {
@@ -31,6 +31,7 @@ public class EcoJSONLoader {
         try {
             HashMap<String, Integer> userDoubleHashMap = new ObjectMapper().readValue(file, HashMap.class);
             EconomyManager.setUsers(userDoubleHashMap);
+            Logger.getLogger().print("Loaded economy.json");
         } catch (IOException ex)
         {
             ex.printStackTrace();

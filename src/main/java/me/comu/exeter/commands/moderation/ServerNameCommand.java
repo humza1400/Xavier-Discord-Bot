@@ -34,7 +34,7 @@ public class ServerNameCommand implements ICommand {
             return;
         }
         msg = msg.replace(Core.PREFIX + "servername", "").replace(Core.PREFIX + "nameserver", "").replace("_", " ");
-        event.getGuild().getManager().setName(msg).complete();
+        event.getGuild().getManager().setName(msg).queue();
         event.getChannel().sendMessage("Successfully changed server name from `" + preServerName + "` to `" + msg.substring(1) + "`.").queue();
     }
 

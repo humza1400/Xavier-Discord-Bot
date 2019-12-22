@@ -19,26 +19,44 @@ public class UnmuteCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
-        if (args.isEmpty() || mentionedMembers.isEmpty()) {
+        if (args.isEmpty()) {
             channel.sendMessage("Please specify a valid user to unmute").queue();
             return;
         }
 
-        Member target = mentionedMembers.get(0);
-
-        if (!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) || !member.canInteract(target)) {
+        if (!member.hasPermission(Permission.MANAGE_ROLES) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to unmute someone").queue();
             return;
         }
 
-
-        if (!selfMember.hasPermission(Permission.MANAGE_SERVER) && (!selfMember.hasPermission(Permission.MANAGE_ROLES)) || !selfMember.canInteract(target)) {
+        if (!selfMember.hasPermission(Permission.MANAGE_ROLES)) {
             channel.sendMessage("I don't have permissions to unmute that user").queue();
             return;
         }
-
+        if (mentionedMembers.isEmpty() && !args.isEmpty())
+        {
+            List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
+            if (targets.isEmpty())
+            {
+                event.getChannel().sendMessage("Couldn't find the user " + args.get(0)).queue();
+                return;
+            } else if (targets.size() > 1)
+            {
+                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                return;
+            }
+            Member target = targets.get(0);
+            if (target.getRoles().contains(SetMuteRoleCommand.getMutedRole())) {
+                event.getGuild().removeRoleFromMember(target, SetMuteRoleCommand.getMutedRole()).reason("Unmuted by " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).queue();
+                channel.sendMessage("Unmuted "+ target.getAsMention()).queue();
+            } else {
+                event.getChannel().sendMessage("That user is not muted").queue();
+            }
+            return;
+        }
+        Member target = mentionedMembers.get(0);
         if (target.getRoles().contains(SetMuteRoleCommand.getMutedRole())) {
-            event.getGuild().removeRoleFromMember(target, SetMuteRoleCommand.getMutedRole()).reason("Unmuted by " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).complete();
+            event.getGuild().removeRoleFromMember(target, SetMuteRoleCommand.getMutedRole()).reason("Unmuted by " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).queue();
             channel.sendMessage("Unmuted "+ target.getAsMention()).queue();
         } else {
             event.getChannel().sendMessage("That user is not muted").queue();

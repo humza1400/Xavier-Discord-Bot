@@ -22,7 +22,7 @@ public class SetMuteRoleCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES))) {
+        if (!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) && event.getMember().getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to set the mute role").queue();
             return;
         }
@@ -35,21 +35,36 @@ public class SetMuteRoleCommand implements ICommand {
             channel.sendMessage("Please specify a role").queue();
             return;
         }
-        if (!args.get(0).matches("^[-0-9]+")) {
+     /*   if (!args.get(0).matches("^[-0-9]+")) {
             channel.sendMessage("Please insert a valid role id").queue();
             return;
-        }
+        }*/
 
         if (args.isEmpty()) {
             event.getChannel().sendMessage("Please specify a role");
             return;
         }
+
         try {
             role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));
             isMuteRoleSet = true;
             channel.sendMessage("Mute role successfully set to `" + role.getName() + "`").queue();
-        } catch (NullPointerException ex) {
-            channel.sendMessage("That role doesn't exist").queue();
+        } catch (NullPointerException | NumberFormatException ex) {
+            List<Role> roles = event.getGuild().getRolesByName(args.get(0), false);
+            if (roles.isEmpty())
+            {
+                event.getChannel().sendMessage("Couldn't find role `" + args.get(0) + "`. Maybe try using the role ID instead.").queue();
+                return;
+            }
+            if (roles.size() > 1)
+            {
+                event.getChannel().sendMessage("Multiple roles found for `" + args.get(0) + "`. Use the role ID instead.").queue();
+                return;
+            }
+            role = roles.get(0);
+            isMuteRoleSet = true;
+            channel.sendMessage("Mute role successfully set to `" + role.getName() + "`").queue();
+            return;
         }
 
     }
@@ -64,7 +79,7 @@ public class SetMuteRoleCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Sets the mute role to the specified role\n`" + Core.PREFIX + getInvoke() + " [role]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Sets the mute role to the specified role\n`" + Core.PREFIX + getInvoke() + " [role] <-id>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

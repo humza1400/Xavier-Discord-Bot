@@ -13,7 +13,7 @@ public class EcoConfigCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         String hashMap = new JSONObject(EconomyManager.getUsers()).toString().replaceAll("\\{","{\n").replaceAll(",",",\n").replaceAll("}","\n}");
         event.getChannel().sendMessage("```java\n" + hashMap  + "```").queue();
-        EcoJSONLoader.saveEconomyConfig();
+        EcoJSONHandler.saveEconomyConfig();
     }
 
 

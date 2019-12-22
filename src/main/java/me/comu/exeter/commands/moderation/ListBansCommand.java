@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.Arrays;
 import java.util.List;
 
-public class ListBans implements ICommand {
+public class ListBansCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -19,7 +19,7 @@ public class ListBans implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.BAN_MEMBERS)) {
+        if (!member.hasPermission(Permission.BAN_MEMBERS) && event.getMember().getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to unban users").queue();
             return;
         }
@@ -29,16 +29,17 @@ public class ListBans implements ICommand {
             return;
         }
 
-        List<Guild.Ban> banList = event.getGuild().retrieveBanList().complete();
-        if (banList.isEmpty()) {
-            channel.sendMessage("There are no users currently banned!").queue();
-            return;
-        }
-        StringBuffer buffer = new StringBuffer(event.getGuild().getName() + " Banlist (" +banList.size() + ")\n");
-        for (int i = 0; i < banList.size(); i++) {
-            buffer.append(" + " + banList.get(i).getUser().getName() + "#" +  banList.get(i).getUser().getDiscriminator() + " | " + banList.get(i).getReason() + "\n");
-        }
-        event.getChannel().sendMessage(buffer.toString()).queue();
+        event.getGuild().retrieveBanList().queue((entries) -> {
+            if (entries.isEmpty()) {
+                channel.sendMessage("There are no users currently banned!").queue();
+                return;
+            }
+            StringBuffer buffer = new StringBuffer(event.getGuild().getName() + " Banlist (" +entries.size() + ")\n");
+            for (int i = 0; i < entries.size(); i++) {
+                buffer.append(" + " + entries.get(i).getUser().getName() + "#" +  entries.get(i).getUser().getDiscriminator() + " | " + entries.get(i).getReason() + "\n");
+            }
+            event.getChannel().sendMessage(buffer.toString()).queue();
+        });
     }
 
     @Override

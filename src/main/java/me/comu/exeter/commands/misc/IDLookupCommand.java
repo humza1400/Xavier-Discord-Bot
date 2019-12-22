@@ -21,7 +21,7 @@ public class IDLookupCommand implements ICommand {
                 event.getChannel().sendMessage(EmbedUtils.embedImage(event.getJDA().getUserById(args.get(0)).getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(event.getMember().getColor()).setTitle(args.get(0) + " belongs to `" + event.getJDA().getUserById(args.get(0)).getName() + "#" + event.getJDA().getUserById(args.get(0)).getDiscriminator() + "`").build()).queue();
 
             }
-        } catch (NumberFormatException ex)
+        } catch (NumberFormatException | NullPointerException ex)
         {
             event.getChannel().sendMessage("No user exists with that ID.").queue();
         }

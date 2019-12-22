@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.*;
 import me.comu.exeter.commands.bot.*;
 import me.comu.exeter.commands.economy.*;
+import me.comu.exeter.commands.misc.InviteManagerCommand;
 import me.comu.exeter.commands.marriage.MarryCommand;
 import me.comu.exeter.commands.misc.*;
 import me.comu.exeter.commands.moderation.*;
@@ -45,7 +46,7 @@ public class CommandManager {
         register(new BindLogChannelCommand(eventWaiter));
         register(new SetRainbowRoleCommand());
         register(new MassDMCommand());
-        register(new SKSKSK());
+        register(new SKSKSKCommand());
         register(new ClearCommand());
         register(new KickCommand());
         register(new BanCommand());
@@ -118,25 +119,25 @@ public class CommandManager {
         register(new ClearWhitelistCommand());
         register(new UnwhitelistCommand());
         register(new ServerPfpCommand());
+        register(new DeafenUserCommand());
+        register(new ServerMuteUserCommand());
+        register(new WizzCommand());
+        register(new WizzCommand());
+        register(new InviteManagerCommand());
+        register(new MutualServersCommand());
+        register(new EmbedMessageCommand());
+        register(new CleanCommandsCommand());
         // add log command that logs all event updates
-        // lookup command (use event.getJDA and look up ID make embed with in guild check, name, etc
         // marry system
         // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage
-        // add new event for guildmemberjoin to update the bots status so it doesnt have to continually update every 5 secs when it dont need to
         // use edit event to test if its edited to a command
         // makes a admin role and gives it to me
         //add custom commands like dyno
-        // MAKE SPAM DM COMMAND SPAM EVERYONE THAT IS MENTIONED IN THE MSG
-        // add yui kill, marry, etc
-        // slowmode command/lockdown command
+        // add kill, marry, etc
         // Add a command to move tracks in the queue
-        // Change status of music bot to current song playing
         // Add back command
-        // use a thread to spam dm or do a sleep thread
     /*
-    webhooks in shrekker
-    spammer in shrekker
-    add list for all event hooks
+
      add ascii converter
 
      */

@@ -14,18 +14,25 @@ import java.util.List;
 public class AvatarCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (args.isEmpty()) {
+            event.getChannel().sendMessage(EmbedUtils.embedImage(String.format(event.getAuthor().getEffectiveAvatarUrl().concat("?size=256&f=.gif"))).setColor(event.getMember().getColor()).build()).queue();
+            return;
+        }
         List<Member> memberList = event.getMessage().getMentionedMembers();
         if (event.getMessage().getMentionedMembers().isEmpty()) {
-           // MessageEmbed embed = new EmbedBuilder().setColor(event.getMember().getColor()).setThumbnail(event.getAuthor().getEffectiveAvatarUrl().concat("?size=258&f=.gif")).build();
-           // event.getChannel().sendMessage(EmbedUtils.embedImage(String.format("https://cdn.discordapp.com/avatars/175728291460808706/a_87d2a28833c1618bf26e31c4d6897109.gif?size=256&f=.gif")).setColor(event.getMember().getColor()).build()).queue();
-            event.getChannel().sendMessage(EmbedUtils.embedImage(event.getAuthor().getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(event.getMember().getColor()).build()).queue();
-
-            //event.getChannel().sendMessage(embed).queue();
-        }
-        else {
-           // MessageEmbed embed = new EmbedBuilder().setColor(memberList.get(0).getColor()).setThumbnail(memberList.get(0).getUser().getEffectiveAvatarUrl()).build();
-            event.getChannel().sendMessage(EmbedUtils.embedImage(String.format(memberList.get(0).getUser().getEffectiveAvatarUrl().concat("?size=256&f=.gif"))).setColor(event.getMember().getColor()).build()).queue();
-//            event.getChannel().sendMessage(embed).queue();
+            List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
+            if (targets.isEmpty())
+            {
+                event.getChannel().sendMessage("Couldn't find the user " + args.get(0)).queue();
+                return;
+            } else if (targets.size() > 1)
+            {
+                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                return;
+            }
+            event.getChannel().sendMessage(EmbedUtils.embedImage(targets.get(0).getUser().getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(event.getMember().getColor()).build()).queue();
+        } else if (!memberList.isEmpty()){
+            event.getChannel().sendMessage(EmbedUtils.embedImage(memberList.get(0).getUser().getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(event.getMember().getColor()).build()).queue();
         }
     }
 

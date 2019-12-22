@@ -20,7 +20,7 @@ public class RemoveRainbowRoleCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
 
 
-        if (!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES))) {
+        if (!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to remove the rainbow role").queue();
             return;
         }

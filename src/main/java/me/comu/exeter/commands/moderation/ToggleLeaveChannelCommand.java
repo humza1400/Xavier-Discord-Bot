@@ -21,7 +21,7 @@ public class ToggleLeaveChannelCommand implements ICommand {
             event.getChannel().sendMessage(getHelp()).queue();
             return;
         }
-        if (!memberPerms.hasPermission(Permission.MANAGE_SERVER)) {
+        if (!memberPerms.hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to toggle farewell messages").queue();
             return;
         }

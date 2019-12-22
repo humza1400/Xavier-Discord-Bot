@@ -22,7 +22,7 @@ public class DeleteVoiceChannelsCommand implements ICommand {
         try {
             for (int i = 0; i <= tcSize; i++) {
                 try {
-                    voiceChannels.get(i).delete().complete();
+                    voiceChannels.get(i).delete().queue();
                 } catch (HierarchyException | IndexOutOfBoundsException ex1) {
 
                 }

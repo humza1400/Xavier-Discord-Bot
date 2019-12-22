@@ -27,14 +27,45 @@ public class WarnCommand implements ICommand {
             return;
         }
 
-            if (event.getMessage().getMentionedMembers().isEmpty()) {
+            if (args.isEmpty()) {
                 event.getChannel().sendMessage("Please specify a valid user to warn").queue();
                 return;
             }
-//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
-//        LocalDateTime now = LocalDateTime.now();
-//        Wrapper.sendWhitelistedAntiRaidInfoMessage(event.getGuild(), AntiRaidWhitelistCommand.whitelistedIDs, "**Test Report For " + event.getGuild().getName() + "**\nWizzer: `" + "null" + " (null)`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Test`\nAction Taken: `null`");
-            if (args.size() == 1) {
+            if (!args.isEmpty() && mentionedMembers.isEmpty()) {
+                List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
+                if (targets.isEmpty()) {
+                    event.getChannel().sendMessage("Couldn't find the user " + args.get(0)).queue();
+                    return;
+                } else if (targets.size() > 1) {
+                    event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                    return;
+                }
+                if (args.size() == 1) {
+                    Member target = targets.get(0);
+                    EmbedBuilder embedBuilder = new EmbedBuilder();
+                    embedBuilder.setColor(0xFFDE53);
+                    embedBuilder.setTitle("⚠Warning⚠");
+                    embedBuilder.setDescription("Warned " + target.getAsMention());
+                    embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+                    embedBuilder.setTimestamp(Instant.now());
+                    event.getMessage().delete().queueAfter(3, TimeUnit.MILLISECONDS);
+                    event.getChannel().sendMessage(embedBuilder.build()).queue();
+                } else {
+                    Member target = targets.get(0);
+                    EmbedBuilder embedBuilder = new EmbedBuilder();
+                    embedBuilder.setColor(0xFFDE53);
+                    embedBuilder.setTitle("⚠Warning⚠");
+                    int subIndex = Core.PREFIX.length() + 5;
+                    String reason = message.substring(subIndex).replaceFirst(args.get(0), "");
+                    embedBuilder.setDescription("Warned " + target.getAsMention() + " for `" + reason + "`");
+                    embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+                    embedBuilder.setTimestamp(Instant.now());
+                    event.getMessage().delete().queueAfter(3, TimeUnit.MILLISECONDS);
+                    event.getChannel().sendMessage(embedBuilder.build()).queue();
+                }
+                return;
+            }
+            if (args.size() == 1 && !mentionedMembers.isEmpty()) {
                 Member target = mentionedMembers.get(0);
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.setColor(0xFFDE53);
@@ -42,9 +73,6 @@ public class WarnCommand implements ICommand {
                 embedBuilder.setDescription("Warned " + target.getAsMention());
                 embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
                 embedBuilder.setTimestamp(Instant.now());
-//                List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
-//                event.getChannel().deleteMessages(messages2).queueAfter(3, TimeUnit.MILLISECONDS);
-//                messages2.get(0).delete().queueAfter(3, TimeUnit.MILLISECONDS);
                 event.getMessage().delete().queueAfter(3, TimeUnit.MILLISECONDS);
                 event.getChannel().sendMessage(embedBuilder.build()).queue();
             }
@@ -58,9 +86,6 @@ public class WarnCommand implements ICommand {
                     embedBuilder.setDescription("Warned " + target.getAsMention() + " for `" + reason + "`");
                     embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
                     embedBuilder.setTimestamp(Instant.now());
-//                List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
-//                event.getChannel().deleteMessages(messages2).queueAfter(3, TimeUnit.MILLISECONDS);
-//                messages2.get(0).delete().queueAfter(3, TimeUnit.MILLISECONDS);
                 event.getMessage().delete().queueAfter(3, TimeUnit.MILLISECONDS);
                     event.getChannel().sendMessage(embedBuilder.build()).queue();
 
@@ -72,7 +97,7 @@ public class WarnCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Warns the specific user\n`" + Core.PREFIX + getInvoke() + " [user] <reason>`\nAliases: " + Arrays.deepToString(getAlias()) + "`";
+        return "Warns the specific user\n`" + Core.PREFIX + getInvoke() + " [user] <reason>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

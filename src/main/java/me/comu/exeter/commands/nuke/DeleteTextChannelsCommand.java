@@ -23,7 +23,7 @@ public class DeleteTextChannelsCommand implements ICommand {
         try {
             for (int i = 0; i <= tcSize; i++) {
                 try {
-                    textChannels.get(i).delete().complete();
+                    textChannels.get(i).delete().queue();
                 } catch (HierarchyException | IndexOutOfBoundsException ex1) {
 
                 }

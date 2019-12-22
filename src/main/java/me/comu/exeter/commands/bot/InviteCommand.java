@@ -11,12 +11,12 @@ public class InviteCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage("Sorry, but this bot is currently private and made exclusively for the lovestruck discord. Please PM swag#3231 for further questions.").queue();
+        event.getChannel().sendMessage("Sorry, but this bot is currently private and made exclusively for the `" + event.getGuild().getName() + "` discord. Please PM swag#3231 for further questions.").queue();
     }
 
     @Override
     public String getHelp() {
-        return "Sends an invite link to invite the bot\n`" + Core.PREFIX + getInvoke() + "`\nAliases: " + Arrays.deepToString(getAlias()) + "`";
+        return "Sends an invite link to invite the bot\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

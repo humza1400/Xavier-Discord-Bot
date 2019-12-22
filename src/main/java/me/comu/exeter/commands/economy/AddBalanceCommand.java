@@ -16,7 +16,7 @@ public class AddBalanceCommand implements ICommand {
 
         int amount;
 
-        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to give yourself credits").queue();
             return;
         }
@@ -41,14 +41,14 @@ public class AddBalanceCommand implements ICommand {
             }
             EconomyManager.setBalance(event.getMember().getUser().getId(), EconomyManager.getBalance(event.getMember().getUser().getId()) + amount);
             event.getChannel().sendMessage(String.format("Added **%s** credits to the balance of %s!", amount, event.getMember().getUser().getAsMention())).queue();
-            EcoJSONLoader.saveEconomyConfig();
+            EcoJSONHandler.saveEconomyConfig();
         } else {
             if (EconomyManager.verifyUser(memberList.get(0).getUser().getId())) {
                 EconomyManager.getUsers().put(memberList.get(0).getUser().getId(), 0);
             }
             EconomyManager.setBalance(memberList.get(0).getUser().getId(), EconomyManager.getBalance(memberList.get(0).getUser().getId()) + amount);
             event.getChannel().sendMessage(String.format("Added **%s** credits to the balance of %s!", amount, memberList.get(0).getUser().getAsMention())).queue();
-            EcoJSONLoader.saveEconomyConfig();
+            EcoJSONHandler.saveEconomyConfig();
         }
     }
 

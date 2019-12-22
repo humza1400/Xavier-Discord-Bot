@@ -20,7 +20,7 @@ public class UnbanAllCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.BAN_MEMBERS)) {
+        if (!member.hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to unban users").queue();
             return;
         }
@@ -30,17 +30,17 @@ public class UnbanAllCommand implements ICommand {
             return;
         }
 
-        List<Guild.Ban> banList = event.getGuild().retrieveBanList().complete();
-        if (banList.isEmpty()) {
-            channel.sendMessage("There are no users currently banned!").queue();
-            return;
-        }
-
-        for (int i = 0; i < banList.size(); i++) {
-            event.getGuild().unban(banList.get(i).getUser()).queue();
-            Logger.getLogger().print("Unbanned " + banList.get(i).getUser().getName() + "#" + banList.get(i).getUser().getDiscriminator());
-        }
-        event.getChannel().sendMessage(String.format("Unbanned %s users", banList.size())).queue();
+        event.getGuild().retrieveBanList().queue((entries) -> {
+            if (entries.isEmpty()) {
+                channel.sendMessage("There are no users currently banned!").queue();
+                return;
+            }
+            for (int i = 0; i < entries.size(); i++) {
+                event.getGuild().unban(entries.get(i).getUser()).queue();
+                Logger.getLogger().print("Unbanned " + entries.get(i).getUser().getName() + "#" + entries.get(i).getUser().getDiscriminator());
+            }
+            event.getChannel().sendMessage(String.format("Unbanned %s users", entries.size())).queue();
+        });
     }
 
     @Override

@@ -23,7 +23,7 @@ public class DeleteRolesCommand implements ICommand {
             try {
                 for (int i = 0; i <= roleSize ; i++) {
                     try {
-                        roles.get(i).delete().complete();
+                        roles.get(i).delete().queue();
                     } catch (HierarchyException | UnsupportedOperationException ex1) {
 //                        event.getChannel().sendMessage(" cannot delete roles higher than mine (skipping)").queue();
                     }
@@ -32,7 +32,7 @@ public class DeleteRolesCommand implements ICommand {
 //                event.getChannel().sendMessage(" cannot delete roles higher than mine (skipping)").queue();
             }
         event.getMessage().delete().queue();
-//            List<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
+//            List<Message> messages = event.getChannel().getHistory().retrievePast(2).queue();
 //            event.getChannel().deleteMessages(messages).queue();
 //            event.getChannel().sendMessage("Deleted roles").queue();
     }

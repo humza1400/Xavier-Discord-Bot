@@ -10,7 +10,7 @@ import java.util.List;
 public class EcoSaveConfigCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        EcoJSONLoader.saveEconomyConfig();
+        EcoJSONHandler.saveEconomyConfig();
         event.getChannel().sendMessage("Successfully saved config: `economy.json`").queue();
 
     }

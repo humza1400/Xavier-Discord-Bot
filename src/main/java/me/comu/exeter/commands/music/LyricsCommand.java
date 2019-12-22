@@ -5,6 +5,7 @@ import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.Search;
 import me.comu.exeter.musicplayer.SearchResult;
 import me.comu.exeter.musicplayer.WebScraper;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -71,7 +72,7 @@ public class LyricsCommand implements ICommand {
     }
     private EmbedBuilder buildLyricsEmbed (String title, String author, String link, String lyrics) {
         EmbedBuilder embed = new EmbedBuilder()
-                .setColor(Core.getRandomColor())
+                .setColor(Wrapper.getRandomColor())
                 .setFooter("From Genius.com", null)
                 .setAuthor(title + " by " + author, link, "https://cdn.discordapp.com/avatars/560977501728276521/67d579fdc0373c27dcd43f02e4e490c8.png?size=256");
 

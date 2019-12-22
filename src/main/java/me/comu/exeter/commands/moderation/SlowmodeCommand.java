@@ -19,7 +19,7 @@ public class SlowmodeCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
         int slowtime = 0;
 
-        if (!member.hasPermission(Permission.MANAGE_CHANNEL) && (!member.hasPermission(Permission.MANAGE_CHANNEL))) {
+        if (!member.hasPermission(Permission.MANAGE_CHANNEL) && (!member.hasPermission(Permission.MANAGE_CHANNEL)) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to unlockdown the channel").queue();
             return;
         }

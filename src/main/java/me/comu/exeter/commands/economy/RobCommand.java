@@ -39,7 +39,7 @@ public class RobCommand implements ICommand {
                 event.getChannel().sendMessage(String.format("%s stay with the strap and instead robbed %s for **%s** credits LOL.", member.getAsMention(), event.getMember().getAsMention(), robbedBalance)).queue();
             }
         }
-        EcoJSONLoader.saveEconomyConfig();
+        EcoJSONHandler.saveEconomyConfig();
 
     }
 
@@ -55,6 +55,6 @@ public class RobCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"finnese"};
+        return new String[] {"finnese","finesse"};
     }
 }

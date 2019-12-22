@@ -16,7 +16,7 @@ public class SetBalanceCommand implements ICommand {
 
         int amount;
 
-        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to set balance").queue();
             return;
         }
@@ -38,7 +38,7 @@ public class SetBalanceCommand implements ICommand {
         {
             EconomyManager.setBalance(event.getMember().getUser().getId(), amount);
             event.getChannel().sendMessage(String.format("Set your balance to **%s**! %s", amount, event.getMember().getAsMention())).queue();
-            EcoJSONLoader.saveEconomyConfig();
+            EcoJSONHandler.saveEconomyConfig();
             return;
         }
         if (!memberList.isEmpty()) {
@@ -46,7 +46,7 @@ public class SetBalanceCommand implements ICommand {
             EconomyManager.setBalance(memberList.get(0).getUser().getId(), amount);
             event.getChannel().sendMessage(String.format("Set the balance of %s to **%s**!", memberList.get(0).getAsMention(), amount)).queue();
         }
-        EcoJSONLoader.saveEconomyConfig();
+        EcoJSONHandler.saveEconomyConfig();
     }
 
     @Override

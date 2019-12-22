@@ -15,11 +15,8 @@ public class MassDMCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> memberList = event.getGuild().getMembers();
-        String message = event.getMessage().getContentRaw();
-        Thread thread = new Thread("mass-dm thread");
-//        Member memberPerms = event.getMember();
-//        Long damon = 464114153616048131L;
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID /*|| event.getAuthor().getIdLong() == damon*/)) {
+        String message = event.getMessage().getContentRaw().substring(7);
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             event.getChannel().sendMessage("You don't have permission to dm people, sorry bro").queue();
             return;
         }
@@ -29,14 +26,25 @@ public class MassDMCommand implements ICommand {
             event.getChannel().sendMessage("Please insert a message you want to mass-pm to the server").queue();
             return;
         }
-        message = message.substring(7);
-        int counter = 0;
         System.out.println("Starting mass dm to " + event.getGuild().getMembers().size() + " members in " + event.getGuild().getName() + " (" +event.getGuild().getId() + ")");
-        try {
-//            Thread t = new Thread(() -> {
-//
-//            });
-            for (Member member : memberList) {
+//        try {
+            Thread massDM = new Thread(() -> {
+                try {
+                    int counter = 0;
+                    for (Member member : memberList) {
+                        if (!member.getUser().isBot()) {
+                            String finalMessage = message;
+                            Wrapper.sendPrivateMessage(member.getUser(), finalMessage);
+                            counter++;
+                            System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
+                            Thread.sleep(2000);
+                        }
+                    }
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
+            });
+            /*for (Member member : memberList) {
                 if (!member.getUser().isBot()) {
                     Wrapper.sendPrivateMessage(member.getUser(), message);
                     counter++;
@@ -44,10 +52,11 @@ public class MassDMCommand implements ICommand {
                     Thread.sleep(2000);
                 }
             }
-        } catch (InterruptedException ex) {ex.printStackTrace();}
-        event.getChannel().sendMessage("Successfuly messaged " + event.getGuild().getMembers().size() + " users!").queue();
-
+        } catch (InterruptedException ex) {ex.printStackTrace();}*/
+            massDM.start();
+        event.getChannel().sendMessage("Messaging " + event.getGuild().getMemberCount()  + " users!").queue();
     }
+
 
 //    class massdmThread implements Runnable{
 //        @Override
@@ -60,7 +69,7 @@ public class MassDMCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Spam messages everyone on the server\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Mass DMs the specified messages to everyone on the server\n`" + Core.PREFIX + getInvoke() + " [message]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

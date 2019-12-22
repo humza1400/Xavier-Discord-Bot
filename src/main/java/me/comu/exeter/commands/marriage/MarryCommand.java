@@ -14,7 +14,6 @@ import java.util.List;
 
 public class MarryCommand implements ICommand {
 
-    Timer timer = new Timer();
     boolean pending = false;
     EventWaiter eventWaiter;
 
@@ -36,28 +35,30 @@ public class MarryCommand implements ICommand {
         }
             event.getChannel().sendMessage(event.getMember().getUser().getName() + " has requested to marry you, do you accept? (Yes/No) " + members.get(0).getUser().getAsMention()).queue();
             pending = true;
-//                while (pending) {
-//                    eventWaiter.waitForEvent(MessageReceivedEvent.class, (e) -> (e.isFromType(ChannelType.TEXT) && e.getMember().getId().equals(members.get(0).getId()) && e.getMessage().getContentRaw().equals("Yes")), e -> {
-//                        pending = false;
-//                        event.getChannel().sendMessage(members.get(0).getUser().getAsMention() + " has accepted " + member.getAsMention() + "'s marriage proposal. Congratulations!").queue();
-//                    });
-//
-//                        eventWaiter.waitForEvent(MessageReceivedEvent.class, (e) -> (e.isFromType(ChannelType.TEXT) && e.getMember().getId().equals(members.get(0).getId()) && e.getMessage().getContentRaw().equals("No")), e -> {
-//                            event.getChannel().sendMessage(members.get(0).getUser().getAsMention() + " just rejected" + member.getAsMention() + "'s marriage proposal. Maybe next time bro.").queue();
-//                            pending = false;
-//
-//                        });
-//                }
-//        if (timer.hasCompleted(10000)) {
-//            event.getChannel().sendMessage(member.getAsMention() + " your marriage proposal to " + members.get(0).getAsMention() + " has expired!").queue();
-//            pending = false;
-//        }
+                while (pending) {
+                    eventWaiter.waitForEvent(MessageReceivedEvent.class, (e) -> (e.isFromType(ChannelType.TEXT) && e.getMember().getId().equals(members.get(0).getId()) && e.getMessage().getContentRaw().equalsIgnoreCase("Yes")), e -> {
+                        pending = false;
+                        event.getChannel().sendMessage(members.get(0).getUser().getAsMention() + " has accepted " + member.getAsMention() + "'s marriage proposal. **Congratulations**!").queue();
+                        return;
+                    });
+
+                        eventWaiter.waitForEvent(MessageReceivedEvent.class, (e) -> (e.isFromType(ChannelType.TEXT) && e.getMember().getId().equals(members.get(0).getId()) && e.getMessage().getContentRaw().equalsIgnoreCase("No")), e -> {
+                            event.getChannel().sendMessage(members.get(0).getUser().getAsMention() + " just rejected" + member.getAsMention() + "'s marriage proposal. Maybe next time bro.").queue();
+                            pending = false;
+                            return;
+
+                        });
+                    if (pending) {
+                        event.getChannel().sendMessage(member.getAsMention() + " your marriage proposal to " + members.get(0).getAsMention() + " has expired!").queue();
+                        pending = false;
+                    }
+                }
         }
 
 
     @Override
     public String getHelp() {
-        return "Sends a marriage proposal to the specified user\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: " + Arrays.deepToString(getAlias()) + "`";
+        return "Sends a marriage proposal to the specified user\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -67,6 +68,6 @@ public class MarryCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[0];
+        return new String[] {"propose"};
     }
 }

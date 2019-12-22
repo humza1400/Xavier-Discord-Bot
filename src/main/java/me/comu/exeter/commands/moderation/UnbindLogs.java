@@ -3,6 +3,7 @@ package me.comu.exeter.commands.moderation;
 import me.comu.exeter.commands.moderation.BindLogChannelCommand;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -12,6 +13,10 @@ public class UnbindLogs implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessage("You don't have permission to unbind a log channel").queue();
+            return;
+        }
         if (BindLogChannelCommand.bound) {
             String name = BindLogChannelCommand.channelName;
             BindLogChannelCommand.bound = false;
@@ -28,7 +33,7 @@ public class UnbindLogs implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "unbind ";
+        return "unbind";
     }
 
     @Override

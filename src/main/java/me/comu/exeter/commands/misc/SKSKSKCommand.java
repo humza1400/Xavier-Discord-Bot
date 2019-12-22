@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class SKSKSK implements ICommand {
+public class SKSKSKCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
@@ -21,15 +21,13 @@ public class SKSKSK implements ICommand {
             return;
         }
         if (mentionedMembers.isEmpty()) {
-            List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
-            messages2.get(0).delete().queueAfter(3, TimeUnit.MILLISECONDS);
+            event.getMessage().delete().queue();
             event.getChannel().sendMessage("AND I OOP-").queue();
             for (int i = 0; i < 6; i++) {
                 event.getChannel().sendMessage("sksksk :wink:").queue();
             }
         } else {
-            List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
-            event.getChannel().deleteMessages(messages2).queueAfter(1, TimeUnit.SECONDS);
+            event.getMessage().delete().queue();
             event.getChannel().sendMessage("AND I OOP-").queue();
             for (int i = 0; i < 6; i++) {
                 event.getChannel().sendMessage("skskks :wink:" + mentionedMembers.iterator().next().getAsMention()).queue();
@@ -41,7 +39,7 @@ public class SKSKSK implements ICommand {
 
     @Override
     public String getHelp() {
-        return "SKSKSK's a user\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias())+ "`";
+        return "SKSKSKCommand's a user\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias())+ "`";
     }
 
     @Override

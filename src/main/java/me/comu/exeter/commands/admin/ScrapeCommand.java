@@ -28,8 +28,7 @@ public class ScrapeCommand implements ICommand {
                 memberCount = memberList.size();
                 memberName += m.getEffectiveName() + '#' + m.getUser().getDiscriminator() + ", ";
             }
-            List<Message> messages2 = event.getChannel().getHistory().retrievePast(2).complete();
-            messages2.get(0).delete().queueAfter(3, TimeUnit.MILLISECONDS);
+            event.getMessage().delete().queue();
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle("Scraper Type");
             embedBuilder.setDescription("Vanilla Scraper");

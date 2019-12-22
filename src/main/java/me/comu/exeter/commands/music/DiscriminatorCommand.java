@@ -44,7 +44,7 @@ public class DiscriminatorCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Used for getting a list of users or bots with the same discriminator\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: " + Arrays.deepToString(getAlias()) + "`";
+        return "Used for getting a list of users or bots with the same discriminator\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
