@@ -10,6 +10,9 @@ public interface ICommand {
     String getHelp();
     String getInvoke();
     String[] getAlias();
+    Category getCategory();
+
+    enum Category {ADMIN, MODERATION, BOT, MUSIC, ECONOMY, MARRIAGE, MISC, NUKE}
 
 
 }

@@ -72,4 +72,9 @@ public class BindLogChannelCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"setlogs"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

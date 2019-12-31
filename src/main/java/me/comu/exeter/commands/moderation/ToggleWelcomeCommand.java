@@ -62,4 +62,9 @@ public class ToggleWelcomeCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"greetingmessage","greetingmessages","welcomemessage","greetingmsg","greetingmsgs","welcomemsgs"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

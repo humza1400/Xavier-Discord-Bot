@@ -50,4 +50,9 @@ public class AvatarCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"av","pfp"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MISC;
+    }
 }

@@ -63,4 +63,9 @@ public class SetBalanceCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"setbalance","ecoset","seteco","setcredits","setmoney"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.ECONOMY;
+    }
 }

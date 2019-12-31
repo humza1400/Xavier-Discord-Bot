@@ -24,6 +24,153 @@ public class HelpCommand implements ICommand {
             return;
         }
 
+        if (args.get(0).equalsIgnoreCase("admin"))
+        {
+            StringBuffer buffer = new StringBuffer();
+            int count = 0;
+            for (ICommand command : manager.getCommands())
+            {
+                if (command.getCategory().equals(Category.ADMIN))
+                {
+                    if (!buffer.toString().contains(command.getInvoke())) {
+                        buffer.append("`" + command.getInvoke() + "`\n");
+                        count++;
+                    }
+                }
+            }
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Admin Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            embedBuilder.setDescription(buffer.toString());
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            return;
+        } else if (args.get(0).equalsIgnoreCase("bot"))
+        {
+            StringBuffer buffer = new StringBuffer();
+            int count = 0;
+            for (ICommand command : manager.getCommands())
+            {
+                if (command.getCategory().equals(Category.BOT))
+                {
+                    if (!buffer.toString().contains(command.getInvoke())) {
+                        buffer.append("`" + command.getInvoke() + "`\n");
+                        count++;
+                    }
+                }
+            }
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Bot Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            embedBuilder.setDescription(buffer.toString());
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            return;
+        }else if (args.get(0).equalsIgnoreCase("economy"))
+        {
+            StringBuffer buffer = new StringBuffer();
+            int count = 0;
+            for (ICommand command : manager.getCommands())
+            {
+                if (command.getCategory().equals(Category.ECONOMY))
+                {
+                    if (!buffer.toString().contains(command.getInvoke())) {
+                        buffer.append("`" + command.getInvoke() + "`\n");
+                        count++;
+                    }
+                }
+            }
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Economy Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            embedBuilder.setDescription(buffer.toString());
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            return;
+        }else if (args.get(0).equalsIgnoreCase("marriage"))
+        {
+            StringBuffer buffer = new StringBuffer();
+            int count = 0;
+            for (ICommand command : manager.getCommands())
+            {
+                if (command.getCategory().equals(Category.MARRIAGE))
+                {
+                    if (!buffer.toString().contains(command.getInvoke())) {
+                        buffer.append("`" + command.getInvoke() + "`\n");
+                        count++;
+                    }
+                }
+            }
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Marriage Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            embedBuilder.setDescription(buffer.toString());
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            return;
+        }else if (args.get(0).equalsIgnoreCase("misc"))
+        {
+            StringBuffer buffer = new StringBuffer();
+            int count = 0;
+            for (ICommand command : manager.getCommands())
+            {
+                if (command.getCategory().equals(Category.MISC))
+                {
+                    if (!buffer.toString().contains(command.getInvoke())) {
+                        buffer.append("`" + command.getInvoke() + "`\n");
+                        count++;
+                    }
+                }
+            }
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Misc Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            embedBuilder.setDescription(buffer.toString());
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            return;
+        }else if (args.get(0).equalsIgnoreCase("moderation"))
+        {
+            StringBuffer buffer = new StringBuffer();
+            int count = 0;
+            for (ICommand command : manager.getCommands())
+            {
+                if (command.getCategory().equals(Category.MODERATION))
+                {
+                    if (!buffer.toString().contains(command.getInvoke())) {
+                        buffer.append("`" + command.getInvoke() + "`\n");
+                        count++;
+                    }
+                }
+            }
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Moderation Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            embedBuilder.setDescription(buffer.toString());
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            return;
+        }else if (args.get(0).equalsIgnoreCase("music"))
+        {
+            StringBuffer buffer = new StringBuffer();
+            int count = 0;
+            for (ICommand command : manager.getCommands())
+            {
+                if (command.getCategory().equals(Category.MUSIC))
+                {
+                    if (!buffer.toString().contains(command.getInvoke())) {
+                        buffer.append("`" + command.getInvoke() + "`\n");
+                        count++;
+                    }
+                }
+            }
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Music Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            embedBuilder.setDescription(buffer.toString());
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            return;
+        }else if (args.get(0).equalsIgnoreCase("nuke"))
+        {
+            StringBuffer buffer = new StringBuffer();
+            int count = 0;
+            for (ICommand command : manager.getCommands())
+            {
+                if (command.getCategory().equals(Category.NUKE))
+                {
+                    if (!buffer.toString().contains(command.getInvoke())) {
+                        buffer.append("`" + command.getInvoke() + "`\n");
+                        count++;
+                    }
+                }
+            }
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Nuke Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            embedBuilder.setDescription(buffer.toString());
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            return;
+        }
+
+
         String joined = String.join("", args);
 
         ICommand command = manager.getCommand(joined);
@@ -39,8 +186,16 @@ public class HelpCommand implements ICommand {
         event.getChannel().sendMessage(message).queue();
 
     }
-
     private void embedHandler(GuildMessageReceivedEvent event) {
+        EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Categories (" + Category.values().length + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+        StringBuilder stringBuilder = embedBuilder.getDescriptionBuilder();
+        Arrays.stream(Category.values()).forEach((category) -> stringBuilder.append('`').append(category.name()).append("`\n"));
+        stringBuilder.append(String.format("\n" + Core.PREFIX + "help [**category**]\n" + Core.PREFIX + "help [**command**]\n\n*Made by swag#3231*"));
+        event.getChannel().sendMessage(embedBuilder.build()).queue();
+
+
+    }
+/*    private void embedHandler(GuildMessageReceivedEvent event) {
         EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Commands (" + manager.getCommands().size() + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
         StringBuilder stringBuilder = embedBuilder.getDescriptionBuilder();
             manager.getCommands().forEach((command) -> stringBuilder.append('`').append(command.getInvoke()).append("` ")
@@ -52,7 +207,7 @@ public class HelpCommand implements ICommand {
             event.getChannel().sendMessage("null").queue();
         }
 
-    }
+    }*/
 
     @Override
     public String getHelp() {
@@ -67,5 +222,10 @@ public class HelpCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"assistance","halp","autism","cmds","commands"};
+    }
+
+  @Override
+    public Category getCategory() {
+        return Category.BOT;
     }
 }

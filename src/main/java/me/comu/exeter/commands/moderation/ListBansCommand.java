@@ -38,7 +38,10 @@ public class ListBansCommand implements ICommand {
             for (int i = 0; i < entries.size(); i++) {
                 buffer.append(" + " + entries.get(i).getUser().getName() + "#" +  entries.get(i).getUser().getDiscriminator() + " | " + entries.get(i).getReason() + "\n");
             }
+            if (buffer.toString().length() < 2000)
             event.getChannel().sendMessage(buffer.toString()).queue();
+            else
+                event.getChannel().sendMessage("Too many bans to display.").queue();
         });
     }
 
@@ -55,5 +58,10 @@ public class ListBansCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[]{"banlist","bans"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 }

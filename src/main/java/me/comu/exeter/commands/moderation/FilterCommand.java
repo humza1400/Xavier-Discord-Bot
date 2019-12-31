@@ -9,36 +9,41 @@ import java.util.List;
 
 public class FilterCommand implements ICommand {
 
-    private boolean filter;
-    String[] LIST_OF_BAD_WORDS = {"anal", "anus", "arse", "ass", "motherfucker", "balls", "bastard", "bitch", "blowjob", "blow job", "buttplug","cock","coon","cunt","dildo","fag","dyke","fuck","fucking","nigger","Goddamn","jizz","nigga","pussy","shit","whore"};
+
+    private static boolean active = true;
+
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        filter = !filter;
-        String temp;
-        if (filter)
-            temp = "true";
-        else temp = "false";
-        event.getChannel().sendMessage("Filter set to " + temp);
-        String[] message = event.getMessage().getContentRaw().split(" ");
-        if (filter == true) {
-            for (int i = 0; i < message.length; i++) {
-                boolean badWord = false;
-                for (int b = 0; b < LIST_OF_BAD_WORDS.length; b++) {
-                    if (message[i].equalsIgnoreCase(LIST_OF_BAD_WORDS[b])) {
-                        event.getMessage().delete().queue();
-                        badWord = true;
-                            event.getChannel().sendMessage("No toxicity please! 💋" + event.getMember().getUser().getAsMention()).queue();
-
-                    }
-                }
-                System.out.println(message[i] + " " + badWord);
-            }
+        if (args.isEmpty()) {
+            event.getChannel().sendMessage(getHelp()).queue();
+            return;
         }
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
+            event.getChannel().sendMessage("You don't have permission to toggle the filter").queue();
+            return;
+        }
+        if (args.get(0).equalsIgnoreCase("true") || args.get(0).equalsIgnoreCase("on")) {
+            if (!active) {
+                active = true;
+                event.getChannel().sendMessage("Filter is now active").queue();
+            } else
+                event.getChannel().sendMessage("Filter is already enabled").queue();
+        } else if (args.get(0).equalsIgnoreCase("false") || args.get(0).equalsIgnoreCase("off")) {
+            if (active) {
+                active = false;
+                event.getChannel().sendMessage("Filter is no longer active").queue();
+            } else
+                event.getChannel().sendMessage("Filter is already disabled").queue();
+        }
+}
+
+    public static boolean isActive() {
+        return active;
     }
 
     @Override
     public String getHelp() {
-        return "Toggles a text-channel filter on/off\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Toggles a text-channel filter\n`" + Core.PREFIX + getInvoke() + " [on/off]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`\n" + String.format("Currently `%s`.", active ? "enabled" : "disabled");
     }
 
     @Override
@@ -48,6 +53,11 @@ public class FilterCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"togglefilter"};
+        return new String[]{"togglefilter"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 }

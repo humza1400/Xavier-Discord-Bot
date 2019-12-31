@@ -4,12 +4,10 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class SKSKSKCommand implements ICommand {
     @Override
@@ -36,10 +34,9 @@ public class SKSKSKCommand implements ICommand {
     }
 
 
-
     @Override
     public String getHelp() {
-        return "SKSKSKCommand's a user\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias())+ "`";
+        return "SKSKSK's a user\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -50,5 +47,10 @@ public class SKSKSKCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[0];
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.MISC;
     }
 }

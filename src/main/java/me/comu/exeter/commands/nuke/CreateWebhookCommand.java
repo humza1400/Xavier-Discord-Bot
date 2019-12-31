@@ -51,4 +51,9 @@ public class CreateWebhookCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"cwebhooks","createweb","createwebhooks","createwebhook","webhooks"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
+    }
 }

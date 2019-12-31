@@ -30,4 +30,9 @@ public class NekoCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"furryporn","catporn","cat","kitty","hentai"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MISC;
+    }
 }

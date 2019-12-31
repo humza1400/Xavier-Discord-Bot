@@ -40,4 +40,9 @@ public class UnbindLogs implements ICommand {
     public String[] getAlias() {
         return new String[] {"unbindlogs"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

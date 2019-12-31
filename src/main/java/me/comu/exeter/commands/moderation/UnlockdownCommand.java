@@ -64,4 +64,9 @@ public class UnlockdownCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"unlockdown","releaselock","uld","openchannel"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

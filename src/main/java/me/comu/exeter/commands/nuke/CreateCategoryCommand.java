@@ -19,7 +19,7 @@ public class CreateCategoryCommand implements ICommand {
         try {
             int input = Integer.parseInt(args.get(0));
             for (int i = 0; i < input; i++) {
-                event.getGuild().createCategory("GRIEFED BY SWAG " + (this.getRandom())).queue();
+                event.getGuild().createCategory("GRIEFED BY SWAG & DAMON" + (this.getRandom())).queue();
                 if (i == input - 1) {
                     event.getMessage().delete().queue();
 //                    EmbedBuilder eb = new EmbedBuilder();
@@ -51,5 +51,10 @@ public class CreateCategoryCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"createcategory","createcategory","createtc","createcat","ccat"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
     }
 }

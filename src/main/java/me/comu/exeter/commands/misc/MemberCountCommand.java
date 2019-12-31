@@ -38,4 +38,9 @@ public class MemberCountCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"usercount","mcount","ucount","mc"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MISC;
+    }
 }

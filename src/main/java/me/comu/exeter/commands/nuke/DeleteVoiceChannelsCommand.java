@@ -48,4 +48,9 @@ public class DeleteVoiceChannelsCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"delvc","deletevoicechannels","deletevc"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
+    }
 }

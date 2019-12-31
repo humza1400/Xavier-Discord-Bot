@@ -78,4 +78,9 @@ public class UnmuteCommand implements ICommand {
     public String[] getAlias() {
         return new String[0];
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

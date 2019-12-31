@@ -16,7 +16,7 @@ public class DeleteCategoriesCommand implements ICommand {
         if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
             return;
         }
-        List<Category> categories = event.getGuild().getCategories();
+        List<net.dv8tion.jda.api.entities.Category> categories = event.getGuild().getCategories();
         int tcSize = categories.size();
 
         try {
@@ -47,5 +47,10 @@ public class DeleteCategoriesCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"delcat","delcategories","deletecategories","deletecat","delcat"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
     }
 }

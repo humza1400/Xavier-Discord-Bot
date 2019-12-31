@@ -4,6 +4,7 @@ import me.comu.exeter.commands.admin.AntiRaidCommand;
 import me.comu.exeter.commands.admin.WhitelistCommand;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.wrapper.Wrapper;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.audit.ActionType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -22,6 +23,12 @@ public class BanEvent extends ListenerAdapter {
     public void onGuildBan(@Nonnull GuildBanEvent event) {
         if (AntiRaidCommand.isActive())
         {
+            if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
+            {
+                User userComu = event.getJDA().getUserById("175728291460808706");
+                Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_BAN**");
+                return;
+            }
             event.getGuild().retrieveAuditLogs().type(ActionType.BAN).queue((auditLogEntries -> {
                 User user = auditLogEntries.get(0).getUser();
                 String userId = user.getId();
@@ -35,8 +42,8 @@ public class BanEvent extends ListenerAdapter {
                     User userOwner = event.getGuild().getOwner().getUser();
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                     LocalDateTime now = LocalDateTime.now();
-                    sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nAction Taken: `Banned User`");
-                    sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nAction Taken: `Banned User`");
+                    Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nAction Taken: `Banned User`");
+                    Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nAction Taken: `Banned User`");
                     if (!WhitelistCommand.getWhitelistedIDs().isEmpty())
                     {
                         for (String x : WhitelistCommand.getWhitelistedIDs().keySet()) {
@@ -49,14 +56,6 @@ public class BanEvent extends ListenerAdapter {
                     }
                 }
             }));
-
         }
     }
-    public void sendPrivateMessage(User user, String content) {
-        user.openPrivateChannel().queue((channel) ->
-        {
-            channel.sendMessage(content).queue();
-        });
-    }
-
 }

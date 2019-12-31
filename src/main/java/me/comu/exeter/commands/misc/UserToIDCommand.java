@@ -42,4 +42,9 @@ public class UserToIDCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"usertoid","userid","user2id","getuserid"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MISC;
+    }
 }

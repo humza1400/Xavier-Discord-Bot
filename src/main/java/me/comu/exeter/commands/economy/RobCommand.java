@@ -57,4 +57,9 @@ public class RobCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"finnese","finesse"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.ECONOMY;
+    }
 }

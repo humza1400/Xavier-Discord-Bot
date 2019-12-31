@@ -70,4 +70,9 @@ public class MarryCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"propose"};
     }
+
+    @Override
+    public Category getCategory() {
+        return Category.MARRIAGE;
+    }
 }

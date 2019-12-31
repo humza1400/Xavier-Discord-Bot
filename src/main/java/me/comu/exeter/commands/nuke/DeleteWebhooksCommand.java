@@ -47,4 +47,9 @@ public class DeleteWebhooksCommand implements ICommand {
     public String[] getAlias() {
         return new String[]{"dweb", "deleteweb", "deletebhook", "deletewebhook"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
+    }
 }

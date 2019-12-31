@@ -72,4 +72,9 @@ public class QueueCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"q"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
+    }
 }

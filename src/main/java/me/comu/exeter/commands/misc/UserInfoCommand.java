@@ -155,4 +155,9 @@ public class UserInfoCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"userinfo","whois","ui"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MISC;
+    }
 }

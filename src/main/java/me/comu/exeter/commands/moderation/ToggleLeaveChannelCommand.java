@@ -63,4 +63,9 @@ public class ToggleLeaveChannelCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"toggleleave","leavemessage","farewellmessage","farewellmessages","leavemsgs","farewellmsgs"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

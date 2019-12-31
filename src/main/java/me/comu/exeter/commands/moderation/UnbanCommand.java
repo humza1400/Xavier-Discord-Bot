@@ -73,6 +73,11 @@ public class UnbanCommand implements ICommand {
         return new String[] {"pardon"};
     }
 
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
+
     private boolean isCorrectUser(Guild.Ban ban, String arg) {
         User bannedUser = ban.getUser();
         return bannedUser.getName().equalsIgnoreCase(arg) || bannedUser.getId().equals(arg) || String.format("%#s", bannedUser).equalsIgnoreCase(arg);

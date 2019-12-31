@@ -114,4 +114,9 @@ public class WhitelistCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"arwhitelist","artrust","antiraidtrust","antiraidwhitelist","wl","trust"};
     }
+
+   @Override
+    public Category getCategory() {
+        return Category.ADMIN;
+    }
 }

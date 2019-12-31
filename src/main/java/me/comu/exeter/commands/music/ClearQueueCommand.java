@@ -50,4 +50,9 @@ public class ClearQueueCommand implements ICommand {
     public String[] getAlias() {
         return new String[]{"clearqueue", "queueclear", "qclear"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
+    }
 }

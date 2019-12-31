@@ -49,8 +49,14 @@ public class NowPlayingCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"np","playing"};
+        return new String[]{"np", "playing"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
+    }
+
     private String formatTime(long timeInMillis) {
         final long hours = timeInMillis / TimeUnit.HOURS.toMillis(1);
         final long minutes = timeInMillis / TimeUnit.MINUTES.toMillis(1);

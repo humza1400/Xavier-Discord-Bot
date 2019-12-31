@@ -60,4 +60,9 @@ public class DeafenUserCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"vcdeafen","serverdeafen","deafenvc"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

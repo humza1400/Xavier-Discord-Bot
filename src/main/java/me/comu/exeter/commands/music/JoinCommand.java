@@ -59,4 +59,9 @@ public class JoinCommand implements ICommand
     public String[] getAlias() {
         return new String[] {"connect"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
+    }
 }

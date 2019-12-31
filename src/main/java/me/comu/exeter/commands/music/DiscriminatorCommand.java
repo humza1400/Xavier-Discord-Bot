@@ -15,6 +15,7 @@ public class DiscriminatorCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
     }
+
     private String parseId(String[] args, MessageReceivedEvent e) {
         String target;
 
@@ -24,9 +25,9 @@ public class DiscriminatorCommand implements ICommand {
             target = args[0];
         else if (args[0].length() == 18 && e.getMessage().getMentionedUsers().isEmpty())
             target = e.getGuild().getMemberById(args[0]).getUser().getDiscriminator();
-        else if(!e.getMessage().getMentionedUsers().isEmpty()){
+        else if (!e.getMessage().getMentionedUsers().isEmpty()) {
             List<User> mention = e.getMessage().getMentionedUsers();
-            if(e.getJDA().getSelfUser().getId().equals(mention.get(0).getId()) && mention.size()>1)
+            if (e.getJDA().getSelfUser().getId().equals(mention.get(0).getId()) && mention.size() > 1)
                 target = mention.get(1).getDiscriminator();
             else
                 target = mention.get(0).getDiscriminator();
@@ -35,11 +36,6 @@ public class DiscriminatorCommand implements ICommand {
         }
         return target;
     }
-
-
-
-
-
 
 
     @Override
@@ -54,6 +50,11 @@ public class DiscriminatorCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"discriminator","tag"};
+        return new String[]{"discriminator", "tag"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
     }
 }

@@ -1,9 +1,5 @@
 package me.comu.exeter.commands.economy;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
-
 import java.util.HashMap;
 
 public class EconomyManager {

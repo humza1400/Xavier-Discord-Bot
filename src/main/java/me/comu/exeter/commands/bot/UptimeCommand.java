@@ -37,6 +37,11 @@ public class UptimeCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"runtime","upkeep","alive"};
+        return new String[] {"runtime","upkeep","alive","online"};
+    }
+
+  @Override
+    public Category getCategory() {
+        return Category.BOT;
     }
 }

@@ -50,8 +50,9 @@ public class ClearCommand implements ICommand {
                 try {
                     event.getChannel().deleteMessages(botMessages).queue();
                     StringBuffer buffer = new StringBuffer();
-                    for (String s : botNames)
+                    for (String s : botNames) {
                         buffer.append(s + ", ");
+                    }
                     removeDuplicates(botNames);
 //            int index = botNames.get(botNames.size()).charAt(botNames.get(botNames.size()).length()-1);
 //            botNames.get(botNames.size()).replace('')
@@ -104,6 +105,11 @@ public class ClearCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"purge"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 
     private List<String> removeDuplicates(List<String> list)

@@ -19,6 +19,12 @@ public class UnwhitelistCommand implements ICommand {
             event.getChannel().sendMessage("Please specify a user to remove from the whitelist hash").queue();
             return;
         }
+        if (WhitelistCommand.getWhitelistedIDs().containsKey(args.get(0)))
+        {
+            WhitelistCommand.getWhitelistedIDs().remove(args.get(0));
+            event.getChannel().sendMessage("Removed " + args.get(0) + " from the whitelist").queue();
+            return;
+        }
         List<Member> memberList = event.getMessage().getMentionedMembers();
         if (memberList.isEmpty()) {
             String id = args.get(0);
@@ -78,5 +84,10 @@ public class UnwhitelistCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"removewhitelist","uwl","untrust"};
+    }
+
+   @Override
+    public Category getCategory() {
+        return Category.ADMIN;
     }
 }

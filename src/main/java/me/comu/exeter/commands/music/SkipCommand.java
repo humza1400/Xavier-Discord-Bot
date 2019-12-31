@@ -61,4 +61,9 @@ public class SkipCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"s"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
+    }
 }

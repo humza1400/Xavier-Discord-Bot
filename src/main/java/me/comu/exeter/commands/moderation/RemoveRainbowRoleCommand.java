@@ -57,4 +57,9 @@ public class RemoveRainbowRoleCommand implements ICommand {
     public String[] getAlias() {
         return new String[]{"removerainbow", "remrainrole","removerainbowrole","delrainbow", "stoprainbow","delrainbowrole","stoprainbowrole","nullifyrainbow","nullifyrainbowrole"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

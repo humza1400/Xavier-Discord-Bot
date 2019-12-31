@@ -16,7 +16,7 @@ public class WhitelistedJSONHandler {
         public static void saveWhitelistConfig()
         {
             JSONObject jsonObject = new JSONObject(WhitelistCommand.getWhitelistedIDs());
-            try(FileWriter fileWriter = new FileWriter("src/main/java/me/comu/exeter/commands/admin/whitelisted.json")){
+            try(FileWriter fileWriter = new FileWriter("whitelisted.json")){
                 fileWriter.write(jsonObject.toString());
                 fileWriter.flush();
                 fileWriter.close();

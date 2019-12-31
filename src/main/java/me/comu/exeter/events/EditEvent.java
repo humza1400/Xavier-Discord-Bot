@@ -18,6 +18,7 @@ public class EditEvent extends ListenerAdapter {
     }
     @Override
     public void onGuildMessageUpdate(@Nonnull GuildMessageUpdateEvent event) {
+
         if (event.getMessage().getContentRaw().startsWith(Core.PREFIX))
         {
             String content = event.getMessage().getContentRaw();

@@ -39,4 +39,9 @@ public class SetServerIconCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"changeserverpfp","changeicon"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
+    }
 }

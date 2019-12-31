@@ -61,4 +61,9 @@ public class RepeatCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"loop"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
+    }
 }

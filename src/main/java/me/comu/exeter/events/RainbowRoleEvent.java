@@ -39,7 +39,7 @@ public class RainbowRoleEvent extends ListenerAdapter {
             while (isRainbowSet)
             {
                 Role role = guild.getRoleById(roleID);
-                role.getManager().setColor(Wrapper.getRandomColor()).queueAfter(4, TimeUnit.SECONDS);
+                role.getManager().setColor(Wrapper.getRandomColor()).queueAfter(5, TimeUnit.SECONDS);
             }
     }
 }

@@ -15,6 +15,13 @@ public class PayCommand implements ICommand {
         int amount;
 
         List<Member> memberList = event.getMessage().getMentionedMembers();
+
+        if (memberList.isEmpty())
+        {
+            event.getChannel().sendMessage("Please specify a member you want to send the money to").queue();
+            return;
+        }
+
         if (EconomyManager.verifyUser(event.getMember().getUser().getId()))
 
             EconomyManager.getUsers().put(event.getMember().getUser().getId(), 0);
@@ -23,11 +30,6 @@ public class PayCommand implements ICommand {
 
             EconomyManager.getUsers().put(memberList.get(0).getUser().getId(), 0);
 
-        if (memberList.isEmpty())
-        {
-            event.getChannel().sendMessage("Please specify a member you want to send the money to").queue();
-            return;
-        }
         try {
             if (memberList.isEmpty())
                 amount = Integer.parseInt(args.get(0));
@@ -63,5 +65,10 @@ public class PayCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"send","transfer"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.ECONOMY;
     }
 }

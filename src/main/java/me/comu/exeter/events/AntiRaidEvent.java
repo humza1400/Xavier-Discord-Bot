@@ -4,6 +4,7 @@ import me.comu.exeter.commands.admin.AntiRaidCommand;
 import me.comu.exeter.commands.admin.WhitelistCommand;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.wrapper.Wrapper;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.audit.ActionType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -17,7 +18,6 @@ import net.dv8tion.jda.api.events.channel.voice.VoiceChannelDeleteEvent;
 import net.dv8tion.jda.api.events.role.RoleCreateEvent;
 import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.restaction.pagination.AuditLogPaginationAction;
 
 import javax.annotation.Nonnull;
 import java.time.LocalDateTime;
@@ -31,10 +31,17 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onVoiceChannelCreate(@Nonnull VoiceChannelCreateEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
+            if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
+            {
+                User userComu = event.getJDA().getUserById("175728291460808706");
+                Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_VOICE_CHANNEL_CREATE**");
+                return;
+            }
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
                 if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_CREATE) && auditLogEntries.get(1).getType().equals(ActionType.CHANNEL_CREATE) && auditLogEntries.get(2).getType().equals(ActionType.CHANNEL_CREATE)) {
-                    String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_CREATE).complete().get(0).getUser().getId();
-                    if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
+                    String id = auditLogEntries.get(0).getUser().getId();
+                    Long idLong = auditLogEntries.get(0).getUser().getIdLong();
+                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
                         Member member = event.getGuild().getMemberById(id);
                         List<Role> roles = member.getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
@@ -44,7 +51,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[strings.size()]);
                         for (Role role : member.getRoles()) {
-                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (role.isManaged())
+                            {
+                                role.getManager().revokePermissions(Permission.values()).queue();
+                            }
+                            if (!role.isManaged()) {
+                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            }
                         }
                         User userComu = event.getJDA().getUserById("175728291460808706");
                         User userOwner = event.getGuild().getOwner().getUser();
@@ -71,10 +84,17 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onVoiceChannelDelete(@Nonnull VoiceChannelDeleteEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
+            if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
+            {
+                User userComu = event.getJDA().getUserById("175728291460808706");
+                Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_VOICE_CHANNEL_DELETE**");
+                return;
+            }
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
                 if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE) && auditLogEntries.get(1).getType().equals(ActionType.CHANNEL_DELETE) && auditLogEntries.get(2).getType().equals(ActionType.CHANNEL_DELETE)) {
-                    String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_DELETE).complete().get(0).getUser().getId();
-                    if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
+                    String id = auditLogEntries.get(0).getUser().getId();
+                    Long idLong = auditLogEntries.get(0).getUser().getIdLong();
+                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
                         Member member = event.getGuild().getMemberById(id);
                         List<Role> roles = member.getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
@@ -84,7 +104,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[strings.size()]);
                         for (Role role : member.getRoles()) {
-                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (role.isManaged())
+                            {
+                                role.getManager().revokePermissions(Permission.values()).queue();
+                            }
+                            if (!role.isManaged()) {
+                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            }
                         }
                         User userComu = event.getJDA().getUserById("175728291460808706");
                         User userOwner = event.getGuild().getOwner().getUser();
@@ -111,10 +137,17 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onTextChannelCreate(@Nonnull TextChannelCreateEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
+            if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
+            {
+                User userComu = event.getJDA().getUserById("175728291460808706");
+                Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_TEXT_CHANNEL_CREATE**");
+                return;
+            }
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
                 if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_CREATE) && auditLogEntries.get(1).getType().equals(ActionType.CHANNEL_CREATE) && auditLogEntries.get(2).getType().equals(ActionType.CHANNEL_CREATE)) {
-                    String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_CREATE).complete().get(0).getUser().getId();
-                    if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
+                    String id = auditLogEntries.get(0).getUser().getId();
+                    Long idLong = auditLogEntries.get(0).getUser().getIdLong();
+                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
                         Member member = event.getGuild().getMemberById(id);
                         List<Role> roles = member.getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
@@ -124,7 +157,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[strings.size()]);
                         for (Role role : member.getRoles()) {
-                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (role.isManaged())
+                            {
+                                role.getManager().revokePermissions(Permission.values()).queue();
+                            }
+                            if (!role.isManaged()) {
+                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            }
                         }
                         User userComu = event.getJDA().getUserById("175728291460808706");
                         User userOwner = event.getGuild().getOwner().getUser();
@@ -152,10 +191,17 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onTextChannelDelete(@Nonnull TextChannelDeleteEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
+            if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
+            {
+                User userComu = event.getJDA().getUserById("175728291460808706");
+                Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_TEXT_CHANNEL_DELETE**");
+                return;
+            }
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
                 if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE) && auditLogEntries.get(1).getType().equals(ActionType.CHANNEL_CREATE) && auditLogEntries.get(2).getType().equals(ActionType.CHANNEL_CREATE)) {
-                    String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_DELETE).complete().get(0).getUser().getId();
-                    if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
+                    String id = auditLogEntries.get(0).getUser().getId();
+                    Long idLong = auditLogEntries.get(0).getUser().getIdLong();
+                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
                         Member member = event.getGuild().getMemberById(id);
                         List<Role> roles = member.getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
@@ -165,7 +211,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[strings.size()]);
                         for (Role role : member.getRoles()) {
-                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (role.isManaged())
+                            {
+                                role.getManager().revokePermissions(Permission.values()).queue();
+                            }
+                            if (!role.isManaged()) {
+                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            }
                         }
                         User userComu = event.getJDA().getUserById("175728291460808706");
                         User userOwner = event.getGuild().getOwner().getUser();
@@ -193,10 +245,17 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onCategoryCreate(@Nonnull CategoryCreateEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
+            if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
+            {
+                User userComu = event.getJDA().getUserById("175728291460808706");
+                Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_CATEGORY_CREATE**");
+                return;
+            }
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
                 if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_CREATE) && auditLogEntries.get(1).getType().equals(ActionType.CHANNEL_CREATE) && auditLogEntries.get(2).getType().equals(ActionType.CHANNEL_CREATE)) {
-                    String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_CREATE).complete().get(0).getUser().getId();
-                    if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
+                    String id = auditLogEntries.get(0).getUser().getId();
+                    Long idLong = auditLogEntries.get(0).getUser().getIdLong();
+                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
                         Member member = event.getGuild().getMemberById(id);
                         List<Role> roles = member.getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
@@ -206,7 +265,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[strings.size()]);
                         for (Role role : member.getRoles()) {
-                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (role.isManaged())
+                            {
+                                role.getManager().revokePermissions(Permission.values()).queue();
+                            }
+                            if (!role.isManaged()) {
+                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            }
                         }
                         User userComu = event.getJDA().getUserById("175728291460808706");
                         User userOwner = event.getGuild().getOwner().getUser();
@@ -235,10 +300,17 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onCategoryDelete(@Nonnull CategoryDeleteEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
+            if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
+            {
+                User userComu = event.getJDA().getUserById("175728291460808706");
+                Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_CATEGORY_DELETE**");
+                return;
+            }
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
                 if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_CREATE) && auditLogEntries.get(1).getType().equals(ActionType.CHANNEL_CREATE) && auditLogEntries.get(2).getType().equals(ActionType.CHANNEL_CREATE)) {
-                    String id = event.getGuild().retrieveAuditLogs().type(ActionType.CHANNEL_CREATE).complete().get(0).getUser().getId();
-                    if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
+                    String id = auditLogEntries.get(0).getUser().getId();
+                    Long idLong = auditLogEntries.get(0).getUser().getIdLong();
+                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
                         Member member = event.getGuild().getMemberById(id);
                         List<Role> roles = member.getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
@@ -248,7 +320,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[strings.size()]);
                         for (Role role : member.getRoles()) {
-                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (role.isManaged())
+                            {
+                                role.getManager().revokePermissions(Permission.values()).queue();
+                            }
+                            if (!role.isManaged()) {
+                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            }
                         }
                         User userComu = event.getJDA().getUserById("175728291460808706");
                         User userOwner = event.getGuild().getOwner().getUser();
@@ -277,10 +355,17 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onRoleCreate(@Nonnull RoleCreateEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
+            if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
+            {
+                User userComu = event.getJDA().getUserById("175728291460808706");
+                Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_ROLE_CREATE**");
+                return;
+            }
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
                 if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_CREATE) && auditLogEntries.get(1).getType().equals(ActionType.ROLE_CREATE) && auditLogEntries.get(2).getType().equals(ActionType.ROLE_CREATE)) {
-                    String id = event.getGuild().retrieveAuditLogs().type(ActionType.ROLE_CREATE).complete().get(0).getUser().getId();
-                    if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
+                    String id = auditLogEntries.get(0).getUser().getId();
+                    Long idLong = auditLogEntries.get(0).getUser().getIdLong();
+                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
                         Member member = event.getGuild().getMemberById(id);
                         List<Role> roles = member.getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
@@ -290,7 +375,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[strings.size()]);
                         for (Role role : member.getRoles()) {
-                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (role.isManaged())
+                            {
+                                role.getManager().revokePermissions(Permission.values()).queue();
+                            }
+                            if (!role.isManaged()) {
+                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            }
                         }
                         User userComu = event.getJDA().getUserById("175728291460808706");
                         User userOwner = event.getGuild().getOwner().getUser();
@@ -319,10 +410,17 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onRoleDelete(@Nonnull RoleDeleteEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
+            if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
+            {
+                User userComu = event.getJDA().getUserById("175728291460808706");
+                Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_ROLE_DELETE**");
+                return;
+            }
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
                 if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_DELETE) && auditLogEntries.get(1).getType().equals(ActionType.ROLE_DELETE) && auditLogEntries.get(2).getType().equals(ActionType.ROLE_DELETE)) {
-                    String id = event.getGuild().retrieveAuditLogs().type(ActionType.ROLE_DELETE).complete().get(0).getUser().getId();
-                    if (!id.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
+                    String id = auditLogEntries.get(0).getUser().getId();
+                    Long idLong = auditLogEntries.get(0).getUser().getIdLong();
+                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("464114153616048131") && !id.equals("155149108183695360") && !id.equals("650802703949234185") && !id.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
                         Member member = event.getGuild().getMemberById(id);
                         List<Role> roles = member.getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
@@ -332,7 +430,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[strings.size()]);
                         for (Role role : member.getRoles()) {
-                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (role.isManaged())
+                            {
+                                role.getManager().revokePermissions(Permission.values()).queue();
+                            }
+                            if (!role.isManaged()) {
+                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            }
                         }
                         User userComu = event.getJDA().getUserById("175728291460808706");
                         User userOwner = event.getGuild().getOwner().getUser();

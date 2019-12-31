@@ -66,4 +66,9 @@ public class AddBalanceCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"addbalance","ecogive","moneygive"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.ECONOMY;
+    }
 }

@@ -41,4 +41,9 @@ public class IDLookupCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"lookup","id","whosid","whoid"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MISC;
+    }
 }

@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.HierarchyException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,20 +49,46 @@ public class BanCommand implements ICommand {
             }
             Member target = targets.get(0);
             if (reason.equals("")) {
-                event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
-                channel.sendMessage(String.format("Banned %s", target.getEffectiveName())).queue();
+                try {
+                    event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
+                } catch (HierarchyException ex)
+                {
+                    event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
+                            return;
+                }
+                channel.sendMessage(String.format("Banned %s", target.getUser().getName() + "#" + target.getUser().getDiscriminator())).queue();
             }
-            else { event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
-                channel.sendMessage(String.format("Banned %s for `%s`", target.getEffectiveName(), reason)).queue();}
+            else {
+                try {
+                event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
+                } catch (HierarchyException ex)
+                {
+                    event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
+                    return;
+                }
+                channel.sendMessage(String.format("Banned %s for `%s`", target.getUser().getName() + "#" + target.getUser().getDiscriminator(), reason)).queue();}
             return;
         }
         Member target = mentionedMembers.get(0);
         if (reason.equals("")) {
+            try {
             event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
-            channel.sendMessage(String.format("Banned %s", target.getEffectiveName())).queue();
+            } catch (HierarchyException ex)
+            {
+                event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
+                return;
+            }
+            channel.sendMessage(String.format("Banned %s", target.getUser().getName() + "#" + target.getUser().getDiscriminator())).queue();
         }
-        else { event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
-            channel.sendMessage(String.format("Banned %s for `%s`", target.getEffectiveName(), reason)).queue();}
+        else {
+            try {
+                event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
+            } catch (HierarchyException ex)
+            {
+                event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
+                return;
+            }
+            channel.sendMessage(String.format("Banned %s for `%s`", target.getUser().getName() + "#" + target.getUser().getDiscriminator(), reason)).queue();}
     }
 
     @Override
@@ -77,5 +104,10 @@ public class BanCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[0];
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 }

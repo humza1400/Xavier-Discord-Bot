@@ -69,4 +69,9 @@ public class CoinflipCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"gamble","coinflip","cf","bet"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.ECONOMY;
+    }
 }

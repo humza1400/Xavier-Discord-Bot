@@ -51,4 +51,9 @@ public class AntiRaidConfigCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"arcfg","arconfig","antiraidcfg","antiraidconfig"};
     }
+
+   @Override
+    public Category getCategory() {
+        return Category.ADMIN;
+    }
 }

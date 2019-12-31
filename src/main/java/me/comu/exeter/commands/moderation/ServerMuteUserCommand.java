@@ -59,4 +59,9 @@ public class ServerMuteUserCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"servermute","smute"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

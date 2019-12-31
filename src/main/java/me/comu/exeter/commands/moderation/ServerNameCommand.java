@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,8 +35,11 @@ public class ServerNameCommand implements ICommand {
             return;
         }
         msg = msg.replace(Core.PREFIX + "servername", "").replace(Core.PREFIX + "nameserver", "").replace("_", " ");
-        event.getGuild().getManager().setName(msg).queue();
-        event.getChannel().sendMessage("Successfully changed server name from `" + preServerName + "` to `" + msg.substring(1) + "`.").queue();
+        if (msg.length() != 2) {
+            event.getGuild().getManager().setName(msg).queue();
+            event.getChannel().sendMessage("Successfully changed server name from `" + preServerName + "` to `" + msg.substring(1) + "`.").queue();
+        } else
+            event.getChannel().sendMessage("Server names must be at least two characters long.").queue();
     }
 
     @Override
@@ -51,5 +55,10 @@ public class ServerNameCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"nameserver"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 }

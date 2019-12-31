@@ -51,6 +51,11 @@ public class SpamRolesCommand implements ICommand {
         return new String[] {"addroles","rolescreate"};
     }
 
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
+    }
+
     public int getRandom() {
         Random randy = new Random();
         return randy.nextInt();

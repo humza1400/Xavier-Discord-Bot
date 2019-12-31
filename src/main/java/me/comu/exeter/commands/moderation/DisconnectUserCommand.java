@@ -71,6 +71,11 @@ public class DisconnectUserCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"vcdisconnect","vckick","disconnectvc"};
+        return new String[] {"vcdisconnect","vckick","disconnectvc","dcvc"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 }

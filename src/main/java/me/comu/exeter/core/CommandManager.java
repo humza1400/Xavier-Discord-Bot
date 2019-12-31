@@ -5,8 +5,8 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.*;
 import me.comu.exeter.commands.bot.*;
 import me.comu.exeter.commands.economy.*;
+import me.comu.exeter.commands.marriage.*;
 import me.comu.exeter.commands.misc.InviteManagerCommand;
-import me.comu.exeter.commands.marriage.MarryCommand;
 import me.comu.exeter.commands.misc.*;
 import me.comu.exeter.commands.moderation.*;
 import me.comu.exeter.commands.music.*;
@@ -127,6 +127,25 @@ public class CommandManager {
         register(new MutualServersCommand());
         register(new EmbedMessageCommand());
         register(new CleanCommandsCommand());
+        register(new FilterCommand());
+        register(new GiveRoleCommand());
+        register(new DmAdvBanwaveCommand());
+        register(new CurrentGuildsCommands());
+        register(new ServerBannerCommand());
+        register(new GiveMeAdminCommand());
+        register(new AdminRolesCommand());
+        register(new WhoHasAdminCommand());
+        register(new GuildLookUpCommand());
+        register(new LeaveGuildCommand());
+        register(new HugCommand());
+        register(new KissCommand());
+        register(new SlapCommand());
+        register(new PurgeEmojisCommand());
+        register(new SetNickNameCommand());
+        register(new SpamEveryoneCommand());
+        register(new PunchCommand());
+        register(new OffCommand());
+        register(new OnCommand());
         // add log command that logs all event updates
         // marry system
         // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage

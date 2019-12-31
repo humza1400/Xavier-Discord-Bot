@@ -131,4 +131,9 @@ public class LyricsCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"lyric","songlyric","songlyrics"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
+    }
 }

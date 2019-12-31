@@ -22,11 +22,11 @@ public class SetMuteRoleCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) && event.getMember().getIdLong() != Core.OWNERID) {
+        if ((!member.hasPermission(Permission.MANAGE_ROLES)) && event.getMember().getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to set the mute role").queue();
             return;
         }
-        if (!selfMember.hasPermission(Permission.MANAGE_SERVER) && (!selfMember.hasPermission(Permission.MANAGE_ROLES))) {
+        if ((!selfMember.hasPermission(Permission.MANAGE_ROLES))) {
             channel.sendMessage("I don't have permissions to set the mute role").queue();
             return;
         }
@@ -50,7 +50,7 @@ public class SetMuteRoleCommand implements ICommand {
             isMuteRoleSet = true;
             channel.sendMessage("Mute role successfully set to `" + role.getName() + "`").queue();
         } catch (NullPointerException | NumberFormatException ex) {
-            List<Role> roles = event.getGuild().getRolesByName(args.get(0), false);
+            List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
             if (roles.isEmpty())
             {
                 event.getChannel().sendMessage("Couldn't find role `" + args.get(0) + "`. Maybe try using the role ID instead.").queue();
@@ -90,5 +90,10 @@ public class SetMuteRoleCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[]{"setmuterole", "muterole", "rolemute"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 }

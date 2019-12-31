@@ -46,6 +46,11 @@ public class WizzCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"nuke"};
+        return new String[]{};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MISC;
     }
 }

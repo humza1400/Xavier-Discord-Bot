@@ -16,7 +16,7 @@ public class EcoJSONHandler {
      public static void saveEconomyConfig()
     {
         JSONObject jsonObject = new JSONObject(EconomyManager.getUsers());
-        try(FileWriter fileWriter = new FileWriter("src/main/java/me/comu/exeter/commands/economy/economy.json")){
+        try(FileWriter fileWriter = new FileWriter("economy.json")){
             fileWriter.write(jsonObject.toString());
             fileWriter.flush();
             fileWriter.close();

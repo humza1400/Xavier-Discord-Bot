@@ -17,8 +17,7 @@ public class AntiRaidCommand implements ICommand {
             event.getChannel().sendMessage(getHelp()).queue();
             return;
         }
-        Long andres = 0L;
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID || event.getAuthor().getIdLong() == andres)) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             event.getChannel().sendMessage("You don't have permission to toggle anti-raid").queue();
             return;
         }
@@ -58,4 +57,11 @@ public class AntiRaidCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"ar","anti-raid","antir","noraid"};
     }
+
+    @Override
+    public Category getCategory() {
+        return Category.ADMIN;
+    }
+
+
 }

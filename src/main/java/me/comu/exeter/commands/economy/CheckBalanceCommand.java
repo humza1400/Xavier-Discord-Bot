@@ -45,4 +45,9 @@ public class CheckBalanceCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"balance","credits","money","$"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.ECONOMY;
+    }
 }

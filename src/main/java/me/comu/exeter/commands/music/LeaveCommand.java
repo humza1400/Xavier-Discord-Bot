@@ -52,4 +52,9 @@ public class LeaveCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"dc","disconnect"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
+    }
 }

@@ -29,4 +29,9 @@ public class EcoSaveConfigCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"saveecoconfig","ecosaveconfig"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.ECONOMY;
+    }
 }

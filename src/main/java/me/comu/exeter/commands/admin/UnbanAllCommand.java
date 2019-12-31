@@ -1,4 +1,4 @@
-package me.comu.exeter.commands.moderation;
+package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
@@ -20,12 +20,12 @@ public class UnbanAllCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID) {
+        if (!member.hasPermission(Permission.ADMINISTRATOR) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to unban users").queue();
             return;
         }
 
-        if (!selfMember.hasPermission(Permission.BAN_MEMBERS)) {
+        if (!selfMember.hasPermission(Permission.ADMINISTRATOR)) {
             channel.sendMessage("I don't have permissions to unban users").queue();
             return;
         }
@@ -39,7 +39,7 @@ public class UnbanAllCommand implements ICommand {
                 event.getGuild().unban(entries.get(i).getUser()).queue();
                 Logger.getLogger().print("Unbanned " + entries.get(i).getUser().getName() + "#" + entries.get(i).getUser().getDiscriminator());
             }
-            event.getChannel().sendMessage(String.format("Unbanned %s users", entries.size())).queue();
+            event.getChannel().sendMessage(String.format("Unbanned **%s** users", entries.size())).queue();
         });
     }
 
@@ -56,5 +56,10 @@ public class UnbanAllCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[]{"unbaneveryone", "purgebans"};
+    }
+
+   @Override
+    public Category getCategory() {
+        return Category.ADMIN;
     }
 }

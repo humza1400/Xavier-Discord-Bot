@@ -23,9 +23,9 @@ public class AboutCommand implements ICommand {
 
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle("lovestruck Bot");
-        embedBuilder.setDescription("https://discord.gg/EgJEs5E :)");
-        embedBuilder.addField("Author","Comu", false);
+        embedBuilder.setTitle(event.getGuild().getName() + " Bot");
+        embedBuilder.setDescription("discord.gg/" + event.getGuild().getName() + " (:");
+        embedBuilder.addField("Author","Swag", false);
         embedBuilder.addField("Information", "Powered by IntelliJ IDEA & Gradle 5.6.2", false);
         embedBuilder.addField("Help", "`" + Core.PREFIX + "help" + '`', false);
         embedBuilder.setColor(0x521e8a);
@@ -33,6 +33,7 @@ public class AboutCommand implements ICommand {
         event.getChannel().sendTyping().queue();
         event.getChannel(). sendMessage(embedBuilder.build()).queue();
         embedBuilder.clear();
+
 
     }
 
@@ -49,5 +50,10 @@ public class AboutCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"ab"};
+    }
+
+  @Override
+    public Category getCategory() {
+        return Category.BOT;
     }
 }

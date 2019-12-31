@@ -42,4 +42,9 @@ public class ShopCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"market","marketplace"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.ECONOMY;
+    }
 }

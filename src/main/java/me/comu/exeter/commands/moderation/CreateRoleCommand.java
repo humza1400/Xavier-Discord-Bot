@@ -46,4 +46,9 @@ public class CreateRoleCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"addrole","createrole"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

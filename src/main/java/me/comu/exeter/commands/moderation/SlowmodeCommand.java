@@ -56,4 +56,9 @@ public class SlowmodeCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"slow","setslow"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

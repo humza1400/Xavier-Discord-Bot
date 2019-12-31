@@ -45,4 +45,9 @@ public class SetLeaveChannelCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"setleave","setfarewellchannel","setfarewellmessages","setleavemessages"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

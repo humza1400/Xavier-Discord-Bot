@@ -34,4 +34,9 @@ public class ClearWhitelistCommand implements ICommand {
     public String[] getAlias() {
         return new String[]{"emptywhitelist", "nullwhitelist", "nullifywhitelist", "resetwhitelist","purgewhitelist","whitelistclear"};
     }
+
+   @Override
+    public Category getCategory() {
+        return Category.ADMIN;
+    }
 }

@@ -48,7 +48,7 @@ public class SetLockdownRoleCommand implements ICommand {
             isLockdownRoleSet = true;
             channel.sendMessage("Lockdown role successfully set to `" + role.getName() + "`").queue();
         } catch (NullPointerException | NumberFormatException ex) {
-            List<Role> roles = event.getGuild().getRolesByName(args.get(0), false);
+            List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
             if (roles.isEmpty())
             {
                 event.getChannel().sendMessage("Couldn't find role `" + args.get(0) + "`. Maybe try using the role ID instead.").queue();
@@ -87,5 +87,10 @@ public class SetLockdownRoleCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[]{"ldrole"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 }

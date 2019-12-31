@@ -41,13 +41,12 @@ public class EvalCommand implements ICommand {
             engine.setProperty("event", event);
             engine.setProperty("message", event.getMessage());
             engine.setProperty("channel", event.getChannel());
-            engine.setProperty("jda", event.getJDA());
+            engine.setProperty("api", event.getJDA());
             engine.setProperty("guild", event.getGuild());
             engine.setProperty("member", event.getMember());
-
             String script = imports + event.getMessage().getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);
-            event.getChannel().sendMessage(out == null ? "Executed with error" : "[DEBUG] " + out.toString()).queue();
+            event.getChannel().sendMessage(out == null ? "Executed with error" : "[DEBUG] " + out.toString().replaceAll("JDA","API")).queue();
         } catch (Exception ex) {
             event.getChannel().sendMessage(ex.getMessage()).queue();
         }
@@ -66,5 +65,10 @@ public class EvalCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"evaluate","debug"};
+    }
+
+   @Override
+    public Category getCategory() {
+        return Category.ADMIN;
     }
 }

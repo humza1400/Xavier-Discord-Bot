@@ -24,14 +24,12 @@ public class MutualServersCommand implements ICommand {
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
         if (!memberList.isEmpty()) {
-            if (args.isEmpty()) {
                 List<Guild> mutualGuilds = memberList.get(0).getUser().getMutualGuilds();
                 StringBuffer stringBuffer = new StringBuffer();
                 for (Guild guild : mutualGuilds)
                     stringBuffer.append("**" + guild.getName() + "** (" + guild.getId() + ")\n");
                 event.getChannel().sendMessage(EmbedUtils.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + memberList.get(0).getUser().getName() + "#" + memberList.get(0).getUser().getDiscriminator()).build()).queue();
                 return;
-            }
         }
         if (!args.isEmpty() && memberList.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
@@ -64,5 +62,10 @@ public class MutualServersCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[]{"mutuals", "mutualservers"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MISC;
     }
 }

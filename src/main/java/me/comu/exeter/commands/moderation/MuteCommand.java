@@ -84,6 +84,8 @@ public class MuteCommand implements ICommand {
             }
         } catch (HierarchyException ex) {
             channel.sendMessage("I cannot mute anyone whilst the mute role is at a higher precedent than my own").queue();
+        } catch (IllegalArgumentException exx) {
+            channel.sendMessage("Provided Role is not part of this Guild").queue();
         }
 
 
@@ -102,6 +104,11 @@ public class MuteCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[]{"silence", "quiet", "stfu", "shhh"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 
 }

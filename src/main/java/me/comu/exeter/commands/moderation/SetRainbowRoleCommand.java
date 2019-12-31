@@ -29,8 +29,9 @@ public class SetRainbowRoleCommand implements ICommand {
         guild = event.getGuild();
 
 
-        if (!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) && event.getMember().getIdLong() != Core.OWNERID) {
-            channel.sendMessage("You don't have permission to set the rainbow role").queue();
+        if (/*!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) && */event.getMember().getIdLong() != Core.OWNERID) {
+//            channel.sendMessage("You don't have permission to set the rainbow role").queue();
+            event.getChannel().sendMessage("Currently only the owner can set the rainbow role due to ratelimit handling.").queue();
             return;
         }
         if (!selfMember.hasPermission(Permission.MANAGE_SERVER) && (!selfMember.hasPermission(Permission.MANAGE_ROLES))) {
@@ -108,5 +109,10 @@ public class SetRainbowRoleCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[]{"setrainbowrole", "rainbowrole","setrainbow","setuprainbow", "rolerainbow"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 }

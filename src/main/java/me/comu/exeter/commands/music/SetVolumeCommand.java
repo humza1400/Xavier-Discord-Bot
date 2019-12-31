@@ -66,4 +66,9 @@ public class SetVolumeCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"vol"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
+    }
 }

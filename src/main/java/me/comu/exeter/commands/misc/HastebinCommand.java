@@ -22,7 +22,6 @@ public class HastebinCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         final TextChannel channel = event.getChannel();
-
         if (args.isEmpty()) {
             channel.sendMessage("Missing arguments").queue();
             return;
@@ -30,8 +29,17 @@ public class HastebinCommand implements ICommand {
 
         final String invoke = getInvoke();
         final String contentRaw = event.getMessage().getContentRaw();
-        final int index = contentRaw.indexOf(invoke) + invoke.length() + Core.PREFIX.length() + 1;
-        final String body = contentRaw.substring(index).trim();
+        String[] arguments = contentRaw.split("\\s+");
+        int index;
+        String body;
+        if (arguments[0].equalsIgnoreCase(Core.PREFIX + "paste"))
+        {
+            index = contentRaw.indexOf("paste") + "paste".length() + Core.PREFIX.length();
+            body = contentRaw.substring(index).trim();
+        } else {
+            index = contentRaw.indexOf(invoke) + invoke.length() + Core.PREFIX.length();
+            body = contentRaw.substring(index).trim();
+        }
 
         this.createPaste(body, (text) -> channel.sendMessage(text).queue());
     }
@@ -69,5 +77,10 @@ public class HastebinCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"paste"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MISC;
     }
 }

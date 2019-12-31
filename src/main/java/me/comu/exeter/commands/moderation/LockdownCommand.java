@@ -62,4 +62,9 @@ public class LockdownCommand implements ICommand {
     public String[] getAlias() {
         return new String[] {"ld"};
     }
+
+     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
 }

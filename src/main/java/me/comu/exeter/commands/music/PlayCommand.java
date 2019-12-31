@@ -38,15 +38,24 @@ public class PlayCommand implements ICommand {
         AudioManager audioManager = event.getGuild().getAudioManager();
         GuildVoiceState memberVoiceState = event.getMember().getVoiceState();
         VoiceChannel voiceChannel = memberVoiceState.getChannel();
+
         if (!memberVoiceState.inVoiceChannel())
         {
             channel.sendMessage("You're not connected to a voice channel bro").queue();
             return;
         }
-        if (audioManager.isConnected() && !voiceChannel.getMembers().contains(event.getMember())) {
-            event.getChannel().sendMessage("You need to be in the same voice channel as me to play a song").queue();
+        if (audioManager.isConnected() && !audioManager.getConnectedChannel().getMembers().contains(event.getMember())/* && audioManager.getConnectedChannel().getMembers().size() == 0*/) {
+            event.getChannel().sendMessage("You need to be in the same voice channel as me to request songs").queue();
             return;
         }
+        if (args.isEmpty()) {
+            channel.sendMessage("Please provide a song to play").queue();
+            return;
+        }
+     /*   if (!voiceChannel.getMembers().contains(event.getMember())) {
+            event.getChannel().sendMessage("You need to be in the same voice channel as me to play a song").queue();
+            return;
+        }*/
         if (args.isEmpty()) {
             channel.sendMessage("Please provide a song to play").queue();
 
@@ -93,7 +102,7 @@ public class PlayCommand implements ICommand {
                     .setMaxResults(1L)
                     .setType("video")
                     .setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)")
-                    .setKey(Core.youtubeAPIKey)
+                    .setKey("AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c")
                     .execute()
                     .getItems();
             if (!results.isEmpty()) {
@@ -120,5 +129,10 @@ public class PlayCommand implements ICommand {
     @Override
     public String[] getAlias() {
         return new String[] {"p"};
+    }
+
+     @Override
+    public Category getCategory() {
+        return Category.MUSIC;
     }
 }
