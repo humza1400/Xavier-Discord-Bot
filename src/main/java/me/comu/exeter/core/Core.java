@@ -20,7 +20,7 @@ public class Core {
     public static JDA jda;
     public static final long OWNERID = 175728291460808706L;
     protected static final String HWIDURL = "https://pastebin.com/raw/mGiKYJrV";
-    private static final String TOKEN = "NjMxNjU0MzE5MzQyNjE2NTk2.XgW9bg.nAsLNcordeEclkH4Y_Sn7i17r7w";
+    private static final String TOKEN = "NjMxNjU0MzE5MzQyNjE2NTk2.Xgu20Q.Yg2WZdvPhFj4Y_1gGA1FHsh8G_k";
     //public static final String youtubeAPIKey = "AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c";
     public static final String DEBUG = "[DEBUG] ";
     public static String PREFIX = ";";
@@ -57,8 +57,8 @@ public class Core {
         CommandManager commandManager = new CommandManager(eventWaiter);
         Listener listener = new Listener(commandManager);
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
-        EcoJSONHandler.loadEconomyConfig(new File("src/main/java/me/comu/exeter/configs/economy/economy.json"));
-        WhitelistedJSONHandler.loadWhitelistConfig(new File("src/main/java/me/comu/exeter/configs/economy/economy.json"));
+        EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
+        WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
         WebUtils.setUserAgent("Mozilla/5.0 Exeter Discord Bot/Comu#0691");
 
         try {
@@ -78,6 +78,7 @@ public class Core {
             jda.addEventListener(new GuildMemberJoinedEvent());
             jda.addEventListener(new GuildMemberLeaveEvent());
             jda.addEventListener(new GuildMessageListenerResponderEvent());
+            jda.addEventListener(new OffEvent());
             logger.info("Successfully Booted");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");

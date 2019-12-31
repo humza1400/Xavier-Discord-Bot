@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -15,6 +16,15 @@ public class OffCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!event.getMember().hasPermission(Permission.MESSAGE_MANAGE) && event.getMember().getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessage("You don't have permission to turn someone off").queue();
+            return;
+        }
+
+        if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+            event.getChannel().sendMessage("I don't have permissions to turn someone off").queue();
+            return;
+        }
         if (args.isEmpty()) {
             event.getChannel().sendMessage("Please specify a user to turn off").queue();
             return;

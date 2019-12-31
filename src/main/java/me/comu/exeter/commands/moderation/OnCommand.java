@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -10,10 +11,20 @@ import java.util.List;
 
 public class OnCommand implements ICommand {
 
-    public static String userID;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+
+        if (!event.getMember().hasPermission(Permission.MESSAGE_MANAGE) && event.getMember().getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessage("You don't have permission to turn someone on").queue();
+            return;
+        }
+
+        if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+            event.getChannel().sendMessage("I don't have permissions to turn someone on").queue();
+            return;
+        }
+
         if (args.isEmpty()) {
             event.getChannel().sendMessage("Please specify a user to turn on").queue();
             return;
@@ -34,12 +45,12 @@ public class OnCommand implements ICommand {
                 return;
             }
             OffCommand.shouldDelete = false;
-            userID = targets.get(0).getId();
+            OffCommand.userID = null;
             event.getChannel().sendMessage("Ok, Turned on **" + targets.get(0).getAsMention() + "**.").queue();
             return;
         } else if (!args.isEmpty() && !mentionedMembers.isEmpty()) {
             OffCommand.shouldDelete = false;
-            userID = mentionedMembers.get(0).getId();
+            OffCommand.userID = null;
             event.getChannel().sendMessage("Ok, Turned on **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
         }
     }

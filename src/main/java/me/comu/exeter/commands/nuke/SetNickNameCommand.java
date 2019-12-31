@@ -17,7 +17,11 @@ public class SetNickNameCommand implements ICommand {
         if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
             return;
         }
-
+        if (args.isEmpty())
+        {
+            event.getChannel().sendMessage("Please specify a nickname").queue();
+            return;
+        }
             String message = event.getMessage().getContentRaw().substring(Core.PREFIX.length() + 10).trim();
             if (message.equals("resetnick"))
             {

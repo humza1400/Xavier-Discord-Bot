@@ -22,7 +22,8 @@ public class UnwhitelistCommand implements ICommand {
         if (WhitelistCommand.getWhitelistedIDs().containsKey(args.get(0)))
         {
             WhitelistCommand.getWhitelistedIDs().remove(args.get(0));
-            event.getChannel().sendMessage("Removed " + args.get(0) + " from the whitelist").queue();
+            event.getChannel().sendMessage("Successfully Removed `" + args.get(0) + "` from the whitelist").queue();
+            WhitelistedJSONHandler.saveWhitelistConfig();
             return;
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
@@ -49,6 +50,7 @@ public class UnwhitelistCommand implements ICommand {
                     }
                     WhitelistCommand.getWhitelistedIDs().remove(user.getId());
                     event.getChannel().sendMessage("Successfully removed `" + user.getName() + "#" + user.getDiscriminator() + "` from the whitelist").queue();
+                    WhitelistedJSONHandler.saveWhitelistConfig();
                 } catch (NullPointerException | IllegalArgumentException | ArrayIndexOutOfBoundsException exx)
                 {
                     event.getChannel().sendMessage("Invalid ID + " + id).queue();

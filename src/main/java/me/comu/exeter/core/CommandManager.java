@@ -146,6 +146,7 @@ public class CommandManager {
         register(new PunchCommand());
         register(new OffCommand());
         register(new OnCommand());
+        register(new ARSaveConfigCommand());
         // add log command that logs all event updates
         // marry system
         // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage
