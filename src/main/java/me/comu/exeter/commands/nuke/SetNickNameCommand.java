@@ -43,7 +43,7 @@ public class SetNickNameCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Sets everyone's nickname to the specified nickname.\n`" + Core.PREFIX + getInvoke() + " [nickname]`\nAliases: `" + Arrays.deepToString(getAlias()) + "'";
+        return "Sets everyone's nickname to the specified nickname.\n`" + Core.PREFIX + getInvoke() + " [nickname]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

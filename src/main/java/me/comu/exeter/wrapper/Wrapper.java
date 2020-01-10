@@ -1,15 +1,22 @@
 package me.comu.exeter.wrapper;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import me.comu.exeter.logging.Logger;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.URL;
@@ -23,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class Wrapper {
 
 //    public static List<Shard> shards = new ArrayList<>();
+    private static JsonParser parser = new JsonParser();
 
     public static void sendPrivateMessage(User user, String content) {
         if (!user.getId().equals("631654319342616596")) {
@@ -30,8 +38,7 @@ public class Wrapper {
             {
                 try {
                     channel.sendMessage(content).queue();
-                } catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     Logger.getLogger().print("Couldn't message " + user.getName() + "#" + user.getDiscriminator());
                 }
             });
@@ -45,36 +52,34 @@ public class Wrapper {
         });
     }
 
-    public static void sendWhitelistedAntiRaidInfoMessage(Guild guild, List<String> list, String message)
-    {
-        for (String user : list)
-        {
+    public static void sendWhitelistedAntiRaidInfoMessage(Guild guild, List<String> list, String message) {
+        for (String user : list) {
             sendPrivateMessage(guild.getMemberById(user).getUser(), message);
         }
     }
 
-    public static boolean botCheck(Message message)
-    {
+    public static boolean botCheck(Message message) {
         if (message.getAuthor().isBot())
             return false;
         return true;
     }
 
     public static long timeToMS(int hours, int minutes, int seconds) {
-        if(seconds > 59 || seconds < 0) {
+        if (seconds > 59 || seconds < 0) {
             return -1;
         }
-        if(minutes > 59 || minutes < 0) {
+        if (minutes > 59 || minutes < 0) {
             return -1;
         }
 
         long s = (seconds + (60 * (minutes + (hours * 60))));
         return TimeUnit.SECONDS.toMillis(s);
     }
+
     public static List<Guild> getGuilds() {
         List<Guild> guilds = new ArrayList<>();
-     //   for(Shard shard : shards) {
-       //     guilds.addAll(shard.getJda().getGuilds());
+        //   for(Shard shard : shards) {
+        //     guilds.addAll(shard.getJda().getGuilds());
         //}
         return guilds;
     }
@@ -112,9 +117,7 @@ public class Wrapper {
         return hostname;
     }
 
-    public static void sendEmail(String subject, String message)
-    {
-/*
+    public static void sendEmail(String subject, String message) {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
@@ -123,7 +126,7 @@ public class Wrapper {
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("ilyswag48@gmail.com","DiscordPassword123");
+                return new PasswordAuthentication("ilyswag48@gmail.com", "DiscordPassword123");
             }
         });
         try {
@@ -133,13 +136,40 @@ public class Wrapper {
             email.setSubject(subject);
             email.setText(message);
             Transport.send(email);
-        } catch (MessagingException mess)
-        {
+        } catch (MessagingException mess) {
             mess.printStackTrace();
         }
-*/
 
 
+    }
+
+    public static int randomNum(int start, int end) {
+
+        if (end < start) {
+            int temp = end;
+            end = start;
+            start = temp;
+        }
+
+        return (int) Math.floor(Math.random() * (end - start + 1) + start);
+    }
+
+    public static JsonElement getJsonFromURL(String url) throws IOException, IllegalArgumentException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Accept", "application/json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        if (response.body() == null) {
+            throw new IllegalArgumentException("Response returned no content");
+        }
+        try {
+            return parser.parse(response.body().string());
+        } catch (JsonSyntaxException e) {
+            throw new IllegalArgumentException("Response didn't return json!");
+        }
     }
 
 }

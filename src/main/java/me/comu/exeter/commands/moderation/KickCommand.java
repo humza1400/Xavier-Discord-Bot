@@ -97,7 +97,7 @@ public class KickCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Kicks the specified user\n" + "`"  + Core.PREFIX + getInvoke() + " [user] <reason>`\nnAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Kicks the specified user\n" + "`"  + Core.PREFIX + getInvoke() + " [user] <reason>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

@@ -12,14 +12,13 @@ import net.dv8tion.jda.api.exceptions.HierarchyException;
 import java.util.Arrays;
 import java.util.List;
 
-public class BanCommand implements ICommand {
+public class BanTagCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         TextChannel channel = event.getChannel();
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
-
 
         if (!member.hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID/* || !member.canInteract(target)*/) {
             channel.sendMessage("You don't have permission to ban that user").queue();
@@ -35,17 +34,14 @@ public class BanCommand implements ICommand {
             channel.sendMessage("Please specify a valid user to ban").queue();
             return;
         }
+        User user = event.getJDA().getUserByTag(args.get(0));
         String reason = String.join(" ", args.subList(1, args.size()));
+        if (user == null) {
+            event.getChannel().sendMessage("Couldn't find the user with the given tag of `" + args.get(0) + "`").queue();
+            return;
+        }
         if (mentionedMembers.isEmpty()) {
-            List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
-            if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + args.get(0)).queue();
-                return;
-            } else if (targets.size() > 1) {
-                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
-                return;
-            }
-            Member target = targets.get(0);
+            Member target = event.getGuild().getMemberById(user.getId());
             if (reason.equals("")) {
                 if (!selfMember.canInteract(target)) {
                     event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
@@ -64,37 +60,21 @@ public class BanCommand implements ICommand {
             }
             return;
         }
-        Member target = mentionedMembers.get(0);
-        if (reason.equals("")) {
-            if (!selfMember.canInteract(target)) {
-                event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
-                return;
-            }
-            event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
-            channel.sendMessage(String.format("Banned %s", target.getUser().getName() + "#" + target.getUser().getDiscriminator())).queue();
-        } else {
-            if (!selfMember.canInteract(target)) {
-                event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
-                return;
-            }
-            event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
-            channel.sendMessage(String.format("Banned %s for `%s`", target.getUser().getName() + "#" + target.getUser().getDiscriminator(), reason)).queue();
-        }
     }
 
     @Override
     public String getHelp() {
-        return "Bans the specified user\n" + "`" + Core.PREFIX + getInvoke() + " [user] <reason>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Bans the specified user-tag (swag#3231)\n" + "`" + Core.PREFIX + getInvoke() + " [tag] <reason>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
     public String getInvoke() {
-        return "ban";
+        return "bantag";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[0];
+        return new String[]{"tagban"};
     }
 
     @Override

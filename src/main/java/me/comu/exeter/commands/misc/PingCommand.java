@@ -19,7 +19,7 @@ public class PingCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Gets your latency to the Exeter Bot.\n`" + Core.PREFIX + getInvoke() + "`\nnAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Gets your latency to the Exeter Bot.\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

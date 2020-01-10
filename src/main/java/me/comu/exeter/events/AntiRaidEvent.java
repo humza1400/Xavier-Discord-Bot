@@ -32,7 +32,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-                User userComu = event.getJDA().getUserById("175728291460808706");
+                User userComu = event.getJDA().getUserById(Core.OWNERID);
                 Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_VOICE_CHANNEL_CREATE**");
                 return;
             }
@@ -57,7 +57,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                             }
                         }
-                        User userComu = event.getJDA().getUserById("175728291460808706");
+                        User userComu = event.getJDA().getUserById(Core.OWNERID);
                         User userOwner = event.getGuild().getOwner().getUser();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                         LocalDateTime now = LocalDateTime.now();
@@ -83,7 +83,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-                User userComu = event.getJDA().getUserById("175728291460808706");
+                User userComu = event.getJDA().getUserById(Core.OWNERID);
                 Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_VOICE_CHANNEL_DELETE**");
                 return;
             }
@@ -108,7 +108,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                             }
                         }
-                        User userComu = event.getJDA().getUserById("175728291460808706");
+                        User userComu = event.getJDA().getUserById(Core.OWNERID);
                         User userOwner = event.getGuild().getOwner().getUser();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                         LocalDateTime now = LocalDateTime.now();
@@ -134,7 +134,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-                User userComu = event.getJDA().getUserById("175728291460808706");
+                User userComu = event.getJDA().getUserById(Core.OWNERID);
                 Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_TEXT_CHANNEL_CREATE**");
                 return;
             }
@@ -159,7 +159,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                             }
                         }
-                        User userComu = event.getJDA().getUserById("175728291460808706");
+                        User userComu = event.getJDA().getUserById(Core.OWNERID);
                         User userOwner = event.getGuild().getOwner().getUser();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                         LocalDateTime now = LocalDateTime.now();
@@ -186,7 +186,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-                User userComu = event.getJDA().getUserById("175728291460808706");
+                User userComu = event.getJDA().getUserById(Core.OWNERID);
                 Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_TEXT_CHANNEL_DELETE**");
                 return;
             }
@@ -211,7 +211,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                             }
                         }
-                        User userComu = event.getJDA().getUserById("175728291460808706");
+                        User userComu = event.getJDA().getUserById(Core.OWNERID);
                         User userOwner = event.getGuild().getOwner().getUser();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                         LocalDateTime now = LocalDateTime.now();
@@ -238,7 +238,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-                User userComu = event.getJDA().getUserById("175728291460808706");
+                User userComu = event.getJDA().getUserById(Core.OWNERID);
                 Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_CATEGORY_CREATE**");
                 return;
             }
@@ -263,7 +263,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                             }
                         }
-                        User userComu = event.getJDA().getUserById("175728291460808706");
+                        User userComu = event.getJDA().getUserById(Core.OWNERID);
                         User userOwner = event.getGuild().getOwner().getUser();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                         LocalDateTime now = LocalDateTime.now();
@@ -291,7 +291,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-                User userComu = event.getJDA().getUserById("175728291460808706");
+                User userComu = event.getJDA().getUserById(Core.OWNERID);
                 Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_CATEGORY_DELETE**");
                 return;
             }
@@ -316,7 +316,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                             }
                         }
-                        User userComu = event.getJDA().getUserById("175728291460808706");
+                        User userComu = event.getJDA().getUserById(Core.OWNERID);
                         User userOwner = event.getGuild().getOwner().getUser();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                         LocalDateTime now = LocalDateTime.now();
@@ -344,7 +344,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-                User userComu = event.getJDA().getUserById("175728291460808706");
+                User userComu = event.getJDA().getUserById(Core.OWNERID);
                 Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_ROLE_CREATE**");
                 return;
             }
@@ -369,7 +369,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                             }
                         }
-                        User userComu = event.getJDA().getUserById("175728291460808706");
+                        User userComu = event.getJDA().getUserById(Core.OWNERID);
                         User userOwner = event.getGuild().getOwner().getUser();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                         LocalDateTime now = LocalDateTime.now();
@@ -397,7 +397,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active) {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-                User userComu = event.getJDA().getUserById("175728291460808706");
+                User userComu = event.getJDA().getUserById(Core.OWNERID);
                 Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_ROLE_DELETE**");
                 return;
             }
@@ -422,7 +422,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                             }
                         }
-                        User userComu = event.getJDA().getUserById("175728291460808706");
+                        User userComu = event.getJDA().getUserById(Core.OWNERID);
                         User userOwner = event.getGuild().getOwner().getUser();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                         LocalDateTime now = LocalDateTime.now();

@@ -38,7 +38,7 @@ public class AvatarCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Returns the avatar of a designated user\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Returns the avatar of a designated user\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MarryCommand implements ICommand {
 
@@ -34,8 +35,8 @@ public class MarryCommand implements ICommand {
             return;
         }
             event.getChannel().sendMessage(event.getMember().getUser().getName() + " has requested to marry you, do you accept? (Yes/No) " + members.get(0).getUser().getAsMention()).queue();
+            event.getChannel().sendMessage(member.getAsMention() + " your marriage proposal to " + members.get(0).getAsMention() + " has expired!").queueAfter(10, TimeUnit.SECONDS);
             pending = true;
-                while (pending) {
                     eventWaiter.waitForEvent(MessageReceivedEvent.class, (e) -> (e.isFromType(ChannelType.TEXT) && e.getMember().getId().equals(members.get(0).getId()) && e.getMessage().getContentRaw().equalsIgnoreCase("Yes")), e -> {
                         pending = false;
                         event.getChannel().sendMessage(members.get(0).getUser().getAsMention() + " has accepted " + member.getAsMention() + "'s marriage proposal. **Congratulations**!").queue();
@@ -48,11 +49,10 @@ public class MarryCommand implements ICommand {
                             return;
 
                         });
-                    if (pending) {
-                        event.getChannel().sendMessage(member.getAsMention() + " your marriage proposal to " + members.get(0).getAsMention() + " has expired!").queue();
-                        pending = false;
-                    }
-                }
+//        if (pending) {
+//            event.getChannel().sendMessage(member.getAsMention() + " your marriage proposal to " + members.get(0).getAsMention() + " has expired!").queue();
+//            pending = false;
+//        }
         }
 
 

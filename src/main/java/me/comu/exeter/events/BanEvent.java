@@ -25,7 +25,7 @@ public class BanEvent extends ListenerAdapter {
         {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
             {
-                User userComu = event.getJDA().getUserById("175728291460808706");
+                User userComu = event.getJDA().getUserById(Core.OWNERID);
                 Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_BAN**");
                 return;
             }
@@ -38,7 +38,7 @@ public class BanEvent extends ListenerAdapter {
                         event.getGuild().ban(member, 0).reason(String.format("wizzing")).queue();
                     } catch (HierarchyException | IllegalArgumentException ex)
                     {}
-                    User userComu = event.getJDA().getUserById("175728291460808706");
+                    User userComu = event.getJDA().getUserById(Core.OWNERID);
                     User userOwner = event.getGuild().getOwner().getUser();
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                     LocalDateTime now = LocalDateTime.now();

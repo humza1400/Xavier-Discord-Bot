@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
+import me.comu.exeter.wrapper.Wrapper;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
@@ -13,17 +14,21 @@ import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Core {
 
     public static JDA jda;
-    public static final long OWNERID = 175728291460808706L;
+    public static final long OWNERID = 252239116677152768L;
     protected static final String HWIDURL = "https://pastebin.com/raw/mGiKYJrV";
-    private static final String TOKEN = "NjMxNjU0MzE5MzQyNjE2NTk2.Xgu20Q.Yg2WZdvPhFj4Y_1gGA1FHsh8G_k";
+    private static final String TOKEN = "NjI3NzI0MTkyNDIyMjk3NjEw.XhFcHA.Ue2o3XxSqK-QaTOyO04d90tPxtM";
     //public static final String youtubeAPIKey = "AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c";
     public static final String DEBUG = "[DEBUG] ";
-    public static String PREFIX = ";";
+    public static String PREFIX = "idea ";
 
     public static void main(final String[] args) {
         new Core();
@@ -79,6 +84,7 @@ public class Core {
             jda.addEventListener(new GuildMemberLeaveEvent());
             jda.addEventListener(new GuildMessageListenerResponderEvent());
             jda.addEventListener(new OffEvent());
+            jda.addEventListener(new MemberCountChannelEvent());
             logger.info("Successfully Booted");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");

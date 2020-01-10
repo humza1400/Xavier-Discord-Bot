@@ -16,6 +16,7 @@ public class HelpCommand implements ICommand {
     public HelpCommand(CommandManager manager) {
         this.manager = manager;
     }
+
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
@@ -24,14 +25,11 @@ public class HelpCommand implements ICommand {
             return;
         }
 
-        if (args.get(0).equalsIgnoreCase("admin"))
-        {
+        if (args.get(0).equalsIgnoreCase("admin")) {
             StringBuffer buffer = new StringBuffer();
             int count = 0;
-            for (ICommand command : manager.getCommands())
-            {
-                if (command.getCategory().equals(Category.ADMIN))
-                {
+            for (ICommand command : manager.getCommands()) {
+                if (command.getCategory().equals(Category.ADMIN)) {
                     if (!buffer.toString().contains(command.getInvoke())) {
                         buffer.append("`" + command.getInvoke() + "`\n");
                         count++;
@@ -42,14 +40,11 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
-        } else if (args.get(0).equalsIgnoreCase("bot"))
-        {
+        } else if (args.get(0).equalsIgnoreCase("bot")) {
             StringBuffer buffer = new StringBuffer();
             int count = 0;
-            for (ICommand command : manager.getCommands())
-            {
-                if (command.getCategory().equals(Category.BOT))
-                {
+            for (ICommand command : manager.getCommands()) {
+                if (command.getCategory().equals(Category.BOT)) {
                     if (!buffer.toString().contains(command.getInvoke())) {
                         buffer.append("`" + command.getInvoke() + "`\n");
                         count++;
@@ -60,14 +55,11 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
-        }else if (args.get(0).equalsIgnoreCase("economy"))
-        {
+        } else if (args.get(0).equalsIgnoreCase("economy")) {
             StringBuffer buffer = new StringBuffer();
             int count = 0;
-            for (ICommand command : manager.getCommands())
-            {
-                if (command.getCategory().equals(Category.ECONOMY))
-                {
+            for (ICommand command : manager.getCommands()) {
+                if (command.getCategory().equals(Category.ECONOMY)) {
                     if (!buffer.toString().contains(command.getInvoke())) {
                         buffer.append("`" + command.getInvoke() + "`\n");
                         count++;
@@ -78,14 +70,11 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
-        }else if (args.get(0).equalsIgnoreCase("marriage"))
-        {
+        } else if (args.get(0).equalsIgnoreCase("marriage")) {
             StringBuffer buffer = new StringBuffer();
             int count = 0;
-            for (ICommand command : manager.getCommands())
-            {
-                if (command.getCategory().equals(Category.MARRIAGE))
-                {
+            for (ICommand command : manager.getCommands()) {
+                if (command.getCategory().equals(Category.MARRIAGE)) {
                     if (!buffer.toString().contains(command.getInvoke())) {
                         buffer.append("`" + command.getInvoke() + "`\n");
                         count++;
@@ -96,14 +85,11 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
-        }else if (args.get(0).equalsIgnoreCase("misc"))
-        {
+        } else if (args.get(0).equalsIgnoreCase("misc")) {
             StringBuffer buffer = new StringBuffer();
             int count = 0;
-            for (ICommand command : manager.getCommands())
-            {
-                if (command.getCategory().equals(Category.MISC))
-                {
+            for (ICommand command : manager.getCommands()) {
+                if (command.getCategory().equals(Category.MISC)) {
                     if (!buffer.toString().contains(command.getInvoke())) {
                         buffer.append("`" + command.getInvoke() + "`\n");
                         count++;
@@ -114,14 +100,11 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
-        }else if (args.get(0).equalsIgnoreCase("moderation"))
-        {
+        } else if (args.get(0).equalsIgnoreCase("moderation")) {
             StringBuffer buffer = new StringBuffer();
             int count = 0;
-            for (ICommand command : manager.getCommands())
-            {
-                if (command.getCategory().equals(Category.MODERATION))
-                {
+            for (ICommand command : manager.getCommands()) {
+                if (command.getCategory().equals(Category.MODERATION)) {
                     if (!buffer.toString().contains(command.getInvoke())) {
                         buffer.append("`" + command.getInvoke() + "`\n");
                         count++;
@@ -132,14 +115,11 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
-        }else if (args.get(0).equalsIgnoreCase("music"))
-        {
+        } else if (args.get(0).equalsIgnoreCase("music")) {
             StringBuffer buffer = new StringBuffer();
             int count = 0;
-            for (ICommand command : manager.getCommands())
-            {
-                if (command.getCategory().equals(Category.MUSIC))
-                {
+            for (ICommand command : manager.getCommands()) {
+                if (command.getCategory().equals(Category.MUSIC)) {
                     if (!buffer.toString().contains(command.getInvoke())) {
                         buffer.append("`" + command.getInvoke() + "`\n");
                         count++;
@@ -150,14 +130,11 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
-        }else if (args.get(0).equalsIgnoreCase("nuke"))
-        {
+        } else if (args.get(0).equalsIgnoreCase("nuke")) {
             StringBuffer buffer = new StringBuffer();
             int count = 0;
-            for (ICommand command : manager.getCommands())
-            {
-                if (command.getCategory().equals(Category.NUKE))
-                {
+            for (ICommand command : manager.getCommands()) {
+                if (command.getCategory().equals(Category.NUKE)) {
                     if (!buffer.toString().contains(command.getInvoke())) {
                         buffer.append("`" + command.getInvoke() + "`\n");
                         count++;
@@ -175,17 +152,18 @@ public class HelpCommand implements ICommand {
 
         ICommand command = manager.getCommand(joined);
 
-        if(command == null) {
+        if (command == null) {
             event.getChannel().sendMessage("Command `" + joined + "` does not exist\n" +
                     "Use `" + Core.PREFIX + getInvoke() + "` for a list of commands").queue();
             return;
         }
 
-        String message = "Command `" + command.getInvoke() + "`\n" + command.getHelp() + "";
+        String message = "__**" + command.getInvoke() + "** Command__:\n" + command.getHelp() + "";
 
         event.getChannel().sendMessage(message).queue();
 
     }
+
     private void embedHandler(GuildMessageReceivedEvent event) {
         EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Categories (" + Category.values().length + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
         StringBuilder stringBuilder = embedBuilder.getDescriptionBuilder();
@@ -221,10 +199,10 @@ public class HelpCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"assistance","halp","autism","cmds","commands"};
+        return new String[]{"assistance", "halp", "autism", "cmds", "commands"};
     }
 
-  @Override
+    @Override
     public Category getCategory() {
         return Category.BOT;
     }

@@ -147,6 +147,18 @@ public class CommandManager {
         register(new OffCommand());
         register(new OnCommand());
         register(new ARSaveConfigCommand());
+        register(new RaidActionCommand());
+        register(new BotsCommand());
+        register(new BanIDCommand());
+        register(new BanTagCommand());
+        register(new KickIDCommand());
+        register(new KickTagCommand());
+        register(new MemberCountChannelCommand());
+        register(new AsciiConverterCommand());
+        register(new MemeCommand());
+        register(new JokeCommand());
+        register(new DogCommand());
+        register(new CatCommand());
         // add log command that logs all event updates
         // marry system
         // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage

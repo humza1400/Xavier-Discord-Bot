@@ -31,7 +31,7 @@ public class WarnCommand implements ICommand {
                 event.getChannel().sendMessage("Please specify a valid user to warn").queue();
                 return;
             }
-            if (!args.isEmpty() && mentionedMembers.isEmpty()) {
+            if (mentionedMembers.isEmpty()) {
                 List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
                 if (targets.isEmpty()) {
                     event.getChannel().sendMessage("Couldn't find the user " + args.get(0)).queue();
@@ -44,7 +44,7 @@ public class WarnCommand implements ICommand {
                     Member target = targets.get(0);
                     EmbedBuilder embedBuilder = new EmbedBuilder();
                     embedBuilder.setColor(0xFFDE53);
-                    embedBuilder.setTitle("⚠Warning⚠");
+                    embedBuilder.setTitle(":warning:Warning:warning:");
                     embedBuilder.setDescription("Warned " + target.getAsMention());
                     embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
                     embedBuilder.setTimestamp(Instant.now());
@@ -54,7 +54,7 @@ public class WarnCommand implements ICommand {
                     Member target = targets.get(0);
                     EmbedBuilder embedBuilder = new EmbedBuilder();
                     embedBuilder.setColor(0xFFDE53);
-                    embedBuilder.setTitle("⚠Warning⚠");
+                    embedBuilder.setTitle(":warning:Warning:warning:");
                     int subIndex = Core.PREFIX.length() + 5;
                     String reason = message.substring(subIndex).replaceFirst(args.get(0), "");
                     embedBuilder.setDescription("Warned " + target.getAsMention() + " for `" + reason + "`");
@@ -65,11 +65,11 @@ public class WarnCommand implements ICommand {
                 }
                 return;
             }
-            if (args.size() == 1 && !mentionedMembers.isEmpty()) {
+            if (args.size() == 1) {
                 Member target = mentionedMembers.get(0);
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.setColor(0xFFDE53);
-                embedBuilder.setTitle("⚠Warning⚠");
+                embedBuilder.setTitle(":warning:Warning:warning:");
                 embedBuilder.setDescription("Warned " + target.getAsMention());
                 embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
                 embedBuilder.setTimestamp(Instant.now());
@@ -80,7 +80,7 @@ public class WarnCommand implements ICommand {
                     Member target = mentionedMembers.get(0);
                     EmbedBuilder embedBuilder = new EmbedBuilder();
                     embedBuilder.setColor(0xFFDE53);
-                    embedBuilder.setTitle("⚠Warning⚠");
+                    embedBuilder.setTitle(":warning:Warning:warning:");
                     int subIndex = Core.PREFIX.length() + 5 + target.getAsMention().length();
                     String reason = message.substring(subIndex, message.length());
                     embedBuilder.setDescription("Warned " + target.getAsMention() + " for `" + reason + "`");

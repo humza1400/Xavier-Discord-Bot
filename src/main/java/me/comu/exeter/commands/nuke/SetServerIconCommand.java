@@ -17,7 +17,7 @@ public class SetServerIconCommand implements ICommand {
             return;
         }
             try {
-                Icon icon = Icon.from(new File("C:/Users/player/Desktop/xia/discord-bot/dependencies/serverIcon.jpg"));
+                Icon icon = Icon.from(new File("serverIcon.jpg"));
                 event.getGuild().getManager().setIcon(icon).queue();
             }
             catch(IOException e) {

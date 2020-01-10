@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -13,7 +14,15 @@ public class UnwhitelistCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-
+        if (event.getMember().getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong()) {
+            event.getChannel().sendMessage("You don't have permission to unwhitelist anyone").queue();
+            return;
+        }
+        if (args.isEmpty())
+        {
+            event.getChannel().sendMessage("You need to specify a user to unwhitelist").queue();
+            return;
+        }
         if (args.isEmpty())
         {
             event.getChannel().sendMessage("Please specify a user to remove from the whitelist hash").queue();
@@ -85,7 +94,7 @@ public class UnwhitelistCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"removewhitelist","uwl","untrust"};
+        return new String[] {"removewhitelist","uwl","untrust","unwl"};
     }
 
    @Override

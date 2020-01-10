@@ -38,7 +38,7 @@ public class ClearQueueCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Clears the music bot queue\n`" + Core.PREFIX + getInvoke() + "` \nnAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Clears the music bot queue\n`" + Core.PREFIX + getInvoke() + "` \nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

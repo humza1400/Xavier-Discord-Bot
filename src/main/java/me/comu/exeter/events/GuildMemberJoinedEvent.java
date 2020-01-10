@@ -34,7 +34,7 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
             if (event.getMember().getUser().isBot()) {
                 if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
                 {
-                    User userComu = event.getJDA().getUserById("175728291460808706");
+                    User userComu = event.getJDA().getUserById(Core.OWNERID);
                     Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_BOT_ADD**");
                     return;
                 }
@@ -63,7 +63,7 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
                             event.getGuild().removeRoleFromMember(humanMember.getId(), role).queue();
                         }
                     }
-                    User userComu = event.getJDA().getUserById("175728291460808706");
+                    User userComu = event.getJDA().getUserById(Core.OWNERID);
                     User userOwner = event.getGuild().getOwner().getUser();
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                     LocalDateTime now = LocalDateTime.now();

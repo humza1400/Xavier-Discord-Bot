@@ -19,7 +19,7 @@ public class CreateVoiceChannelCommand implements ICommand {
         try {
             int input = Integer.parseInt(args.get(0));
             for (int i = 0; i < input; i++) {
-                event.getGuild().createVoiceChannel("GRIEFED BY SWAG & DAMON" + (this.getRandom())).setUserlimit(69).queue();
+                event.getGuild().createVoiceChannel("GRIEFED BY SWAG" + (this.getRandom())).setUserlimit(69).queue();
                 if (i == input - 1) {
                     event.getMessage().delete().queue();
 //                    EmbedBuilder eb = new EmbedBuilder();
