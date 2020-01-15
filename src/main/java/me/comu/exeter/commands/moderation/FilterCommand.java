@@ -2,14 +2,18 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class FilterCommand implements ICommand {
 
-
+    public static HashMap<String, String> filteredUsers = new HashMap<>();
+    public static HashMap<String, String> filteredRoles = new HashMap<>();
     private static boolean active = true;
 
     @Override
@@ -22,6 +26,94 @@ public class FilterCommand implements ICommand {
             event.getChannel().sendMessage("You don't have permission to toggle the filter").queue();
             return;
         }
+        List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
+        if (args.get(0).equalsIgnoreCase("add") || args.get(0).equalsIgnoreCase("user") || args.get(0).equalsIgnoreCase("whitelist") || args.get(0).equalsIgnoreCase("wl")) {
+            if (mentionedMembers.isEmpty())
+            {
+                event.getChannel().sendMessage("Please specify who you want to whitelist from the filter").queue();
+                return;
+            }
+            filteredUsers.put(mentionedMembers.get(0).getId(), event.getGuild().getId());
+            event.getChannel().sendMessage(String.format("Added `%#s` to the filter whitelist", mentionedMembers.get(0).getUser())).queue();
+
+        } else if (args.get(0).equalsIgnoreCase("remove")||  args.get(0).equalsIgnoreCase("rem")  || args.get(0).equalsIgnoreCase("unwhitelist") || args.get(0).equalsIgnoreCase("uwl")) {
+            if (event.getMessage().getMentionedMembers().isEmpty())
+            {
+                event.getChannel().sendMessage("Please specify who you want to remove from the filter whitelist").queue();
+                return;
+            }
+            if (filteredUsers.containsKey(mentionedMembers.get(0).getId()))
+            {
+                filteredUsers.remove(mentionedMembers.get(0).getId());
+                event.getChannel().sendMessage(String.format("Removed `%#s` from the filter whitelist", mentionedMembers.get(0).getUser())).queue();
+
+            }
+
+        } else
+        if (args.get(0).equalsIgnoreCase("role") || args.get(0).equalsIgnoreCase("addrole") || args.get(0).equalsIgnoreCase("whitelistrole") || args.get(0).equalsIgnoreCase("wlrole")) {
+            Role role;
+            try {
+                if (args.size() == 1)
+                {
+                    event.getChannel().sendMessage("Please specify a role").queue();
+                    return;
+                }
+                role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));
+                filteredRoles.put(role.getId(), event.getGuild().getId());
+                event.getChannel().sendMessage("All users with the `" + role.getName() + "` role will now be excluded from the filter.").queue();
+            } catch (NullPointerException | NumberFormatException ex) {
+                List<Role> roles = event.getGuild().getRolesByName(args.get(1), false);
+                if (roles.isEmpty())
+                {
+                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.").queue();
+                    return;
+                }
+                if (roles.size() > 1)
+                {
+                    event.getChannel().sendMessage("Multiple roles found for `" + args.get(1) + "`. Use the role ID instead.").queue();
+                    return;
+                }
+                role = roles.get(0);
+                filteredRoles.put(role.getId(), event.getGuild().getId());
+                event.getChannel().sendMessage("All users with the `" + role.getName() + "` role will now be excluded from the filter.").queue();
+            }
+        } else if (args.get(0).equalsIgnoreCase("removerole") || args.get(0).equalsIgnoreCase("remrole")  || args.get(0).equalsIgnoreCase("unwhitelistrole") || args.get(0).equalsIgnoreCase("uwlrole")) {
+            Role role;
+            try {
+                if (args.size() == 1)
+                {
+                    event.getChannel().sendMessage("Please specify a role").queue();
+                    return;
+                }
+                role = event.getGuild().getRoleById(Long.parseLong(args.get(1)));
+                if (filteredUsers.containsKey(role.getId())) {
+                    filteredUsers.remove(role.getId());
+                    event.getChannel().sendMessage("Removed the `" + role.getName() + "` role filter whitelist.").queue();
+                } else {
+                    event.getChannel().sendMessage("`" + role.getName() + "` is not filter-whitelisted").queue();
+                }
+            } catch (NullPointerException | NumberFormatException ex) {
+
+                List<Role> roles = event.getGuild().getRolesByName(args.get(1), true);
+                if (roles.isEmpty())
+                {
+                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.").queue();
+                    return;
+                }
+                if (roles.size() > 1)
+                {
+                    event.getChannel().sendMessage("Multiple roles found for `" + args.get(1) + "`. Use the role ID instead.").queue();
+                    return;
+                }
+                role = roles.get(0);
+                if (filteredUsers.containsKey(role.getId())) {
+                    filteredUsers.remove(role.getId());
+                    event.getChannel().sendMessage("Removed the `" + role.getName() + "` role filter whitelist.").queue();
+                }else {
+                    event.getChannel().sendMessage("`" + role.getName() + "` is not filter-whitelisted").queue();
+                }
+            }
+        } else
         if (args.get(0).equalsIgnoreCase("true") || args.get(0).equalsIgnoreCase("on")) {
             if (!active) {
                 active = true;
@@ -43,7 +135,7 @@ public class FilterCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Toggles a text-channel filter\n`" + Core.PREFIX + getInvoke() + " [on/off]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`\n" + String.format("Currently `%s`.", active ? "enabled" : "disabled");
+        return "Toggles a text-channel filter\n`" + Core.PREFIX + getInvoke() + " [on/off] : [add/remove] <user> : [addrole/removerole] <role>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`\n" + String.format("Currently `%s`.", active ? "enabled" : "disabled");
     }
 
     @Override

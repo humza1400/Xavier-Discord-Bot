@@ -39,8 +39,12 @@ public class SetRainbowRoleCommand implements ICommand {
             return;
         }
 
+        if (args.isEmpty()) {
+            event.getChannel().sendMessage("Please specify a role");
+            return;
+        }
 
-        if (args.isEmpty() || args.size() > 1) {
+        if (args.size() > 1) {
             channel.sendMessage("Please specify a role").queue();
             return;
         }
@@ -49,17 +53,13 @@ public class SetRainbowRoleCommand implements ICommand {
             return;
         }*/
 
-        if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a role");
-            return;
-        }
         try {
             role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));
             roleID = event.getGuild().getRoleById(Long.parseLong(args.get(0))).getIdLong();
             isRainbowRoleSet = true;
             channel.sendMessage("Rainbow role successfully set to `" + role.getName() + "`").queue();
         } catch (NullPointerException | NumberFormatException ex) {
-                List<Role> roles = event.getGuild().getRolesByName(args.get(0), false);
+                List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
                 if (roles.isEmpty())
                 {
                     event.getChannel().sendMessage("Couldn't find role `" + args.get(0) + "`. Maybe try using the role ID instead.").queue();

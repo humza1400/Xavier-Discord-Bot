@@ -159,6 +159,11 @@ public class CommandManager {
         register(new JokeCommand());
         register(new DogCommand());
         register(new CatCommand());
+        register(new GiveAllRolesCommand());
+        register(new EightBallCommand());
+        register(new ClapifyTextCommand());
+        register(new ReverseCommand());
+        register(new VCMuteChannelCommand());
         // add log command that logs all event updates
         // marry system
         // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage

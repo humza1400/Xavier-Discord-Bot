@@ -44,7 +44,7 @@ public class PlayCommand implements ICommand {
             channel.sendMessage("You're not connected to a voice channel bro").queue();
             return;
         }
-        if (audioManager.isConnected() && !audioManager.getConnectedChannel().getMembers().contains(event.getMember())/* && audioManager.getConnectedChannel().getMembers().size() == 0*/) {
+        if (audioManager.isConnected() && !audioManager.getConnectedChannel().getMembers().contains(event.getMember())) {
             event.getChannel().sendMessage("You need to be in the same voice channel as me to request songs").queue();
             return;
         }
@@ -52,10 +52,7 @@ public class PlayCommand implements ICommand {
             channel.sendMessage("Please provide a song to play").queue();
             return;
         }
-     /*   if (!voiceChannel.getMembers().contains(event.getMember())) {
-            event.getChannel().sendMessage("You need to be in the same voice channel as me to play a song").queue();
-            return;
-        }*/
+
         if (args.isEmpty()) {
             channel.sendMessage("Please provide a song to play").queue();
 

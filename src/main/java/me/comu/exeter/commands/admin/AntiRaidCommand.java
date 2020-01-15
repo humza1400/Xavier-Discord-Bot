@@ -55,7 +55,7 @@ public class AntiRaidCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"ar","anti-raid","antir","noraid"};
+        return new String[] {"ar","anti-raid","antir","noraid","antinuke","anti-nuke","nonuke"};
     }
 
     @Override

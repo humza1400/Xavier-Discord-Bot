@@ -28,7 +28,7 @@ public class Core {
     private static final String TOKEN = "NjI3NzI0MTkyNDIyMjk3NjEw.XhFcHA.Ue2o3XxSqK-QaTOyO04d90tPxtM";
     //public static final String youtubeAPIKey = "AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c";
     public static final String DEBUG = "[DEBUG] ";
-    public static String PREFIX = "idea ";
+    public static String PREFIX = ";;";
 
     public static void main(final String[] args) {
         new Core();
@@ -85,6 +85,7 @@ public class Core {
             jda.addEventListener(new GuildMessageListenerResponderEvent());
             jda.addEventListener(new OffEvent());
             jda.addEventListener(new MemberCountChannelEvent());
+            jda.addEventListener(new FilterEvent());
             logger.info("Successfully Booted");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");

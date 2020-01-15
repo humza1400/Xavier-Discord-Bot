@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -26,6 +27,11 @@ public class SayCommand implements ICommand {
             message = message.replaceAll("@here", "here");
             message = message.replaceAll(Core.PREFIX, "");
             message = message.substring(3);
+            if (message.contains(".gg/"))
+            {
+                event.getChannel().sendMessage("Your message contains blacklisted words").queue();
+                return;
+            }
             event.getChannel().sendMessage(message).queue();
 
         }

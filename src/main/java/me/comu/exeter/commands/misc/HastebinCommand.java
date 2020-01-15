@@ -26,20 +26,14 @@ public class HastebinCommand implements ICommand {
             channel.sendMessage("Missing arguments").queue();
             return;
         }
-
-        final String invoke = getInvoke();
+        String invoke = getInvoke();
         final String contentRaw = event.getMessage().getContentRaw();
-        String[] arguments = contentRaw.split("\\s+");
-        int index;
-        String body;
-        if (arguments[0].equalsIgnoreCase(Core.PREFIX + "paste"))
+        if (contentRaw.toLowerCase().startsWith(Core.PREFIX + "paste"))
         {
-            index = contentRaw.indexOf("paste") + "paste".length() + Core.PREFIX.length();
-            body = contentRaw.substring(index).trim();
-        } else {
-            index = contentRaw.indexOf(invoke) + invoke.length() + Core.PREFIX.length();
-            body = contentRaw.substring(index).trim();
+        invoke = "paste";
         }
+        final int index = contentRaw.indexOf(invoke) + invoke.length();
+        final String body = contentRaw.substring(index).trim();
 
         this.createPaste(body, (text) -> channel.sendMessage(text).queue());
     }
