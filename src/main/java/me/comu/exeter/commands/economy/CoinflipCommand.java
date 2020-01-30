@@ -39,8 +39,7 @@ public class CoinflipCommand implements ICommand {
         {
             event.getChannel().sendMessage(String.format("You don't have sufficient credits. You only have **%s**.", balance)).queue();
             return;
-        }
-        if (wager <= balance)
+        } else
         {
             Random random = new Random();
             if (random.nextInt() % 2 == 0)
@@ -49,7 +48,7 @@ public class CoinflipCommand implements ICommand {
                 event.getChannel().sendMessage("**Congratulations!** You have won your wager of **" + wager + "** credits.").queue();
             } else {
                 EconomyManager.setBalance(member.getUser().getId(), balance - wager);
-                event.getChannel().sendMessage("Yikes, you lost your wager of " + wager + " credits better luck next time.").queue();
+                event.getChannel().sendMessage("**Yikes**, you lost your wager of **" + wager + "** credits better luck next time.").queue();
             }
         }
         EcoJSONHandler.saveEconomyConfig();

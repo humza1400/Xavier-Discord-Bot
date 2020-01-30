@@ -13,7 +13,7 @@ public class EmbedMessageCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        String message = event.getMessage().getContentRaw().toLowerCase();
+        String message = event.getMessage().getContentRaw();
         if (message.endsWith("color:red")) {
             event.getChannel().sendMessage(EmbedUtils.embedMessage(message.replaceFirst(Core.PREFIX + getInvoke(), "").replace("color:red", "")).setColor(Color.RED).setFooter("By " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).setFooter("By " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();return;
         }

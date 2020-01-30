@@ -22,7 +22,7 @@ public class WarnCommand implements ICommand {
         String message = event.getMessage().getContentRaw();
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
-        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+        if (!event.getMember().hasPermission(Permission.VIEW_AUDIT_LOGS)) {
             event.getChannel().sendMessage("You don't have permission to warn someone").queue();
             return;
         }

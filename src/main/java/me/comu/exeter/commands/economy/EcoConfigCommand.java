@@ -29,7 +29,7 @@ public class EcoConfigCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[0];
+        return new String[] {"ecocfg"};
     }
 
      @Override

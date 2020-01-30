@@ -89,7 +89,7 @@ public class SetMuteRoleCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"setmuterole", "muterole", "rolemute"};
+        return new String[]{"setmuterole", "muterole", "rolemute","mutedrole"};
     }
 
      @Override

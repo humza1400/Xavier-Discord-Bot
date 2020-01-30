@@ -35,7 +35,7 @@ public class KissCommand implements ICommand {
             event.getChannel().sendMessage(EmbedUtils.embedImage(kissUrls[new Random().nextInt(kissUrls.length)]).setColor(event.getMember().getColor()).setTitle(String.format("**%s** kisses **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
             return;
         }
-        else if (!args.isEmpty() && !mentionedMembers.isEmpty())
+        else if (!args.isEmpty())
         {
             event.getChannel().sendMessage(EmbedUtils.embedImage(kissUrls[new Random().nextInt(kissUrls.length)]).setColor(event.getMember().getColor()).setTitle(String.format("**%s** kisses **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
         }

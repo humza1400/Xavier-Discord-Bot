@@ -70,6 +70,11 @@ public class GiveRoleCommand implements ICommand {
                 event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
                 return;
             }
+            if (!event.getMember().canInteract(roles.get(0)))
+            {
+                event.getChannel().sendMessage("You cannot modify a role or user whilst it is a higher precedent than your own").queue();
+                return;
+            }
             if (members.get(0).getRoles().contains(roles.get(0)))
             {  try {
                 event.getGuild().removeRoleFromMember(members.get(0), roles.get(0)).queue();
@@ -98,6 +103,11 @@ public class GiveRoleCommand implements ICommand {
                 event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
                 return;
             }
+        if (!event.getMember().canInteract(roles.get(0)))
+        {
+            event.getChannel().sendMessage("You cannot modify a role or user whilst it is a higher precedent than your own").queue();
+            return;
+        }
         if (mentionedMembers.get(0).getRoles().contains(roles.get(0))) {
             try {
                 event.getGuild().removeRoleFromMember(mentionedMembers.get(0), roles.get(0)).queue();

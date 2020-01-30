@@ -16,8 +16,14 @@ public class SetBalanceCommand implements ICommand {
 
         int amount;
 
-        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to set balance").queue();
+        if ((event.getAuthor().getIdLong() != Core.OWNERID)) {
+            event.getChannel().sendMessage("You don't have permission to set balances, sorry bro").queue();
+            return;
+        }
+
+        if (args.isEmpty())
+        {
+            event.getChannel().sendMessage("Please insert a valid user an amount").queue();
             return;
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
@@ -51,7 +57,7 @@ public class SetBalanceCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Adds the specified value to your current balance\n" + "`" + Core.PREFIX + getInvoke() + " [amount]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Sets the specified value to the specified user's balance\n" + "`" + Core.PREFIX + getInvoke() + " [user] <balance>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

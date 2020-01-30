@@ -9,6 +9,7 @@ import me.comu.exeter.commands.marriage.*;
 import me.comu.exeter.commands.misc.InviteManagerCommand;
 import me.comu.exeter.commands.misc.*;
 import me.comu.exeter.commands.moderation.*;
+import me.comu.exeter.commands.moderation.KickCommand;
 import me.comu.exeter.commands.music.*;
 import me.comu.exeter.commands.nuke.*;
 import me.comu.exeter.interfaces.ICommand;
@@ -164,13 +165,18 @@ public class CommandManager {
         register(new ClapifyTextCommand());
         register(new ReverseCommand());
         register(new VCMuteChannelCommand());
+        register(new KillCommand());
+        register(new NitroGenCommand());
+        register(new PurchaseCommand());
+        register(new BaltopCommand());
+        register(new BootCommand());
+        register(new BiteCommand());
+        register(new HoldHandsCommand());
+        register(new LickCommand());
         // add log command that logs all event updates
         // marry system
         // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage
-        // use edit event to test if its edited to a command
-        // makes a admin role and gives it to me
         //add custom commands like dyno
-        // add kill, marry, etc
         // Add a command to move tracks in the queue
         // Add back command
     /*

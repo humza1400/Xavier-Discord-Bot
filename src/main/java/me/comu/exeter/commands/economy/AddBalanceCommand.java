@@ -16,8 +16,8 @@ public class AddBalanceCommand implements ICommand {
 
         int amount;
 
-        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to give yourself credits").queue();
+        if ((event.getAuthor().getIdLong() != Core.OWNERID)) {
+            event.getChannel().sendMessage("You don't have permission to give credits, sorry bro").queue();
             return;
         }
         if (args.isEmpty())
@@ -54,7 +54,7 @@ public class AddBalanceCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Adds the specified amount of credits to your current balance\n" + "`" + Core.PREFIX + getInvoke() + " [amount]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Adds the specified amount of credits to your current balance\n" + "`" + Core.PREFIX + getInvoke() + " [user] <amount>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -64,7 +64,7 @@ public class AddBalanceCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"addbalance","ecogive","moneygive"};
+        return new String[] {"addbalance","ecogive","moneygive","givebal"};
     }
 
      @Override

@@ -23,8 +23,14 @@ public class SupremeCommand implements ICommand {
             return;
         }
         try {
-            String message = event.getMessage().getContentRaw().replaceFirst(Core.PREFIX + getInvoke(), "").trim().replaceAll(" ", "%20");
-            event.getChannel().sendMessage(EmbedUtils.embedImage(api + message).build()).queue();
+            if (event.getMessage().getContentRaw().startsWith(Core.PREFIX + "Supreme")) {
+                String message = event.getMessage().getContentRaw().replaceFirst(Core.PREFIX + "Supreme", "").trim().replaceAll(" ", "%20");
+                event.getChannel().sendMessage(EmbedUtils.embedImage(api + message).build()).queue();
+            }
+            if (event.getMessage().getContentRaw().startsWith(Core.PREFIX + "supreme")) {
+                String message = event.getMessage().getContentRaw().replaceFirst(Core.PREFIX + "supreme", "").trim().replaceAll(" ", "%20");
+                event.getChannel().sendMessage(EmbedUtils.embedImage(api + message).build()).queue();
+            }
         } catch (IllegalArgumentException ex)
         {
             event.getChannel().sendMessage("The message content cannot be over 2000 characters!").queue();

