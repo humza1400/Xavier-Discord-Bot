@@ -26,6 +26,21 @@ public class SetBalanceCommand implements ICommand {
             event.getChannel().sendMessage("Please insert a valid user an amount").queue();
             return;
         }
+        if (args.get(0).equalsIgnoreCase("all") || args.get(0).equalsIgnoreCase("everyone") && args.size() == 2)
+        {
+            for (String x : EconomyManager.getUsers().keySet())
+            {
+                try {
+                    EconomyManager.setBalance(x, Integer.parseInt(args.get(1)));
+                } catch (NumberFormatException ex)
+                {
+                    event.getChannel().sendMessage("That number is either invalid or too large").queue();
+                    return;
+                }
+            }
+            event.getChannel().sendMessage("Successfully set everyone's balance to **" + args.get(1) + "** credits.").queue();
+            return;
+        }
         List<Member> memberList = event.getMessage().getMentionedMembers();
         try {
             if (memberList.isEmpty())

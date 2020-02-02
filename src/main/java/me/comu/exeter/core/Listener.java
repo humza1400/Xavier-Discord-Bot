@@ -64,7 +64,6 @@ class  Listener extends ListenerAdapter {
            WhitelistedJSONHandler.saveWhitelistConfig();
            logger.info("Shutdown thread called; Saved modules...");
            Core.shutdownThread();
-           return;
         }
         if (/*!event.getAuthor().isBot() && */!event.getMessage().isWebhookMessage() && event.getMessage().getContentRaw().startsWith(Core.PREFIX)) {
             manager.handle(event);

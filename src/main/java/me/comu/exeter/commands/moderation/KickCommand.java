@@ -52,6 +52,10 @@ public class KickCommand implements ICommand {
             Member target = targets.get(0);
             if (reason.equals("")) {
                 try {
+                    if (!event.getMember().canInteract(target)) {
+                        event.getChannel().sendMessage("You don't have permission to kick that user").queue();
+                        return;
+                    }
                 event.getGuild().kick(target, String.format("Kicked by %#s", event.getAuthor())).queue();
                 } catch (HierarchyException ex)
                 {
@@ -62,6 +66,10 @@ public class KickCommand implements ICommand {
             }
             else {
                 try {
+                    if (!event.getMember().canInteract(target)) {
+                        event.getChannel().sendMessage("You don't have permission to kick that user").queue();
+                        return;
+                    }
                 event.getGuild().kick(target, String.format("Kicked by %#s for %s", event.getAuthor(), reason)).queue();
                 } catch (HierarchyException ex)
                 {
@@ -74,6 +82,10 @@ public class KickCommand implements ICommand {
         Member target = mentionedMembers.get(0);
         if (reason.equals("")) {
             try {
+                if (!event.getMember().canInteract(target)) {
+                    event.getChannel().sendMessage("You don't have permission to kick that user").queue();
+                    return;
+                }
             event.getGuild().kick(target, String.format("Kicked by %#s", event.getAuthor())).queue();
             } catch (HierarchyException ex)
             {
@@ -84,6 +96,10 @@ public class KickCommand implements ICommand {
         }
         else {
             try {
+                if (!event.getMember().canInteract(target)) {
+                    event.getChannel().sendMessage("You don't have permission to kick that user").queue();
+                    return;
+                }
             event.getGuild().kick(target, String.format("Kicked by %#s for %s", event.getAuthor(), reason)).queue();
             } catch (HierarchyException ex)
             {

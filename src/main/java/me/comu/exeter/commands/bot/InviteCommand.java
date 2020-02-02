@@ -11,7 +11,7 @@ public class InviteCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage("Sorry, but this bot is currently private and made exclusively for the `" + event.getGuild().getName() + "` discord. Please PM swag#3231 for further questions.").queue();
+        event.getChannel().sendMessage("Sorry, but this bot is currently private and made exclusively for the `" + event.getGuild().getName() + "` discord. Please PM Fruit WRLD#3231 for further questions.").queue();
     }
 
     @Override

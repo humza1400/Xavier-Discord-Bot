@@ -16,7 +16,7 @@ import java.util.List;
 
 public class SetVolumeCommand implements ICommand {
 
-    int volume = 10;
+    int volume;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -27,14 +27,14 @@ public class SetVolumeCommand implements ICommand {
         TextChannel textChannel = event.getChannel();
 
         if (args.isEmpty()) {
-            textChannel.sendMessage("Please insert a number you would like the volume to be changed to\nCurrent volume: `" + volume + "`").queue();
+            textChannel.sendMessage("Please insert a number you would like the volume to be changed to\nCurrent volume: `" + guildMusicManager.player.getVolume() + "`").queue();
             return;
         }
         if (!audioManager.isConnected()) {
             textChannel.sendMessage("I'm not even connected to a voice channel bro").queue();
             return;
         }
-        if (audioManager.isConnected() && !voiceChannel.getMembers().contains(event.getMember())) {
+        if (!voiceChannel.getMembers().contains(event.getMember())) {
             event.getChannel().sendMessage("You need to be in the same voice channel as me to adjust the volume").queue();
             return;
         }

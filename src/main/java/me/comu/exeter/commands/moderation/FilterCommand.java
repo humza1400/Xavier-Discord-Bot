@@ -58,7 +58,7 @@ public class FilterCommand implements ICommand {
                     event.getChannel().sendMessage("Please specify a role").queue();
                     return;
                 }
-                role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));
+                role = event.getGuild().getRoleById(Long.parseLong(args.get(2)));
                 filteredRoles.put(role.getId(), event.getGuild().getId());
                 event.getChannel().sendMessage("All users with the `" + role.getName() + "` role will now be excluded from the filter.").queue();
             } catch (NullPointerException | NumberFormatException ex) {

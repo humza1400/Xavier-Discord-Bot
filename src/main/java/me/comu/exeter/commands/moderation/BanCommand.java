@@ -21,7 +21,7 @@ public class BanCommand implements ICommand {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
 
-        if (!member.hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID/* || !member.canInteract(target)*/) {
+        if (!member.hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to ban that user").queue();
             return;
         }
@@ -52,11 +52,19 @@ public class BanCommand implements ICommand {
                     return;
 
                 }
+                if (!event.getMember().canInteract(target)) {
+                    event.getChannel().sendMessage("You don't have permission to ban that user").queue();
+                    return;
+                }
                 event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
                 channel.sendMessage(String.format("Banned %s", target.getUser().getName() + "#" + target.getUser().getDiscriminator())).queue();
             } else {
                 if (!selfMember.canInteract(target)) {
                     event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
+                    return;
+                }
+                if (!event.getMember().canInteract(target)) {
+                    event.getChannel().sendMessage("You don't have permission to ban that user").queue();
                     return;
                 }
                 event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
@@ -70,11 +78,19 @@ public class BanCommand implements ICommand {
                 event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
                 return;
             }
+            if (!event.getMember().canInteract(target)) {
+                event.getChannel().sendMessage("You don't have permission to ban that user").queue();
+                return;
+            }
             event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
             channel.sendMessage(String.format("Banned %s", target.getUser().getName() + "#" + target.getUser().getDiscriminator())).queue();
         } else {
             if (!selfMember.canInteract(target)) {
                 event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
+                return;
+            }
+            if (!event.getMember().canInteract(target)) {
+                event.getChannel().sendMessage("You don't have permission to ban that user").queue();
                 return;
             }
             event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();

@@ -23,7 +23,7 @@ public class ShopCommand implements ICommand {
         embed.addField("Custom Role", "**4.** Cost: **`" + myFormat.format(Products.CUSTOM_ROLE) + "`**\n **5.** Stock: **`\u221E`**\n **6.** ID: **`" + Products.CUSTOM_ROLE_ID + "`**", true);
         embed.addField("Hoisted Role", "**7.** Cost: **`" + myFormat.format(Products.HOISTED_ROLE) + "`**\n **8.** Stock: **`\u221E`**\n **9.** ID: **`" + Products.HOISTED_ROLE_ID + "`**", true);
         embed.addField("Custom VC", "**10.** Cost: **`" + myFormat.format(Products.CUSTOM_VC) + "`**\n **11.** Stock: **`\u221E`**\n **12.** ID: **`" + Products.CUSTOM_VC_ID + "`**", true);
-        embed.addField("Custom Perms", "**13.** Cost: **`" + myFormat.format(Products.VC_PERMS) + "`**\n **14.** Stock: **`\u221E`**\n **15.** ID: **`" + Products.VC_PERMS_ID + "`**", true);
+        embed.addField("VC Perms", "**13.** Cost: **`" + myFormat.format(Products.VC_PERMS) + "`**\n **14.** Stock: **`\u221E`**\n **15.** ID: **`" + Products.VC_PERMS_ID + "`**", true);
         embed.addField("Staff Role", "**16.** Cost: **`" + myFormat.format(Products.STAFF_ROLE) + "`**\n **17** Stock: **`\u221E`**\n **18.** ID: **`" + Products.STAFF_ROLE_ID+ "`**", true);
 //        embed.addField("Staff Role", "**** DM?: **`\u2705`**", true);
         embed.setFooter("Requested by " + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator(), event.getMember().getUser().getAvatarUrl());

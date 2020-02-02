@@ -173,6 +173,12 @@ public class CommandManager {
         register(new BiteCommand());
         register(new HoldHandsCommand());
         register(new LickCommand());
+        register(new SexCommand());
+        register(new ResetAllBalancesCommand());
+        register(new WaveCommand());
+        register(new EmbedImageCommand());
+        register(new VCStatsCommand());
+        register(new ChatStatsCommand());
         // add log command that logs all event updates
         // marry system
         // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage

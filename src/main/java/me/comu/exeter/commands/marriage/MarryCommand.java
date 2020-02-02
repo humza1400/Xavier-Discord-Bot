@@ -3,7 +3,6 @@ package me.comu.exeter.commands.marriage;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.util.Timer;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -49,10 +48,7 @@ public class MarryCommand implements ICommand {
                             return;
 
                         });
-//        if (pending) {
-//            event.getChannel().sendMessage(member.getAsMention() + " your marriage proposal to " + members.get(0).getAsMention() + " has expired!").queue();
-//            pending = false;
-//        }
+
         }
 
 

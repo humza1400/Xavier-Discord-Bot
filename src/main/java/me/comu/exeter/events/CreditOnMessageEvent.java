@@ -1,6 +1,7 @@
 package me.comu.exeter.events;
 
 import me.comu.exeter.commands.economy.EconomyManager;
+import me.comu.exeter.util.ChatTrackingManager;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -22,6 +23,11 @@ public class CreditOnMessageEvent extends ListenerAdapter {
                 EconomyManager.getUsers().put(event.getAuthor().getId(), 0);
             EconomyManager.setBalance(event.getAuthor().getId(), EconomyManager.getBalance(event.getAuthor().getId()) + amount);
         }
+        if (ChatTrackingManager.verifyChatUser(event.getMember().getId()))
+        {
+            ChatTrackingManager.setChatCredits(event.getMember().getId(), 0);
+        }
+        ChatTrackingManager.setChatCredits(event.getMember().getId(), ChatTrackingManager.getChatCredits(event.getMember().getId()) + 1);
 
     }
 }

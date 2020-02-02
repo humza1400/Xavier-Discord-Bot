@@ -39,10 +39,10 @@ public class RepeatCommand implements ICommand {
         }
         if(playerManager.loop) {
             playerManager.loop = false;
-            event.getChannel().sendMessage("Current track will no longer be looped").queue();
+            event.getChannel().sendMessage("Current tracks will no longer be looped").queue();
         }else {
             playerManager.loop = true;
-            event.getChannel().sendMessage("Current track will now be looped").queue();
+            event.getChannel().sendMessage("Current tracks will now be looped").queue();
         }
 
     }

@@ -88,6 +88,7 @@ public class Core {
             jda.addEventListener(new FilterEvent());
             jda.addEventListener(new CreditOnMessageEvent());
             jda.addEventListener(new VoiceChannelCreditsEvent());
+            jda.addEventListener(new VCTimeTrackingEvent());
             logger.info("Successfully Booted");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");
@@ -96,8 +97,8 @@ public class Core {
 
 
     public static void shutdownThread() {
-        LoginGUI.running = false;
-        LoginGUI.jStatusField.setText("NOT RUNNING");
+//        LoginGUI.running = false;
+//        LoginGUI.jStatusField.setText("NOT RUNNING");
         jda.shutdownNow();
     }
 
