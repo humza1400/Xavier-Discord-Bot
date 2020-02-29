@@ -73,7 +73,7 @@ public class PurchaseCommand implements ICommand {
             }
             EconomyManager.setBalance(event.getMember().getId(), EconomyManager.getBalance(event.getMember().getId()) - Products.STAFF_ROLE);
             EcoJSONHandler.saveEconomyConfig();
-            event.getChannel().sendMessage(event.getMember().getAsMention() + " has successfully purchased __Voice-Channel Permissions (" + Products.STAFF_ROLE_ID + ")__ for **" + Products.STAFF_ROLE + "** credits! :partying_face: :tada: (Please DM an Admin)").queue();
+            event.getChannel().sendMessage(event.getMember().getAsMention() + " has successfully purchased a __Staff Role (" + Products.STAFF_ROLE_ID + ")__ for **" + Products.STAFF_ROLE + "** credits! :partying_face: :tada: (Please DM an Admin)").queue();
         }
         else {
             event.getChannel().sendMessage("Invalid product-id, please refer to `" + Core.PREFIX + "shop`").queue();

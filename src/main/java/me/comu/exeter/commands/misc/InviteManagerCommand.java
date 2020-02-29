@@ -56,7 +56,16 @@ public class InviteManagerCommand implements ICommand {
                 }));
             }
     }
-
+/*
+main.getGuild().retrieveInvites().queue((invites) ->
+        {
+            latestInvites.addAll(invites);
+            ArrayList<Invite> missingElement = new ArrayList<>(CollectionUtils.subtract(invitesBefore, latestInvites));
+            if (main.getverifiedMembers().containsKey(missingElement.get(0).getInviter())){
+        He is the person that created the invite
+            }
+        });
+ */
     @Override
     public String getHelp() {
         return "Returns the amount of people the user has invited to the server (not 100% accurate)\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";

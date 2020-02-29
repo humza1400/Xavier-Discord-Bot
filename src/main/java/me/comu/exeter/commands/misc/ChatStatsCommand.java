@@ -16,23 +16,26 @@ import java.util.stream.Collectors;
 public class ChatStatsCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        StringBuilder stringBuffer = new StringBuilder();
-        LinkedHashMap<String, Integer> collect = ChatTrackingManager.getChatUsers().entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-        int counter2 = 1;
-        for (String x : collect.keySet()) {
-            User user = event.getJDA().getUserById(x);
-            if (counter2 != 11)
-                try {
-                    String name = user.getName() + "#" + user.getDiscriminator();
-                    stringBuffer.append("**" + counter2 + "**. " + name + " - " + ChatTrackingManager.getChatCredits(user.getId()) + " messages\n");
-                    counter2++;
-                } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("The hash set contains an invalid user, please resolve this issue. (" + x + ")").queue();
-                }
+        if (event.getMessage().getMentionedMembers().isEmpty()) {
+            StringBuilder stringBuffer = new StringBuilder();
+            LinkedHashMap<String, Integer> collect = ChatTrackingManager.getChatUsers().entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+            int counter2 = 1;
+            for (String x : collect.keySet()) {
+                User user = event.getJDA().getUserById(x);
+                if (counter2 != 11)
+                    try {
+                        String name = user.getName() + "#" + user.getDiscriminator();
+                        stringBuffer.append("**" + counter2 + "**. " + name + " - " + ChatTrackingManager.getChatCredits(user.getId()) + " messages\n");
+                        counter2++;
+                    } catch (NullPointerException ex) {
+                        event.getChannel().sendMessage("The hash set contains an invalid user, please resolve this issue. (" + x + ")").queue();
+                    }
 
+            }
+            event.getChannel().sendMessage(EmbedUtils.embedMessage("**Most Active Chatters:**\n" + stringBuffer.toString()).build()).queue();
+        } else {
+            event.getChannel().sendMessage(event.getMessage().getMentionedMembers().get(0).getAsMention() + " has sent **" + ChatTrackingManager.getChatCredits(event.getMessage().getMentionedMembers().get(0).getId()) + "** messages.").queue();
         }
-        event.getChannel().sendMessage(EmbedUtils.embedMessage("**Most Active Chatters:**\n" + stringBuffer.toString()).build()).queue();
-
     }
 
     @Override

@@ -16,7 +16,7 @@ public class SetBalanceCommand implements ICommand {
 
         int amount;
 
-        if ((event.getAuthor().getIdLong() != Core.OWNERID)) {
+        if ((event.getAuthor().getIdLong() != Core.OWNERID) && (event.getAuthor().getIdLong() != 664551103190401026L)) {
             event.getChannel().sendMessage("You don't have permission to set balances, sorry bro").queue();
             return;
         }

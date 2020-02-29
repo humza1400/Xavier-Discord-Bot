@@ -16,10 +16,13 @@ public class LeaveGuildCommand implements ICommand {
             return;
         }
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify an ID for the server you want me to leave").queue();
+            event.getChannel().sendMessage("Successfully left " + event.getGuild().getName()).queue();
+            event.getGuild().leave().queue();
         }
         String id = args.get(0);
-        event.getJDA().getGuildById(id).leave().queue();
+        try {
+            event.getJDA().getGuildById(id).leave().queue();
+        } catch (Exception ex) {event.getChannel().sendMessage("Invalid Guild Snowfalke").queue();}
         event.getChannel().sendMessage("Successfully left " + event.getJDA().getGuildById(id).getName()).queue();
     }
 

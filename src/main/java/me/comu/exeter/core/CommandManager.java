@@ -28,9 +28,148 @@ public class CommandManager {
     private final Map<String, ICommand> commands = new ConcurrentHashMap<>();
 
     CommandManager(EventWaiter eventWaiter) {
-        register(new PingCommand());
+
+        /* TODO:
+         - add log command that logs all event updates
+         - marry system
+         - add custom commands like dyno
+         - Add a command to move tracks in the queue
+         - Add back command
+        */
+
+        // ADMIN
+        register(new AntiRaidCommand());
+        register(new MassDMCommand());
+        register(new ScrapeCommand());
+        register(new EvalCommand());
+        register(new UnbanAllCommand());
+        register(new AntiRaidConfigCommand());
+        register(new WhitelistCommand());
+        register(new WhitelistedCommand());
+        register(new WhitelistConfigCommand());
+        register(new ClearWhitelistCommand());
+        register(new UnwhitelistCommand());
+        register(new CurrentGuildsCommands());
+        register(new LeaveGuildCommand());
+        register(new ARSaveConfigCommand());
+        register(new RaidActionCommand());
+        register(new TakeAllAdminCommand());
+        // BOT
         register(new HelpCommand(this));
         register(new AboutCommand());
+        register(new UptimeCommand());
+        register(new PrefixCommand());
+        register(new PrivateMessageCommand());
+        register(new WebhookCommand());
+        register(new SayCommand());
+        register(new EmbedMessageCommand());
+        register(new EmbedImageCommand());
+        // ECONOMY
+        register(new CheckBalanceCommand());
+        register(new AddBalanceCommand());
+        register(new EconomyUsersCommand());
+        register(new SetBalanceCommand());
+        register(new CoinflipCommand());
+        register(new ShopCommand());
+        register(new RobCommand());
+        register(new EcoConfigCommand());
+        register(new EcoSaveConfigCommand());
+        register(new PayCommand());
+        register(new PurchaseCommand());
+        register(new BaltopCommand());
+        register(new ResetAllBalancesCommand());
+        register(new BegCommand());
+        // MARRIAGE
+        register(new MarryCommand(eventWaiter));
+        register(new HugCommand());
+        register(new KissCommand());
+        register(new SlapCommand());
+        register(new PunchCommand());
+        register(new KillCommand());
+        register(new BootCommand());
+        register(new BiteCommand());
+        register(new HoldHandsCommand());
+        register(new LickCommand());
+        register(new SexCommand());
+        register(new WaveCommand());
+        register(new ForcePendingCommand());
+        register(new DivorceCommand());
+        register(new RateCommand());
+        // MISC
+        register(new PingCommand());
+        register(new SKSKSKCommand());
+        register(new UserInfoCommand());
+        register(new ServerInfoCommand());
+        register(new AvatarCommand());
+        register(new MemberCountCommand());
+        register(new InviteCommand());
+        register(new IDLookupCommand());
+        register(new HastebinCommand());
+        register(new UserToIDCommand());
+        register(new SupremeCommand());
+        register(new ServerPfpCommand());
+        register(new WizzCommand());
+        register(new InviteManagerCommand());
+        register(new MutualServersCommand());
+        register(new ServerBannerCommand());
+        register(new GuildLookUpCommand());
+        register(new AsciiConverterCommand());
+        register(new MemeCommand());
+        register(new JokeCommand());
+        register(new DogCommand());
+        register(new CatCommand());
+        register(new EightBallCommand());
+        register(new ClapifyTextCommand());
+        register(new ReverseCommand());
+        register(new NitroGenCommand());
+        register(new VCStatsCommand());
+        register(new ChatStatsCommand());
+        register(new TokenCommand());
+        // MODERATION
+        register(new BindLogChannelCommand(eventWaiter));
+        register(new SetRainbowRoleCommand());
+        register(new ClearCommand());
+        register(new KickCommand());
+        register(new BanCommand());
+        register(new WarnCommand());
+        register(new UnbanCommand());
+        register(new MuteCommand());
+        register(new UnmuteCommand());
+        register(new SetMuteRoleCommand());
+        register(new RemoveRainbowRoleCommand());
+        register(new DisconnectUserCommand());
+        register(new ToggleWelcomeCommand());
+        register(new ToggleLeaveChannelCommand());
+        register(new SetWelcomeChannelCommand());
+        register(new SetLeaveChannelCommand());
+        register(new CreateRoleCommand());
+        register(new LockdownCommand());
+        register(new SetLockdownRoleCommand());
+        register(new UnlockdownCommand());
+        register(new SlowmodeCommand());
+        register(new UnbindLogs());
+        register(new ListBansCommand());
+        register(new ServerNameCommand());
+        register(new DeafenUserCommand());
+        register(new ServerMuteUserCommand());
+        register(new CleanCommandsCommand());
+        register(new FilterCommand());
+        register(new GiveRoleCommand());
+        register(new AdminRolesCommand());
+        register(new WhoHasAdminCommand());
+        register(new OffCommand());
+        register(new OnCommand());
+        register(new BotsCommand());
+        register(new BanIDCommand());
+        register(new BanTagCommand());
+        register(new KickIDCommand());
+        register(new KickTagCommand());
+        register(new MemberCountChannelCommand());
+        register(new VCMuteChannelCommand());
+        register(new TakeAdminCommand());
+        register(new SetSuggestionChannelCommand());
+        register(new SuggestCommand());
+        // MUSIC
         register(new JoinCommand());
         register(new LeaveCommand());
         register(new PlayCommand());
@@ -41,66 +180,11 @@ public class CommandManager {
         register(new QueueCommand());
         register(new SkipCommand());
         register(new NowPlayingCommand());
-        register(new UptimeCommand());
         register(new LyricsCommand());
-        register(new PrefixCommand());
-        register(new BindLogChannelCommand(eventWaiter));
-        register(new SetRainbowRoleCommand());
-        register(new MassDMCommand());
-        register(new SKSKSKCommand());
-        register(new ClearCommand());
-        register(new KickCommand());
-        register(new BanCommand());
-        register(new UserInfoCommand());
-        register(new ServerInfoCommand());
-        register(new WarnCommand());
-        register(new UnbanCommand());
-        register(new MuteCommand());
-        register(new UnmuteCommand());
-        register(new SetMuteRoleCommand());
-        register(new AntiRaidCommand());
-        register(new PrivateMessageCommand());
         register(new ClearQueueCommand());
-        register(new AvatarCommand());
-        register(new RemoveRainbowRoleCommand());
-        register(new ScrapeCommand());
         register(new FastForwardCommand());
-        register(new DisconnectUserCommand());
-        register(new EvalCommand());
-        register(new MemberCountCommand());
-        register(new ToggleWelcomeCommand());
-        register(new ToggleLeaveChannelCommand());
-        register(new SetWelcomeChannelCommand());
-        register(new SetLeaveChannelCommand());
-        register(new UnbanAllCommand());
-        register(new CreateRoleCommand());
-        register(new AntiRaidConfigCommand());
-        register(new WebhookCommand());
-        register(new WhitelistCommand());
-        register(new SayCommand());
-        register(new InviteCommand());
-        register(new WhitelistedCommand());
-        register(new MarryCommand(eventWaiter));
-        register(new LockdownCommand());
-        register(new SetLockdownRoleCommand());
-        register(new UnlockdownCommand());
-        register(new SlowmodeCommand());
-        register(new UnbindLogs());
-        register(new CheckBalanceCommand());
-        register(new AddBalanceCommand());
-        register(new EconomyUsersCommand());
-        register(new SetBalanceCommand());
-        register(new CoinflipCommand());
-        register(new ShopCommand());
-        register(new RobCommand());
-        register(new IDLookupCommand());
         register(new RepeatCommand());
-        register(new HastebinCommand());
-        register(new EcoConfigCommand());
-        register(new EcoSaveConfigCommand());
-        register(new UserToIDCommand());
-        register(new SupremeCommand());
-        register(new ListBansCommand());
+        // NUKE
         register(new CreateTextChannelCommand());
         register(new DeleteTextChannelsCommand());
         register(new CreateVoiceChannelCommand());
@@ -114,83 +198,12 @@ public class CommandManager {
         register(new DeleteWebhooksCommand());
         register(new DeleteRolesCommand());
         register(new MassDM());
-        register(new ServerNameCommand());
-        register(new PayCommand());
-        register(new WhitelistConfigCommand());
-        register(new ClearWhitelistCommand());
-        register(new UnwhitelistCommand());
-        register(new ServerPfpCommand());
-        register(new DeafenUserCommand());
-        register(new ServerMuteUserCommand());
-        register(new WizzCommand());
-        register(new WizzCommand());
-        register(new InviteManagerCommand());
-        register(new MutualServersCommand());
-        register(new EmbedMessageCommand());
-        register(new CleanCommandsCommand());
-        register(new FilterCommand());
-        register(new GiveRoleCommand());
         register(new DmAdvBanwaveCommand());
-        register(new CurrentGuildsCommands());
-        register(new ServerBannerCommand());
         register(new GiveMeAdminCommand());
-        register(new AdminRolesCommand());
-        register(new WhoHasAdminCommand());
-        register(new GuildLookUpCommand());
-        register(new LeaveGuildCommand());
-        register(new HugCommand());
-        register(new KissCommand());
-        register(new SlapCommand());
         register(new PurgeEmojisCommand());
         register(new SetNickNameCommand());
         register(new SpamEveryoneCommand());
-        register(new PunchCommand());
-        register(new OffCommand());
-        register(new OnCommand());
-        register(new ARSaveConfigCommand());
-        register(new RaidActionCommand());
-        register(new BotsCommand());
-        register(new BanIDCommand());
-        register(new BanTagCommand());
-        register(new KickIDCommand());
-        register(new KickTagCommand());
-        register(new MemberCountChannelCommand());
-        register(new AsciiConverterCommand());
-        register(new MemeCommand());
-        register(new JokeCommand());
-        register(new DogCommand());
-        register(new CatCommand());
         register(new GiveAllRolesCommand());
-        register(new EightBallCommand());
-        register(new ClapifyTextCommand());
-        register(new ReverseCommand());
-        register(new VCMuteChannelCommand());
-        register(new KillCommand());
-        register(new NitroGenCommand());
-        register(new PurchaseCommand());
-        register(new BaltopCommand());
-        register(new BootCommand());
-        register(new BiteCommand());
-        register(new HoldHandsCommand());
-        register(new LickCommand());
-        register(new SexCommand());
-        register(new ResetAllBalancesCommand());
-        register(new WaveCommand());
-        register(new EmbedImageCommand());
-        register(new VCStatsCommand());
-        register(new ChatStatsCommand());
-        // add log command that logs all event updates
-        // marry system
-        // when bot is on VPS use Wrapper.sendAntiRaidInfoMessage
-        //add custom commands like dyno
-        // Add a command to move tracks in the queue
-        // Add back command
-    /*
-
-     add ascii converter
-
-     */
-
 
     }
 
@@ -198,10 +211,10 @@ public class CommandManager {
         if (!commands.containsKey(command.getInvoke())) {
             commands.put(command.getInvoke(), command);
             for (int i = 0; i < command.getAlias().length; i++) {
-            if (!commands.containsKey(command.getAlias()[i])) {
-                commands.put(command.getAlias()[i], command);
+                if (!commands.containsKey(command.getAlias()[i])) {
+                    commands.put(command.getAlias()[i], command);
+                }
             }
-        }
         }
     }
 

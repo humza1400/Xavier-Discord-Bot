@@ -20,7 +20,7 @@ public class GuildMessageListenerResponderEvent extends ListenerAdapter {
 //                event.getChannel().sendMessage(EmbedUtils.embedImage("https://cdn.discordapp.com/attachments/645864864752861184/657355587947986952/Screenshot_992.png").setColor(event.getMember().getColor()).addField("30 year old Pedophile:", "<@447803380958756864>", false).build()).queue();
 //                event.getChannel().sendMessage(EmbedUtils.embedImage( "https://cdn.discordapp.com/attachments/645864864752861184/657355585263632414/Screenshot_990.png").setColor(event.getMember().getColor()).addField("Dated 11 year old named tae:", "<@447803380958756864>", false).build()).queue();
 //            }
-            if (msg.contains(" " + event.getJDA().getSelfUser().getName().toLowerCase() + " ")) {
+            if (event.getMessage().getMentionedMembers().get(0).getId().equalsIgnoreCase(event.getJDA().getSelfUser().getId())) {
                 MessageEmbed embed = new EmbedBuilder().addField("Current prefix:" , Core.PREFIX, false).setColor(Wrapper.getRandomColor()).build();
                 event.getChannel().sendMessage(embed).queue();
             }

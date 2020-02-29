@@ -36,7 +36,7 @@ public class UnbanAllCommand implements ICommand {
                 return;
             }
             for (int i = 0; i < entries.size(); i++) {
-                event.getGuild().unban(entries.get(i).getUser()).queue();
+                event.getGuild().unban(entries.get(i).getUser()).reason("Purged Ban; Executed By " + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator()).queue();
                 Logger.getLogger().print("Unbanned " + entries.get(i).getUser().getName() + "#" + entries.get(i).getUser().getDiscriminator());
             }
             event.getChannel().sendMessage(String.format("Unbanned **%s** users", entries.size())).queue();

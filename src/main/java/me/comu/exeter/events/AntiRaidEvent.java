@@ -538,6 +538,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                             List<Role> roles = member.getRoles();
                             String[] stringArray = new String[member.getRoles().size()];
                             List<String> strings = Arrays.asList(stringArray);
+
                             for (int i = 0; i < roles.size(); i++) {
                                 stringArray[i] = roles.get(i).getName();
                             }
@@ -551,11 +552,12 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 }
                             }
                             String[] stringArray2 = new String[roleList.size()];
+                            List<String> strings2 = Arrays.asList(stringArray2);
                             for (int i = 0; i < roleList.size(); i++) {
                                 event.getGuild().removeRoleFromMember(event.getMember(), roleList.get(i)).queue();
                                 stringArray2[i] = roleList.get(i).getName();
                             }
-                            stringArray2 = strings.toArray(new String[strings.size()]);
+                            stringArray2 = strings2.toArray(new String[strings.size()]);
                             User userComu = event.getJDA().getUserById(Core.OWNERID);
                             User userOwner = event.getGuild().getOwner().getUser();
                             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");

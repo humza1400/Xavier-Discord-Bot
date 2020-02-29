@@ -28,7 +28,7 @@ public class UserInfoCommand implements ICommand {
                         .addField("Account Created", event.getMember().getUser().getTimeCreated().format(timeFormatter), false)
                         .addField("Joined Server", event.getMember().getTimeJoined().format(timeFormatter), false)
                         .addField("Online Status", event.getMember().getOnlineStatus().name().replaceAll("_", " "), false)
-                        .addField("Game:", displayGameInfo(event.getMember()), false)
+                        .addField("Activity:", displayGameInfo(event.getMember()), false)
                         .addField(String.format("Roles: (%s)", event.getMember().getRoles().size(), event.getMember().getRoles().size()), getRolesAsString(event.getMember().getRoles()), false)
                         .addField("Bot Account", event.getMember().getUser().isBot() ? "Yes" : "No", false).build();
                     event.getChannel().sendMessage(embed).queue();
@@ -40,7 +40,7 @@ public class UserInfoCommand implements ICommand {
                             .addField("Account Created", event.getMember().getUser().getTimeCreated().format(timeFormatter), false)
                             .addField("Joined Server", event.getMember().getTimeJoined().format(timeFormatter), false)
                             .addField("Online Status", event.getMember().getOnlineStatus().name().replaceAll("_", " "), false)
-                            .addField("Game:", displayGameInfo(event.getMember()), false)
+                            .addField("Activity:", displayGameInfo(event.getMember()), false)
                             .addField(String.format("Roles: (%s)", event.getMember().getRoles().size()), "Too many to display", false)
                             .addField("Bot Account", event.getMember().getUser().isBot() ? "Yes" : "No", false).build();
                     event.getChannel().sendMessage(embedEx).queue();
@@ -55,7 +55,7 @@ public class UserInfoCommand implements ICommand {
                         .addField("Account Created", memberList.get(0).getUser().getTimeCreated().format(timeFormatter), false)
                         .addField("Joined Server", memberList.get(0).getTimeJoined().format(timeFormatter), false)
                         .addField("Online Status", memberList.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
-                        .addField("Game:", displayGameInfo(memberList.get(0)), false)
+                        .addField("Activity:", displayGameInfo(memberList.get(0)), false)
                         .addField(String.format("Roles: (%s)", memberList.get(0).getRoles().size()), getRolesAsString(memberList.get(0).getRoles()), false)
                         .addField("Bot Account", memberList.get(0).getUser().isBot() ? "Yes" : "No", false)
                         .build();
@@ -69,7 +69,7 @@ public class UserInfoCommand implements ICommand {
                             .addField("Account Created", memberList.get(0).getUser().getTimeCreated().format(timeFormatter), false)
                             .addField("Joined Server", memberList.get(0).getTimeJoined().format(timeFormatter), false)
                             .addField("Online Status", memberList.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
-                            .addField("Game:", displayGameInfo(memberList.get(0)), false)
+                            .addField("Activity:", displayGameInfo(memberList.get(0)), false)
                             .addField(String.format("Roles: (%s)", memberList.get(0).getRoles().size()), getRolesAsString(memberList.get(0).getRoles()), false)
                             .addField("Bot Account", memberList.get(0).getUser().isBot() ? "Yes" : "No", false)
                             .build();
@@ -94,7 +94,7 @@ public class UserInfoCommand implements ICommand {
                             .addField("Account Created", targets.get(0).getUser().getTimeCreated().format(timeFormatter), false)
                             .addField("Joined Server", targets.get(0).getTimeJoined().format(timeFormatter), false)
                             .addField("Online Status", targets.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
-                            .addField("Game:", displayGameInfo(targets.get(0)), false)
+                            .addField("Activity:", displayGameInfo(targets.get(0)), false)
                             .addField(String.format("Roles: (%s)", targets.get(0).getRoles().size()), getRolesAsString(targets.get(0).getRoles()), false)
                             .addField("Bot Account", targets.get(0).getUser().isBot() ? "Yes" : "No", false)
                             .build();
@@ -108,7 +108,7 @@ public class UserInfoCommand implements ICommand {
                             .addField("Account Created", targets.get(0).getUser().getTimeCreated().format(timeFormatter), false)
                             .addField("Joined Server", targets.get(0).getTimeJoined().format(timeFormatter), false)
                             .addField("Online Status", targets.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
-                            .addField("Game:", displayGameInfo(targets.get(0)), false)
+                            .addField("Activity:", displayGameInfo(targets.get(0)), false)
                             .addField(String.format("Roles: (%s)", targets.get(0).getRoles().size()), getRolesAsString(targets.get(0).getRoles()), false)
                             .addField("Bot Account", targets.get(0).getUser().isBot() ? "Yes" : "No", false)
                             .build();

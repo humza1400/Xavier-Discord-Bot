@@ -11,6 +11,8 @@ import java.time.Instant;
 public class VCTimeTrackingEvent extends ListenerAdapter {
     @Override
     public void onGuildVoiceJoin(@Nonnull GuildVoiceJoinEvent event) {
+        if (event.getMember().getUser().isBot())
+            return;
     if (VCTrackingManager.verifyJoinedUser(event.getMember().getId()))
     {
         VCTrackingManager.getJoinedVCUsers().put(event.getMember().getId(), 0L);
@@ -21,6 +23,8 @@ public class VCTimeTrackingEvent extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceLeave(@Nonnull GuildVoiceLeaveEvent event) {
+        if (event.getMember().getUser().isBot())
+            return;
         if (VCTrackingManager.verifyLeaveUser(event.getMember().getId()))
         {
             VCTrackingManager.getLeaveVCUsers().put(event.getMember().getId(), 0L);

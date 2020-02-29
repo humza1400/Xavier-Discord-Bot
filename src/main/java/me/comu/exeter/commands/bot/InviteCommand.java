@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -11,7 +12,12 @@ public class InviteCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage("Sorry, but this bot is currently private and made exclusively for the `" + event.getGuild().getName() + "` discord. Please PM Fruit WRLD#3231 for further questions.").queue();
+        if (event.getAuthor().getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessage("Sorry, but this bot is currently private and made exclusively for the `" + event.getGuild().getName() + "` discord. Please PM Fruit WRLD#3231 for further questions.").queue();
+            return;
+        }
+        event.getChannel().sendMessage(event.getJDA().getInviteUrl(Permission.ADMINISTRATOR)).queue();
+
     }
 
     @Override

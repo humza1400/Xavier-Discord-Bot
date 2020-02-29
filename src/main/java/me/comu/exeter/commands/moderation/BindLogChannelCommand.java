@@ -27,15 +27,20 @@ public class BindLogChannelCommand implements ICommand {
     }
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to set a log channel").queue();
+        if ( event.getMember().getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessage("Currently owner-only.").queue();
             return;
         }
-        if (bound == true) {
+        if (bound) {
             event.getChannel().sendMessage("Chat-log channel already bound. Nullifying...").queue();
         }
+        if (bound && args.get(0).equalsIgnoreCase("null"))
+        {
+            event.getChannel().sendMessage("Unbound the current logs channel: `" + channelName + "`").queue();
+            return;
+        }
         TextChannel channel = event.getChannel();
-        this.logChannelID = channel.getIdLong();
+        logChannelID = channel.getIdLong();
         channelName = channel.getName();
         event.getChannel().sendMessage("Log channel bound to `#" + channelName + "`").queue();
         bound = true;

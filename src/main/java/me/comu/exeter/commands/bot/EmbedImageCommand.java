@@ -1,4 +1,4 @@
-package me.comu.exeter.commands.misc;
+package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
@@ -45,11 +45,11 @@ public class EmbedImageCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"imageembed","embedimg","imgembed"};
+        return new String[] {"imageembed","embedimg","imgembed","embedpic"};
     }
 
     @Override
     public Category getCategory() {
-        return Category.MISC;
+        return Category.BOT;
     }
 }

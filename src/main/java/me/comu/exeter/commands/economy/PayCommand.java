@@ -35,6 +35,15 @@ public class PayCommand implements ICommand {
                 amount = Integer.parseInt(args.get(0));
             else
                 amount  = Integer.parseInt(args.get(1));
+            if (amount < 0)
+            {
+                event.getChannel().sendMessage("You can't pay negative credits!").queue();
+                return;
+            } else if (amount == 0)
+            {
+                event.getChannel().sendMessage("You can't pay 0 credits!").queue();
+                return;
+            }
         } catch (NumberFormatException ex) {
             event.getChannel().sendMessage("That number is either invalid or too large").queue();
             return;

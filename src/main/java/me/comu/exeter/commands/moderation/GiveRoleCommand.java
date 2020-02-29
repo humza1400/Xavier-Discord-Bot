@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.exceptions.HierarchyException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class GiveRoleCommand implements ICommand {
     @Override
@@ -27,16 +28,18 @@ public class GiveRoleCommand implements ICommand {
             return;
         }
 
-        if (args.size() != 2)
+        if (event.getMessage().getContentRaw().equalsIgnoreCase("role") || event.getMessage().getContentRaw().equalsIgnoreCase("giverole"))
         {
             event.getChannel().sendMessage("Please specify a valid user and valid role").queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase("all"))
         {
-            List<Role> roles = event.getGuild().getRolesByName(args.get(1), true);
+            StringJoiner stringJoiner = new StringJoiner(" ");
+            args.stream().skip(1).forEach(stringJoiner::add);
+            List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
             if (roles.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the role " + args.get(1)).queue();
+                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString()).queue();
                 return;
             } else if (roles.size() > 1) {
                 event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
@@ -55,7 +58,9 @@ public class GiveRoleCommand implements ICommand {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
         if (mentionedMembers.isEmpty()) {
             List<Member> members = event.getGuild().getMembersByName(args.get(0), true);
-            List<Role> roles = event.getGuild().getRolesByName(args.get(1), true);
+            StringJoiner stringJoiner = new StringJoiner(" ");
+            args.stream().skip(1).forEach(stringJoiner::add);
+            List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
             if (members.isEmpty()) {
                 event.getChannel().sendMessage("Couldn't find the user " + args.get(0)).queue();
                 return;
@@ -64,7 +69,7 @@ public class GiveRoleCommand implements ICommand {
                 return;
             }
             if (roles.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the role " + args.get(1)).queue();
+                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString()).queue();
                 return;
             } else if (roles.size() > 1) {
                 event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
@@ -95,9 +100,11 @@ public class GiveRoleCommand implements ICommand {
             }
             return;
         }
-            List<Role> roles = event.getGuild().getRolesByName(args.get(1), true);
+            StringJoiner stringJoiner = new StringJoiner(" ");
+            args.stream().skip(1).forEach(stringJoiner::add);
+            List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
             if (roles.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the role " + args.get(1)).queue();
+                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString()).queue();
                 return;
             } else if (roles.size() > 1) {
                 event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();

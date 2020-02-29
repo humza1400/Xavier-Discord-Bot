@@ -31,6 +31,15 @@ public class CoinflipCommand implements ICommand {
         }
         try {
             wager = Integer.parseInt(args.get(0));
+            if (wager < 0)
+            {
+                event.getChannel().sendMessage("You can't coinflip negative credits!").queue();
+                return;
+            } else if (wager == 0)
+            {
+                event.getChannel().sendMessage("You can't coinflip 0 credits!").queue();
+                return;
+            }
         } catch (NumberFormatException ex) {
             event.getChannel().sendMessage("That number is either invalid or too large").queue();
             return;

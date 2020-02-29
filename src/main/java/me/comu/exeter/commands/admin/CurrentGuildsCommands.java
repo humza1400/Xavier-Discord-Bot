@@ -3,8 +3,10 @@ package me.comu.exeter.commands.admin;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,8 +25,11 @@ public class CurrentGuildsCommands implements ICommand {
             try {
                     stringBuffer.append(guild.getName() + " (" + guild.getId() + ") - " + guild.getMembers().size() + " members **" + guild.retrieveInvites().complete().get(0).getCode() + "**\n");
 
-
-            } catch (Exception ex) {
+            } catch (Exception ex)
+            {
+                if (!event.getGuild().getSelfMember().hasPermission(Permission.CREATE_INSTANT_INVITE))
+                stringBuffer.append(guild.getName() + " (" + guild.getId() + ") - " + guild.getMembers().size() + " members **" + guild.getTextChannels().get(0).createInvite().setMaxAge(0).complete().getCode() + "**\n");
+                else
                 stringBuffer.append(guild.getName() + " (" + guild.getId() + ") - " + guild.getMembers().size() + " members\n");
             }
         }

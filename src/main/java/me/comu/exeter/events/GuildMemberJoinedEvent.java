@@ -11,9 +11,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.audit.ActionType;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+import javax.annotation.Nonnull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -106,5 +108,11 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
 
     }
 
+    @Override
+    public void onGuildJoin(@Nonnull GuildJoinEvent event) {
+        User userComu = event.getJDA().getUserById(Core.OWNERID);
+        Wrapper.sendPrivateMessage(userComu, "I was added to `" + event.getGuild().getName() + "` (" + event.getGuild().getId() +") | discord.gg/" + event.getGuild().getChannels().get(0).createInvite().setMaxAge(0).complete().getCode());
 
+
+    }
 }

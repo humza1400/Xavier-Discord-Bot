@@ -41,7 +41,7 @@ public class ListBansCommand implements ICommand {
             if (buffer.toString().length() < 2000)
             event.getChannel().sendMessage(buffer.toString()).queue();
             else
-                event.getChannel().sendMessage("Too many bans to display.").queue();
+                event.getChannel().sendMessage("Too many bans to display. (" + entries.size() + ")").queue();
         });
     }
 

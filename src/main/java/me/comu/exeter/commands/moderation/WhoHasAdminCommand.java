@@ -58,7 +58,7 @@ public class WhoHasAdminCommand implements ICommand {
         if (!canAddBotRoles.isEmpty()) {
             buffer.append(canAddBotRoles + "\n");
         } else {
-            buffer.append("No Members With **ADD_BOT** Permission\n");
+            buffer.append("No Members With **BOT_ADD** Permission\n");
         }
         buffer.append("`All Members With BAN Permissions: (" + canBanRoles.size() + ")`\n");
         if (!canBanRoles.isEmpty()) {

@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
-import me.comu.exeter.wrapper.Wrapper;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
@@ -14,18 +13,14 @@ import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Core {
 
     public static JDA jda;
     public static final long OWNERID = 252239116677152768L;
     protected static final String HWIDURL = "https://pastebin.com/raw/mGiKYJrV";
-    private static final String TOKEN = "NjY5ODg3NjEyNzAxMzc2NTIz.XimXlg.h2F8nH1Xd71oD09zewa0whFsZas";
+    private static final String TOKEN = "NjY5NzgwNzM1OTAwNzc4NTA4.XlEwpg.2DOudj7BM-HkEinHDMbM0mNdGPA";
     //public static final String youtubeAPIKey = "AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c";
     public static final String DEBUG = "[DEBUG] ";
     public static String PREFIX = ";;";
@@ -89,6 +84,9 @@ public class Core {
             jda.addEventListener(new CreditOnMessageEvent());
             jda.addEventListener(new VoiceChannelCreditsEvent());
             jda.addEventListener(new VCTimeTrackingEvent());
+            jda.addEventListener(new MarriageEvent());
+            jda.addEventListener(new DMWizzEvent());
+            jda.addEventListener(new SuggestionMessageCleanerEvent());
             logger.info("Successfully Booted");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");

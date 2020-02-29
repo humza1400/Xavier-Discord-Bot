@@ -21,16 +21,15 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Properties;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Wrapper {
 
-//    public static List<Shard> shards = new ArrayList<>();
+    //    public static List<Shard> shards = new ArrayList<>();
     private static JsonParser parser = new JsonParser();
+    public static Map<String, String> marriedUsers = new HashMap<>();
 
     public static void sendPrivateMessage(User user, String content) {
         if (!user.getId().equals("631654319342616596")) {
@@ -52,6 +51,15 @@ public class Wrapper {
         });
     }
 
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
     public static void sendWhitelistedAntiRaidInfoMessage(Guild guild, List<String> list, String message) {
         for (String user : list) {
             sendPrivateMessage(guild.getMemberById(user).getUser(), message);
@@ -62,6 +70,22 @@ public class Wrapper {
         if (message.getAuthor().isBot())
             return false;
         return true;
+    }
+
+    public static boolean isMarried(String userID)
+    {
+        if (marriedUsers.containsValue(userID) || marriedUsers.containsKey(userID))
+            return true;
+        return false;
+    }
+
+    public static String getMarriedUser(String user)
+    {
+        if (marriedUsers.containsKey(user))
+        return marriedUsers.get(user);
+        else if (marriedUsers.containsValue(user))
+            return getKeyByValue(marriedUsers, user);
+        return "No Married User";
     }
 
     public static long timeToMS(int hours, int minutes, int seconds) {

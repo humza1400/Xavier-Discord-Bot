@@ -1,4 +1,4 @@
-package me.comu.exeter.commands.moderation;
+package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
@@ -13,7 +13,7 @@ public class EmbedMessageCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        String message = event.getMessage().getContentRaw();
+        String message = event.getMessage().getContentRaw().replaceAll("@everyone", "everyone").replaceAll("@ehere","here");
         if (message.endsWith("color:red")) {
             event.getChannel().sendMessage(EmbedUtils.embedMessage(message.replaceFirst(Core.PREFIX + getInvoke(), "").replace("color:red", "")).setColor(Color.RED).setFooter("By " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).setFooter("By " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();return;
         }
@@ -87,6 +87,6 @@ public class EmbedMessageCommand implements ICommand {
 
      @Override
     public Category getCategory() {
-        return Category.MODERATION;
+        return Category.BOT;
     }
 }
