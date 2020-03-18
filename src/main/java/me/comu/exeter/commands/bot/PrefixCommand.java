@@ -17,13 +17,12 @@ public class PrefixCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         Member memberPerms = event.getMember();
 
-        if (!memberPerms.hasPermission(Permission.ADMINISTRATOR)) {
+        if (!memberPerms.hasPermission(Permission.ADMINISTRATOR) || !(event.getAuthor().getIdLong() == Core.OWNERID)) {
             event.getChannel().sendMessage("You don't have permission to change the prefix, sorry bro").queue();
             return;
         }
 
-        if (args.isEmpty())
-        {
+        if (args.isEmpty()) {
             event.getChannel().sendMessage("Please insert a prefix").queue();
             return;
         }
@@ -48,7 +47,7 @@ public class PrefixCommand implements ICommand {
         return new String[0];
     }
 
-  @Override
+    @Override
     public Category getCategory() {
         return Category.BOT;
     }

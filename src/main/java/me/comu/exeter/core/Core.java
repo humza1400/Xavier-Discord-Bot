@@ -18,9 +18,9 @@ import java.io.File;
 public class Core {
 
     public static JDA jda;
-    public static final long OWNERID = 252239116677152768L;
+    public static final long OWNERID = 210956619788320768L;
     protected static final String HWIDURL = "https://pastebin.com/raw/mGiKYJrV";
-    private static final String TOKEN = "NjY5NzgwNzM1OTAwNzc4NTA4.XlEwpg.2DOudj7BM-HkEinHDMbM0mNdGPA";
+    private static final String TOKEN ="Njg5ODY0MDY1Mzk2Mzc1NTcy.XnJtUg.FaObm7PTZpFP51-RvXttDbL_iJk";
     //public static final String youtubeAPIKey = "AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c";
     public static final String DEBUG = "[DEBUG] ";
     public static String PREFIX = ";;";
@@ -59,10 +59,10 @@ public class Core {
         CommandManager commandManager = new CommandManager(eventWaiter);
         Listener listener = new Listener(commandManager);
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
-        WebUtils.setUserAgent("Mozilla/5.0 Exeter Discord Bot/Comu#0691");
+        WebUtils.setUserAgent("Mozilla/5.0 Exeter Discord Bot");
 
         try {
-            jda = new JDABuilder(AccountType.BOT).setToken(TOKEN).setActivity(Activity.streaming("ily swag#3231", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
+            jda = new JDABuilder(AccountType.BOT).setToken(TOKEN).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
             //    new Timer().scheduleAtFixedRate(new TimerTask(){
             //          @Override
             //            public void run(){

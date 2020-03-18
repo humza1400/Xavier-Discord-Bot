@@ -49,7 +49,7 @@ public class GiveRoleCommand implements ICommand {
             {
                 if (!m.getRoles().contains(roles.get(0)))
                 {
-                    event.getGuild().addRoleToMember(m, roles.get(0)).queue();
+                    event.getGuild().addRoleToMember(m, roles.get(0)).reason("Given by " + event.getAuthor().getAsTag()).queue();
                 }
             }
             event.getChannel().sendMessage("Giving everyone the `" + roles.get(0).getName() + "` role, this may take some time").queue();
@@ -92,7 +92,7 @@ public class GiveRoleCommand implements ICommand {
             }
             }
             try {
-                event.getGuild().addRoleToMember(members.get(0), roles.get(0)).queue();
+                event.getGuild().addRoleToMember(members.get(0), roles.get(0)).reason("Given by " + event.getAuthor().getAsTag()).queue();
                 event.getChannel().sendMessage("Added **" + roles.get(0).getName() + "** to **" + members.get(0).getAsMention() + "**.").queue();
             } catch (HierarchyException ex)
             {
@@ -126,7 +126,7 @@ public class GiveRoleCommand implements ICommand {
             }
         }
             try {
-                event.getGuild().addRoleToMember(mentionedMembers.get(0), roles.get(0)).queue();
+                event.getGuild().addRoleToMember(mentionedMembers.get(0), roles.get(0)).reason("Given by " + event.getAuthor().getAsTag()).queue();
                 event.getChannel().sendMessage("Added **" + roles.get(0).getName() + "** to **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
             } catch (HierarchyException ex)
             {

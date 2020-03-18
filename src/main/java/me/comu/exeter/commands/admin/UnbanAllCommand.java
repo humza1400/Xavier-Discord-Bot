@@ -25,7 +25,7 @@ public class UnbanAllCommand implements ICommand {
             return;
         }
 
-        if (!selfMember.hasPermission(Permission.ADMINISTRATOR)) {
+        if (!selfMember.hasPermission(Permission.BAN_MEMBERS)) {
             channel.sendMessage("I don't have permissions to unban users").queue();
             return;
         }

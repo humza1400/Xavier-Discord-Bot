@@ -10,6 +10,9 @@ import java.util.List;
 public class SpamEveryoneCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
+            return;
+        }
         boolean running = true;
         try {
             int input = Integer.parseInt(args.get(0));

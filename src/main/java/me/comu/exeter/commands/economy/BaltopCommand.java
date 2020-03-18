@@ -24,7 +24,8 @@ public class BaltopCommand implements ICommand {
                     stringBuffer.append("**" + counter2 + "**. " + name + " - " + EconomyManager.getBalance(user.getId()) + " credits\n");
                     counter2++;
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("The economy config contains an invalid user, please resolve this issue. (" + x + ")").queue();
+                    event.getChannel().sendMessage("The economy config contained an invalid user and has automatically been resolved. (" + x + ")").queue();
+                    EconomyManager.removeUser(x);
                 }
 
         }

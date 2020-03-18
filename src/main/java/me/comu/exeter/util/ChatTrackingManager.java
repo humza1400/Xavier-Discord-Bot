@@ -22,6 +22,8 @@ public class ChatTrackingManager {
         return !chatTrack.containsKey(user);
     }
 
+    public static void removeChatUser(String user) { chatTrack.remove(user);}
+
     public static HashMap<String, Integer> getChatUsers() {
         return chatTrack;
     }

@@ -28,7 +28,8 @@ public class ChatStatsCommand implements ICommand {
                         stringBuffer.append("**" + counter2 + "**. " + name + " - " + ChatTrackingManager.getChatCredits(user.getId()) + " messages\n");
                         counter2++;
                     } catch (NullPointerException ex) {
-                        event.getChannel().sendMessage("The hash set contains an invalid user, please resolve this issue. (" + x + ")").queue();
+                        event.getChannel().sendMessage("The hash set contained an invalid user and has been automatically resolved. (" + x + ")").queue();
+                        ChatTrackingManager.removeChatUser(x);
                     }
 
             }

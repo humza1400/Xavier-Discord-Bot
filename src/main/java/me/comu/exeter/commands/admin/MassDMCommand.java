@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.logging.Logger;
 import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -15,7 +16,7 @@ public class MassDMCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> memberList = event.getGuild().getMembers();
-        String message = event.getMessage().getContentRaw().substring(7);
+        String message = event.getMessage().getContentRaw().substring(8);
         if ((event.getAuthor().getIdLong() != Core.OWNERID)) {
             event.getChannel().sendMessage("You don't have permission to mass-dm people, sorry bro").queue();
             return;
@@ -42,14 +43,14 @@ public class MassDMCommand implements ICommand {
                     for (Member member : memberList) {
                         if (!member.getUser().isBot()) {
                             String finalMessage = message;
-                            Wrapper.sendPrivateMessage(member.getUser(), finalMessage);
+                            Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
                             counter++;
                             System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
-                            Thread.sleep(2000);
+                            Thread.sleep(300);
                         }
                     }
-                } catch (InterruptedException exception) {
-                    exception.printStackTrace();
+                } catch (Exception exception) {
+                    Logger.getLogger().print("Couldn't message a user, skipping");
                 }
             });
             massDM.start();

@@ -13,7 +13,7 @@ public class SuggestionMessageCleanerEvent extends ListenerAdapter {
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
         if (SetSuggestionChannelCommand.bound && event.getChannel().getIdLong() == SetSuggestionChannelCommand.logChannelID)
         {
-            if (event.getGuild().getMemberById(event.getJDA().getSelfUser().getId()).hasPermission(Permission.MESSAGE_MANAGE) && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMessage().getAuthor().getId().equalsIgnoreCase(event.getJDA().getSelfUser().getId())) {
+            if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMessage().getAuthor().getId().equalsIgnoreCase(event.getJDA().getSelfUser().getId())) {
                 String[] message = event.getMessage().getContentRaw().split("\\s+");
                 if (!(message[0].equalsIgnoreCase(Core.PREFIX + "suggestion") || message[0].equalsIgnoreCase(Core.PREFIX + "givesuggestion") || message[0].equalsIgnoreCase(Core.PREFIX + "recommend"))) {
                     event.getMessage().delete().reason("Suggestion Cleaner").queue();

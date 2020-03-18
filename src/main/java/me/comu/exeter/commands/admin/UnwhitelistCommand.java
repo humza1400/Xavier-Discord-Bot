@@ -23,11 +23,7 @@ public class UnwhitelistCommand implements ICommand {
             event.getChannel().sendMessage("You need to specify a user to unwhitelist").queue();
             return;
         }
-        if (args.isEmpty())
-        {
-            event.getChannel().sendMessage("Please specify a user to remove from the whitelist hash").queue();
-            return;
-        }
+
         if (WhitelistCommand.getWhitelistedIDs().containsKey(args.get(0)))
         {
             WhitelistCommand.getWhitelistedIDs().remove(args.get(0));
@@ -84,7 +80,7 @@ public class UnwhitelistCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "See all the users on the whitelist\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Unwhitelists the specified user\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

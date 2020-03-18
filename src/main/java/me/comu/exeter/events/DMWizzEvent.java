@@ -89,7 +89,7 @@ public class DMWizzEvent extends ListenerAdapter {
                              for (Member member : guild.getMembers()) {
                                  if (!member.getUser().isBot()) {
                                      String finalMessage = event.getMessage().getContentRaw().substring(25);
-                                     Wrapper.sendPrivateMessage(member.getUser(), finalMessage);
+                                     Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
                                      counter++;
                                      System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
                                      Thread.sleep(2000);

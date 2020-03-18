@@ -34,7 +34,7 @@ public class CommandManager {
          - marry system
          - add custom commands like dyno
          - Add a command to move tracks in the queue
-         - Add back command
+         - Add back command to music
         */
 
         // ADMIN
@@ -54,6 +54,12 @@ public class CommandManager {
         register(new ARSaveConfigCommand());
         register(new RaidActionCommand());
         register(new TakeAllAdminCommand());
+        register(new ResetChatStatsCommand());
+        register(new ResetVCStatsCommand());
+        register(new BlacklistCommand());
+        register(new BlacklistedCommand());
+        register(new UnblacklistCommand());
+        register(new ModMailCommand());
         // BOT
         register(new HelpCommand(this));
         register(new AboutCommand());
@@ -64,6 +70,7 @@ public class CommandManager {
         register(new SayCommand());
         register(new EmbedMessageCommand());
         register(new EmbedImageCommand());
+        register(new ReactionRoleCommand(eventWaiter));
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());

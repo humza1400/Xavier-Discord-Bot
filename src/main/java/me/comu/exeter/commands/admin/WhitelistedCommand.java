@@ -62,7 +62,7 @@ public class WhitelistedCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "See all the users on the whitelist\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "See all the users on the whitelist\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

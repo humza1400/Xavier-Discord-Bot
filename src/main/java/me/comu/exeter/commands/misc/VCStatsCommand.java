@@ -40,7 +40,9 @@ public class VCStatsCommand implements ICommand {
                             counter2++;
                         }
                     } catch (NullPointerException ex) {
-                        event.getChannel().sendMessage("The hash set contains an invalid user, please resolve this issue. (" + x + ")").queue();
+                        event.getChannel().sendMessage("The hash set contained an invalid user and has been automatically resolved. (" + x + ")").queue();
+                        VCTrackingManager.removeJoinedUser(x);
+                        VCTrackingManager.removeLeaveUser(x);
                     }
 
                 }

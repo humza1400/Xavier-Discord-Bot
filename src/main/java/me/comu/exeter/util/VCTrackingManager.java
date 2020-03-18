@@ -20,6 +20,11 @@ public class VCTrackingManager {
         joinTimes.replaceAll((k,v) -> v=0L);
     }
 
+    public static void removeJoinedUser(String user)
+    {
+        joinTimes.remove(user);
+    }
+
     public static boolean verifyJoinedUser(String user) {
         return !joinTimes.containsKey(user);
     }
@@ -48,6 +53,11 @@ public class VCTrackingManager {
 
     public static boolean verifyLeaveUser(String user) {
         return !leaveTimes.containsKey(user);
+    }
+
+    public static void removeLeaveUser(String user)
+    {
+        leaveTimes.remove(user);
     }
 
     public static HashMap<String, Long> getLeaveVCUsers() {

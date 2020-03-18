@@ -3,10 +3,13 @@ package me.comu.exeter.wrapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import me.comu.exeter.core.Core;
 import me.comu.exeter.logging.Logger;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.requests.RestAction;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -25,30 +28,23 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static me.comu.exeter.core.Core.jda;
+
 public class Wrapper {
 
     //    public static List<Shard> shards = new ArrayList<>();
     private static JsonParser parser = new JsonParser();
     public static Map<String, String> marriedUsers = new HashMap<>();
 
-    public static void sendPrivateMessage(User user, String content) {
-        if (!user.getId().equals("631654319342616596")) {
-            user.openPrivateChannel().queue((channel) ->
-            {
-                try {
-                    channel.sendMessage(content).queue();
-                } catch (Exception ex) {
-                    Logger.getLogger().print("Couldn't message " + user.getName() + "#" + user.getDiscriminator());
-                }
-            });
-        }
+    public static void sendPrivateMessage(JDA jda, String userId, String content)
+    {
+        RestAction<User> action = jda.retrieveUserById(userId);
+        action.queue((user) -> user.openPrivateChannel().queue((channel) -> channel.sendMessage(content).queue(null, (error) -> Logger.getLogger().print("Couldn't message " + Core.jda.getUserById(userId).getAsTag()))));
     }
 
-    public void sendPrivateMessageWithDelay(User user, String content, long delay, TimeUnit timeUnit) {
-        user.openPrivateChannel().queue((channel) ->
-        {
-            channel.sendMessage(content).queueAfter(delay, timeUnit);
-        });
+    public void sendPrivateMessageWithDelay(JDA jda, String userId, String content, long delay, TimeUnit timeUnit) {
+        RestAction<User> action = jda.retrieveUserById(userId);
+        action.queue((user) -> user.openPrivateChannel().queueAfter(delay, timeUnit, (channel) -> channel.sendMessage(content).queue(null, (error) -> Logger.getLogger().print("Couldn't message " + Core.jda.getUserById(userId).getAsTag()))));
     }
 
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
@@ -60,11 +56,6 @@ public class Wrapper {
         return null;
     }
 
-    public static void sendWhitelistedAntiRaidInfoMessage(Guild guild, List<String> list, String message) {
-        for (String user : list) {
-            sendPrivateMessage(guild.getMemberById(user).getUser(), message);
-        }
-    }
 
     public static boolean botCheck(Message message) {
         if (message.getAuthor().isBot())

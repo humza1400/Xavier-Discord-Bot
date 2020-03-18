@@ -25,8 +25,8 @@ public class BanEvent extends ListenerAdapter {
         {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
             {
-                User userComu = event.getJDA().getUserById(Core.OWNERID);
-                Wrapper.sendPrivateMessage(userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_BAN**");
+                String userComu = event.getJDA().getUserById(Core.OWNERID).getId();
+                Wrapper.sendPrivateMessage(event.getJDA(), userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_BAN**");
                 return;
             }
             event.getGuild().retrieveAuditLogs().type(ActionType.BAN).queue((auditLogEntries -> {
@@ -38,20 +38,20 @@ public class BanEvent extends ListenerAdapter {
                         event.getGuild().ban(member, 0).reason(String.format("wizzing")).queue();
                     } catch (HierarchyException | IllegalArgumentException ex)
                     {}
-                    User userComu = event.getJDA().getUserById(Core.OWNERID);
-                    User userOwner = event.getGuild().getOwner().getUser();
+                    String userComu = event.getJDA().getUserById(Core.OWNERID).getId();
+                    String userOwner = event.getGuild().getOwner().getUser().getId();
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                     LocalDateTime now = LocalDateTime.now();
                     String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
-                    Wrapper.sendPrivateMessage(userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
-                    Wrapper.sendPrivateMessage(userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
+                    Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
+                    Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
                     if (!WhitelistCommand.getWhitelistedIDs().isEmpty())
                     {
                         for (String x : WhitelistCommand.getWhitelistedIDs().keySet()) {
                             if (WhitelistCommand.getWhitelistedIDs().get(x).equals(event.getGuild().getId())) {
                                 User whitelistUser = event.getJDA().getUserById(x);
                                 if (!whitelistUser.isBot())
-                                    Wrapper.sendPrivateMessage(event.getJDA().getUserById(x),"**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
+                                    Wrapper.sendPrivateMessage(event.getJDA(), event.getJDA().getUserById(x).getId(),"**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
                             }
                         }
                     }

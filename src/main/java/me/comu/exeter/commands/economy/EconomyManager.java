@@ -27,6 +27,10 @@ public class EconomyManager {
         return !users.containsKey(user);
     }
 
+    public static void removeUser(String user) {
+        users.remove(user);
+    }
+
     public static HashMap<String, Integer> getUsers() {
         return users;
     }

