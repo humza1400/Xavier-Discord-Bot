@@ -65,7 +65,7 @@ public class FilterCommand implements ICommand {
                 List<Role> roles = event.getGuild().getRolesByName(args.get(1), false);
                 if (roles.isEmpty())
                 {
-                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.").queue();
+                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.".replaceAll("@everyone","everyone").replaceAll("@here","here")).queue();
                     return;
                 }
                 if (roles.size() > 1)
@@ -97,7 +97,7 @@ public class FilterCommand implements ICommand {
                 List<Role> roles = event.getGuild().getRolesByName(args.get(1), true);
                 if (roles.isEmpty())
                 {
-                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.").queue();
+                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.".replaceAll("@everyone","everyone").replaceAll("@here","here")).queue();
                     return;
                 }
                 if (roles.size() > 1)

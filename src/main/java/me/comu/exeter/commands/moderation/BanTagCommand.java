@@ -37,7 +37,7 @@ public class BanTagCommand implements ICommand {
         User user = event.getJDA().getUserByTag(args.get(0));
         String reason = String.join(" ", args.subList(1, args.size()));
         if (user == null) {
-            event.getChannel().sendMessage("Couldn't find the user with the given tag of `" + args.get(0) + "`").queue();
+            event.getChannel().sendMessage("Couldn't find the user with the given tag of `" + args.get(0) + "`".replaceAll("@everyone","everyone").replaceAll("@here","here")).queue();
             return;
         }
         if (mentionedMembers.isEmpty()) {

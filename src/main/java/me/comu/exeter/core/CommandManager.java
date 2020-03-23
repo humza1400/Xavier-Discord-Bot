@@ -176,6 +176,8 @@ public class CommandManager {
         register(new TakeAdminCommand());
         register(new SetSuggestionChannelCommand());
         register(new SuggestCommand());
+        register(new MembersRoleCommand());
+        register(new PollCommand());
         // MUSIC
         register(new JoinCommand());
         register(new LeaveCommand());

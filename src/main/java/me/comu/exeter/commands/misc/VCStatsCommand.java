@@ -50,6 +50,11 @@ public class VCStatsCommand implements ICommand {
             }
             event.getChannel().sendMessage(EmbedUtils.embedMessage("**Most Active VC Leaderbaords:**\n" + stringBuffer.toString()).build()).queue();
         } else {
+            if (event.getMessage().getMentionedMembers().get(0).getVoiceState().inVoiceChannel())
+            {
+                event.getChannel().sendMessage("You cannot view specific vc-stats while in a vc-channel").queue();
+                return;
+            }
             try {
                 event.getChannel().sendMessage(event.getMessage().getMentionedMembers().get(0).getAsMention() + " has been in VC for **" + hourMap.get(event.getMessage().getMentionedMembers().get(0).getId()) + "** hours **" + (minuteMap.get(event.getMessage().getMentionedMembers().get(0).getId()) % 60) + "** minutes.").queue();
             } catch (NullPointerException ex)

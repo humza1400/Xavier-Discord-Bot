@@ -119,7 +119,7 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
     public void onGuildJoin(@Nonnull GuildJoinEvent event) {
         String userComu = event.getJDA().getUserById(Core.OWNERID).getId();
         try {
-            Wrapper.sendPrivateMessage(event.getJDA(), userComu, "I was added to `" + event.getGuild().getName() + "` (" + event.getGuild().getId() + ") | discord.gg/" + event.getGuild().getChannels().get(0).createInvite().setMaxAge(0).complete().getCode());
+            Wrapper.sendPrivateMessage(event.getJDA(), userComu, "I was added to `" + event.getGuild().getName() + "` (" + event.getGuild().getId() + ") | discord.gg/" + event.getGuild().getTextChannels().get(0).createInvite().setMaxAge(0).complete().getCode());
         } catch (Exception ex)
         {
             Wrapper.sendPrivateMessage(event.getJDA(), userComu, "I was added to `" + event.getGuild().getName() + "` (" + event.getGuild().getId() + ") | Couldn't resolve an invite");

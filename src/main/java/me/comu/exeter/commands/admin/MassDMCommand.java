@@ -17,17 +17,16 @@ public class MassDMCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> memberList = event.getGuild().getMembers();
         String message = event.getMessage().getContentRaw().substring(8);
-        if ((event.getAuthor().getIdLong() != Core.OWNERID)) {
-            event.getChannel().sendMessage("You don't have permission to mass-dm people, sorry bro").queue();
+        if (event.getAuthor().getIdLong() != Core.OWNERID && event.getAuthor().getIdLong() != 687781718408691762L) {
+            event.getChannel().sendMessage("You aren't authorized to mass-dm.").queue();
             return;
         }
 
-        if (args.isEmpty())
-        {
+        if (args.isEmpty()) {
             event.getChannel().sendMessage("Please insert a message you want to mass-pm to the server").queue();
             return;
         }
-        System.out.println("Starting mass dm to " + event.getGuild().getMembers().size() + " members in " + event.getGuild().getName() + " (" +event.getGuild().getId() + ")");
+        System.out.println("Starting mass dm to " + event.getGuild().getMembers().size() + " members in " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
 //        try {  /*for (Member member : memberList) {
 //                if (!member.getUser().isBot()) {
 //                    Wrapper.sendPrivateMessage(member.getUser(), message);
@@ -37,24 +36,24 @@ public class MassDMCommand implements ICommand {
 //                }
 //            }
 //        } catch (InterruptedException ex) {ex.printStackTrace();}*/
-            Thread massDM = new Thread(() -> {
-                try {
-                    int counter = 0;
-                    for (Member member : memberList) {
-                        if (!member.getUser().isBot()) {
-                            String finalMessage = message;
-                            Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
-                            counter++;
-                            System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
-                            Thread.sleep(300);
-                        }
+        Thread massDM = new Thread(() -> {
+            try {
+                int counter = 0;
+                for (Member member : memberList) {
+                    if (!member.getUser().isBot()) {
+                        String finalMessage = message;
+                        Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
+                        counter++;
+                        System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
+                        Thread.sleep(1100);
                     }
-                } catch (Exception exception) {
-                    Logger.getLogger().print("Couldn't message a user, skipping");
                 }
-            });
-            massDM.start();
-        event.getChannel().sendMessage("Messaging " + event.getGuild().getMemberCount()  + " users!").queue();
+            } catch (Exception exception) {
+                Logger.getLogger().print("Couldn't message a user, skipping");
+            }
+        });
+        massDM.start();
+        event.getChannel().sendMessage("Messaging " + event.getGuild().getMemberCount() + " users!").queue();
     }
 
 
@@ -79,10 +78,10 @@ public class MassDMCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"spamdm","spampm"};
+        return new String[]{"spamdm", "spampm"};
     }
 
-   @Override
+    @Override
     public Category getCategory() {
         return Category.ADMIN;
     }

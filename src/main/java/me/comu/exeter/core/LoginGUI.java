@@ -171,7 +171,7 @@ public class LoginGUI extends JFrame implements ActionListener {
             jLabelLoginConfig.setText("Bot Must Be Running");
         } else if (shouldRenderConfigurations){
             if (jLabelLoginConfig.getText().equalsIgnoreCase("bot must be running"))
-                jLabelLoginConfig.setText("Made by swag#3231 | " + dtf.format(now));
+                jLabelLoginConfig.setText("Made by swag#1234 | " + dtf.format(now));
                 shouldRenderConfigurations = false;
                 ConfigGUI configGUI = new ConfigGUI();
                 configGUI.setVisible(true);

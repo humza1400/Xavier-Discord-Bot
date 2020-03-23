@@ -51,7 +51,7 @@ public class SetLockdownRoleCommand implements ICommand {
             List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
             if (roles.isEmpty())
             {
-                event.getChannel().sendMessage("Couldn't find role `" + args.get(0) + "`. Maybe try using the role ID instead.").queue();
+                event.getChannel().sendMessage("Couldn't find role `" + args.get(0) + "`. Maybe try using the role ID instead.".replaceAll("@everyone","everyone").replaceAll("@here","here")).queue();
                 return;
             }
             if (roles.size() > 1)

