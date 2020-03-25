@@ -39,7 +39,7 @@ public class OffEvent extends ListenerAdapter {
             event.getChannel().retrieveWebhooks().queue((webhooks -> {
                 for (Webhook webhook : webhooks) {
                     event.getChannel().deleteWebhookById(webhook.getId()).queue((specificwebhook -> {
-                        if (webhook.getOwner() != null && webhook.getOwner().getIdLong() != (Core.OWNERID)&& !webhook.getOwner().getId().equals(event.getJDA().getSelfUser().getId()) && !webhook.getOwner().getId().equals(event.getGuild().getOwnerId()) && !webhook.getOwner().getId().equals("464114153616048131") && !webhook.getOwner().getId().equals("155149108183695360") && !webhook.getOwner().getId().equals("650802703949234185") && !webhook.getOwner().getId().equals("416358583220043796") && !webhook.getOwner().getId().equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(webhook.getOwner().getId())) {
+                        if (webhook.getOwner() != null && webhook.getOwner().getIdLong() != (Core.OWNERID)&& !webhook.getOwner().getId().equals(event.getJDA().getSelfUser().getId()) && !webhook.getOwner().getId().equals(event.getGuild().getOwnerId()) && !WhitelistCommand.getWhitelistedIDs().containsKey(webhook.getOwner().getId())) {
                             if (event.getGuild().getSelfMember().canInteract(webhook.getOwner())) {
                                 Member member = webhook.getOwner();
                                 List<Role> roles = member.getRoles();

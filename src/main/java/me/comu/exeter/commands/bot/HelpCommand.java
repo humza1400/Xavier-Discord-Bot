@@ -130,18 +130,23 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
-        } else if (args.get(0).equalsIgnoreCase("nuke")) {
+        } else if (args.get(0).equalsIgnoreCase("owner")) {
+            if (event.getAuthor().getIdLong() != Core.OWNERID)
+            {
+                event.getChannel().sendMessage("You aren't authorized to execute that command").queue();
+                return;
+            }
             StringBuffer buffer = new StringBuffer();
             int count = 0;
             for (ICommand command : manager.getCommands()) {
-                if (command.getCategory().equals(Category.NUKE)) {
+                if (command.getCategory().equals(Category.OWNER)) {
                     if (!buffer.toString().contains(command.getInvoke())) {
                         buffer.append("`" + command.getInvoke() + "`\n");
                         count++;
                     }
                 }
             }
-            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Nuke Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Owner Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;

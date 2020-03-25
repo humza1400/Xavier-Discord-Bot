@@ -43,7 +43,7 @@ public class MembersRoleCommand implements ICommand {
             if (members.isEmpty())
             event.getChannel().sendMessage("There are no members in **" + role.getName() + "**");
              else
-            event.getChannel().sendMessage("**All Members In " + role.getName() + "**:\n" + members.toString()).queue();
+            event.getChannel().sendMessage("**All Members In " + role.getName() + "**: (" + members.size() + ")\n" + members.toString()).queue();
         } else {
             StringJoiner stringJoiner = new StringJoiner(" ");
             args.forEach(stringJoiner::add);
@@ -67,7 +67,7 @@ public class MembersRoleCommand implements ICommand {
                 if (members.isEmpty())
                     event.getChannel().sendMessage("There are no members in **" + role.getName() + "**");
                 else
-                    event.getChannel().sendMessage("**All Members In " + role.getName() + "**:\n" + members.toString()).queue();
+                    event.getChannel().sendMessage("**All Members In " + role.getName() + "**: (" + members.size() + ")\n" + members.toString()).queue();
             }
         }
 

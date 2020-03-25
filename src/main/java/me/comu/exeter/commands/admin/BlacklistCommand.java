@@ -15,7 +15,7 @@ public class BlacklistCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
+        if ( event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to blacklist anyone").queue();
             return;
         }

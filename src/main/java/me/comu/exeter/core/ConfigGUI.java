@@ -78,7 +78,7 @@ class ConfigGUI
             servers.add(g.getName());
         }
 
-        title = new JLabel("Discord Bot | By swag#3231");
+        title = new JLabel("Discord Bot | By swag#1234");
         title.setFont(new Font("Tahoma", Font.PLAIN, 30));
         title.setSize(500, 40);
         title.setLocation(300, 30);
@@ -195,7 +195,7 @@ class ConfigGUI
         });
         c.add(dmDelaySlider);
 
-        term = new JCheckBox("This bot was made by swag & urgay.");
+        term = new JCheckBox("This bot was made by swag.");
         term.setFont(new Font("Tahoma", Font.PLAIN, 15));
         term.setSize(300, 20);
         term.setLocation(150, 400);

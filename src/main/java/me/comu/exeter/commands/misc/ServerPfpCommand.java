@@ -27,7 +27,7 @@ public class ServerPfpCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"icon", "guildpfp","guildicon","servericon"};
+        return new String[]{"icon", "guildpfp","guildicon","servericon","spfp"};
     }
 
      @Override

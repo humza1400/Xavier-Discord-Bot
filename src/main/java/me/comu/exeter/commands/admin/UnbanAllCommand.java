@@ -20,7 +20,7 @@ public class UnbanAllCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.ADMINISTRATOR) && member.getIdLong() != Core.OWNERID) {
+        if (!member.hasPermission(Permission.ADMINISTRATOR) && member.getIdLong() != Core.OWNERID && !member.getId().equalsIgnoreCase("210956619788320768")) {
             channel.sendMessage("You don't have permission to unban users").queue();
             return;
         }

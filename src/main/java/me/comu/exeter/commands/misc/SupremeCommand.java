@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class SupremeCommand implements ICommand {
 
@@ -23,14 +24,10 @@ public class SupremeCommand implements ICommand {
             return;
         }
         try {
-            if (event.getMessage().getContentRaw().startsWith(Core.PREFIX + "Supreme")) {
-                String message = event.getMessage().getContentRaw().replaceFirst(Core.PREFIX + "Supreme", "").trim().replaceAll(" ", "%20");
+            StringJoiner stringJoiner = new StringJoiner(" ");
+            args.forEach(stringJoiner::add);
+            String message = stringJoiner.toString().replaceAll(" ", "%20");
                 event.getChannel().sendMessage(EmbedUtils.embedImage(api + message).build()).queue();
-            }
-            if (event.getMessage().getContentRaw().startsWith(Core.PREFIX + "supreme")) {
-                String message = event.getMessage().getContentRaw().replaceFirst(Core.PREFIX + "supreme", "").trim().replaceAll(" ", "%20");
-                event.getChannel().sendMessage(EmbedUtils.embedImage(api + message).build()).queue();
-            }
         } catch (IllegalArgumentException ex)
         {
             event.getChannel().sendMessage("The message content cannot be over 2000 characters!").queue();

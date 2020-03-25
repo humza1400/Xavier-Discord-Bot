@@ -16,7 +16,7 @@ public class CurrentGuildsCommands implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
-        if (event.getAuthor().getIdLong() != Core.OWNERID) {
+        if (event.getAuthor().getIdLong() != Core.OWNERID && !event.getAuthor().getId().equalsIgnoreCase("210956619788320768")) {
             event.getChannel().sendMessage("No permission").queue();
             return;
         }

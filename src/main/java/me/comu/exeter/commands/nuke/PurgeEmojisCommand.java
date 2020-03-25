@@ -46,6 +46,6 @@ public class PurgeEmojisCommand implements ICommand {
 
     @Override
     public Category getCategory() {
-        return Category.NUKE;
+        return Category.OWNER;
     }
 }

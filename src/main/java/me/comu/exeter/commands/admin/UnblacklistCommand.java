@@ -26,7 +26,7 @@ public class UnblacklistCommand implements ICommand {
         if (BlacklistCommand.blacklistedUsers.containsKey(args.get(0)))
         {
             BlacklistCommand.blacklistedUsers.remove(args.get(0));
-            event.getChannel().sendMessage("Successfully Removed `" + args.get(0) + "` from the whitelist").queue();
+            event.getChannel().sendMessage("Successfully Removed `" + args.get(0) + "` from the blacklist hash").queue();
             return;
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
@@ -34,12 +34,12 @@ public class UnblacklistCommand implements ICommand {
             String id = args.get(0);
             try {
                 Member member = event.getGuild().getMemberById(Long.parseLong(id));
-                if (!WhitelistCommand.getWhitelistedIDs().containsKey(id))
+                if (!BlacklistCommand.blacklistedUsers.containsKey(id))
                 {
                     event.getChannel().sendMessage("That user is not blacklisted!").queue();
                     return;
                 }
-                WhitelistCommand.getWhitelistedIDs().remove(id);
+                BlacklistCommand.blacklistedUsers.remove(id);
                 event.getChannel().sendMessage("Successfully removed `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + "` from the blacklist").queue();
             } catch (Exception ex) {
                 event.getChannel().sendMessage("Invalid ID + " + id).queue();

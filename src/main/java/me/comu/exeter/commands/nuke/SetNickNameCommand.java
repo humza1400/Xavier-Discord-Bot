@@ -14,7 +14,7 @@ import java.util.List;
 public class SetNickNameCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("210956619788320768")) {
             return;
         }
         if (args.isEmpty())
@@ -58,6 +58,6 @@ public class SetNickNameCommand implements ICommand {
 
     @Override
     public Category getCategory() {
-        return Category.NUKE;
+        return Category.OWNER;
     }
 }

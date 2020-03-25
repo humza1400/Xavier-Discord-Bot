@@ -12,7 +12,7 @@ public interface ICommand {
     String[] getAlias();
     Category getCategory();
 
-    enum Category {ADMIN, MODERATION, BOT, MUSIC, ECONOMY, MARRIAGE, MISC, NUKE}
+    enum Category {ADMIN, MODERATION, BOT, MUSIC, ECONOMY, MARRIAGE, MISC, OWNER}
 
 
 }

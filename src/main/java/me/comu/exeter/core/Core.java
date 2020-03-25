@@ -25,7 +25,7 @@ public class Core {
     public static JDA jda;
     public static final long OWNERID = 210956619788320768L;
     protected static final String HWIDURL = "https://pastebin.com/raw/mGiKYJrV";
-    private static final String TOKEN ="NjkxMzk2NjkxODY1MTA4NTMy.XnfXZQ.3PYB2bEjFSMYAndbxh5p6aznicE";
+    private static final String TOKEN ="MzIwMzc4Nzk1MTkyNDgzODQx.XnjFPg.o5CiN0qZ4MQkUMwZjRLGy1EQY80";
     //public static final String youtubeAPIKey = "AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c";
     public static final String DEBUG = "[DEBUG] ";
     public static String PREFIX = ";;";
@@ -64,7 +64,7 @@ public class Core {
         CommandManager commandManager = new CommandManager(eventWaiter);
         Listener listener = new Listener(commandManager);
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
-        WebUtils.setUserAgent("Mozilla/5.0 Exeter Discord Bot");
+        WebUtils.setUserAgent("Mozilla/5.0 | Discord Bot");
 
         try {
             jda = new JDABuilder(AccountType.BOT).setToken(TOKEN).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
@@ -92,6 +92,7 @@ public class Core {
             jda.addEventListener(new MarriageEvent());
             jda.addEventListener(new DMWizzEvent());
             jda.addEventListener(new SuggestionMessageCleanerEvent());
+            jda.addEventListener(new CreateAChannelEvent());
             logger.info("Successfully Booted");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");

