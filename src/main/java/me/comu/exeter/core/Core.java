@@ -93,6 +93,7 @@ public class Core {
             jda.addEventListener(new DMWizzEvent());
             jda.addEventListener(new SuggestionMessageCleanerEvent());
             jda.addEventListener(new CreateAChannelEvent());
+            jda.addEventListener(new AIPEvent());
             logger.info("Successfully Booted");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");

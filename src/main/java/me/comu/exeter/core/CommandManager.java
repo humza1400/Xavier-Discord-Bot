@@ -179,6 +179,7 @@ public class CommandManager {
         register(new SuggestCommand());
         register(new MembersRoleCommand());
         register(new PollCommand());
+        register(new AutoPurgeImagesCommand());
         // MUSIC
         register(new JoinCommand());
         register(new LeaveCommand());

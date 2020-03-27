@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
 
 public class SayCommand implements ICommand {
@@ -22,11 +23,10 @@ public class SayCommand implements ICommand {
         }
         else {
             event.getMessage().delete().queue();
-            String message = event.getMessage().getContentRaw();
-            message = message.replaceAll("@everyone", "everyone");
-            message = message.replaceAll("@here", "here");
-            message = message.replaceAll(Core.PREFIX, "");
-            message = message.substring(3);
+            StringJoiner stringJoiner = new StringJoiner(" ");
+            args.forEach(stringJoiner::add);
+            String message = stringJoiner.toString();
+            message = message.replaceAll("@everyone", "everyone").replaceAll("@here","here");
             if (message.contains(".gg/"))
             {
                 event.getChannel().sendMessage("Your message contains blacklisted words").queue();
