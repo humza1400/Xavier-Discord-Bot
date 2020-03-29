@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class AboutCommand implements ICommand {
 
@@ -29,7 +30,7 @@ public class AboutCommand implements ICommand {
         embedBuilder.addField("Information", "Powered by IntelliJ IDEA & Gradle 5.6.2", false);
         embedBuilder.addField("Help", "`" + Core.PREFIX + "help" + '`', false);
         embedBuilder.setColor(0x521e8a);
-        embedBuilder.setFooter("Requested By " + event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+        embedBuilder.setFooter("Requested By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
         event.getChannel().sendTyping().queue();
         event.getChannel(). sendMessage(embedBuilder.build()).queue();
         embedBuilder.clear();

@@ -9,14 +9,15 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class WhitelistCommand implements ICommand {
 
-    private static HashMap<String, String> whitelistedIDs = new HashMap<String, String>();
+    private static HashMap<String, String> whitelistedIDs = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (event.getMember().getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong() && !event.getMember().getId().equalsIgnoreCase("210956619788320768")) {
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong() && !event.getMember().getId().equalsIgnoreCase("210956619788320768")) {
             event.getChannel().sendMessage("You don't have permission to whitelist anyone").queue();
             return;
         }
@@ -42,19 +43,19 @@ public class WhitelistCommand implements ICommand {
                     event.getChannel().sendMessage("User already whitelisted.").queue();
                     return;
                 }
-                if (userID.getIdLong() == Core.OWNERID || userID.getId().equals(guildOwnerId))
+                if (Objects.requireNonNull(userID).getIdLong() == Core.OWNERID || userID.getId().equals(guildOwnerId))
                 {
                     event.getChannel().sendMessage("The owner is automatically whitelisted.").queue();
                     return;
                 }
                 whitelistedIDs.put(id, guildID);
-                event.getChannel().sendMessage("Added `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + "` to the whitelist").queue();
+                event.getChannel().sendMessage("Added `" + Objects.requireNonNull(member).getUser().getName() + "#" + member.getUser().getDiscriminator() + "` to the whitelist").queue();
                 WhitelistedJSONHandler.saveWhitelistConfig();
             } catch (NumberFormatException ex) {
                 String[] split = id.split("#");
                 try {
                     User user = event.getJDA().getUserByTag(split[0], split[1]);
-                    if (WhitelistCommand.getWhitelistedIDs().containsKey(user.getId()))
+                    if (WhitelistCommand.getWhitelistedIDs().containsKey(Objects.requireNonNull(user).getId()))
                     {
                         event.getChannel().sendMessage("That user is already whitelisted!").queue();
                         return;

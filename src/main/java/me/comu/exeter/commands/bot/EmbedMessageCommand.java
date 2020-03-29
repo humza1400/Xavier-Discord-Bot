@@ -67,7 +67,7 @@ public class EmbedMessageCommand implements ICommand {
             }
             return;
         }
-        event.getChannel().sendMessage(EmbedUtils.embedMessage(message.replaceFirst(Core.PREFIX + getInvoke(), "")).setFooter("By " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();return;
+        event.getChannel().sendMessage(EmbedUtils.embedMessage(message.replaceFirst(Core.PREFIX + getInvoke(), "")).setFooter("By " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();
     }
 
     @Override

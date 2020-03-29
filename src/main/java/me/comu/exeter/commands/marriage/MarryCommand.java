@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class MarryCommand implements ICommand {
 
@@ -16,10 +15,8 @@ public class MarryCommand implements ICommand {
     public static long marriageChannelID;
     public static long getProposedID;
     public static long getProposerID;
-    private EventWaiter eventWaiter;
 
     public MarryCommand(EventWaiter waiter) {
-        this.eventWaiter = waiter;
     }
 
     @Override
@@ -49,11 +46,11 @@ public class MarryCommand implements ICommand {
         }
 
         if (Wrapper.marriedUsers.containsKey(event.getAuthor().getId())) {
-            event.getChannel().sendMessage("Bro wtf, you're already married! " + event.getJDA().getUserById(Wrapper.marriedUsers.get(event.getMember().getId())).getAsMention() + " you seeing this?!").queue();
+            event.getChannel().sendMessage("Bro wtf, you're already married! " + Objects.requireNonNull(event.getJDA().getUserById(Wrapper.marriedUsers.get(event.getMember().getId()))).getAsMention() + " you seeing this?!").queue();
             return;
         }
-        if (Wrapper.marriedUsers.containsValue(event.getMember().getId())) {
-            event.getChannel().sendMessage("Bro wtf, you're already married! " + event.getJDA().getUserById(Wrapper.getKeyByValue(Wrapper.marriedUsers, event.getMember().getId())).getAsMention() + " you seeing this?!").queue();
+        if (Wrapper.marriedUsers.containsValue(Objects.requireNonNull(event.getMember()).getId())) {
+            event.getChannel().sendMessage("Bro wtf, you're already married! " + Objects.requireNonNull(Objects.requireNonNull(event.getJDA().getUserById(Wrapper.getKeyByValue(Wrapper.marriedUsers, event.getMember().getId())))).getAsMention() + " you seeing this?!").queue();
             return;
         }
         if (Wrapper.marriedUsers.containsKey(members.get(0).getId()) || Wrapper.marriedUsers.containsValue(members.get(0).getId())) {

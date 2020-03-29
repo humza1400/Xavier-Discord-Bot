@@ -8,14 +8,15 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class BlacklistCommand implements ICommand {
 
-    public static HashMap<String, String> blacklistedUsers = new HashMap<String, String>();
+    public static final HashMap<String, String> blacklistedUsers = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if ( event.getMember().getIdLong() != Core.OWNERID) {
+        if ( Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to blacklist anyone").queue();
             return;
         }

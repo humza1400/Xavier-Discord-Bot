@@ -15,6 +15,7 @@ import org.jsoup.nodes.Document;
  *
  * @author liaoyilin
  */
+@SuppressWarnings("JavaDoc")
 public class Search {
     private static int count = 0;
 
@@ -28,7 +29,7 @@ public class Search {
      */
     public static List<SearchResult> search(String customsite, String num, String input) throws UnsupportedEncodingException, IOException
     {
-        List<SearchResult> results = new ArrayList<SearchResult>();
+        List<SearchResult> results = new ArrayList<>();
 
         String google = "http://www.google.com/search?q=";
         String defnum = "&num=";
@@ -71,7 +72,7 @@ public class Search {
      */
     public static List<SearchResult> youtubeSearch(String num, String input) throws UnsupportedEncodingException, IOException
     {
-        List<SearchResult> results = new ArrayList<SearchResult>();
+        List<SearchResult> results = new ArrayList<>();
 
         String ytsite = "https://www.youtube.com/results?search_query=";
         Document doc = Jsoup.connect(ytsite + input).timeout(0).get();
@@ -106,7 +107,7 @@ public class Search {
      */
     public static List<SearchResult> lyricsSearch(String input) throws UnsupportedEncodingException, IOException
     {
-        List<SearchResult> results = new ArrayList<SearchResult>();
+        List<SearchResult> results = new ArrayList<>();
 
         String lyricsite = "https://genius.com/search?q=" + input.replaceAll(" ", "-");
         Document doc = Jsoup.connect(lyricsite).timeout(0).get();
@@ -136,7 +137,7 @@ public class Search {
      */
     public static List<SearchResult> IMDbSearch(String input) throws UnsupportedEncodingException, IOException
     {
-        List<SearchResult> results = new ArrayList<SearchResult>();
+        List<SearchResult> results = new ArrayList<>();
 
         String IMDBsite = "http://www.imdb.com/find?q=" + input.replaceAll(" ", "+");
         Document doc = Jsoup.connect(IMDBsite).timeout(0).get();

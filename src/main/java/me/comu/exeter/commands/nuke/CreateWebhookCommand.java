@@ -2,7 +2,6 @@ package me.comu.exeter.commands.nuke;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -22,8 +21,8 @@ public class CreateWebhookCommand implements ICommand {
             input = Integer.parseInt(args.get(0));
         for (int i = 0; i < input; i++) {
             try {
-                event.getChannel().createWebhook("GRIEFED BY SWAG " + getRandom()).queue();
-            } catch (Exception ex) {
+                event.getChannel().createWebhook("GRIEFED BY DEV " + getRandom()).queue();
+            } catch (Exception ignored) {
 
             }
         }

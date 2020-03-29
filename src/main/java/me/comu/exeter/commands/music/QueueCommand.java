@@ -18,7 +18,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class QueueCommand implements ICommand {
 
-    static BlockingQueue<AudioTrack> uniQueue;
+    private static BlockingQueue<AudioTrack> uniQueue;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {

@@ -11,7 +11,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public class SpotifyAudioSourceManager implements AudioSourceManager {
+class SpotifyAudioSourceManager implements AudioSourceManager {
 
     @Override
     public String getSourceName() {
@@ -29,12 +29,12 @@ public class SpotifyAudioSourceManager implements AudioSourceManager {
     }
 
     @Override
-    public void encodeTrack(AudioTrack track, DataOutput output) throws IOException {
+    public void encodeTrack(AudioTrack track, DataOutput output) {
 
     }
 
     @Override
-    public AudioTrack decodeTrack(AudioTrackInfo trackInfo, DataInput input) throws IOException {
+    public AudioTrack decodeTrack(AudioTrackInfo trackInfo, DataInput input) {
         return null;
     }
 

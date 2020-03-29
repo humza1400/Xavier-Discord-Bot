@@ -2,14 +2,11 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
-import java.util.concurrent.TimeUnit;
 
 public class SayCommand implements ICommand {
 
@@ -19,7 +16,6 @@ public class SayCommand implements ICommand {
         if (args.isEmpty())
         {
             event.getChannel().sendMessage("Please specify a message to say through the bot").queue();
-            return;
         }
         else {
             event.getMessage().delete().queue();

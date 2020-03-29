@@ -2,12 +2,12 @@ package me.comu.exeter.commands.economy;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class AddBalanceCommand implements ICommand {
 
@@ -51,7 +51,7 @@ public class AddBalanceCommand implements ICommand {
             return;
         }
         if (memberList.isEmpty()) {
-            if (EconomyManager.verifyUser(event.getMember().getUser().getId())) {
+            if (EconomyManager.verifyUser(Objects.requireNonNull(event.getMember()).getUser().getId())) {
                 EconomyManager.getUsers().put(event.getMember().getUser().getId(), 0);
             }
             EconomyManager.setBalance(event.getMember().getUser().getId(), EconomyManager.getBalance(event.getMember().getUser().getId()) + amount);

@@ -4,17 +4,14 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
 import me.duncte123.botcommons.messaging.EmbedUtils;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Objects;
 
 public class PrivateMessageCommand implements ICommand {
 
@@ -23,7 +20,7 @@ public class PrivateMessageCommand implements ICommand {
         String message = event.getMessage().getContentRaw();
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
-        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER)) {
             event.getChannel().sendMessage("You don't have permission to private message someone").queue();
             return;
         }
@@ -55,7 +52,7 @@ public class PrivateMessageCommand implements ICommand {
         event.getChannel().sendMessage(EmbedUtils.embedMessage("Successfully messaged " + mentionedMembers.get(0).getEffectiveName()).build()).queue();
     }
 
-    public void sendPrivateMessage(User user, String content) {
+    private void sendPrivateMessage(User user, String content) {
         user.openPrivateChannel().queue((channel) ->
         {
             try {

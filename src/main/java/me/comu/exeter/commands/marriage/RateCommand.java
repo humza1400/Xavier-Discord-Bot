@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class RateCommand implements ICommand {
     @Override
@@ -14,7 +15,7 @@ public class RateCommand implements ICommand {
         int random = (int) (Math.random() * 100) + 1;
         if (args.isEmpty())
         {
-            event.getChannel().sendMessage(String.format("**%s** rates themselves %s%% :flushed:", event.getMember().getEffectiveName(), random)).queue();
+            event.getChannel().sendMessage(String.format("**%s** rates themselves %s%% :flushed:", Objects.requireNonNull(event.getMember()).getEffectiveName(), random)).queue();
             return;
         }
 
@@ -28,11 +29,11 @@ public class RateCommand implements ICommand {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                 return;
             }
-            event.getChannel().sendMessage(String.format("**%s** rates **%s** %s%%", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName(), random)).queue();
+            event.getChannel().sendMessage(String.format("**%s** rates **%s** %s%%", Objects.requireNonNull(event.getMember()).getEffectiveName(), targets.get(0).getEffectiveName(), random)).queue();
         }
         else if (!args.isEmpty())
         {
-            event.getChannel().sendMessage(String.format("**%s** rates **%s** %s%%", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName(), random)).queue();
+            event.getChannel().sendMessage(String.format("**%s** rates **%s** %s%%", Objects.requireNonNull(event.getMember()).getEffectiveName(), mentionedMembers.get(0).getEffectiveName(), random)).queue();
         }
     }
 

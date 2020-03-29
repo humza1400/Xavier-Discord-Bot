@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class IDLookupCommand implements ICommand {
     @Override
@@ -18,7 +19,7 @@ public class IDLookupCommand implements ICommand {
         }
         try {
             if (!args.isEmpty()) {
-                event.getChannel().sendMessage(EmbedUtils.embedImage(event.getJDA().getUserById(args.get(0)).getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(event.getMember().getColor()).setTitle(args.get(0) + " belongs to `" + event.getJDA().getUserById(args.get(0)).getName() + "#" + event.getJDA().getUserById(args.get(0)).getDiscriminator() + "`").build()).queue();
+                event.getChannel().sendMessage(EmbedUtils.embedImage(Objects.requireNonNull(event.getJDA().getUserById(args.get(0))).getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(args.get(0) + " belongs to `" + Objects.requireNonNull(event.getJDA().getUserById(args.get(0))).getName() + "#" + Objects.requireNonNull(event.getJDA().getUserById(args.get(0))).getDiscriminator() + "`").build()).queue();
 
             }
         } catch (NumberFormatException | NullPointerException ex)

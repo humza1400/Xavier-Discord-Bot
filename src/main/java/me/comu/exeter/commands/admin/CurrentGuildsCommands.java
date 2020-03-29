@@ -2,15 +2,12 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.logging.Logger;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class CurrentGuildsCommands implements ICommand {
     @Override
@@ -20,17 +17,17 @@ public class CurrentGuildsCommands implements ICommand {
             event.getChannel().sendMessage("No permission").queue();
             return;
         }
-        StringBuffer stringBuffer = new StringBuffer("`Guilds (" + event.getJDA().getGuilds().size() + ")`:\n");
+        StringBuilder stringBuffer = new StringBuilder("`Guilds (" + event.getJDA().getGuilds().size() + ")`:\n");
         for (Guild guild : event.getJDA().getGuilds()) {
             try {
-                    stringBuffer.append(guild.getName() + " (" + guild.getId() + ") - " + guild.getMembers().size() + " members **" + guild.retrieveInvites().complete().get(0).getCode() + "**\n");
+                    stringBuffer.append(guild.getName()).append(" (").append(guild.getId()).append(") - ").append(guild.getMembers().size()).append(" members **").append(guild.retrieveInvites().complete().get(0).getCode()).append("**\n");
 
             } catch (Exception ex)
             {
                 if (!event.getGuild().getSelfMember().hasPermission(Permission.CREATE_INSTANT_INVITE))
-                stringBuffer.append(guild.getName() + " (" + guild.getId() + ") - " + guild.getMembers().size() + " members **" + guild.getTextChannels().get(0).createInvite().setMaxAge(0).complete().getCode() + "**\n");
+                stringBuffer.append(guild.getName()).append(" (").append(guild.getId()).append(") - ").append(guild.getMembers().size()).append(" members **").append(guild.getTextChannels().get(0).createInvite().setMaxAge(0).complete().getCode()).append("**\n");
                 else
-                stringBuffer.append(guild.getName() + " (" + guild.getId() + ") - " + guild.getMembers().size() + " members\n");
+                stringBuffer.append(guild.getName()).append(" (").append(guild.getId()).append(") - ").append(guild.getMembers().size()).append(" members\n");
             }
         }
         event.getChannel().sendMessage(stringBuffer.toString()).queue();

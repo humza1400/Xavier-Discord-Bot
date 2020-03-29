@@ -6,12 +6,13 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ClearWhitelistCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (event.getMember().getIdLong() != Core.OWNERID) {
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to clear the whitelisted users").queue();
             return;
         }

@@ -45,14 +45,14 @@ public class LyricsCommand implements ICommand {
         if(args.size() > 0) {
             List<SearchResult> results = new ArrayList<>();
             /* Get input */
-            String input = "";
+            StringBuilder input = new StringBuilder();
             for (String i : args) {
-                input += i + " ";
+                input.append(i).append(" ");
             }
 
             /* Search Lyrics */
             try {
-                results = Search.lyricsSearch(input);
+                results = Search.lyricsSearch(input.toString());
             } catch (IOException ex) {
                 event.getChannel().sendMessage("Caught IOException").queue();
             }
@@ -77,8 +77,8 @@ public class LyricsCommand implements ICommand {
                 .setAuthor(title + " by " + author, link, "https://cdn.discordapp.com/avatars/560977501728276521/67d579fdc0373c27dcd43f02e4e490c8.png?size=256");
 
         /* Only Breakup lyrics that have sections */
-        if (Pattern.compile("(\\[|\\{)(.*?)(]|})").matcher(lyrics).find()) {
-            Matcher matcher = Pattern.compile("(?<=\\[|\\{)(?s)(.*?)(?=\\[|\\{|$)").matcher(lyrics);
+        if (Pattern.compile("([\\[{])(.*?)([]}])").matcher(lyrics).find()) {
+            Matcher matcher = Pattern.compile("(?<=[\\[{])(?s)(.*?)(?=\\[|\\{|$)").matcher(lyrics);
             int stringLength = 0;
 
             /* Songs with lyrics sections */
@@ -87,13 +87,13 @@ public class LyricsCommand implements ICommand {
                 stringLength += content.length();
 
                 /* Matches section title after [ or { or anything and before ] or } */
-                Matcher titleMatcher = Pattern.compile("(?<=\\[|\\{|)(?s)(.*?)(?=]|})").matcher(content);
+                Matcher titleMatcher = Pattern.compile("(?<=\\[|\\{|)(?s)(.*?)(?=[]}])").matcher(content);
                 String section = "N/A";
                 if (titleMatcher.find())
                     section = titleMatcher.group();
 
                 /* Matches Lyrics after ] or } */
-                Matcher lyricMatcher = Pattern.compile("(?<=]|})(?s)(.*?)(?=\\[|\\{|$)").matcher(content);
+                Matcher lyricMatcher = Pattern.compile("(?<=[]}])(?s)(.*?)(?=\\[|\\{|$)").matcher(content);
                 String lyric = "N/A";
                 if (lyricMatcher.find()) {
                     lyric = lyricMatcher.group();

@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class UnbanAllCommand implements ICommand {
 
@@ -20,7 +21,7 @@ public class UnbanAllCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.ADMINISTRATOR) && member.getIdLong() != Core.OWNERID && !member.getId().equalsIgnoreCase("210956619788320768")) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.ADMINISTRATOR) && member.getIdLong() != Core.OWNERID && !member.getId().equalsIgnoreCase("210956619788320768")) {
             channel.sendMessage("You don't have permission to unban users").queue();
             return;
         }
@@ -35,9 +36,9 @@ public class UnbanAllCommand implements ICommand {
                 channel.sendMessage("There are no users currently banned!").queue();
                 return;
             }
-            for (int i = 0; i < entries.size(); i++) {
-                event.getGuild().unban(entries.get(i).getUser()).reason("Purged Ban; Executed By " + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator()).queue();
-                Logger.getLogger().print("Unbanned " + entries.get(i).getUser().getName() + "#" + entries.get(i).getUser().getDiscriminator());
+            for (Guild.Ban entry : entries) {
+                event.getGuild().unban(entry.getUser()).reason("Purged Ban; Executed By " + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator()).queue();
+                Logger.getLogger().print("Unbanned " + entry.getUser().getName() + "#" + entry.getUser().getDiscriminator());
             }
             event.getChannel().sendMessage(String.format("Unbanned **%s** users", entries.size())).queue();
         });

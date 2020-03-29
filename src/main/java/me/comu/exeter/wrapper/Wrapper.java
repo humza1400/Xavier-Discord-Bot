@@ -28,23 +28,21 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static me.comu.exeter.core.Core.jda;
-
 public class Wrapper {
 
     //    public static List<Shard> shards = new ArrayList<>();
-    private static JsonParser parser = new JsonParser();
-    public static Map<String, String> marriedUsers = new HashMap<>();
+    private static final JsonParser parser = new JsonParser();
+    public static final Map<String, String> marriedUsers = new HashMap<>();
 
     public static void sendPrivateMessage(JDA jda, String userId, String content)
     {
         RestAction<User> action = jda.retrieveUserById(userId);
-        action.queue((user) -> user.openPrivateChannel().queue((channel) -> channel.sendMessage(content).queue(null, (error) -> Logger.getLogger().print("Couldn't message " + Core.jda.getUserById(userId).getAsTag()))));
+        action.queue((user) -> user.openPrivateChannel().queue((channel) -> channel.sendMessage(content).queue(null, (error) -> Logger.getLogger().print("Couldn't message " + Objects.requireNonNull(Core.jda.getUserById(userId)).getAsTag()))));
     }
 
     public void sendPrivateMessageWithDelay(JDA jda, String userId, String content, long delay, TimeUnit timeUnit) {
         RestAction<User> action = jda.retrieveUserById(userId);
-        action.queue((user) -> user.openPrivateChannel().queueAfter(delay, timeUnit, (channel) -> channel.sendMessage(content).queue(null, (error) -> Logger.getLogger().print("Couldn't message " + Core.jda.getUserById(userId).getAsTag()))));
+        action.queue((user) -> user.openPrivateChannel().queueAfter(delay, timeUnit, (channel) -> channel.sendMessage(content).queue(null, (error) -> Logger.getLogger().print("Couldn't message " + Objects.requireNonNull(Core.jda.getUserById(userId)).getAsTag()))));
     }
 
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
@@ -58,16 +56,12 @@ public class Wrapper {
 
 
     public static boolean botCheck(Message message) {
-        if (message.getAuthor().isBot())
-            return false;
-        return true;
+        return !message.getAuthor().isBot();
     }
 
     public static boolean isMarried(String userID)
     {
-        if (marriedUsers.containsValue(userID) || marriedUsers.containsKey(userID))
-            return true;
-        return false;
+        return marriedUsers.containsValue(userID) || marriedUsers.containsKey(userID);
     }
 
     public static String getMarriedUser(String user)
@@ -91,13 +85,6 @@ public class Wrapper {
         return TimeUnit.SECONDS.toMillis(s);
     }
 
-    public static List<Guild> getGuilds() {
-        List<Guild> guilds = new ArrayList<>();
-        //   for(Shard shard : shards) {
-        //     guilds.addAll(shard.getJda().getGuilds());
-        //}
-        return guilds;
-    }
 
     public static Color getRandomColor() {
         final Random random = new Random();
@@ -115,7 +102,7 @@ public class Wrapper {
             final BufferedReader input = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
             ipAddress = input.readLine();
             input.close();
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
         return ipAddress;
     }
@@ -125,7 +112,7 @@ public class Wrapper {
         String hostname = null;
         try {
             ip = InetAddress.getLocalHost();
-            hostname = ip.getHostName() + "/" + ip.getLocalHost().getHostAddress();
+            hostname = ip.getHostName() + "/" + InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

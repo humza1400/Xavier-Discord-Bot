@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class BootCommand implements ICommand {
@@ -18,7 +19,7 @@ public class BootCommand implements ICommand {
 
         if (args.isEmpty())
         {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(event.getMember().getColor()).setTitle(String.format("**%s** boots themselves :flushed:", event.getMember().getEffectiveName())).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** boots themselves :flushed:", event.getMember().getEffectiveName())).build()).queue();
             return;
         }
 
@@ -32,11 +33,11 @@ public class BootCommand implements ICommand {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                 return;
             }
-            event.getChannel().sendMessage(EmbedUtils.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(event.getMember().getColor()).setTitle(String.format("**%s** boots **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** boots **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
         }
         else if (!args.isEmpty())
         {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(event.getMember().getColor()).setTitle(String.format("**%s** boots **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** boots **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
         }
     }
 

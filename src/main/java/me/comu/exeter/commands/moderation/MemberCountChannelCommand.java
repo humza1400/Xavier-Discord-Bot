@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class MemberCountChannelCommand implements ICommand {
 
@@ -16,7 +17,7 @@ public class MemberCountChannelCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to set the server stats channel").queue();
             return;
         }
@@ -29,7 +30,7 @@ public class MemberCountChannelCommand implements ICommand {
         try {
             VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(args.get(0));
                 isVCSet = true;
-                vcID = voiceChannel.getId();
+                vcID = Objects.requireNonNull(voiceChannel).getId();
                 event.getChannel().sendMessage("Servers stats channel set to `" + voiceChannel.getName() + "`").queue();
         } catch (NullPointerException ex)
         {

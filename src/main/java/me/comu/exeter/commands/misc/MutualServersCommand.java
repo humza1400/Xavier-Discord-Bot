@@ -9,25 +9,26 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class MutualServersCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            List<Guild> mutualGuilds = event.getMember().getUser().getMutualGuilds();
-            StringBuffer stringBuffer = new StringBuffer();
+            List<Guild> mutualGuilds = Objects.requireNonNull(event.getMember()).getUser().getMutualGuilds();
+            StringBuilder stringBuffer = new StringBuilder();
             for (Guild guild : mutualGuilds)
-                stringBuffer.append("**" + guild.getName() + "** (" + guild.getId() + ")\n");
+                stringBuffer.append("**").append(guild.getName()).append("** (").append(guild.getId()).append(")\n");
             event.getChannel().sendMessage(EmbedUtils.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).build()).queue();
             return;
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
         if (!memberList.isEmpty()) {
                 List<Guild> mutualGuilds = memberList.get(0).getUser().getMutualGuilds();
-                StringBuffer stringBuffer = new StringBuffer();
+                StringBuilder stringBuffer = new StringBuilder();
                 for (Guild guild : mutualGuilds)
-                    stringBuffer.append("**" + guild.getName() + "** (" + guild.getId() + ")\n");
+                    stringBuffer.append("**").append(guild.getName()).append("** (").append(guild.getId()).append(")\n");
                 event.getChannel().sendMessage(EmbedUtils.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + memberList.get(0).getUser().getName() + "#" + memberList.get(0).getUser().getDiscriminator()).build()).queue();
                 return;
         }
@@ -41,11 +42,10 @@ public class MutualServersCommand implements ICommand {
                 return;
             }
             List<Guild> mutualGuilds = targets.get(0).getUser().getMutualGuilds();
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuffer = new StringBuilder();
             for (Guild guild : mutualGuilds)
-                stringBuffer.append("**" + guild.getName() + "** (" + guild.getId() + ")\n");
+                stringBuffer.append("**").append(guild.getName()).append("** (").append(guild.getId()).append(")\n");
             event.getChannel().sendMessage(EmbedUtils.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + targets.get(0).getUser().getName() + "#" + targets.get(0).getUser().getDiscriminator()).build()).queue();
-            return;
         }
     }
 

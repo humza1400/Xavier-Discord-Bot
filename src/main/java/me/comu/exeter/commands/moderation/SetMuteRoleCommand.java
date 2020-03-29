@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SetMuteRoleCommand implements ICommand {
 
@@ -22,7 +23,7 @@ public class SetMuteRoleCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if ((!member.hasPermission(Permission.MANAGE_ROLES)) && event.getMember().getIdLong() != Core.OWNERID) {
+        if ((!Objects.requireNonNull(member).hasPermission(Permission.MANAGE_ROLES)) && Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to set the mute role").queue();
             return;
         }
@@ -31,7 +32,7 @@ public class SetMuteRoleCommand implements ICommand {
             return;
         }
 
-        if (args.isEmpty() || args.size() > 1) {
+        if (args.size() != 1) {
             channel.sendMessage("Please specify a role").queue();
             return;
         }
@@ -48,7 +49,7 @@ public class SetMuteRoleCommand implements ICommand {
         try {
             role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));
             isMuteRoleSet = true;
-            channel.sendMessage("Mute role successfully set to `" + role.getName() + "`").queue();
+            channel.sendMessage("Mute role successfully set to `" + Objects.requireNonNull(role).getName() + "`").queue();
         } catch (NullPointerException | NumberFormatException ex) {
             List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
             if (roles.isEmpty())
@@ -64,7 +65,6 @@ public class SetMuteRoleCommand implements ICommand {
             role = roles.get(0);
             isMuteRoleSet = true;
             channel.sendMessage("Mute role successfully set to `" + role.getName() + "`").queue();
-            return;
         }
 
     }

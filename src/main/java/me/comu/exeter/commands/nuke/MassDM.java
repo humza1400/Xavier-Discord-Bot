@@ -8,13 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MassDM implements ICommand {
-    private boolean running;
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("210956619788320768")) {
             return;
         }
-        running = true;
+        boolean running = true;
         if (args.isEmpty())
         {
             event.getChannel().sendMessage("Please insert an amount of times you want to spam").queue();

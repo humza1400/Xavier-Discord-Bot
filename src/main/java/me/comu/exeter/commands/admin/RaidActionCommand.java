@@ -10,12 +10,13 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class RaidActionCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to use raid actions.").queue();
             return;
         }
@@ -45,7 +46,7 @@ public class RaidActionCommand implements ICommand {
 
         }));
         if (args.get(0).equalsIgnoreCase("created") || args.get(0).equalsIgnoreCase("create")) {
-            StringBuffer buffer = new StringBuffer("Suspected raid accounts made in the last 7 days: `" + newAccountMembers.size() + "`.\n");
+            StringBuilder buffer = new StringBuilder("Suspected raid accounts made in the last 7 days: `" + newAccountMembers.size() + "`.\n");
             for (Member member : newAccountMembers) {
                 //DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a");
                 buffer.append(String.format("%#s\n" /*+ member.getTimeCreated().format(timeFormatter) + "\n"*/, member.getUser()));
@@ -54,7 +55,7 @@ public class RaidActionCommand implements ICommand {
             return;
         }
         if (args.get(0).equalsIgnoreCase("joined") || args.get(0).equalsIgnoreCase("join")) {
-            StringBuffer buffer = new StringBuffer("Suspected raid accounts joined in the last 5 minutes: `" + newJoinedMembers.size() + "`.\n");
+            StringBuilder buffer = new StringBuilder("Suspected raid accounts joined in the last 5 minutes: `" + newJoinedMembers.size() + "`.\n");
             for (Member member : newJoinedMembers) {
                 //DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a");
                 buffer.append(String.format("%#s\n" /*+ member.getTimeCreated().format(timeFormatter) + "\n"*/, member.getUser()));

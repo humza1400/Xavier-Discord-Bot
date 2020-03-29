@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class GuildLookUpCommand implements ICommand {
     @Override
@@ -18,7 +19,7 @@ public class GuildLookUpCommand implements ICommand {
         }
         try {
             if (!args.isEmpty()) {
-                event.getChannel().sendMessage(EmbedUtils.embedImage(event.getJDA().getGuildById(args.get(0)).getIconUrl().concat("?size=256&f=.gif")).setColor(event.getMember().getColor()).setTitle(args.get(0) + " belongs to `" + event.getJDA().getGuildById(args.get(0)).getName() + "`").build()).queue();
+                event.getChannel().sendMessage(EmbedUtils.embedImage(Objects.requireNonNull(event.getJDA().getGuildById(args.get(0)).getIconUrl()).concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(args.get(0) + " belongs to `" + Objects.requireNonNull(event.getJDA().getGuildById(args.get(0))).getName() + "`").build()).queue();
 
             }
         } catch (NumberFormatException | NullPointerException ex)

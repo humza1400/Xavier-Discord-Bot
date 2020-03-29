@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ServerInfoCommand implements ICommand {
     @Override
@@ -40,8 +41,7 @@ public class ServerInfoCommand implements ICommand {
                 .setThumbnail(guild.getIconUrl())
                 .addField("Information", generalInfo, false)
                 .addField("Roles, Channels, & Member Counts", memberInfo, false)
-                .setFooter("Requested By " + event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
-                ;
+                .setFooter("Requested By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
 
         event.getChannel().sendMessage(embed.build()).queue();
     }

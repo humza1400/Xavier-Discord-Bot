@@ -7,10 +7,10 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.exceptions.HierarchyException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class BanTagCommand implements ICommand {
     @Override
@@ -20,7 +20,7 @@ public class BanTagCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
-        if (!member.hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID/* || !member.canInteract(target)*/) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID/* || !member.canInteract(target)*/) {
             channel.sendMessage("You don't have permission to ban that user").queue();
             return;
         }
@@ -43,7 +43,7 @@ public class BanTagCommand implements ICommand {
         if (mentionedMembers.isEmpty()) {
             Member target = event.getGuild().getMemberById(user.getId());
             if (reason.equals("")) {
-                if (!selfMember.canInteract(target)) {
+                if (!selfMember.canInteract(Objects.requireNonNull(target))) {
                     event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
                     return;
 
@@ -51,14 +51,13 @@ public class BanTagCommand implements ICommand {
                 event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
                 channel.sendMessage(String.format("Banned %s", target.getUser().getName() + "#" + target.getUser().getDiscriminator())).queue();
             } else {
-                if (!selfMember.canInteract(target)) {
+                if (!selfMember.canInteract(Objects.requireNonNull(target))) {
                     event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
                     return;
                 }
                 event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
                 channel.sendMessage(String.format("Banned %s for `%s`", target.getUser().getName() + "#" + target.getUser().getDiscriminator(), reason)).queue();
             }
-            return;
         }
     }
 

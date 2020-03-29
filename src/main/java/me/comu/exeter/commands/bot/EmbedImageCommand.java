@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class EmbedImageCommand implements ICommand {
     @Override

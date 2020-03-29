@@ -3,19 +3,18 @@ package me.comu.exeter.commands.misc;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class AvatarCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(String.format(event.getAuthor().getEffectiveAvatarUrl().concat("?size=256&f=.gif"))).setColor(event.getMember().getColor()).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(event.getAuthor().getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
             return;
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
@@ -30,9 +29,9 @@ public class AvatarCommand implements ICommand {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                 return;
             }
-            event.getChannel().sendMessage(EmbedUtils.embedImage(targets.get(0).getUser().getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(event.getMember().getColor()).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(targets.get(0).getUser().getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
         } else if (!memberList.isEmpty()){
-            event.getChannel().sendMessage(EmbedUtils.embedImage(memberList.get(0).getUser().getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(event.getMember().getColor()).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(memberList.get(0).getUser().getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
         }
     }
 

@@ -7,12 +7,13 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class BegCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (EconomyManager.verifyUser(event.getMember().getUser().getId())) {
+        if (EconomyManager.verifyUser(Objects.requireNonNull(event.getMember()).getUser().getId())) {
             EconomyManager.getUsers().put(event.getMember().getUser().getId(), 0);
         }
         double d = Math.random();

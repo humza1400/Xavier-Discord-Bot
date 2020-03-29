@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class LeaveGuildCommand implements ICommand {
     @Override
@@ -21,9 +22,9 @@ public class LeaveGuildCommand implements ICommand {
         }
         String id = args.get(0);
         try {
-            event.getJDA().getGuildById(id).leave().queue();
+            Objects.requireNonNull(event.getJDA().getGuildById(id)).leave().queue();
         } catch (Exception ex) {event.getChannel().sendMessage("Invalid Guild Snowfalke").queue();}
-        event.getChannel().sendMessage("Successfully left " + event.getJDA().getGuildById(id).getName()).queue();
+        event.getChannel().sendMessage("Successfully left " + Objects.requireNonNull(event.getJDA().getGuildById(id)).getName()).queue();
     }
 
     @Override

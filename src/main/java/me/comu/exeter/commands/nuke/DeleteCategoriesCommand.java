@@ -2,7 +2,6 @@ package me.comu.exeter.commands.nuke;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
@@ -23,11 +22,11 @@ public class DeleteCategoriesCommand implements ICommand {
             for (int i = 0; i <= tcSize; i++) {
                 try {
                     categories.get(i).delete().queue();
-                } catch (HierarchyException | IndexOutOfBoundsException ex1) {
+                } catch (HierarchyException | IndexOutOfBoundsException ignored) {
 
                 }
             }
-        } catch (HierarchyException | ErrorResponseException | IndexOutOfBoundsException ex) {
+        } catch (HierarchyException | ErrorResponseException | IndexOutOfBoundsException ignored) {
 
         }
 

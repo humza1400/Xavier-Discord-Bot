@@ -9,12 +9,13 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class AdminRolesCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
-        if (!event.getMember().hasPermission(Permission.MANAGE_ROLES) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_ROLES) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to list admin roles").queue();
             return;
         }
@@ -47,27 +48,27 @@ public class AdminRolesCommand implements ICommand {
                 canKickRoles.add(role.getName());
             }
         }
-        StringBuffer buffer = new StringBuffer("`All Roles With Administrator Permissions: (" + adminRoles.size() + ")`\n");
+        StringBuilder buffer = new StringBuilder("`All Roles With Administrator Permissions: (" + adminRoles.size() + ")`\n");
         if (!adminRoles.isEmpty()) {
-               buffer.append(adminRoles + "\n");
+               buffer.append(adminRoles).append("\n");
         } else {
             buffer.append("No Roles With **Administrator** Permission\n");
         }
-        buffer.append("`All Roles With BOT_ADD Permissions: (" + canAddBotRoles.size() +")`\n");
+        buffer.append("`All Roles With BOT_ADD Permissions: (").append(canAddBotRoles.size()).append(")`\n");
         if (!canAddBotRoles.isEmpty()) {
-            buffer.append(canAddBotRoles + "\n");
+            buffer.append(canAddBotRoles).append("\n");
         } else {
             buffer.append("No Roles With **ADD_BOT** Permission\n");
         }
-        buffer.append("`All Roles With BAN Permissions: (" + canBanRoles.size() + ")`\n");
+        buffer.append("`All Roles With BAN Permissions: (").append(canBanRoles.size()).append(")`\n");
         if (!canBanRoles.isEmpty()) {
-            buffer.append(canBanRoles + "\n");
+            buffer.append(canBanRoles).append("\n");
         } else {
             buffer.append("No Roles With **BAN** Permission\n");
         }
-        buffer.append("`All Roles With KICK Permissions: (" + canKickRoles.size() + ")`\n");
+        buffer.append("`All Roles With KICK Permissions: (").append(canKickRoles.size()).append(")`\n");
         if (!canKickRoles.isEmpty()) {
-           buffer.append(canKickRoles + "\n");
+           buffer.append(canKickRoles).append("\n");
         } else {
             buffer.append("No Roles With **KICK** Permission\n");
         }

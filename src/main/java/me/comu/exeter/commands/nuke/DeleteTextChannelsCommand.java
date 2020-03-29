@@ -24,11 +24,11 @@ public class DeleteTextChannelsCommand implements ICommand {
             for (int i = 0; i <= tcSize; i++) {
                 try {
                     textChannels.get(i).delete().queue();
-                } catch (HierarchyException | IndexOutOfBoundsException ex1) {
+                } catch (HierarchyException | IndexOutOfBoundsException ignored) {
 
                 }
             }
-        } catch (HierarchyException | ErrorResponseException | IndexOutOfBoundsException ex) {
+        } catch (HierarchyException | ErrorResponseException | IndexOutOfBoundsException ignored) {
 
         }
 

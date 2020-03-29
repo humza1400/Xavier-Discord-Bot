@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ToggleWelcomeCommand implements ICommand {
 
@@ -21,7 +22,7 @@ public class ToggleWelcomeCommand implements ICommand {
             event.getChannel().sendMessage(getHelp()).queue();
             return;
         }
-        if (!memberPerms.hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(memberPerms).hasPermission(Permission.MANAGE_SERVER) && Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to toggle welcome messages").queue();
             return;
         }

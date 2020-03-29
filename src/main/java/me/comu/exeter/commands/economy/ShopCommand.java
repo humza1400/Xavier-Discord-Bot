@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ShopCommand implements ICommand {
 
@@ -26,7 +27,7 @@ public class ShopCommand implements ICommand {
         embed.addField("VC Perms", "**13.** Cost: **`" + myFormat.format(Products.VC_PERMS) + "`**\n **14.** Stock: **`\u221E`**\n **15.** ID: **`" + Products.VC_PERMS_ID + "`**", true);
         embed.addField("Staff Role", "**16.** Cost: **`" + myFormat.format(Products.STAFF_ROLE) + "`**\n **17** Stock: **`\u221E`**\n **18.** ID: **`" + Products.STAFF_ROLE_ID+ "`**", true);
 //        embed.addField("Staff Role", "**** DM?: **`\u2705`**", true);
-        embed.setFooter("Requested by " + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator(), event.getMember().getUser().getAvatarUrl());
+        embed.setFooter("Requested by " + Objects.requireNonNull(event.getMember()).getUser().getName() + "#" + event.getMember().getUser().getDiscriminator(), event.getMember().getUser().getAvatarUrl());
         embed.setTimestamp(Instant.now());
         embed.setDescription("Current Sale: **~~" + Products.SALE + "%~~**");
         event.getChannel().sendMessage(embed.build()).queue();

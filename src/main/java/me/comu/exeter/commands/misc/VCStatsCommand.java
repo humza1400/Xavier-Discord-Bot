@@ -34,9 +34,9 @@ public class VCStatsCommand implements ICommand {
                 User user = event.getJDA().getUserById(x);
                 if (counter2 != 11) {
                     try {
-                        String name = user.getName() + "#" + user.getDiscriminator();
+                        String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator();
                         if (!(minuteMap.get(user.getId()) > 100000) && !(minuteMap.get(user.getId()) < 0) && !(hourMap.get(user.getId()) > 100000) && !(hourMap.get(user.getId()) < 0)) {
-                            stringBuffer.append("**" + counter2 + "**. " + name + " : " + hourMap.get(user.getId()) + " hours " + (minuteMap.get(user.getId()) % 60) + " minutes\n");
+                            stringBuffer.append("**").append(counter2).append("**. ").append(name).append(" : ").append(hourMap.get(user.getId())).append(" hours ").append(minuteMap.get(user.getId()) % 60).append(" minutes\n");
                             counter2++;
                         }
                     } catch (NullPointerException ex) {
@@ -50,7 +50,7 @@ public class VCStatsCommand implements ICommand {
             }
             event.getChannel().sendMessage(EmbedUtils.embedMessage("**Most Active VC Leaderbaords:**\n" + stringBuffer.toString()).build()).queue();
         } else {
-            if (event.getMessage().getMentionedMembers().get(0).getVoiceState().inVoiceChannel())
+            if (Objects.requireNonNull(event.getMessage().getMentionedMembers().get(0).getVoiceState()).inVoiceChannel())
             {
                 event.getChannel().sendMessage("You cannot view specific vc-stats while in a vc-channel").queue();
                 return;

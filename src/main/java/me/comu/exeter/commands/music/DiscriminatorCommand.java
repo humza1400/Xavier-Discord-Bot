@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class DiscriminatorCommand implements ICommand {
 
@@ -24,7 +25,7 @@ public class DiscriminatorCommand implements ICommand {
         else if (args[0].length() == 4 && e.getMessage().getMentionedUsers().isEmpty())
             target = args[0];
         else if (args[0].length() == 18 && e.getMessage().getMentionedUsers().isEmpty())
-            target = e.getGuild().getMemberById(args[0]).getUser().getDiscriminator();
+            target = Objects.requireNonNull(e.getGuild().getMemberById(args[0])).getUser().getDiscriminator();
         else if (!e.getMessage().getMentionedUsers().isEmpty()) {
             List<User> mention = e.getMessage().getMentionedUsers();
             if (e.getJDA().getSelfUser().getId().equals(mention.get(0).getId()) && mention.size() > 1)

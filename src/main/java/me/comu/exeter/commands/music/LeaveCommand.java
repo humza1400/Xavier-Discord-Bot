@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class LeaveCommand implements ICommand {
     @Override
@@ -20,7 +21,7 @@ public class LeaveCommand implements ICommand {
             textChannel.sendMessage("I'm not even connected to a voice channel bro").queue();
             return;
         }
-        if (voiceChannel.getMembers().size() == 1)
+        if (Objects.requireNonNull(voiceChannel).getMembers().size() == 1)
         {
             audioManager.closeAudioConnection();
             textChannel.sendMessage("Successfully disconnected from the voice channel").queue();

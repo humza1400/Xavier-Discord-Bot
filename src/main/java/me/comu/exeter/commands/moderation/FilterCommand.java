@@ -9,11 +9,12 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class FilterCommand implements ICommand {
 
-    public static HashMap<String, String> filteredUsers = new HashMap<>();
-    public static HashMap<String, String> filteredRoles = new HashMap<>();
+    public static final HashMap<String, String> filteredUsers = new HashMap<>();
+    public static final HashMap<String, String> filteredRoles = new HashMap<>();
     private static boolean active = true;
 
     @Override
@@ -59,7 +60,7 @@ public class FilterCommand implements ICommand {
                     return;
                 }
                 role = event.getGuild().getRoleById(Long.parseLong(args.get(2)));
-                filteredRoles.put(role.getId(), event.getGuild().getId());
+                filteredRoles.put(Objects.requireNonNull(role).getId(), event.getGuild().getId());
                 event.getChannel().sendMessage("All users with the `" + role.getName() + "` role will now be excluded from the filter.").queue();
             } catch (NullPointerException | NumberFormatException ex) {
                 List<Role> roles = event.getGuild().getRolesByName(args.get(1), false);
@@ -86,7 +87,7 @@ public class FilterCommand implements ICommand {
                     return;
                 }
                 role = event.getGuild().getRoleById(Long.parseLong(args.get(1)));
-                if (filteredUsers.containsKey(role.getId())) {
+                if (filteredUsers.containsKey(Objects.requireNonNull(role).getId())) {
                     filteredUsers.remove(role.getId());
                     event.getChannel().sendMessage("Removed the `" + role.getName() + "` role filter whitelist.").queue();
                 } else {

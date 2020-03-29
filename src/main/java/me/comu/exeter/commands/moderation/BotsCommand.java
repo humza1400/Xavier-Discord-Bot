@@ -14,11 +14,11 @@ public class BotsCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         List<Member> bots = event.getGuild().getMembers().stream().filter(member -> member.getUser().isBot()).sorted(Comparator.comparing(Member::getTimeJoined)).collect(Collectors.toList());
         int count = 1;
         for (Member m : bots) {
-            buffer.append(count++ + ". " + m.getAsMention() + "\n");
+            buffer.append(count++).append(". ").append(m.getAsMention()).append("\n");
         }
         event.getChannel().sendMessage("Total bots: `" + bots.size() + "`\n" + buffer.toString()).queue();
     }

@@ -1,31 +1,20 @@
 package me.comu.exeter.core;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
-import me.comu.exeter.commands.economy.EcoJSONHandler;
-import me.comu.exeter.events.*;
 import me.comu.exeter.wrapper.Wrapper;
-import me.duncte123.botcommons.web.WebUtils;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
-import org.slf4j.LoggerFactory;
 
-import javax.security.auth.login.LoginException;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Core {
 
     public static JDA jda;
-    public static final long OWNERID = 210956619788320768L;
-    protected static final String HWIDURL = "https://pastebin.com/raw/mGiKYJrV";
-    private static final String TOKEN ="MzIwMzc4Nzk1MTkyNDgzODQx.XnjFPg.o5CiN0qZ4MQkUMwZjRLGy1EQY80";
+    public static final long OWNERID = 358689720596955148L;
+    static final String HWIDURL = "https://pastebin.com/raw/mGiKYJrV";
+    //    private static final String TOKEN ="MzIwMzc4Nzk1MTkyNDgzODQx.XnjFPg.o5CiN0qZ4MQkUMwZjRLGy1EQY80";
+    public static final String TOKEN = "NjkyNDU2MDQyNjE3MTEwNjE4.Xn_Ptw.RduprcSuMb7FfQwZsR2X2b17-vs";
     //public static final String youtubeAPIKey = "AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c";
     public static final String DEBUG = "[DEBUG] ";
     public static String PREFIX = ";;";
@@ -53,8 +42,7 @@ public class Core {
             @Override
             public void run() {
                 new LoginGUI().setVisible(true); }
-
-        });
+});
     }
 
     private Core() {
@@ -67,13 +55,8 @@ public class Core {
         WebUtils.setUserAgent("Mozilla/5.0 | Discord Bot");
 
         try {
-            jda = new JDABuilder(AccountType.BOT).setToken(TOKEN).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
-            //    new Timer().scheduleAtFixedRate(new TimerTask(){
-            //          @Override
-            //            public void run(){
-            //jda.getPresence().setActivity(Activity.watching(String.format("over %s users", jda.getGuildById("645841446817103912").getMembers().size())));
-            //              }
-//            },0,5000);
+            jda = JDABuilder.create(Core.TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(new Listener(commandManager)).build().awaitReady();
+            logger.info("Successfully Booted");
             jda.addEventListener(new KickEvent());
             jda.addEventListener(new BanEvent());
             jda.addEventListener(new LogMessageReceivedEvent());
@@ -94,17 +77,24 @@ public class Core {
             jda.addEventListener(new SuggestionMessageCleanerEvent());
             jda.addEventListener(new CreateAChannelEvent());
             jda.addEventListener(new AIPEvent());
-            logger.info("Successfully Booted");
+            Logger.getLogger().print("Loaded Events");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");
         }*/
     }
 
     public static void shutdownThread() {
-//        LoginGUI.running = false;
-//        LoginGUI.jStatusField.setText("NOT RUNNING");
+        LoginGUI.running = false;
+        LoginGUI.jStatusField.setText("NOT RUNNING");
         jda.shutdownNow();
     }
 
 
 }
+
+//    new Timer().scheduleAtFixedRate(new TimerTask(){
+//          @Override
+//            public void run(){
+//jda.getPresence().setActivity(Activity.watching(String.format("over %s users", jda.getGuildById("645841446817103912").getMembers().size())));
+//              }
+//            },0,5000);

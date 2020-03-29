@@ -2,12 +2,12 @@ package me.comu.exeter.commands.economy;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SetBalanceCommand implements ICommand {
 
@@ -57,7 +57,7 @@ public class SetBalanceCommand implements ICommand {
 //        }
         if (memberList.isEmpty())
         {
-            EconomyManager.setBalance(event.getMember().getUser().getId(), amount);
+            EconomyManager.setBalance(Objects.requireNonNull(event.getMember()).getUser().getId(), amount);
             event.getChannel().sendMessage(String.format("Set your balance to **%s**! %s", amount, event.getMember().getAsMention())).queue();
             EcoJSONHandler.saveEconomyConfig();
             return;

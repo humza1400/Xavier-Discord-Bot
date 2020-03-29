@@ -8,13 +8,14 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SKSKSKCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
-        if (!event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR)) {
             event.getChannel().sendMessage("my analytics show that you are a blackie, therefore i have blocked you from executing this command").queue();
             return;
         }

@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.exceptions.HierarchyException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class KickCommand implements ICommand {
     @Override
@@ -27,7 +28,7 @@ public class KickCommand implements ICommand {
 
         String reason = String.join(" ", args.subList(1, args.size()));
 
-        if (!member.hasPermission(Permission.KICK_MEMBERS) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.KICK_MEMBERS) && Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to kick someone").queue();
             return;
         }
@@ -52,7 +53,7 @@ public class KickCommand implements ICommand {
             Member target = targets.get(0);
             if (reason.equals("")) {
                 try {
-                    if (!event.getMember().canInteract(target)) {
+                    if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
                         event.getChannel().sendMessage("You don't have permission to kick that user").queue();
                         return;
                     }
@@ -66,7 +67,7 @@ public class KickCommand implements ICommand {
             }
             else {
                 try {
-                    if (!event.getMember().canInteract(target)) {
+                    if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
                         event.getChannel().sendMessage("You don't have permission to kick that user").queue();
                         return;
                     }
@@ -82,7 +83,7 @@ public class KickCommand implements ICommand {
         Member target = mentionedMembers.get(0);
         if (reason.equals("")) {
             try {
-                if (!event.getMember().canInteract(target)) {
+                if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
                     event.getChannel().sendMessage("You don't have permission to kick that user").queue();
                     return;
                 }
@@ -96,7 +97,7 @@ public class KickCommand implements ICommand {
         }
         else {
             try {
-                if (!event.getMember().canInteract(target)) {
+                if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
                     event.getChannel().sendMessage("You don't have permission to kick that user").queue();
                     return;
                 }

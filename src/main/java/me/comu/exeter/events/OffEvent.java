@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class OffEvent extends ListenerAdapter {
 
@@ -32,7 +33,7 @@ public class OffEvent extends ListenerAdapter {
         {
             event.getMessage().delete().queue();
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-                String userComu = event.getJDA().getUserById(Core.OWNERID).getId();
+                String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                 Wrapper.sendPrivateMessage(event.getJDA(), userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_WEBHOOK**");
                 return;
             }
@@ -48,7 +49,7 @@ public class OffEvent extends ListenerAdapter {
                                 for (int i = 0; i < roles.size(); i++) {
                                     stringArray[i] = roles.get(i).getName();
                                 }
-                                stringArray = strings.toArray(new String[strings.size()]);
+                                stringArray = strings.toArray(new String[0]);
                                 for (Role role : member.getRoles()) {
                                     if (role.isManaged() || role.isPublicRole()) {
                                         role.getManager().revokePermissions(Permission.values()).queue();
@@ -57,8 +58,8 @@ public class OffEvent extends ListenerAdapter {
                                         event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                                     }
                                 }
-                                String userComu = event.getJDA().getUserById(Core.OWNERID).getId();
-                                String userOwner = event.getGuild().getOwner().getUser().getId();
+                                String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
+                                String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
                                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                                 LocalDateTime now = LocalDateTime.now();
                                 String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
@@ -68,8 +69,8 @@ public class OffEvent extends ListenerAdapter {
                                     for (String x : WhitelistCommand.getWhitelistedIDs().keySet()) {
                                         if (WhitelistCommand.getWhitelistedIDs().get(x).equals(event.getGuild().getId())) {
                                             User whitelistUser = event.getJDA().getUserById(x);
-                                            if (!whitelistUser.isBot())
-                                                Wrapper.sendPrivateMessage(event.getJDA(), event.getJDA().getUserById(x).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `WEBHOOK`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
+                                            if (!Objects.requireNonNull(whitelistUser).isBot())
+                                                Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x)).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `WEBHOOK`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + Arrays.deepToString(stringArray) + "`");
                                         }
                                     }
                                 }

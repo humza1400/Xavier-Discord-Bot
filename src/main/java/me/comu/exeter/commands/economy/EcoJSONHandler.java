@@ -2,7 +2,6 @@ package me.comu.exeter.commands.economy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.comu.exeter.logging.Logger;
-import net.dv8tion.jda.api.entities.User;
 import org.json.JSONObject;
 
 import java.io.File;

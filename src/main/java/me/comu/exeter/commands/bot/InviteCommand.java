@@ -13,7 +13,7 @@ public class InviteCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (event.getAuthor().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("Sorry, but this bot is currently private and made exclusively for the `" + event.getGuild().getName() + "` discord. Please PM swag#1234 for further questions.").queue();
+            event.getChannel().sendMessage("Sorry, but this bot is currently private and made exclusively for the `" + event.getGuild().getName() + "` discord. Please PM srates#0777 for further questions.").queue();
             return;
         }
         event.getChannel().sendMessage(event.getJDA().getInviteUrl(Permission.ADMINISTRATOR)).queue();

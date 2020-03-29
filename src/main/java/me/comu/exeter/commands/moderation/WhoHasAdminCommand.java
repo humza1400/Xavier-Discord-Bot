@@ -4,18 +4,18 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class WhoHasAdminCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
-        if (!event.getMember().hasPermission(Permission.MANAGE_ROLES) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_ROLES) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to list the admins").queue();
             return;
         }
@@ -48,27 +48,27 @@ public class WhoHasAdminCommand implements ICommand {
                 canKickRoles.add(member.getAsMention());
             }
         }
-        StringBuffer buffer = new StringBuffer("`All Members With Administrator Permissions: (" + adminRoles.size() + ")`\n");
+        StringBuilder buffer = new StringBuilder("`All Members With Administrator Permissions: (" + adminRoles.size() + ")`\n");
         if (!adminRoles.isEmpty()) {
-               buffer.append(adminRoles + "\n");
+               buffer.append(adminRoles).append("\n");
         } else {
             buffer.append("No Members With **Administrator** Permission\n");
         }
-        buffer.append("`All Members With BOT_ADD Permissions: (" + canAddBotRoles.size() +")`\n");
+        buffer.append("`All Members With BOT_ADD Permissions: (").append(canAddBotRoles.size()).append(")`\n");
         if (!canAddBotRoles.isEmpty()) {
-            buffer.append(canAddBotRoles + "\n");
+            buffer.append(canAddBotRoles).append("\n");
         } else {
             buffer.append("No Members With **BOT_ADD** Permission\n");
         }
-        buffer.append("`All Members With BAN Permissions: (" + canBanRoles.size() + ")`\n");
+        buffer.append("`All Members With BAN Permissions: (").append(canBanRoles.size()).append(")`\n");
         if (!canBanRoles.isEmpty()) {
-            buffer.append(canBanRoles + "\n");
+            buffer.append(canBanRoles).append("\n");
         } else {
             buffer.append("No Members With **BAN** Permission\n");
         }
-        buffer.append("`All Members With KICK Permissions: (" + canKickRoles.size() + ")`\n");
+        buffer.append("`All Members With KICK Permissions: (").append(canKickRoles.size()).append(")`\n");
         if (!canKickRoles.isEmpty()) {
-           buffer.append(canKickRoles + "\n");
+           buffer.append(canKickRoles).append("\n");
         } else {
             buffer.append("No Members With **KICK** Permission\n");
         }

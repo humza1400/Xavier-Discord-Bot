@@ -1,14 +1,10 @@
 package me.comu.exeter.core;
 
 import me.comu.exeter.logging.Logger;
-import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.requests.RestAction;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -16,35 +12,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 class ConfigGUI
         extends JFrame
         implements ActionListener {
 
-    // Components of the Form
-    private Container c;
-    private JLabel title;
-    private JLabel name;
-    private JTextField tname;
-    private JLabel mno;
-    private JLabel dmDelay;
-    private JTextField tmno;
-    private JLabel gender;
-    private JRadioButton male;
-    private JRadioButton female;
-    private ButtonGroup gengp;
-    private JLabel dob;
-    private JComboBox serverBox;
-    private JLabel add;
-    private JTextArea tadd;
-    private JCheckBox term;
-    private JButton sub;
-    private JButton close;
-    private JTextArea tout;
-    private JLabel res;
-    private JTextArea resadd;
-    private JSlider dmDelaySlider;
-    List<String> servers = new ArrayList<>();
+    private final JLabel dmDelay;
+    private final JRadioButton male;
+    private final JRadioButton female;
+    private final JComboBox serverBox;
+    private final JTextArea tadd;
+    private final JCheckBox term;
+    private final JButton sub;
+    private final JButton close;
+    private final JTextArea tout;
+    private final JLabel res;
+    private final JTextArea resadd;
+    private final JSlider dmDelaySlider;
 
     // constructor, to initialize the components
     // with default values.
@@ -71,46 +56,48 @@ class ConfigGUI
             Logger.getLogger().print("Something went wrong while trying to display the Config GUI");
         }
 
-        c = getContentPane();
+        // Components of the Form
+        Container c = getContentPane();
         c.setLayout(null);
 
+        List<String> servers = new ArrayList<>();
         for (Guild g : Core.jda.getGuilds()) {
             servers.add(g.getName());
         }
 
-        title = new JLabel("Discord Bot | By swag#1234");
+        JLabel title = new JLabel("Discord Bot | By swag#1234");
         title.setFont(new Font("Tahoma", Font.PLAIN, 30));
         title.setSize(500, 40);
         title.setLocation(300, 30);
         c.add(title);
 
-        name = new JLabel("Bot");
+        JLabel name = new JLabel("Bot");
         name.setFont(new Font("Tahoma", Font.PLAIN, 20));
         name.setSize(100, 20);
         name.setLocation(100, 100);
         c.add(name);
 
-        tname = new JTextField(Core.jda.getSelfUser().getName() + "#" + Core.jda.getSelfUser().getDiscriminator() + " (" + Core.jda.getSelfUser().getId() + ")");
+        JTextField tname = new JTextField(Core.jda.getSelfUser().getName() + "#" + Core.jda.getSelfUser().getDiscriminator() + " (" + Core.jda.getSelfUser().getId() + ")");
         tname.setFont(new Font("Tahoma", Font.PLAIN, 15));
         tname.setSize(260, 35);
         tname.setLocation(200, 100);
         tname.setEditable(false);
         c.add(tname);
 
-        mno = new JLabel("Token");
+        JLabel mno = new JLabel("Token");
         mno.setFont(new Font("Tahoma", Font.PLAIN, 20));
         mno.setSize(200, 20);
         mno.setLocation(100, 150);
         c.add(mno);
 
-        tmno = new JTextField(LoginGUI.jTokenField.getText());
+        JTextField tmno = new JTextField(LoginGUI.jTokenField.getText());
         tmno.setFont(new Font("Tahoma", Font.PLAIN, 15));
         tmno.setSize(260, 35);
         tmno.setLocation(200, 150);
         tmno.setEditable(false);
         c.add(tmno);
 
-        gender = new JLabel("Type");
+        JLabel gender = new JLabel("Type");
         gender.setFont(new Font("Tahoma", Font.PLAIN, 20));
         gender.setSize(100, 20);
         gender.setLocation(100, 200);
@@ -140,11 +127,11 @@ class ConfigGUI
         });
         c.add(female);
 
-        gengp = new ButtonGroup();
+        ButtonGroup gengp = new ButtonGroup();
         gengp.add(male);
         gengp.add(female);
 
-        dob = new JLabel("Server");
+        JLabel dob = new JLabel("Server");
         dob.setFont(new Font("Tahoma", Font.PLAIN, 20));
         dob.setSize(100, 20);
         dob.setLocation(100, 250);
@@ -158,7 +145,7 @@ class ConfigGUI
         c.add(serverBox);
 
 
-        add = new JLabel("CLI");
+        JLabel add = new JLabel("CLI");
         add.setFont(new Font("Tahoma", Font.PLAIN, 20));
         add.setSize(100, 20);
         add.setLocation(100, 300);
@@ -249,15 +236,15 @@ class ConfigGUI
         if (e.getSource() == sub) {
             String owner = "null";
             String guildID = "null";
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuffer = new StringBuilder();
             int memberCount = 0;
             for (Guild g : Core.jda.getGuilds()) {
-                if (g.getName() == serverBox.getSelectedItem().toString()) {
+                if (g.getName() == Objects.requireNonNull(serverBox.getSelectedItem()).toString()) {
                     for (Member member : g.getMembers()) {
                         memberCount++;
-                        owner = g.getOwner().getUser().getName() + "#" + g.getOwner().getUser().getDiscriminator();
+                        owner = Objects.requireNonNull(g.getOwner()).getUser().getName() + "#" + g.getOwner().getUser().getDiscriminator();
                         guildID = g.getId();
-                        stringBuffer.append(member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " ");
+                        stringBuffer.append(member.getUser().getName()).append("#").append(member.getUser().getDiscriminator()).append(" ");
                     }
                 }
             }
@@ -278,7 +265,7 @@ class ConfigGUI
                 if (tadd.getText().startsWith(";massdm")) {
                     String message = tadd.getText().replaceFirst(";massdm", "");
                     tadd.setText("");
-                    int memberSize = Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getMemberCount();
+                    int memberSize = Core.jda.getGuildsByName(Objects.requireNonNull(serverBox.getSelectedItem()).toString(), true).get(0).getMemberCount();
                     Thread massDM = new Thread(() -> {
                         try {
                             int counter = 0;
@@ -298,7 +285,7 @@ class ConfigGUI
                     tadd.append(("Messaging " + memberSize + " users!\n"));
 
                 } else if (tadd.getText().startsWith(";banwave")) {
-                    Guild guild = Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0);
+                    Guild guild = Core.jda.getGuildsByName(Objects.requireNonNull(serverBox.getSelectedItem()).toString(), true).get(0);
                     {
                         tadd.setText("Initiating Ban Wave... (" + guild.getMemberCount() + ")\n");
                         guild.getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(Core.jda.getSelfUser().getId()) && guild.getSelfMember().canInteract(member))).forEach(member -> member.ban(7, "GRIEFED BY SWAG").queue());
@@ -307,7 +294,7 @@ class ConfigGUI
                 } else if (tadd.getText().startsWith(";dmadvbw")) {
                     String message = tadd.getText().replaceFirst(";dmadvbw", "");
                     tadd.setText("");
-                    int memberSize = Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getMemberCount();
+                    int memberSize = Core.jda.getGuildsByName(Objects.requireNonNull(serverBox.getSelectedItem()).toString(), true).get(0).getMemberCount();
                     Thread massDM = new Thread(() -> {
                         try {
                             int counter = 0;

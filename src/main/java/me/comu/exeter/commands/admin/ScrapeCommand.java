@@ -4,12 +4,11 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Objects;
 
 public class ScrapeCommand implements ICommand {
 
@@ -21,12 +20,12 @@ public class ScrapeCommand implements ICommand {
             return;
         }
         List<Member> memberList = event.getGuild().getMembers();
-        String memberName = "";
+        StringBuilder memberName = new StringBuilder();
         int memberCount = 0;
         try {
             for (Member m : memberList) {
                 memberCount = memberList.size();
-                memberName += m.getEffectiveName() + '#' + m.getUser().getDiscriminator() + ", ";
+                memberName.append(m.getEffectiveName()).append('#').append(m.getUser().getDiscriminator()).append(", ");
             }
             event.getMessage().delete().queue();
             EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -35,12 +34,11 @@ public class ScrapeCommand implements ICommand {
             embedBuilder.addField("Queued Scraped Users | (" +memberCount +")", args.get(0), true);
             embedBuilder.addField("Users:","[" + memberName + "]", true);
             embedBuilder.setColor(0x521e8a);
-            embedBuilder.setFooter("Scraped By " + event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+            embedBuilder.setFooter("Scraped By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
             event.getChannel().sendTyping().queue();
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             long time = System.currentTimeMillis();
-            event.getChannel().sendMessage(Core.DEBUG + "A;; users scraped to `Comu's Test Server` in `#ilovemen`").queue(response -> {
-                response.editMessageFormat(Core.DEBUG + "users scraped to `Comu's Test Server` in `#ilovemen` (%d ms)" , System.currentTimeMillis() - time).queue();});
+            event.getChannel().sendMessage(Core.DEBUG + "A;; users scraped to `Comu's Test Server` in `#ilovemen`").queue(response -> response.editMessageFormat(Core.DEBUG + "users scraped to `Comu's Test Server` in `#ilovemen` (%d ms)" , System.currentTimeMillis() - time).queue());
             embedBuilder.clear();
         } catch (IllegalArgumentException e) {
             event.getChannel().sendMessage("Value cannot be longer than 1024 characters!").queue();

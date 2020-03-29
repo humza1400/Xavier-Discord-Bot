@@ -28,22 +28,22 @@ public class NitroGenCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         String list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
         final String link = "https://discord.gift/";
-        String output = ("Cracked Nitro Code: " + link);
+        StringBuilder output = new StringBuilder(("Cracked Nitro Code: " + link));
             if (new Random().nextInt() % 2 == 0) {
                 for (int i = 0; i < 16; i++) {
-                    output += (selectAChar(list));
+                    output.append(selectAChar(list));
                 }
             } else {
                 for (int i = 0; i < 24; i++) {
-                    output += (selectAChar(list));
+                    output.append(selectAChar(list));
                 }
             }
 
 
-        event.getChannel().sendMessage(output ).queue();
+        event.getChannel().sendMessage(output.toString()).queue();
 
     }
-    public static char selectAChar(String s){
+    private static char selectAChar(String s){
 
         Random random = new Random();
         int index = random.nextInt(s.length());

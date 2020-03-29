@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ClearCommand implements ICommand {
@@ -21,7 +22,7 @@ public class ClearCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.MESSAGE_MANAGE) && member.getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.MESSAGE_MANAGE) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to purge messages").queue();
             return;
         }
@@ -49,9 +50,9 @@ public class ClearCommand implements ICommand {
                 }
                 try {
                     event.getChannel().deleteMessages(botMessages).queue();
-                    StringBuffer buffer = new StringBuffer();
+                    StringBuilder buffer = new StringBuilder();
                     for (String s : botNames) {
-                        buffer.append(s + ", ");
+                        buffer.append(s).append(", ");
                     }
                     removeDuplicates(botNames);
 //            int index = botNames.get(botNames.size()).charAt(botNames.get(botNames.size()).length()-1);
@@ -59,7 +60,6 @@ public class ClearCommand implements ICommand {
                     event.getChannel().sendMessage(String.format("Deleted `%s` messages by `%s`", botMessages.size(), buffer.toString())).queue();
                     event.getChannel().getHistory().retrievePast(2).queue((deleteMessages -> {
                         event.getChannel().deleteMessages(deleteMessages).queueAfter(3, TimeUnit.SECONDS);
-                        return;
                     }));
                 } catch (IllegalArgumentException ex)
                 {
@@ -70,22 +70,16 @@ public class ClearCommand implements ICommand {
         }
         try {
             if (Integer.parseInt(args.get(0)) > 100) {
-                event.getChannel().getHistory().retrievePast(100).queue((tempMessages) -> {
-                    event.getChannel().purgeMessages(tempMessages);
-                });
+                event.getChannel().getHistory().retrievePast(100).queue((tempMessages) -> event.getChannel().purgeMessages(tempMessages));
             } else {
-                event.getChannel().getHistory().retrievePast(Integer.parseInt(args.get(0))).queue((tempMessages) -> {
-                    event.getChannel().purgeMessages(tempMessages);
-                });
+                event.getChannel().getHistory().retrievePast(Integer.parseInt(args.get(0))).queue((tempMessages) -> event.getChannel().purgeMessages(tempMessages));
             }
             if (Integer.parseInt(args.get(0)) == 1) {
                 event.getChannel().sendMessage(String.format("Cleared %s message :champagne_glass:", args.get(0))).queue();
             } else {
                 event.getChannel().sendMessage(String.format("Cleared %s messages :champagne_glass:", args.get(0))).queue();
             }
-            event.getChannel().getHistory().retrievePast(2).queue((cleanMessages) -> {
-                event.getChannel().deleteMessages(cleanMessages).queueAfter(3, TimeUnit.SECONDS);
-            });
+            event.getChannel().getHistory().retrievePast(2).queue((cleanMessages) -> event.getChannel().deleteMessages(cleanMessages).queueAfter(3, TimeUnit.SECONDS));
         } catch (NumberFormatException ex)
         {
             event.getChannel().sendMessage("Please insert a valid number of messages to purge or purge the bot messages.").queue();
@@ -112,7 +106,7 @@ public class ClearCommand implements ICommand {
         return Category.MODERATION;
     }
 
-    private List<String> removeDuplicates(List<String> list)
+    private void removeDuplicates(List<String> list)
     {
         for (String s : list)
         {
@@ -121,6 +115,5 @@ public class ClearCommand implements ICommand {
                 list.add(s);
             }
         }
-        return list;
     }
 }

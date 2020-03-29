@@ -9,7 +9,6 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
-import me.comu.exeter.logging.Logger;
 import me.comu.exeter.util.HWIDUtils;
 import me.comu.exeter.wrapper.Wrapper;
 import me.duncte123.botcommons.web.WebUtils;
@@ -17,6 +16,7 @@ import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
@@ -34,29 +34,19 @@ import java.time.format.DateTimeFormatter;
 
 import static me.comu.exeter.core.Core.jda;
 
-public class LoginGUI extends JFrame implements ActionListener {
+class LoginGUI extends JFrame implements ActionListener {
     // login
     private JButton startButton;
     private JButton stopButton;
-    private JLabel jLabel2;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JLabel jLabelClose;
-    private JLabel jLabelMin;
     private JLabel jLabelLoginConfig;
-    public static JPanel jPanel1;
-    public static JPanel jPanel2;
+    private static JPanel jPanel1;
+    private static JPanel jPanel2;
     public static JTextField jStatusField;
     public static JTextField jTokenField;
-
-    //config
-    private JLabel jConfigLabel;
-    private JLabel jbackarrowLabel;
-    private String TOKEN;
     public static boolean running;
     public static boolean shouldRenderConfigurations = true;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    LocalDateTime now = LocalDateTime.now();
+    final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    final LocalDateTime now = LocalDateTime.now();
 
     public LoginGUI() {
         initComponents();
@@ -68,19 +58,20 @@ public class LoginGUI extends JFrame implements ActionListener {
         Image logo = icon.getImage();
         setIconImage(logo);
         jPanel1 = new JPanel();
-        jLabelClose = new JLabel();
-        jLabel2 = new JLabel();
-        jLabelMin = new JLabel();
+        JLabel jLabelClose = new JLabel();
+        JLabel jLabel2 = new JLabel();
+        JLabel jLabelMin = new JLabel();
         jPanel2 = new JPanel();
-        jLabel4 = new JLabel();
-        jLabel5 = new JLabel();
+        JLabel jLabel4 = new JLabel();
+        JLabel jLabel5 = new JLabel();
         jTokenField = new JTextField();
         jStatusField = new JTextField();
-        jConfigLabel = new JLabel();
+        //config
+        JLabel jConfigLabel = new JLabel();
         startButton = new JButton();
         stopButton = new JButton();
         jLabelLoginConfig = new JLabel();
-        jbackarrowLabel = new JLabel();
+        JLabel jbackarrowLabel = new JLabel();
         setDefaultCloseOperation(3);
         setUndecorated(true);
         jPanel1.setBackground(new Color(248, 148, 6));
@@ -140,7 +131,7 @@ public class LoginGUI extends JFrame implements ActionListener {
         jLabelLoginConfig.setForeground(new Color(255, 255, 255));
         jLabelLoginConfig.setText("Made by swag#1234 | " + dtf.format(now));
         jLabelLoginConfig.setCursor(new Cursor(12));
-        jbackarrowLabel.setFont(new Font("Tahoma", 0, 14));;
+        jbackarrowLabel.setFont(new Font("Tahoma", 0, 14));
         jbackarrowLabel.setForeground(new Color(255, 255, 255));
         jbackarrowLabel.setText("\u2190");
         jbackarrowLabel.setCursor(new Cursor(12));
@@ -191,7 +182,7 @@ public class LoginGUI extends JFrame implements ActionListener {
         if (e.getSource().equals(startButton)) {
             if (running)
                 jda.shutdownNow();
-            if (jTokenField.getText().equals(null)) {
+            if (jTokenField.getText() == null) {
                 return;
             }
             try {
@@ -206,13 +197,13 @@ public class LoginGUI extends JFrame implements ActionListener {
                 }
                 jStatusField.setText("AUTHORIZED");
                 stopButton.setText("Stop");
-                TOKEN = jTokenField.getText().replace(" ", "");
+                String TOKEN = jTokenField.getText().replace(" ", "");
                 EventWaiter eventWaiter = new EventWaiter();
                 CommandManager commandManager = new CommandManager(eventWaiter);
                 Listener listener = new Listener(commandManager);
                 org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
                 WebUtils.setUserAgent("Mozilla/5.0 Discord Bot");
-                jda = new JDABuilder(AccountType.BOT).setToken(TOKEN).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
+                jda = JDABuilder.create(Core.TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily dev", "https://www.twitch.tv/souljaboy/")).addEventListeners(new Listener(commandManager)).build().awaitReady();
 //                jda = new JDABuilder(AccountType.CLIENT).setToken("").setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
                 EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
                 WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));

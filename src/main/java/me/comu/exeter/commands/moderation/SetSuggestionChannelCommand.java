@@ -3,23 +3,23 @@ package me.comu.exeter.commands.moderation;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SetSuggestionChannelCommand implements ICommand {
 
     public static boolean bound = false;
     public static long logChannelID;
-    public static String channelName;
+    private static String channelName;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (event.getMember().getIdLong() != Core.OWNERID) {
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to set the suggestion channel").queue();
             return;
         }

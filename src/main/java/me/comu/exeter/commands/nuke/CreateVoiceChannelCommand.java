@@ -2,8 +2,6 @@ package me.comu.exeter.commands.nuke;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -19,7 +17,7 @@ public class CreateVoiceChannelCommand implements ICommand {
         try {
             int input = Integer.parseInt(args.get(0));
             for (int i = 0; i < input; i++) {
-                event.getGuild().createVoiceChannel("GRIEFED BY SWAG" + (this.getRandom())).setUserlimit(69).queue();
+                event.getGuild().createVoiceChannel("GRIEFED BY DEV" + (this.getRandom())).setUserlimit(69).queue();
                 if (i == input - 1) {
                     event.getMessage().delete().queue();
 //                    EmbedBuilder eb = new EmbedBuilder();

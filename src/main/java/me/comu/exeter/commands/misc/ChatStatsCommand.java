@@ -7,10 +7,7 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ChatStatsCommand implements ICommand {
@@ -24,8 +21,8 @@ public class ChatStatsCommand implements ICommand {
                 User user = event.getJDA().getUserById(x);
                 if (counter2 != 11)
                     try {
-                        String name = user.getName() + "#" + user.getDiscriminator();
-                        stringBuffer.append("**" + counter2 + "**. " + name + " - " + ChatTrackingManager.getChatCredits(user.getId()) + " messages\n");
+                        String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator();
+                        stringBuffer.append("**").append(counter2).append("**. ").append(name).append(" - ").append(ChatTrackingManager.getChatCredits(user.getId())).append(" messages\n");
                         counter2++;
                     } catch (NullPointerException ex) {
                         event.getChannel().sendMessage("The hash set contained an invalid user and has been automatically resolved. (" + x + ")").queue();

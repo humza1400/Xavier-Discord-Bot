@@ -6,9 +6,9 @@ import net.dv8tion.jda.api.entities.Invite;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class InviteManagerCommand implements ICommand {
     @Override
@@ -19,7 +19,7 @@ public class InviteManagerCommand implements ICommand {
                     int index = 0;
                     for (Invite i : invites)
                     {
-                        if (i.getInviter().getId().equals(event.getAuthor().getId()))
+                        if (Objects.requireNonNull(i.getInviter()).getId().equals(event.getAuthor().getId()))
                         index += i.getUses();
                     }
                     event.getChannel().sendMessage("You have **" + index + "** invites!").queue();
@@ -30,7 +30,7 @@ public class InviteManagerCommand implements ICommand {
                     int index = 0;
                     for (Invite i : invites)
                     {
-                        if (i.getInviter().getId().equals(event.getMessage().getMentionedMembers().get(0).getId()))
+                        if (Objects.requireNonNull(i.getInviter()).getId().equals(event.getMessage().getMentionedMembers().get(0).getId()))
                             index += i.getUses();
                     }
                     event.getChannel().sendMessage(event.getMessage().getMentionedMembers().get(0).getAsMention() + " has **" + index + "** invites!").queue();
@@ -49,7 +49,7 @@ public class InviteManagerCommand implements ICommand {
                     int index = 0;
                     for (Invite i : invites)
                     {
-                        if (i.getInviter().getId().equals(targets.get(0).getId()))
+                        if (Objects.requireNonNull(i.getInviter()).getId().equals(targets.get(0).getId()))
                             index += i.getUses();
                     }
                     event.getChannel().sendMessage(targets.get(0).getAsMention() + " has **" + index + "** invites!").queue();

@@ -2,7 +2,6 @@ package me.comu.exeter.commands.economy;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.logging.Logger;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -20,8 +19,8 @@ public class BaltopCommand implements ICommand {
             User user = event.getJDA().getUserById(x);
             if (counter2 != 11)
                 try {
-                    String name = user.getName() + "#" + user.getDiscriminator();
-                    stringBuffer.append("**" + counter2 + "**. " + name + " - " + EconomyManager.getBalance(user.getId()) + " credits\n");
+                    String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator();
+                    stringBuffer.append("**").append(counter2).append("**. ").append(name).append(" - ").append(EconomyManager.getBalance(user.getId())).append(" credits\n");
                     counter2++;
                 } catch (NullPointerException ex) {
                     event.getChannel().sendMessage("The economy config contained an invalid user and has automatically been resolved. (" + x + ")").queue();

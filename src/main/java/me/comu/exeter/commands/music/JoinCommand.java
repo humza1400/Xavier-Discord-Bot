@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class JoinCommand implements ICommand
 {
@@ -21,13 +22,13 @@ public class JoinCommand implements ICommand
             TextChannel textChannel = event.getChannel();
             AudioManager audioManager = event.getGuild().getAudioManager();
 
-            if (audioManager.isConnected() && audioManager.getConnectedChannel().getMembers().size() > 1) {
+            if (audioManager.isConnected() && Objects.requireNonNull(audioManager.getConnectedChannel()).getMembers().size() > 1) {
                 textChannel.sendMessage("I'm already in a voice channel").queue();
                 return;
             }
 
-            GuildVoiceState memberVoiceState = event.getMember().getVoiceState();
-            if (!memberVoiceState.inVoiceChannel()) {
+            GuildVoiceState memberVoiceState = Objects.requireNonNull(event.getMember()).getVoiceState();
+            if (!Objects.requireNonNull(memberVoiceState).inVoiceChannel()) {
                 textChannel.sendMessage("You need to be in a voice channel to request me").queue();
                 return;
             }
@@ -35,7 +36,7 @@ public class JoinCommand implements ICommand
             VoiceChannel voiceChannel = memberVoiceState.getChannel();
             Member selfMember = event.getGuild().getSelfMember();
 
-            if (!selfMember.hasPermission(voiceChannel, Permission.VOICE_CONNECT)) {
+            if (!selfMember.hasPermission(Objects.requireNonNull(voiceChannel), Permission.VOICE_CONNECT)) {
                 textChannel.sendMessage(String.format("I don't have permission to join %s", voiceChannel.getName())).queue();
                 return;
             }

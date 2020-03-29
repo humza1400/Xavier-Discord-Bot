@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class PlayCommand implements ICommand {
     private final YouTube youTube;
@@ -36,15 +37,15 @@ public class PlayCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         TextChannel channel = event.getChannel();
         AudioManager audioManager = event.getGuild().getAudioManager();
-        GuildVoiceState memberVoiceState = event.getMember().getVoiceState();
-        VoiceChannel voiceChannel = memberVoiceState.getChannel();
+        GuildVoiceState memberVoiceState = Objects.requireNonNull(event.getMember()).getVoiceState();
+        VoiceChannel voiceChannel = Objects.requireNonNull(memberVoiceState).getChannel();
 
         if (!memberVoiceState.inVoiceChannel())
         {
             channel.sendMessage("You're not connected to a voice channel bro").queue();
             return;
         }
-        if (audioManager.isConnected() && !audioManager.getConnectedChannel().getMembers().contains(event.getMember())) {
+        if (audioManager.isConnected() && !Objects.requireNonNull(audioManager.getConnectedChannel()).getMembers().contains(event.getMember())) {
             event.getChannel().sendMessage("You need to be in the same voice channel as me to request songs").queue();
             return;
         }
@@ -53,11 +54,6 @@ public class PlayCommand implements ICommand {
             return;
         }
 
-        if (args.isEmpty()) {
-            channel.sendMessage("Please provide a song to play").queue();
-
-            return;
-        }
 
         String input = String.join(" ", args);
 
@@ -70,7 +66,7 @@ public class PlayCommand implements ICommand {
         }
 
         PlayerManager manager = PlayerManager.getInstance();
-        if (!audioManager.isConnected() && voiceChannel.getMembers().contains(event.getMember())) {
+        if (!audioManager.isConnected() && Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
             audioManager.openAudioConnection(voiceChannel);
             manager.loadAndPlay(event.getChannel(), input);
             manager.getGuildMusicManager(event.getGuild()).player.setVolume(10);

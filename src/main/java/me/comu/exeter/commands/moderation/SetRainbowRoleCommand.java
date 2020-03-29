@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SetRainbowRoleCommand implements ICommand {
 
@@ -29,7 +30,7 @@ public class SetRainbowRoleCommand implements ICommand {
         guild = event.getGuild();
 
 
-        if (/*!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) && */event.getMember().getIdLong() != Core.OWNERID) {
+        if (/*!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) && */Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
 //            channel.sendMessage("You don't have permission to set the rainbow role").queue();
             event.getChannel().sendMessage("Currently only the owner can set the rainbow role due to ratelimit handling.").queue();
             return;
@@ -55,7 +56,7 @@ public class SetRainbowRoleCommand implements ICommand {
 
         try {
             role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));
-            roleID = event.getGuild().getRoleById(Long.parseLong(args.get(0))).getIdLong();
+            roleID = Objects.requireNonNull(event.getGuild().getRoleById(Long.parseLong(args.get(0)))).getIdLong();
             isRainbowRoleSet = true;
             channel.sendMessage("Rainbow role successfully set to `" + role.getName() + "`").queue();
         } catch (NullPointerException | NumberFormatException ex) {
@@ -73,7 +74,6 @@ public class SetRainbowRoleCommand implements ICommand {
                 role = roles.get(0);
                 isRainbowRoleSet = true;
                 channel.sendMessage("Rainbow role successfully set to `" + role.getName() + "`").queue();
-                return;
         }
 
     }

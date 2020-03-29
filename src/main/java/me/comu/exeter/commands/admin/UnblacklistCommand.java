@@ -2,19 +2,18 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class UnblacklistCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (event.getMember().getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong()) {
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong()) {
             event.getChannel().sendMessage("You don't have permission to unblacklist anyone").queue();
             return;
         }
@@ -40,7 +39,7 @@ public class UnblacklistCommand implements ICommand {
                     return;
                 }
                 BlacklistCommand.blacklistedUsers.remove(id);
-                event.getChannel().sendMessage("Successfully removed `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + "` from the blacklist").queue();
+                event.getChannel().sendMessage("Successfully removed `" + Objects.requireNonNull(member).getUser().getName() + "#" + member.getUser().getDiscriminator() + "` from the blacklist").queue();
             } catch (Exception ex) {
                 event.getChannel().sendMessage("Invalid ID + " + id).queue();
             }

@@ -4,18 +4,18 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class DeafenUserCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
-        if (!event.getMember().hasPermission(Permission.VOICE_DEAF_OTHERS) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.VOICE_DEAF_OTHERS) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to deafen a user from VC").queue();
             return;
         }
@@ -31,7 +31,7 @@ public class DeafenUserCommand implements ICommand {
             return;
         }
         Member member = mentionedMembers.get(0);
-        if (member.getVoiceState().inVoiceChannel())
+        if (Objects.requireNonNull(member.getVoiceState()).inVoiceChannel())
         {
             if (!member.getVoiceState().isGuildDeafened()) {
                 member.deafen(true).queue();

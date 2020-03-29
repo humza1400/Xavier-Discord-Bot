@@ -9,11 +9,12 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class VCMuteChannelCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to mute a user from VC").queue();
             return;
         }
@@ -35,7 +36,7 @@ public class VCMuteChannelCommand implements ICommand {
                 event.getChannel().sendMessage("Mass server-muted everyone in `" + voiceChannels.get(0).getName() + "`.").queue();
             } catch (Exception ex) {
                 VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(args.get(0));
-                List<Member> members = voiceChannel.getMembers();
+                List<Member> members = Objects.requireNonNull(voiceChannel).getMembers();
                 members.forEach(m -> m.mute(true).queue());
                 event.getChannel().sendMessage("Mass server-muted everyone in `" + voiceChannel.getName() + "`.").queue();
             }
@@ -49,7 +50,7 @@ public class VCMuteChannelCommand implements ICommand {
                 event.getChannel().sendMessage("Mass unserver-muted everyone in `" + voiceChannels.get(0).getName() + "`.").queue();
             } catch (Exception ex) {
                 VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(args.get(0));
-                List<Member> members = voiceChannel.getMembers();
+                List<Member> members = Objects.requireNonNull(voiceChannel).getMembers();
                 members.forEach(m -> m.mute(false).queue());
                 event.getChannel().sendMessage("Mass unserver-muted everyone in `" + voiceChannel.getName() + "`.").queue();
             }

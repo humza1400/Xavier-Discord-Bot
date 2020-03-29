@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class FastForwardCommand implements ICommand {
     @Override
@@ -30,7 +31,7 @@ public class FastForwardCommand implements ICommand {
             textChannel.sendMessage("I'm not even connected to a voice channel bro").queue();
             return;
         }
-        if (audioManager.isConnected() && !voiceChannel.getMembers().contains(event.getMember())) {
+        if (!Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
             event.getChannel().sendMessage("You need to be in the same voice channel as me to fast forward a song").queue();
             return;
         }

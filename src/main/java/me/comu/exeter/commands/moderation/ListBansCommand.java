@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ListBansCommand implements ICommand {
 
@@ -19,7 +20,7 @@ public class ListBansCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
-        if (!member.hasPermission(Permission.BAN_MEMBERS) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.BAN_MEMBERS) && Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to unban users").queue();
             return;
         }
@@ -34,9 +35,9 @@ public class ListBansCommand implements ICommand {
                 channel.sendMessage("There are no users currently banned!").queue();
                 return;
             }
-            StringBuffer buffer = new StringBuffer(event.getGuild().getName() + " Banlist (" +entries.size() + ")\n");
-            for (int i = 0; i < entries.size(); i++) {
-                buffer.append(" + " + entries.get(i).getUser().getName() + "#" +  entries.get(i).getUser().getDiscriminator() + " | " + entries.get(i).getReason() + "\n");
+            StringBuilder buffer = new StringBuilder(event.getGuild().getName() + " Banlist (" +entries.size() + ")\n");
+            for (Guild.Ban entry : entries) {
+                buffer.append(" + ").append(entry.getUser().getName()).append("#").append(entry.getUser().getDiscriminator()).append(" | ").append(entry.getReason()).append("\n");
             }
             if (buffer.toString().length() < 2000)
             event.getChannel().sendMessage(buffer.toString()).queue();

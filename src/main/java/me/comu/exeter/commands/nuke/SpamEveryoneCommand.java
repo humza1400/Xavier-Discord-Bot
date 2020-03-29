@@ -27,7 +27,7 @@ public class SpamEveryoneCommand implements ICommand {
                 }
             }
 
-        } catch (NumberFormatException | InterruptedException | ArrayIndexOutOfBoundsException ex) {
+        } catch (NumberFormatException | InterruptedException | ArrayIndexOutOfBoundsException ignored) {
 
         }
     }

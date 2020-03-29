@@ -11,13 +11,14 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class AntiRaidConfigCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         Member member = event.getMember();
         TextChannel channel = event.getChannel();
-        if (!member.hasPermission(Permission.ADMINISTRATOR)) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.ADMINISTRATOR)) {
             channel.sendMessage("You don't have permission to view the anti-raid config").queue();
             return;
         }

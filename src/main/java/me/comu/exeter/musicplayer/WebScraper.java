@@ -25,7 +25,7 @@ public class WebScraper {
     public static String getLyrics(String link) throws IOException {
         Document doc = Jsoup.connect(link).get();
         String html = doc.select("div.lyrics").html();
-        Matcher matcher = Pattern.compile("(?<=<p>)(?s)(.+)(?=<\\/p>)").matcher(html);
+        Matcher matcher = Pattern.compile("(?<=<p>)(?s)(.+)(?=</p>)").matcher(html);
 
         String result = "";
         if (matcher.find()) {
@@ -54,7 +54,7 @@ public class WebScraper {
 
         String title = info.select("h1").get(0).text();
         Elements sub = info.select("div.subtext");
-        String contentRating = sub.text().split(" | ")[0];
+        String contentRating = sub.text().split("[ ]")[0];
         String duration = sub.select("time").text();
         String genre = sub.select(".itemprop").text().replaceAll(" ", ", ");
         String releaseDate = sub.select("a[title=\"See more release dates\"]").text();
@@ -149,9 +149,8 @@ public class WebScraper {
      * YouTube Thumbnail Getter
      *
      * @param link
-     * @throws IOException
      */
-    public static String getYouTubeThumbNail(String link) throws IOException {
+    public static String getYouTubeThumbNail(String link) {
         return  "http://img.youtube.com/vi/" + link.split("\\?v=")[1] + "/0.jpg";
     }
 

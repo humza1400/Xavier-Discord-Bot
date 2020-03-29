@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class UserToIDCommand implements ICommand {
     @Override
@@ -18,8 +19,8 @@ public class UserToIDCommand implements ICommand {
         }
         try {
             if (!args.isEmpty()) {
-                event.getChannel().sendMessage(EmbedUtils.embedImage(event.getJDA().getUserByTag(args.get(0)).getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(event.getMember().getColor()).setTitle("`" +args.get(0)
-                        + "`'s ID is " + event.getJDA().getUserByTag(args.get(0)).getId()).build()).queue();
+                event.getChannel().sendMessage(EmbedUtils.embedImage(Objects.requireNonNull(event.getJDA().getUserByTag(args.get(0))).getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle("`" +args.get(0)
+                        + "`'s ID is " + Objects.requireNonNull(event.getJDA().getUserByTag(args.get(0))).getId()).build()).queue();
 
             }
         } catch (Exception ex)

@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class CreateAChannelEvent extends ListenerAdapter {
 
@@ -38,16 +39,16 @@ public class CreateAChannelEvent extends ListenerAdapter {
             if (event.getChannelLeft() == null && event.getChannelJoined() != null)
             {
                 if (event.getChannelJoined().getId().equalsIgnoreCase(CreateAChannelCommand.channelID)) {
-                    event.getJDA().getGuildById(CreateAChannelCommand.guildID).createCopyOfChannel(event.getJDA().getGuildById(CreateAChannelCommand.guildID).getVoiceChannelById(CreateAChannelCommand.channelID)).
+                    Objects.requireNonNull(event.getJDA().getGuildById(CreateAChannelCommand.guildID)).createCopyOfChannel(Objects.requireNonNull(Objects.requireNonNull(event.getJDA().getGuildById(CreateAChannelCommand.guildID)).getVoiceChannelById(CreateAChannelCommand.channelID))).
                             setUserlimit(6).
                             setName(event.getEntity().getEffectiveName() + "'s Channel").
                             reason("Create-A-Channel VC").
                             queue((voiceChannel ->
                             {
-                                event.getJDA().getGuildById(CreateAChannelCommand.guildID).moveVoiceMember(event.getEntity(), voiceChannel).queue();
+                                Objects.requireNonNull(event.getJDA().getGuildById(CreateAChannelCommand.guildID)).moveVoiceMember(event.getEntity(), voiceChannel).queue();
                                 CreateAChannelCommand.map.put(event.getEntity().getId(), voiceChannel.getId());
                                 voiceChannel.upsertPermissionOverride(event.getEntity()).setAllow(Permission.MANAGE_CHANNEL).queue();
-                                event.getJDA().getGuildById(CreateAChannelCommand.guildID).getVoiceChannelById(CreateAChannelCommand.channelID).upsertPermissionOverride(event.getEntity()).setDeny(Permission.VOICE_CONNECT).queue();
+                                Objects.requireNonNull(event.getJDA().getGuildById(CreateAChannelCommand.guildID).getVoiceChannelById(CreateAChannelCommand.channelID)).upsertPermissionOverride(event.getEntity()).setDeny(Permission.VOICE_CONNECT).queue();
                             }));
                 }
             }
@@ -56,7 +57,7 @@ public class CreateAChannelEvent extends ListenerAdapter {
                     try {
                         CreateAChannelCommand.map.remove(event.getEntity().getId());
                         event.getChannelLeft().delete().reason("Create-A-Channel VC").queue();
-                        event.getJDA().getVoiceChannelById(CreateAChannelCommand.channelID).putPermissionOverride(event.getEntity()).setAllow(Permission.VOICE_CONNECT).queue();
+                        Objects.requireNonNull(event.getJDA().getVoiceChannelById(CreateAChannelCommand.channelID)).putPermissionOverride(event.getEntity()).setAllow(Permission.VOICE_CONNECT).queue();
                     } catch (Exception ex) {
                         Logger.getLogger().print("Tried deleting an already deleted channel");
                     }

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class EconomyManager {
 
-    private static HashMap<String, Integer> users = new HashMap<String, Integer>();
+    private static HashMap<String, Integer> users = new HashMap<>();
 
 //    public EconomyManager(Guild guild)
 //    {
@@ -36,7 +36,7 @@ public class EconomyManager {
     }
 
     // Used for loading ocnfig
-    public static HashMap<String, Integer> setUsers(HashMap<String, Integer> hashMap) {
-        return users = hashMap;
+    public static void setUsers(HashMap<String, Integer> hashMap) {
+        users = hashMap;
     }
 }

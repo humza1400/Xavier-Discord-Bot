@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class LogMessageReceivedEvent extends ListenerAdapter {
 
@@ -25,7 +26,7 @@ public class LogMessageReceivedEvent extends ListenerAdapter {
             User author = event.getAuthor();
             Message message = event.getMessage();
             try {
-                textChannel.sendMessage((String.format("`%s (%s)[%s]<%#s>:` %s", df.format(dateobj.getTime()),guildName, channelName, author, message))).queue();
+                Objects.requireNonNull(textChannel).sendMessage((String.format("`%s (%s)[%s]<%#s>:` %s", df.format(dateobj.getTime()),guildName, channelName, author, message))).queue();
             } catch (NullPointerException ex) {
                 event.getChannel().sendMessage((String.format("`%s (%s)[%s]<%#s>:` %s", df.format(dateobj.getTime()),guildName, channelName, author, message))).queue();
             }

@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SlowmodeCommand implements ICommand {
 
@@ -19,7 +20,7 @@ public class SlowmodeCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
         int slowtime = 0;
 
-        if (!member.hasPermission(Permission.MANAGE_CHANNEL) && (!member.hasPermission(Permission.MANAGE_CHANNEL)) && member.getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.MANAGE_CHANNEL) && (!member.hasPermission(Permission.MANAGE_CHANNEL)) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to set the slowmode of the channel").queue();
             return;
         }

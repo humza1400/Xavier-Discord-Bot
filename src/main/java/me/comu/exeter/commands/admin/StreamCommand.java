@@ -4,14 +4,13 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class StreamCommand implements ICommand {
 
-    public static boolean members;
+    private static boolean members;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {

@@ -3,16 +3,14 @@ package me.comu.exeter.commands.moderation;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 public class MuteCommand implements ICommand {
     @Override
@@ -21,7 +19,7 @@ public class MuteCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
-        if (!member.hasPermission(Permission.MANAGE_ROLES) && member.getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.MANAGE_ROLES) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to mute someone").queue();
             return;
         }

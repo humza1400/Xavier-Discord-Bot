@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class PurchaseCommand implements ICommand {
     @Override
@@ -17,7 +18,7 @@ public class PurchaseCommand implements ICommand {
             return;
         }
 
-        if (EconomyManager.verifyUser(event.getMember().getUser().getId()))
+        if (EconomyManager.verifyUser(Objects.requireNonNull(event.getMember()).getUser().getId()))
             EconomyManager.getUsers().put(event.getMember().getUser().getId(), 0);
 
         if (args.get(0).equalsIgnoreCase(Products.NITRO_CODE_ID)) {

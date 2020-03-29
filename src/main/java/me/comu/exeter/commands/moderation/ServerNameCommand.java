@@ -6,10 +6,10 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ServerNameCommand implements ICommand {
     @Override
@@ -18,7 +18,7 @@ public class ServerNameCommand implements ICommand {
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
         String preServerName = event.getGuild().getName();
-        if (!member.hasPermission(Permission.MANAGE_SERVER) && member.getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.MANAGE_SERVER) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to change the server name").queue();
             return;
         }

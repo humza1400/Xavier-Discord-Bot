@@ -2,7 +2,6 @@ package me.comu.exeter.events;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.wrapper.Wrapper;
-import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;

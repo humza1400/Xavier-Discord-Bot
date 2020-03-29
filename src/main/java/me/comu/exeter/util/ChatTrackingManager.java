@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class ChatTrackingManager {
 
-    private static HashMap<String, Integer> chatTrack = new HashMap<String, Integer>();
+    private static HashMap<String, Integer> chatTrack = new HashMap<>();
 
     public static void setChatCredits(String user, Integer amount) {
         chatTrack.put(user, amount);

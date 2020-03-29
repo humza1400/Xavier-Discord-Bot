@@ -2,11 +2,8 @@ package me.comu.exeter.commands.nuke;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import net.dv8tion.jda.api.exceptions.HierarchyException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +20,7 @@ public class DeleteRolesCommand implements ICommand {
             if (event.getGuild().getSelfMember().canInteract(role)) {
                 try {
                     role.delete().queue();
-                } catch (Exception ex) {}
+                } catch (Exception ignored) {}
             }
         }
         event.getMessage().delete().queue();

@@ -4,10 +4,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
 import me.comu.exeter.wrapper.Wrapper;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 
@@ -32,7 +29,7 @@ public class DmAdvBanwaveCommand implements ICommand {
                         Thread.sleep(300);
                     }
                 }
-            } catch (HierarchyException | InterruptedException ex) {}
+            } catch (HierarchyException | InterruptedException ignored) {}
         });
         banwave1.start();
     }

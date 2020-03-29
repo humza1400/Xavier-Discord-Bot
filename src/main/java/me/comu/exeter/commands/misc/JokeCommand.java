@@ -16,7 +16,7 @@ public class JokeCommand implements ICommand {
             event.getChannel().sendMessage(randomJoke()).queue();
     }
 
-    public String randomJoke() {
+    private String randomJoke() {
         try {
             JsonElement jsonElement = Wrapper.getJsonFromURL("https://icanhazdadjoke.com/");
             return jsonElement.getAsJsonObject().get("joke").getAsString();

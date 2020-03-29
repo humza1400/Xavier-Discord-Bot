@@ -1,7 +1,6 @@
 package me.comu.exeter.events;
 
 import me.comu.exeter.commands.moderation.SetRainbowRoleCommand;
-import me.comu.exeter.core.Core;
 import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
@@ -9,6 +8,7 @@ import net.dv8tion.jda.api.events.role.update.RoleUpdateColorEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class RainbowRoleEvent extends ListenerAdapter {
@@ -39,7 +39,7 @@ public class RainbowRoleEvent extends ListenerAdapter {
             while (isRainbowSet)
             {
                 Role role = guild.getRoleById(roleID);
-                role.getManager().setColor(Wrapper.getRandomColor()).queueAfter(5, TimeUnit.SECONDS);
+                Objects.requireNonNull(role).getManager().setColor(Wrapper.getRandomColor()).queueAfter(5, TimeUnit.SECONDS);
             }
     }
 }

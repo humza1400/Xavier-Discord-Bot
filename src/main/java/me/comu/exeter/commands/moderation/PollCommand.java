@@ -3,15 +3,12 @@ package me.comu.exeter.commands.moderation;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 public class PollCommand implements ICommand {
@@ -40,7 +37,7 @@ public class PollCommand implements ICommand {
         embedBuilder.addField("Option 1", option1, false);
         embedBuilder.addField("Option 2", option2, false);
         embedBuilder.setColor(Color.BLUE);
-        embedBuilder.setFooter("Poll created By " + event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+        embedBuilder.setFooter("Poll created By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
         event.getChannel().sendTyping().queue();
         event.getChannel().sendMessage(embedBuilder.build()).queue((message1) -> {
                     message1.addReaction("\u0031\u20E3").queue();

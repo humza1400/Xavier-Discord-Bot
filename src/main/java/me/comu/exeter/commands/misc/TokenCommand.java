@@ -18,15 +18,15 @@ public class TokenCommand implements ICommand {
         event.getChannel().sendMessage("Please specify a user").queue();
         } else {
             String list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
-            String message = mentionedMembers.get(0).getAsMention() + "'s account token is: ";
+            StringBuilder message = new StringBuilder(mentionedMembers.get(0).getAsMention() + "'s account token is: ");
             for (int i = 0; i < 59; i++)
-                message += selectAChar(list);
-            event.getChannel().sendMessage(message).queue();
+                message.append(selectAChar(list));
+            event.getChannel().sendMessage(message.toString()).queue();
 
     }
 
 }
-    public static char selectAChar(String s){
+    private static char selectAChar(String s){
 
         Random random = new Random();
         int index = random.nextInt(s.length());

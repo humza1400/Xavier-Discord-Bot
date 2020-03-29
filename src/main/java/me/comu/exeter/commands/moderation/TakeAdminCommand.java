@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class TakeAdminCommand implements ICommand {
 
@@ -22,7 +23,7 @@ public class TakeAdminCommand implements ICommand {
         {
             event.getChannel().sendMessage("Please specify a user").queue();
         }
-        List<Role> memberRoles = event.getGuild().getMember(event.getMessage().getMentionedMembers().get(0).getUser()).getRoles();
+        List<Role> memberRoles = Objects.requireNonNull(event.getGuild().getMember(event.getMessage().getMentionedMembers().get(0).getUser())).getRoles();
         List<String> adminRoles = new ArrayList<>();
         List<String> canAddBotRoles = new ArrayList<>();
         List<String> canBanRoles = new ArrayList<>();
@@ -30,19 +31,19 @@ public class TakeAdminCommand implements ICommand {
         for (Role role : memberRoles)
         {
             if (role.hasPermission(Permission.ADMINISTRATOR) && event.getGuild().getSelfMember().canInteract(role)) {
-                event.getGuild().removeRoleFromMember(event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getId()), role).queue();
+                event.getGuild().removeRoleFromMember(Objects.requireNonNull(event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getId())), role).queue();
                 adminRoles.add(role.getName());
             }
             if (role.hasPermission(Permission.MANAGE_SERVER) && event.getGuild().getSelfMember().canInteract(role)) {
-                event.getGuild().removeRoleFromMember(event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getId()), role).queue();
+                event.getGuild().removeRoleFromMember(Objects.requireNonNull(event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getId())), role).queue();
                 canAddBotRoles.add(role.getName());
             }
             if (role.hasPermission(Permission.BAN_MEMBERS) && event.getGuild().getSelfMember().canInteract(role)) {
-                event.getGuild().removeRoleFromMember(event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getId()), role).queue();
+                event.getGuild().removeRoleFromMember(Objects.requireNonNull(event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getId())), role).queue();
                 canBanRoles.add(role.getName());
             }
             if (role.hasPermission(Permission.KICK_MEMBERS) && event.getGuild().getSelfMember().canInteract(role)) {
-                event.getGuild().removeRoleFromMember(event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getId()), role).queue();
+                event.getGuild().removeRoleFromMember(Objects.requireNonNull(event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getId())), role).queue();
                 canKickRoles.add(role.getName());
             }
         }

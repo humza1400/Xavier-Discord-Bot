@@ -8,15 +8,16 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 public class AutoPurgeImagesCommand implements ICommand {
 
-    public static List<String> aipChannels = new ArrayList<>();
+    public static final List<String> aipChannels = new ArrayList<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to set this channel as AIP").queue();
             return;
         }
@@ -36,7 +37,6 @@ public class AutoPurgeImagesCommand implements ICommand {
             aipChannels.add(event.getChannel().getId());
         } else if (args.get(0).equalsIgnoreCase("list")) {
             event.getChannel().sendMessage("**Channels in the AIP Hash**:\n" + aipChannels.toString()).queue();
-            return;
         }
     }
 

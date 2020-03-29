@@ -5,12 +5,11 @@ import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.exceptions.HierarchyException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class BanCommand implements ICommand {
     @Override
@@ -21,7 +20,7 @@ public class BanCommand implements ICommand {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
 
-        if (!member.hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID && !member.getId().equalsIgnoreCase("210956619788320768")) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID && !member.getId().equalsIgnoreCase("210956619788320768")) {
             channel.sendMessage("You don't have permission to ban that user").queue();
             return;
         }
@@ -52,7 +51,7 @@ public class BanCommand implements ICommand {
                     return;
 
                 }
-                if (!event.getMember().canInteract(target)) {
+                if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
                     event.getChannel().sendMessage("You don't have permission to ban that user").queue();
                     return;
                 }
@@ -63,7 +62,7 @@ public class BanCommand implements ICommand {
                     event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
                     return;
                 }
-                if (!event.getMember().canInteract(target)) {
+                if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
                     event.getChannel().sendMessage("You don't have permission to ban that user").queue();
                     return;
                 }
@@ -78,7 +77,7 @@ public class BanCommand implements ICommand {
                 event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
                 return;
             }
-            if (!event.getMember().canInteract(target)) {
+            if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
                 event.getChannel().sendMessage("You don't have permission to ban that user").queue();
                 return;
             }
@@ -89,7 +88,7 @@ public class BanCommand implements ICommand {
                 event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
                 return;
             }
-            if (!event.getMember().canInteract(target)) {
+            if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
                 event.getChannel().sendMessage("You don't have permission to ban that user").queue();
                 return;
             }

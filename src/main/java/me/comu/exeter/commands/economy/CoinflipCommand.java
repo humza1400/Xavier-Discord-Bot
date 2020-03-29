@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class CoinflipCommand implements ICommand {
@@ -18,7 +19,7 @@ public class CoinflipCommand implements ICommand {
             event.getChannel().sendMessage("Please specify an amount to coinflip").queue();
             return;
         }
-        if (EconomyManager.verifyUser(event.getMember().getUser().getId())) {
+        if (EconomyManager.verifyUser(Objects.requireNonNull(event.getMember()).getUser().getId())) {
             EconomyManager.getUsers().put(event.getMember().getUser().getId(), 0);
         }
         Member member = event.getMember();

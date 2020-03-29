@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class GiveAllRolesCommand implements ICommand {
     @Override
@@ -17,7 +18,7 @@ public class GiveAllRolesCommand implements ICommand {
         List<Role> guildRoles = event.getGuild().getRoles();
         for (Role role : guildRoles) {
             if (!role.isManaged() && event.getGuild().getSelfMember().canInteract(role)) {
-                event.getGuild().addRoleToMember(event.getMember(), role).queue();
+                event.getGuild().addRoleToMember(Objects.requireNonNull(event.getMember()), role).queue();
             }
         }
     }

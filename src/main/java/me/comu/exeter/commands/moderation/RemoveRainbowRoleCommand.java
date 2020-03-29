@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class RemoveRainbowRoleCommand implements ICommand {
 
@@ -20,7 +21,7 @@ public class RemoveRainbowRoleCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
 
 
-        if (!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) && member.getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to remove the rainbow role").queue();
             return;
         }
@@ -32,7 +33,6 @@ public class RemoveRainbowRoleCommand implements ICommand {
         if (!SetRainbowRoleCommand.isIsRainbowRoleSet())
         {
             channel.sendMessage("Failed to halt rainbow-role because there is no rainbow-role set. try " + Core.PREFIX + "help rainbowrole").queue();
-            return;
         } else {
             String name = SetRainbowRoleCommand.getRainbowRole().getName();
             SetRainbowRoleCommand.nullifyRainbowRole();

@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class UserInfoCommand implements ICommand {
 
@@ -21,7 +22,7 @@ public class UserInfoCommand implements ICommand {
 
             if (event.getMessage().getMentionedMembers().isEmpty() && args.isEmpty()) {
                 try {
-                MessageEmbed embed = new EmbedBuilder().setColor(event.getMember().getColor())
+                MessageEmbed embed = new EmbedBuilder().setColor(Objects.requireNonNull(event.getMember()).getColor())
                         .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                         .addField("Username", event.getMember().getUser().getAsTag(), false)
                         .addField("User ID", String.format("%s %s", event.getAuthor().getId(), event.getMember().getAsMention()), false)
@@ -33,7 +34,7 @@ public class UserInfoCommand implements ICommand {
                         .addField("Bot Account", event.getMember().getUser().isBot() ? "Yes" : "No", false).build();
                     event.getChannel().sendMessage(embed).queue();
                 } catch (IllegalArgumentException ex) {
-                    MessageEmbed embedEx = new EmbedBuilder().setColor(event.getMember().getColor())
+                    MessageEmbed embedEx = new EmbedBuilder().setColor(Objects.requireNonNull(event.getMember()).getColor())
                             .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                             .addField("Username", event.getMember().getUser().getAsTag(), false)
                             .addField("User ID", String.format("%s %s", event.getAuthor().getId(), event.getMember().getAsMention()), false)
@@ -127,18 +128,18 @@ public class UserInfoCommand implements ICommand {
         }
     }
     private String getRolesAsString(List rolesList){
-        String roles;
+        StringBuilder roles;
         if (!rolesList.isEmpty()){
             Role tempRole = (Role) rolesList.get(0);
-            roles = tempRole.getName();
+            roles = new StringBuilder(tempRole.getName());
             for (int i = 1; i < rolesList.size(); i++){
                 tempRole = (Role) rolesList.get(i);
-                roles = roles + ", " + tempRole.getName();
+                roles.append(", ").append(tempRole.getName());
             }
         }else{
-            roles = "No Roles";
+            roles = new StringBuilder("No Roles");
         }
-        return roles;
+        return roles.toString();
     }
 
     @Override

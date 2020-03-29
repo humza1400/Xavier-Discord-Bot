@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class UnmuteCommand implements ICommand {
 
@@ -24,7 +25,7 @@ public class UnmuteCommand implements ICommand {
             return;
         }
 
-        if (!member.hasPermission(Permission.MANAGE_ROLES) && member.getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.MANAGE_ROLES) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to unmute someone").queue();
             return;
         }

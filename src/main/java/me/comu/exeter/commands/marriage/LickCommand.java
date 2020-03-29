@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class LickCommand implements ICommand {
@@ -18,7 +19,7 @@ public class LickCommand implements ICommand {
 
         if (args.isEmpty())
         {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(lickUrls[new Random().nextInt(lickUrls.length)]).setColor(event.getMember().getColor()).setTitle(String.format("**%s** licks themselves :flushed:", event.getMember().getEffectiveName())).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(lickUrls[new Random().nextInt(lickUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** licks themselves :flushed:", event.getMember().getEffectiveName())).build()).queue();
             return;
         }
 
@@ -32,11 +33,11 @@ public class LickCommand implements ICommand {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                 return;
             }
-            event.getChannel().sendMessage(EmbedUtils.embedImage(lickUrls[new Random().nextInt(lickUrls.length)]).setColor(event.getMember().getColor()).setTitle(String.format("**%s** licks **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(lickUrls[new Random().nextInt(lickUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** licks **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
         }
         else if (!args.isEmpty())
         {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(lickUrls[new Random().nextInt(lickUrls.length)]).setColor(event.getMember().getColor()).setTitle(String.format("**%s** licks **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(lickUrls[new Random().nextInt(lickUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** licks **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
         }
     }
 

@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class OffCommand implements ICommand {
 
@@ -16,7 +17,7 @@ public class OffCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getMember().hasPermission(Permission.MESSAGE_MANAGE) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to turn someone off").queue();
             return;
         }
@@ -43,7 +44,6 @@ public class OffCommand implements ICommand {
             shouldDelete = true;
             userID = targets.get(0).getId();
             event.getChannel().sendMessage("Ok, Turned off **" + targets.get(0).getAsMention() + "**.").queue();
-            return;
         } else if (!args.isEmpty() && !mentionedMembers.isEmpty()) {
             shouldDelete = true;
             userID = mentionedMembers.get(0).getId();

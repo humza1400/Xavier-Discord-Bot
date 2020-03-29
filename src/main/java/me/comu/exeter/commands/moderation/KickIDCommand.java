@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class KickIDCommand implements ICommand {
     @Override
@@ -19,7 +20,7 @@ public class KickIDCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
-        if (!member.hasPermission(Permission.KICK_MEMBERS) && member.getIdLong() != Core.OWNERID/* || !member.canInteract(target)*/) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.KICK_MEMBERS) && member.getIdLong() != Core.OWNERID/* || !member.canInteract(target)*/) {
             channel.sendMessage("You don't have permission to kick that user").queue();
             return;
         }
@@ -42,7 +43,7 @@ public class KickIDCommand implements ICommand {
         if (mentionedMembers.isEmpty()) {
             Member target = event.getGuild().getMemberById(user.getId());
             if (reason.equals("")) {
-                if (!selfMember.canInteract(target)) {
+                if (!selfMember.canInteract(Objects.requireNonNull(target))) {
                     event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
                     return;
 

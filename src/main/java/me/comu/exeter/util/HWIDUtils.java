@@ -4,16 +4,17 @@ package me.comu.exeter.util;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 public class HWIDUtils
 {
-    public static String getHWID() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static String getHWID() throws NoSuchAlgorithmException {
         final StringBuilder s = new StringBuilder();
-        final String main = String.valueOf(System.getenv("PROCESSOR_IDENTIFIER")) + System.getenv("COMPUTERNAME") + System.getProperty("user.name").trim();
-        final byte[] bytes = main.getBytes("UTF-8");
+        final String main = System.getenv("PROCESSOR_IDENTIFIER") + System.getenv("COMPUTERNAME") + System.getProperty("user.name").trim();
+        final byte[] bytes = main.getBytes(StandardCharsets.UTF_8);
         final MessageDigest messageDigest = MessageDigest.getInstance("MD5");
         final byte[] md5 = messageDigest.digest(bytes);
         int i = 0;

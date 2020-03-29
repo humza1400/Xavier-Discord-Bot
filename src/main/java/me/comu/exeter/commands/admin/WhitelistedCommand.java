@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.util.ChatTrackingManager;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
@@ -9,12 +10,13 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class WhitelistedCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to see the whitelisted users").queue();
             return;
         }
@@ -23,34 +25,37 @@ public class WhitelistedCommand implements ICommand {
             return;
         }
         if (event.getAuthor().getIdLong() == Core.OWNERID && !args.isEmpty() && args.get(0).equals("-g")) {
-            StringBuffer globalStringBuffer = new StringBuffer();
+            StringBuilder globalStringBuffer = new StringBuilder();
             int counter = 0;
             for (String x : WhitelistCommand.getWhitelistedIDs().keySet()) {
                 User user = event.getJDA().getUserById(x);
                 try {
-                    String name = user.getName() + "#" + user.getDiscriminator() + String.format(" (%s)", event.getJDA().getGuildById(WhitelistCommand.getWhitelistedIDs().get(x)).getName());
-                    globalStringBuffer.append(" + " + name + "\n");
+                    String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator() + String.format(" (%s)", Objects.requireNonNull(event.getJDA().getGuildById(WhitelistCommand.getWhitelistedIDs().get(x))).getName());
+                    globalStringBuffer.append(" + ").append(name).append("\n");
                     counter++;
                 } catch (NullPointerException ex)
                 {
-                    event.getChannel().sendMessage("The whitelist config contains an invalid user, please resolve this issue. (" + x + ")").queue();
+                    event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x + ")").queue();
+                    WhitelistCommand.getWhitelistedIDs().remove(x);
                 }
             }
             event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + counter + " Whitelisted Users: (GLOBAL)**\n" + globalStringBuffer.toString()).build()).queue();
             WhitelistedJSONHandler.saveWhitelistConfig();
             return;
         }
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         int counter2 = 0;
         for (String x : WhitelistCommand.getWhitelistedIDs().keySet()) {
             if (WhitelistCommand.getWhitelistedIDs().get(x).equals(event.getGuild().getId())) {
                 User user = event.getJDA().getUserById(x);
                 try {
-                    String name = user.getName() + "#" + user.getDiscriminator();
-                    stringBuffer.append(" + " + name + "\n");
+                    String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator();
+                    stringBuffer.append(" + ").append(name).append("\n");
                     counter2++;
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("The whitelist config contains an invalid user, please resolve this issue. (" + x + ")").queue();
+                    event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x + ")").queue();
+                    WhitelistCommand.getWhitelistedIDs().remove(x);
+
                 }
             }
         }

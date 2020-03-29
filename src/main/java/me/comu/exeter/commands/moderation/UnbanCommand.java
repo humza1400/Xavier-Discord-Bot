@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UnbanCommand implements ICommand {
@@ -19,7 +20,7 @@ public class UnbanCommand implements ICommand {
 
         TextChannel channel = event.getChannel();
 
-        if (!event.getMember().hasPermission(Permission.BAN_MEMBERS) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS) && event.getMember().getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to unban someone").queue();
             return;
         }

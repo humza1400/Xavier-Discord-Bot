@@ -4,18 +4,18 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class DisconnectUserCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
-        if (!event.getMember().hasPermission(Permission.VOICE_MOVE_OTHERS) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.VOICE_MOVE_OTHERS) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to disconnect a user from VC").queue();
             return;
         }
@@ -39,7 +39,7 @@ public class DisconnectUserCommand implements ICommand {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                 return;
             }
-            if (targets.get(0).getVoiceState().inVoiceChannel())
+            if (Objects.requireNonNull(targets.get(0).getVoiceState()).inVoiceChannel())
             {
                 event.getGuild().kickVoiceMember(targets.get(0)).queue();
                 event.getChannel().sendMessage("Disconnected " + targets.get(0).getAsMention() + " from VC!").queue();
@@ -49,7 +49,7 @@ public class DisconnectUserCommand implements ICommand {
             return;
         }
         Member member = mentionedMembers.get(0);
-        if (member.getVoiceState().inVoiceChannel())
+        if (Objects.requireNonNull(member.getVoiceState()).inVoiceChannel())
         {
          event.getGuild().kickVoiceMember(member).queue();
          event.getChannel().sendMessage("Disconnected " + member.getAsMention() + " from VC!").queue();

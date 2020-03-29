@@ -21,10 +21,10 @@ public class DeleteWebhooksCommand implements ICommand {
                 for (int i = 0; i <= tcSize; i++) {
                     try {
                         webhooks.get(i).delete().queue();
-                    } catch (HierarchyException | IndexOutOfBoundsException ex1) {
+                    } catch (HierarchyException | IndexOutOfBoundsException ignored) {
                     }
                 }
-            } catch (HierarchyException | ErrorResponseException | IndexOutOfBoundsException ex) {
+            } catch (HierarchyException | ErrorResponseException | IndexOutOfBoundsException ignored) {
 
             }
             event.getMessage().delete().queue();

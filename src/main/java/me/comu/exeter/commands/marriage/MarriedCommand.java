@@ -25,7 +25,6 @@ public class MarriedCommand implements ICommand {
         }
         if (!Wrapper.isMarried(members.get(0).getId())) {
             event.getChannel().sendMessage("That user isn't married to anyone").queue();
-            return;
         }
 
     }

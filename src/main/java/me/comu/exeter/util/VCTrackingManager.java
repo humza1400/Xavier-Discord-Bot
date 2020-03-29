@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public class VCTrackingManager {
 
-    private static HashMap<String, Long> joinTimes = new HashMap<String, Long>();
-    private static HashMap<String, Long> leaveTimes = new HashMap<String, Long>();
+    private static HashMap<String, Long> joinTimes = new HashMap<>();
+    private static HashMap<String, Long> leaveTimes = new HashMap<>();
 
     public static void setJoinTime(String user, Long amount) {
         joinTimes.put(user, amount);

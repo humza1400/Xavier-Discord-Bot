@@ -4,9 +4,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
 import me.comu.exeter.wrapper.Wrapper;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -41,8 +39,7 @@ public class MassDMCommand implements ICommand {
                 int counter = 0;
                 for (Member member : memberList) {
                     if (!member.getUser().isBot()) {
-                        String finalMessage = message;
-                        Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
+                        Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), message);
                         counter++;
                         System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
                         Thread.sleep(100);

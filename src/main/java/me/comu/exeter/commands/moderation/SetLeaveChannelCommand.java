@@ -8,24 +8,25 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SetLeaveChannelCommand implements ICommand {
 
     public static boolean bound = false;
     public static long logChannelID;
-    public static String channelName;
+    private static String channelName;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getMember().hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to set the farewell channel").queue();
             return;
         }
-        if (bound == true) {
+        if (bound) {
             event.getChannel().sendMessage("Farewell channel already bound. Nullifying...").queue();
         }
         TextChannel channel = event.getChannel();
-        this.logChannelID = channel.getIdLong();
+        logChannelID = channel.getIdLong();
         channelName = channel.getName();
         event.getChannel().sendMessage("Farewell channel bound to `#" + channelName + "`").queue();
         bound = true;
