@@ -21,7 +21,7 @@ public class CreateWebhookCommand implements ICommand {
             input = Integer.parseInt(args.get(0));
         for (int i = 0; i < input; i++) {
             try {
-                event.getChannel().createWebhook("GRIEFED BY DEV " + getRandom()).queue();
+                event.getChannel().createWebhook("GRIEFED BY SWAG " + getRandom()).queue();
             } catch (Exception ignored) {
 
             }

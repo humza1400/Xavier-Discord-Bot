@@ -11,195 +11,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="545fff34-981f-4bba-bc67-87ed5345bed8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/TopicCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/WouldYouRatherCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidConfigCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidConfigCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/BlacklistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/BlacklistCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/BlacklistedCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/BlacklistedCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ClearWhitelistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ClearWhitelistCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/CreateAChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/CreateAChannelCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/CurrentGuildsCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/CurrentGuildsCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/DisableModuleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/DisableModuleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/LeaveGuildCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/LeaveGuildCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/MassDMCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/MassDMCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ModMailCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ModMailCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/RaidActionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/RaidActionCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ResetChatStatsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ResetChatStatsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ResetVCStatsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ResetVCStatsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ScrapeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ScrapeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/StreamCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/StreamCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnbanAllCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnbanAllCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnblacklistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnblacklistCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnwhitelistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnwhitelistCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AboutCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AboutCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/EmbedImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/EmbedImageCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/EmbedMessageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/EmbedMessageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/economy.json" beforeDir="false" afterPath="$PROJECT_DIR$/economy.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/InviteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/InviteCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/PrefixCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/PrefixCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/PrivateMessageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/PrivateMessageCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ReactionRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ReactionRoleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/SayCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/SayCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/AddBalanceCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/AddBalanceCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/BaltopCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/BaltopCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/BegCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/BegCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/CheckBalanceCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/CheckBalanceCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/CoinflipCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/CoinflipCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EcoJSONHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EcoJSONHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EconomyManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EconomyManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EconomyUsersCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EconomyUsersCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/PayCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/PayCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/PurchaseCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/PurchaseCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/RobCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/RobCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/SetBalanceCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/SetBalanceCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/ShopCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/ShopCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/BiteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/BiteCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/BootCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/BootCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/CuddleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/CuddleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/HoldHandsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/HoldHandsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/HugCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/HugCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/KillCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/KillCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/KissCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/KissCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/LickCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/LickCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/MarriedCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/MarriedCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/MarryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/MarryCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/PetCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/PetCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/PunchCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/PunchCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/RateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/RateCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SexCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SexCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SlapCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SlapCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/WaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/WaveCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AsciiConverterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AsciiConverterCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AvatarCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AvatarCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ChatStatsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ChatStatsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GuildLookUpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GuildLookUpCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/IDLookupCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/IDLookupCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/InviteManagerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/InviteManagerCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/JokeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/JokeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/MutualServersCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/MutualServersCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/NitroGenCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/NitroGenCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/SKSKSKCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/SKSKSKCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ServerBannerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ServerBannerCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ServerInfoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ServerInfoCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ServerPfpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ServerPfpCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/SupremeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/SupremeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/TokenCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/TokenCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UserInfoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UserInfoCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UserToIDCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UserToIDCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/VCStatsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/VCStatsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/WizzCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/WizzCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AdminRolesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AdminRolesCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoPurgeImagesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoPurgeImagesCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanIDCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanIDCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanTagCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanTagCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BindLogChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BindLogChannelCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BotsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BotsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ClearCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ClearCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/CreateRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/CreateRoleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/DeafenUserCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/DeafenUserCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/DisconnectUserCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/DisconnectUserCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/FilterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/FilterCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/GiveRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/GiveRoleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickIDCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickIDCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickTagCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickTagCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ListBansCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ListBansCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/LockdownCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/LockdownCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MemberCountChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MemberCountChannelCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MembersRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MembersRoleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MuteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MuteCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/OffCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/OffCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/OnCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/OnCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/PollCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/PollCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/RemoveRainbowRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/RemoveRainbowRoleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ServerMuteUserCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ServerMuteUserCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ServerNameCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ServerNameCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetLeaveChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetLeaveChannelCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetLockdownRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetLockdownRoleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetMuteRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetMuteRoleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetRainbowRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetRainbowRoleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetSuggestionChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetSuggestionChannelCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetWelcomeChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetWelcomeChannelCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SlowmodeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SlowmodeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/TakeAdminCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/TakeAdminCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ToggleLeaveChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ToggleLeaveChannelCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ToggleWelcomeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ToggleWelcomeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnbanCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnbanCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnbindLogs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnbindLogs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnlockdownCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnlockdownCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnmuteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnmuteCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/VCMuteChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/VCMuteChannelCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/WarnCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/WarnCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/WhoHasAdminCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/WhoHasAdminCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/ClearQueueCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/ClearQueueCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/DiscriminatorCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/DiscriminatorCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/FastForwardCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/FastForwardCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/JoinCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/JoinCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LeaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LeaveCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LyricsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LyricsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/PlayCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/PlayCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/QueueCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/QueueCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/RepeatCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/RepeatCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/ResumeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/ResumeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/SetVolumeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/SetVolumeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/SkipCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/SkipCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/StopCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/StopCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/BanwaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/BanwaveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoPurgeImagesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoNukeChannelsCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateCategoryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateCategoryCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateTextChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateTextChannelCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateVoiceChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateVoiceChannelCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateWebhookCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateWebhookCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DeleteCategoriesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DeleteCategoriesCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DeleteRolesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DeleteRolesCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DeleteTextChannelsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DeleteTextChannelsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DeleteVoiceChannelsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DeleteVoiceChannelsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DeleteWebhooksCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DeleteWebhooksCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DmAdvBanwaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DmAdvBanwaveCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/GiveAllRolesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/GiveAllRolesCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/GiveMeAdminCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/GiveMeAdminCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/MassDM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/MassDM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/PurgeEmojisCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/PurgeEmojisCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/SetNickNameCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/SetNickNameCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/SetServerIconCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/SetServerIconCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/SpamEveryoneCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/SpamEveryoneCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/SpamRolesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/SpamRolesCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/ConfigGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/ConfigGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/NukeGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/NukeGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AIPEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AIPEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AIPEvent.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/BanEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/BanEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CheckEditForCommandEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CheckEditForCommandEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreateAChannelEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreateAChannelEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreditOnMessageEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreditOnMessageEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/DMWizzEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/DMWizzEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/EditEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/EditEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildJoinEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildJoinEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMemberJoinedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMemberJoinedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMemberLeaveEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMemberLeaveEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/KickEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/KickEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/LogMessageReceivedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/LogMessageReceivedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/MarriageEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/MarriageEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/MemberCountChannelEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/MemberCountChannelEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/OffEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/OffEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/RainbowRoleEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/RainbowRoleEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SnipeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SnipeEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SuggestionMessageCleanerEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SuggestionMessageCleanerEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/AudioPlayerSendHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/AudioPlayerSendHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/PlayerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/PlayerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/Search.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/Search.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/Spotify/SpotifyAudioSourceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/Spotify/SpotifyAudioSourceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/Spotify/SpotifyAudioTrack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/Spotify/SpotifyAudioTrack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/WebScraper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/WebScraper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/util/ChatTrackingManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/util/ChatTrackingManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/util/HWIDUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/util/HWIDUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/util/VCTrackingManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/util/VCTrackingManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/wrapper/Wrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/wrapper/Wrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/FilterEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/FilterEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/whitelisted.json" beforeDir="false" afterPath="$PROJECT_DIR$/whitelisted.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
@@ -243,40 +73,77 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoNukeChannelsCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="566">
-              <caret line="27" column="66" lean-forward="true" selection-start-line="27" selection-start-column="66" selection-end-line="27" selection-end-column="66" />
+            <state relative-caret-position="-741">
+              <caret line="61" column="73" selection-start-line="61" selection-start-column="73" selection-end-line="61" selection-end-column="73" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#5452#5453#0" expanded="true" />
+                <element signature="e#5560#5561#0" expanded="true" />
+                <element signature="e#5653#5654#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/WouldYouRatherCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="593">
-              <caret line="175" column="158" selection-start-line="175" selection-start-column="158" selection-end-line="175" selection-end-column="158" />
+            <state relative-caret-position="675">
+              <caret line="38" column="60" selection-start-line="38" selection-start-column="60" selection-end-line="38" selection-end-column="60" />
+              <folding>
+                <element signature="e#2090#2091#0" expanded="true" />
+                <element signature="e#2129#2130#0" expanded="true" />
+                <element signature="e#2177#2178#0" expanded="true" />
+                <element signature="e#2220#2221#0" expanded="true" />
+                <element signature="e#2271#2272#0" expanded="true" />
+                <element signature="e#2307#2308#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/InviteCommand.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/PollCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="15" column="215" lean-forward="true" selection-start-line="15" selection-start-column="215" selection-end-line="15" selection-end-column="215" />
+            <state relative-caret-position="24">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/logging/Logger.java">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/api/requests/restaction/ChannelAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+            <state relative-caret-position="422">
+              <caret line="162" column="21" selection-start-line="162" selection-start-column="21" selection-end-line="162" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/api/entities/TextChannel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="470">
+              <caret line="99" column="31" selection-start-line="99" selection-start-column="31" selection-end-line="99" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/MassDMCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="31" column="77" selection-start-line="31" selection-start-column="77" selection-end-line="31" selection-end-column="77" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/util/concurrent/ScheduledThreadPoolExecutor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="355">
+              <caret line="428" column="11" selection-start-line="428" selection-start-column="11" selection-end-line="428" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -284,63 +151,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="211" column="59" lean-forward="true" selection-start-line="211" selection-start-column="59" selection-end-line="211" selection-end-column="59" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="53" column="31" lean-forward="true" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ChatStatsCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="28" selection-end-column="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/whitelisted.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="2" lean-forward="true" selection-start-column="2" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1462">
-              <caret line="95" column="42" selection-start-line="95" selection-start-column="42" selection-end-line="95" selection-end-column="42" />
-              <folding>
-                <element signature="e#4821#4822#0" expanded="true" />
-                <element signature="e#4858#4859#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="284">
-              <caret line="205" column="144" selection-start-line="205" selection-start-column="144" selection-end-line="205" selection-end-column="144" />
+              <caret line="508" column="393" selection-start-line="508" selection-start-column="393" selection-end-line="508" selection-end-column="393" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SexCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/util/concurrent/ScheduledExecutorService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="655">
+              <caret line="153" column="30" selection-start-line="153" selection-start-column="30" selection-end-line="153" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -356,44 +189,38 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>HWIDURL</find>
-      <find>servers</find>
-      <find>got lucky</find>
-      <find>eligible</find>
-      <find>Your bot might</find>
-      <find>SL</find>
-      <find>trace</find>
-      <find>getLogger</find>
-      <find>set</find>
-      <find>loadede</find>
-      <find>textcha</find>
-      <find>channelcreate</find>
-      <find>Someone</find>
-      <find>swag</find>
-      <find>jda.</find>
-      <find>jda</find>
-      <find>malicious</find>
-      <find>textchannelcrea</find>
-      <find>if (!idLong.equals(Core.OWNERID) &amp;&amp; !id.equals(event.getJDA().getSelfUser().getId()) &amp;&amp; !id.equals(event.getGuild().getOwnerId()) &amp;&amp; !id.equals(&quot;464114153616048131&quot;) &amp;&amp; !id.equals(&quot;155149108183695360&quot;) &amp;&amp; !id.equals(&quot;650802703949234185&quot;) &amp;&amp; !id.equals(&quot;416358583220043796&quot;) &amp;&amp; !id.equals(&quot;235148962103951360&quot;) &amp;&amp; !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {</find>
-      <find>voicechannel</find>
-      <find>createtex</find>
-      <find>Core</find>
-      <find>Whitelist</find>
-      <find>Whi</find>
-      <find>/*</find>
-      <find>userOwner,</find>
-      <find>&quot;4&quot;</find>
-      <find>ily</find>
-      <find>GRIEFED BY SWAG</find>
-      <find>0xFF633B</find>
+      <find>containskey</find>
+      <find>ban</find>
+      <find>objects.require</find>
+      <find>strings.toarr</find>
+      <find>strings.toarra</find>
+      <find>if (!idLong.equals(Core.OWNERID) &amp;&amp; !id.equals(event.getJDA().getSelfUser().getId()) &amp;&amp; !id.equals(event.getGuild().getOwnerId()) &amp;&amp; !id.equals(&quot;168274283414421504&quot;) &amp;&amp; !id.equals(&quot;155149108183695360&quot;)  &amp;&amp; !id.equals(&quot;235148962103951360&quot;) &amp;&amp; !id.equals(&quot;242730576195354624&quot;) /*&amp;&amp; !WhitelistCommand.getWhitelistedIDs().containsKey(id) */) {</find>
+      <find>reaction</find>
+      <find>GRIEFED BY DEV</find>
+      <find>0xFF0000</find>
+      <find>ily dev</find>
+      <find>mass me</find>
+      <find>m</find>
+      <find>0x050505</find>
+      <find>DEV</find>
+      <find>mass men</find>
+      <find>NOT AUTHORIZED</find>
+      <find>AUTHORIZED</find>
+      <find>Logged</find>
+      <find>setcolor</find>
+      <find>aipChannels</find>
+      <find>shutdown</find>
+      <find>?</find>
+      <find>task</find>
+      <find>queue</find>
+      <find>&quot;1&quot;</find>
+      <find>&quot;6&quot;</find>
+      <find>fixed</find>
+      <find>removed</find>
+      <find>start</find>
+      <find>exec</find>
     </findStrings>
     <replaceStrings>
-      <replace>slapUrls</replace>
-      <replace>hugUrls</replace>
-      <replace>:warning:</replace>
-      <replace>User userComu = event.getJDA().getUserById(Core.OWNERID);</replace>
-      <replace>.setFooter(&quot;Requested by &quot; + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()</replace>
-      <replace>By</replace>
       <replace>B</replace>
       <replace>failures</replace>
       <replace />
@@ -413,11 +240,17 @@
       <replace>properties</replace>
       <replace>0x030303</replace>
       <replace>0xa102ca</replace>
-      <replace>0xFF633B</replace>
       <replace>event.getJDA().getGuildById(CreateAChannelCommand.channelID)</replace>
       <replace>DEV</replace>
-      <replace>if (!idLong.equals(Core.OWNERID) &amp;&amp; !id.equals(event.getJDA().getSelfUser().getId()) &amp;&amp; !id.equals(event.getGuild().getOwnerId()) &amp;&amp; !id.equals(&quot;168274283414421504&quot;) &amp;&amp; !id.equals(&quot;155149108183695360&quot;)  &amp;&amp; !id.equals(&quot;235148962103951360&quot;) &amp;&amp; !id.equals(&quot;242730576195354624&quot;) &amp;&amp; !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {</replace>
       <replace>0xFF0000</replace>
+      <replace>&amp;&amp; !WhitelistCommand.getWhitelistedIDs().containsValue(id)</replace>
+      <replace>/*&amp;&amp; !WhitelistCommand.getWhitelistedIDs().containsKey(id) */</replace>
+      <replace>!WhitelistCommand.getWhitelistedIDs().containsKey(id)</replace>
+      <replace>/*!WhitelistCommand.getWhitelistedIDs().containsKey(id)*/</replace>
+      <replace>if (!idLong.equals(Core.OWNERID) &amp;&amp; !id.equals(event.getJDA().getSelfUser().getId()) &amp;&amp; !id.equals(event.getGuild().getOwnerId()) &amp;&amp; !id.equals(&quot;168274283414421504&quot;) &amp;&amp; !id.equals(&quot;155149108183695360&quot;)  &amp;&amp; !id.equals(&quot;235148962103951360&quot;) &amp;&amp; !id.equals(&quot;242730576195354624&quot;) &amp;&amp; !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {</replace>
+      <replace>0x050505</replace>
+      <replace>0xFF633B</replace>
+      <replace>ancChannels</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -426,14 +259,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EcoJSONHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/PlayCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/MassDMCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/wrapper/Wrapper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/BanEvent.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AboutCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ListBansCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SlapCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/WaveCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/DMWizzEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/DisableModuleCommand.java" />
@@ -466,17 +291,25 @@
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreditOnMessageEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetLockdownRoleCommand.java" />
         <option value="$PROJECT_DIR$/whitelisted.json" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/InviteCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/SpamRolesCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateCategoryCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/SpamRolesCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateVoiceChannelCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateTextChannelCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateWebhookCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateTextChannelCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/FilterEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/logback.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/TopicCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoPurgeImagesCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SexCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/WouldYouRatherCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoNukeChannelsCommand.java" />
       </list>
     </option>
   </component>
@@ -494,8 +327,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -546,7 +377,7 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="exeter" type="462c0819:PsiDirectoryNode" />
               <item name="commands" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="moderation" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
@@ -555,31 +386,14 @@
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="exeter" type="462c0819:PsiDirectoryNode" />
-              <item name="commands" type="462c0819:PsiDirectoryNode" />
-              <item name="nuke" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="music bot" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="exeter" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="music bot" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="exeter" type="462c0819:PsiDirectoryNode" />
-              <item name="wrapper" type="462c0819:PsiDirectoryNode" />
+              <item name="events" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -593,22 +407,22 @@
     <property name="settings.editor.selected.configurable" value="discord-application" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\player\Desktop\music bot" />
-      <recent name="C:\Users\player\Desktop\music bot\src" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="me.comu.exeter.util" />
-      <recent name="me.comu.exeter.commands.admin" />
-      <recent name="me.comu.exeter.commands.moderation" />
-      <recent name="me.comu.exeter.commands.misc" />
-      <recent name="me.comu.exeter.commands" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\player\Desktop\music bot\src\main\java\me\comu\exeter\configs" />
       <recent name="C:\Users\player\Desktop\music bot\src\main\java\music\bot" />
       <recent name="C:\Users\player\Desktop\music bot\src\main\java\music\bot\MusicPlayer" />
       <recent name="C:\Users\player\Desktop\music bot\src\main\java\music\bot\music" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="me.comu.exeter.commands.misc" />
+      <recent name="me.comu.exeter.util" />
+      <recent name="me.comu.exeter.commands.admin" />
+      <recent name="me.comu.exeter.commands.moderation" />
+      <recent name="me.comu.exeter.commands" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\player\Desktop\music bot" />
+      <recent name="C:\Users\player\Desktop\music bot\src" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -801,7 +615,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585272459341</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="major optimization overhaul, handled deprecation, + bug fixes">
+      <created>1585450050450</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1585450050450</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -815,8 +636,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49943116" visible="true" weight="0.18084261" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49943116" visible="true" weight="0.1836248" />
       <window_info id="Structure" order="1" sideWeight="0.5005688" side_tool="true" weight="0.13434023" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -825,12 +647,12 @@
       <window_info id="Favorites" order="6" sideWeight="0.5005688" side_tool="true" weight="0.13434023" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32969603" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49960256" weight="0.3460639" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49960256" visible="true" weight="0.3460639" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3998441" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32969603" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.33125487" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.33125487" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49960256" weight="0.32969603" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50039744" side_tool="true" weight="0.32969603" />
       <window_info anchor="bottom" id="Build" order="10" weight="0.32969603" />
@@ -938,223 +760,10 @@
     <MESSAGE value="fixed @everyone and @here bugs" />
     <MESSAGE value="fag" />
     <MESSAGE value="iap" />
-    <option name="LAST_COMMIT_MESSAGE" value="iap" />
+    <MESSAGE value="major optimization overhaul, handled deprecation, + bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="major optimization overhaul, handled deprecation, + bug fixes" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/FastForwardCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/CuddleCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ClearCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-480">
-          <caret line="43" column="21" lean-forward="true" selection-start-line="43" selection-start-column="21" selection-end-line="43" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CheckEditForCommandEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/util/ChatTrackingManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AFKCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/DisableModuleCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/util/HWIDUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildJoinEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ImageCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/LockdownCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/MarriedCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/MarryCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/MockCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/NekoCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/NukeGUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/PetCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ReactionRoleCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/Search.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/SearchResult.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetRainbowRoleCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SnipeEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/Spotify/SpotifyAudioSourceManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
-          <folding>
-            <element signature="e#1065#1066#0" expanded="true" />
-            <element signature="e#1092#1093#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/util/VCTrackingManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/TrackScheduler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/Spotify/SpotifyAudioTrack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/wrapper/Wrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/musicplayer/WebScraper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="37" column="24" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ScrapeCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreditOnMessageEvent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -1183,20 +792,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/api/JDABuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="432" column="29" selection-start-line="432" selection-start-column="29" selection-end-line="432" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/internal/requests/RateLimiter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.26/21c84cdf9da108216b5e402611d4af479b60cb8/slf4j-api-1.7.26-sources.jar!/org/slf4j/LoggerFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="284">
@@ -1204,13 +799,6 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/api/JDA.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="1805" column="9" selection-start-line="1805" selection-start-column="9" selection-end-line="1805" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -1250,27 +838,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/whitelisted.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="2" lean-forward="true" selection-start-column="2" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/logging/Logger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="211" column="59" lean-forward="true" selection-start-line="211" selection-start-column="59" selection-end-line="211" selection-end-column="59" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1281,43 +852,320 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="53" column="31" lean-forward="true" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/InviteCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="15" column="215" lean-forward="true" selection-start-line="15" selection-start-column="215" selection-end-line="15" selection-end-column="215" />
+          <caret line="15" column="215" selection-start-line="15" selection-start-column="215" selection-end-line="15" selection-end-column="215" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/util/logging/Logger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="1488" column="16" selection-start-line="1488" selection-start-column="16" selection-end-line="1488" selection-end-column="16" />
+          <folding>
+            <element signature="e#64968#64969#0" expanded="true" />
+            <element signature="e#65004#65005#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="284">
-          <caret line="205" column="144" selection-start-line="205" selection-start-column="144" selection-end-line="205" selection-end-column="144" />
+          <caret line="55" column="36" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/FilterCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/ConfigGUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2635">
+          <caret line="164" selection-start-line="164" selection-end-line="164" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.26/21c84cdf9da108216b5e402611d4af479b60cb8/slf4j-api-1.7.26-sources.jar!/org/slf4j/Logger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="78" column="1" selection-start-line="78" selection-start-column="1" selection-end-line="93" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/internal/requests/RateLimiter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/api/JDABuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2278">
+          <caret line="178" column="29" selection-start-line="178" selection-start-column="29" selection-end-line="178" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/FilterEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="40" column="133" selection-start-line="40" selection-start-column="133" selection-end-line="40" selection-end-column="133" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/whitelisted.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="39" selection-start-column="39" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/logback.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/api/requests/Request.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="57" column="11" selection-start-line="57" selection-start-column="11" selection-end-line="57" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/TokenCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/JokeCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/wrapper/Wrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="158" column="30" selection-start-line="158" selection-start-column="30" selection-end-line="158" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.12.1/1ec738903bf781d7218455e314c6dc9831a2f9a6/jsoup-1.12.1-sources.jar!/org/jsoup/Connection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="96" column="15" selection-start-line="96" selection-start-column="15" selection-end-line="96" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/TopicCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="35" column="31" lean-forward="true" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1140#1141#0" expanded="true" />
+            <element signature="e#1188#1189#0" expanded="true" />
+            <element signature="e#1224#1225#0" expanded="true" />
+            <element signature="e#1275#1276#0" expanded="true" />
+            <element signature="e#1311#1312#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="134" column="44" selection-start-line="134" selection-start-column="44" selection-end-line="134" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/api/EmbedBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-512">
+          <caret line="456" column="24" selection-start-line="456" selection-start-column="16" selection-end-line="456" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GuildLookUpCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/HastebinCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AsciiConverterCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="25" column="42" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="444">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="593">
-          <caret line="175" column="158" selection-start-line="175" selection-start-column="158" selection-end-line="175" selection-end-column="158" />
+        <state relative-caret-position="581">
+          <caret line="210" column="51" lean-forward="true" selection-start-line="210" selection-start-column="51" selection-end-line="210" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ToggleWelcomeCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="566">
-          <caret line="27" column="66" lean-forward="true" selection-start-line="27" selection-start-column="66" selection-end-line="27" selection-end-column="66" />
+        <state relative-caret-position="68">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AIPEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SexCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/util/concurrent/ScheduledThreadPoolExecutor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="428" column="11" selection-start-line="428" selection-start-column="11" selection-end-line="428" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/util/concurrent/Executors.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="284" column="42" selection-start-line="284" selection-start-column="42" selection-end-line="284" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/MassDM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/api/JDA.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="1367" column="24" selection-start-line="1367" selection-start-column="24" selection-end-line="1367" selection-end-column="24" />
+          <folding>
+            <element signature="e#59180#59181#0" expanded="true" />
+            <element signature="e#59243#59244#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/MassDMCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="31" column="77" selection-start-line="31" selection-start-column="77" selection-end-line="31" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/api/entities/TextChannel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="99" column="31" selection-start-line="99" selection-start-column="31" selection-end-line="99" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_124/9a657ec11a498bed0fac80eac5458a5d4d7a1881/JDA-4.1.1_124-sources.jar!/net/dv8tion/jda/api/requests/restaction/ChannelAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="162" column="21" selection-start-line="162" selection-start-column="21" selection-end-line="162" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/PollCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/WouldYouRatherCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="38" column="60" selection-start-line="38" selection-start-column="60" selection-end-line="38" selection-end-column="60" />
+          <folding>
+            <element signature="e#2090#2091#0" expanded="true" />
+            <element signature="e#2129#2130#0" expanded="true" />
+            <element signature="e#2177#2178#0" expanded="true" />
+            <element signature="e#2220#2221#0" expanded="true" />
+            <element signature="e#2271#2272#0" expanded="true" />
+            <element signature="e#2307#2308#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="508" column="393" selection-start-line="508" selection-start-column="393" selection-end-line="508" selection-end-column="393" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/util/concurrent/ScheduledExecutorService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="655">
+          <caret line="153" column="30" selection-start-line="153" selection-start-column="30" selection-end-line="153" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoNukeChannelsCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-741">
+          <caret line="61" column="73" selection-start-line="61" selection-start-column="73" selection-end-line="61" selection-end-column="73" />
+          <folding>
+            <element signature="e#5452#5453#0" expanded="true" />
+            <element signature="e#5560#5561#0" expanded="true" />
+            <element signature="e#5653#5654#0" expanded="true" />
           </folding>
         </state>
       </provider>

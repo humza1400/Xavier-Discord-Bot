@@ -131,6 +131,8 @@ public class CommandManager {
         register(new VCStatsCommand());
         register(new ChatStatsCommand());
         register(new TokenCommand());
+        register(new TopicCommand());
+        register(new WouldYouRatherCommand());
         // MODERATION
         register(new BindLogChannelCommand(eventWaiter));
         register(new SetRainbowRoleCommand());
@@ -177,7 +179,7 @@ public class CommandManager {
         register(new SuggestCommand());
         register(new MembersRoleCommand());
         register(new PollCommand());
-        register(new AutoPurgeImagesCommand());
+        register(new AutoNukeChannelsCommand());
         // MUSIC
         register(new JoinCommand());
         register(new LeaveCommand());

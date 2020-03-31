@@ -141,26 +141,21 @@ public class AntiRaidEvent extends ListenerAdapter {
     @Override
     public void onTextChannelCreate(@Nonnull TextChannelCreateEvent event) {
         boolean active = AntiRaidCommand.isActive();
-        Logger.getLogger().print("1");
         if (active) {
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
                 String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                 Wrapper.sendPrivateMessage(event.getJDA(), userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_TEXT_CHANNEL_CREATE**");
-                Logger.getLogger().print("2");
                 return;
             }
-            Logger.getLogger().print("3");
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
                 if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_CREATE) && auditLogEntries.get(1).getType().equals(ActionType.CHANNEL_CREATE)) {
-                    Logger.getLogger().print("4");
                     String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
                     Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
-                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("168274283414421504") && !id.equals("155149108183695360")  && !id.equals("235148962103951360") && !id.equals("242730576195354624") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
+                        if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("168274283414421504") && !id.equals("155149108183695360")  && !id.equals("235148962103951360") && !id.equals("242730576195354624") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
                         Member member = event.getGuild().getMemberById(id);
                         List<Role> roles = Objects.requireNonNull(member).getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
                         List<String> strings = Arrays.asList(stringArray);
-                        Logger.getLogger().print("5");
                         for (int i = 0; i < roles.size(); i++) {
                             stringArray[i] = roles.get(i).getName();
                         }
@@ -173,7 +168,6 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                             }
                         }
-                        Logger.getLogger().print("6");
                         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                         String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
@@ -212,7 +206,6 @@ public class AntiRaidEvent extends ListenerAdapter {
                     String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
                     Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
                     if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId()) && !id.equals("168274283414421504") && !id.equals("155149108183695360")  && !id.equals("235148962103951360") && !id.equals("242730576195354624") && !WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
-                        Logger.getLogger().print("1");
                         Member member = event.getGuild().getMemberById(id);
                         List<Role> roles = Objects.requireNonNull(member).getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
@@ -229,7 +222,6 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 event.getGuild().removeRoleFromMember(member.getId(), role).queue();
                             }
                         }
-                        Logger.getLogger().print("2");
                         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                         String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");

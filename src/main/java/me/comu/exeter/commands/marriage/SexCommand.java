@@ -59,7 +59,7 @@ public class SexCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"sex","rape"};
+        return new String[] {"sex"};
     }
 
     @Override

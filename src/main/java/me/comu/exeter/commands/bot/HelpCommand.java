@@ -36,7 +36,7 @@ public class HelpCommand implements ICommand {
                     }
                 }
             }
-            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Admin Commands (" + count + ')').setColor(0xFF0000).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Admin Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
@@ -51,7 +51,7 @@ public class HelpCommand implements ICommand {
                     }
                 }
             }
-            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Bot Commands (" + count + ')').setColor(0xFF0000).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Bot Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
@@ -66,7 +66,7 @@ public class HelpCommand implements ICommand {
                     }
                 }
             }
-            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Economy Commands (" + count + ')').setColor(0xFF0000).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Economy Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
@@ -81,7 +81,7 @@ public class HelpCommand implements ICommand {
                     }
                 }
             }
-            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Marriage Commands (" + count + ')').setColor(0xFF0000).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Marriage Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
@@ -96,7 +96,7 @@ public class HelpCommand implements ICommand {
                     }
                 }
             }
-            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Misc Commands (" + count + ')').setColor(0xFF0000).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Misc Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
@@ -111,7 +111,7 @@ public class HelpCommand implements ICommand {
                     }
                 }
             }
-            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Moderation Commands (" + count + ')').setColor(0xFF0000).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Moderation Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
@@ -126,7 +126,7 @@ public class HelpCommand implements ICommand {
                     }
                 }
             }
-            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Music Commands (" + count + ')').setColor(0xFF0000).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Music Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
@@ -146,7 +146,7 @@ public class HelpCommand implements ICommand {
                     }
                 }
             }
-            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Owner Commands (" + count + ')').setColor(0xFF0000).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Owner Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
@@ -170,16 +170,16 @@ public class HelpCommand implements ICommand {
     }
 
     private void embedHandler(GuildMessageReceivedEvent event) {
-        EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Categories (" + Category.values().length + ')').setColor(0xFF0000).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+        EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Categories (" + Category.values().length + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
         StringBuilder stringBuilder = embedBuilder.getDescriptionBuilder();
         Arrays.stream(Category.values()).forEach((category) -> stringBuilder.append('`').append(category.name()).append("`\n"));
-        stringBuilder.append("\n").append(Core.PREFIX).append("help [**category**]\n").append(Core.PREFIX).append("help [**command**]\n\n*Made for dev with <3*");
+        stringBuilder.append("\n").append(Core.PREFIX).append("help [**category**]\n").append(Core.PREFIX).append("help [**command**]\n\n*Made with ♥ by swag*");
         event.getChannel().sendMessage(embedBuilder.build()).queue();
 
 
     }
 /*    private void embedHandler(GuildMessageReceivedEvent event) {
-        EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Commands (" + manager.getCommands().size() + ')').setColor(0xFF0000).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+        EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Commands (" + manager.getCommands().size() + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
         StringBuilder stringBuilder = embedBuilder.getDescriptionBuilder();
             manager.getCommands().forEach((command) -> stringBuilder.append('`').append(command.getInvoke()).append("` ")
             );

