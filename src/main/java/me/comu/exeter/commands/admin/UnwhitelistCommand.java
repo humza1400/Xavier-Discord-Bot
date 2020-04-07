@@ -58,11 +58,11 @@ public class UnwhitelistCommand implements ICommand {
                     WhitelistedJSONHandler.saveWhitelistConfig();
                 } catch (NullPointerException | IllegalArgumentException | ArrayIndexOutOfBoundsException exx)
                 {
-                    event.getChannel().sendMessage("Invalid ID + " + id).queue();
+                    event.getChannel().sendMessage("Invalid ID + " + id.replaceAll("@everyone","everyone".replaceAll("@here","here"))).queue();
                 }
             } catch (NullPointerException ex)
             {
-                event.getChannel().sendMessage("Invalid ID + " + id).queue();
+                event.getChannel().sendMessage("Invalid ID + " + id.replaceAll("@everyone","everyone".replaceAll("@here","here"))).queue();
             }
         } else {
             String id = memberList.get(0).getId();

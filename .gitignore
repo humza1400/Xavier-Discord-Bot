@@ -32,3 +32,6 @@ hs_err_pid*
 .idea/artifacts/
 .idea/vcs.xml
 out
+
+# Environmental Variables
+.env

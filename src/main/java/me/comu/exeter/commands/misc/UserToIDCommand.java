@@ -18,11 +18,8 @@ public class UserToIDCommand implements ICommand {
             return;
         }
         try {
-            if (!args.isEmpty()) {
                 event.getChannel().sendMessage(EmbedUtils.embedImage(Objects.requireNonNull(event.getJDA().getUserByTag(args.get(0))).getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle("`" +args.get(0)
                         + "`'s ID is " + Objects.requireNonNull(event.getJDA().getUserByTag(args.get(0))).getId()).build()).queue();
-
-            }
         } catch (Exception ex)
         {
             event.getChannel().sendMessage("No user exists with that username or I don't share a server with them.").queue();

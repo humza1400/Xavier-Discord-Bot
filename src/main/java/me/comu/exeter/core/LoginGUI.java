@@ -9,13 +9,10 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
-import me.comu.exeter.logging.Logger;
 import me.comu.exeter.util.HWIDUtils;
 import me.comu.exeter.wrapper.Wrapper;
 import me.duncte123.botcommons.web.WebUtils;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.slf4j.LoggerFactory;
@@ -188,7 +185,7 @@ class LoginGUI extends JFrame implements ActionListener {
             }
             try {
                 try {
-                    if (!HWIDUtils.get(Core.HWIDURL).contains(HWIDUtils.getHWID())) {
+                    if (!HWIDUtils.get(Config.get("HWIDURL")).contains(HWIDUtils.getHWID())) {
                         jStatusField.setText("NOT AUTHORIZED");
                         return;
                     }
@@ -207,7 +204,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
                 WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
                 logger.info("Booting...");
-                jda = JDABuilder.create(TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily dev", "https://www.twitch.tv/souljaboy/")).addEventListeners(new Listener(commandManager)).build().awaitReady();
+                jda = JDABuilder.create(TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(new Listener(commandManager)).build().awaitReady();
                 logger.info("Successfully Booted");
                 logger.info("Loading Events");
                 jda.addEventListener(new KickEvent());

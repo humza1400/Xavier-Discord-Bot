@@ -173,7 +173,7 @@ public class HelpCommand implements ICommand {
         EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Categories (" + Category.values().length + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
         StringBuilder stringBuilder = embedBuilder.getDescriptionBuilder();
         Arrays.stream(Category.values()).forEach((category) -> stringBuilder.append('`').append(category.name()).append("`\n"));
-        stringBuilder.append("\n").append(Core.PREFIX).append("help [**category**]\n").append(Core.PREFIX).append("help [**command**]\n\n*Made with ♥ by swag*");
+        stringBuilder.append("\n").append(Core.PREFIX).append("help [**category**]\n").append(Core.PREFIX).append("help [**command**]\n\n*Made with \u2764 by swag*");
         event.getChannel().sendMessage(embedBuilder.build()).queue();
 
 

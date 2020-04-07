@@ -69,11 +69,11 @@ public class WhitelistCommand implements ICommand {
                     event.getChannel().sendMessage("Successfully added `" + user.getName() + "#" + user.getDiscriminator() + "` to the whitelist").queue();
                 } catch (NullPointerException | IllegalArgumentException | ArrayIndexOutOfBoundsException exx)
                 {
-                    event.getChannel().sendMessage("Invalid ID + " + id).queue();
+                    event.getChannel().sendMessage("Invalid ID + " + id.replaceAll("@everyone","everyone".replaceAll("@here","here"))).queue();
                 }
             } catch (NullPointerException ex)
             {
-                event.getChannel().sendMessage("Invalid ID + " + id).queue();
+                event.getChannel().sendMessage("Invalid ID + " + id.replaceAll("@everyone","everyone".replaceAll("@here","here"))).queue();
             }
         } else {
             if (whitelistedIDs.containsKey(mentionedMembers.get(0).getId()) && whitelistedIDs.containsValue(guildID))

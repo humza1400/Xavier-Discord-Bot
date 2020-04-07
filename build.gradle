@@ -39,6 +39,7 @@ dependencies {
     compile 'org.jsoup:jsoup:1.10.2'
     compile("club.minnced:discord-webhooks:0.1.8")
     compile 'javax.mail:mail:1.4.7'
+    compile 'io.github.cdimascio:java-dotenv:5.1.3'
 
 
 

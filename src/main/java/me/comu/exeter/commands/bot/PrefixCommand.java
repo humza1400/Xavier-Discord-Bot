@@ -18,7 +18,7 @@ public class PrefixCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         Member memberPerms = event.getMember();
 
-        if (!Objects.requireNonNull(memberPerms).hasPermission(Permission.ADMINISTRATOR) || !(event.getAuthor().getIdLong() == Core.OWNERID)) {
+        if (!Objects.requireNonNull(memberPerms).hasPermission(Permission.ADMINISTRATOR) && !(event.getAuthor().getIdLong() == Core.OWNERID)) {
             event.getChannel().sendMessage("You don't have permission to change the prefix, sorry bro").queue();
             return;
         }

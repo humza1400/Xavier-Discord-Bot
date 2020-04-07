@@ -59,7 +59,7 @@ public class AutoNukeChannelsCommand implements ICommand {
             ancChannels.add(event.getChannel().getId());
         } else if (args.get(0).equalsIgnoreCase("start")) {
             isRunning = true;
-            scheduledExecutorService.scheduleAtFixedRate(thread, 0, delay, TimeUnit.SECONDS);
+            scheduledExecutorService.scheduleAtFixedRate(thread, 0, delay, TimeUnit.HOURS);
             event.getChannel().sendMessage("Started the ANC Executor!").queue();
         } else if (args.get(0).equalsIgnoreCase("stop")) {
             isRunning = false;

@@ -18,10 +18,10 @@ public class IDLookupCommand implements ICommand {
             return;
         }
         try {
-            if (!args.isEmpty()) {
-                event.getChannel().sendMessage(EmbedUtils.embedImage(Objects.requireNonNull(event.getJDA().getUserById(args.get(0))).getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(args.get(0) + " belongs to `" + Objects.requireNonNull(event.getJDA().getUserById(args.get(0))).getName() + "#" + Objects.requireNonNull(event.getJDA().getUserById(args.get(0))).getDiscriminator() + "`").build()).queue();
+                event.getJDA().retrieveUserById(args.get(0)).queue((user -> {
+                    event.getChannel().sendMessage(EmbedUtils.embedImage(user.getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(args.get(0) + " belongs to `" + user.getAsTag() + "`").build()).queue();
+                }));
 
-            }
         } catch (NumberFormatException | NullPointerException ex)
         {
             event.getChannel().sendMessage("No user exists with that ID.").queue();

