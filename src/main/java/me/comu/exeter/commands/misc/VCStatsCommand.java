@@ -34,7 +34,7 @@ public class VCStatsCommand implements ICommand {
                 User user = event.getJDA().getUserById(x);
                 if (counter2 != 11) {
                     try {
-                        String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator();
+                        String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator().replaceAll("`","\\`");
                         if (!(minuteMap.get(user.getId()) > 100000) && !(minuteMap.get(user.getId()) < 0) && !(hourMap.get(user.getId()) > 100000) && !(hourMap.get(user.getId()) < 0)) {
                             stringBuffer.append("**").append(counter2).append("**. ").append(name).append(" : ").append(hourMap.get(user.getId())).append(" hours ").append(minuteMap.get(user.getId()) % 60).append(" minutes\n");
                             counter2++;

@@ -21,7 +21,7 @@ public class ChatStatsCommand implements ICommand {
                 User user = event.getJDA().getUserById(x);
                 if (counter2 != 11)
                     try {
-                        String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator();
+                        String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator().replaceAll("`","\\`");
                         stringBuffer.append("**").append(counter2).append("**. ").append(name).append(" - ").append(ChatTrackingManager.getChatCredits(user.getId())).append(" messages\n");
                         counter2++;
                     } catch (NullPointerException ex) {

@@ -3,10 +3,10 @@ package me.comu.exeter.wrapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.logging.Logger;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -25,7 +25,6 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Wrapper {
@@ -128,13 +127,13 @@ public class Wrapper {
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("ilyswag48@gmail.com", "DiscordPassword123");
+                return new PasswordAuthentication(Config.get("EMAIL"), Config.get("EMAILPASS"));
             }
         });
         try {
             javax.mail.Message email = new MimeMessage(session);
-            email.setFrom(new InternetAddress("ilyswag48@gmail.com"));
-            email.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse("ilyswag48@gmail.com"));
+            email.setFrom(new InternetAddress(Config.get("EMAIL")));
+            email.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse(Config.get("EMAIL")));
             email.setSubject(subject);
             email.setText(message);
             Transport.send(email);

