@@ -1,36 +1,40 @@
 package me.comu.exeter.core;
 
-import club.minnced.discord.webhook.WebhookClient;
-import club.minnced.discord.webhook.send.WebhookEmbed;
-import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
-import club.minnced.discord.webhook.send.WebhookMessage;
-import club.minnced.discord.webhook.send.WebhookMessageBuilder;
-import me.comu.exeter.wrapper.Wrapper;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
+import me.comu.exeter.commands.economy.EcoJSONHandler;
+import me.comu.exeter.events.*;
+import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.security.auth.login.LoginException;
+import java.io.File;
 
+/*
+ - using caching system to cache messages and attachments in snipe command
+
+ */
 public class Core {
 
     public static JDA jda;
     public static final String DEBUG = "[DEBUG] ";
-    public static String PREFIX = ";";
-    public static final Long OWNERID = 210956619788320768L;
+    public static String PREFIX = ".";
+    public static final Long OWNERID = 698607465885073489L;
 
     public static void main(final String[] args) {
         new Core();
-
-        WebhookClient client = WebhookClient.withUrl(Config.get("WEBHOOK"));
+/*        WebhookClient client = WebhookClient.withUrl("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz");
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
         WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("Log Info on Start-Up:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation()).build();
         builder.addEmbeds(firstEmbed);
         WebhookMessage message = builder.build();
         client.send(message);
         client.close();
-        Wrapper.sendEmail("Log Info On Startup","IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "");
+//        Wrapper.sendEmail("Log Info On Startup","IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "");
         try {
             for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -52,11 +56,12 @@ public class Core {
             public void run() {
             new LoginGUI().setVisible(true); }
 
-});
+});*/
     }
 
     private Core() {
-/*        EventWaiter eventWaiter = new EventWaiter();
+        EventWaiter eventWaiter = new EventWaiter();
+        Config.buildDirectory("cache","cache");
         EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
         WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
         CommandManager commandManager = new CommandManager(eventWaiter);
@@ -87,11 +92,13 @@ public class Core {
             jda.addEventListener(new DMWizzEvent());
             jda.addEventListener(new SuggestionMessageCleanerEvent());
             jda.addEventListener(new CreateAChannelEvent());
+            jda.addEventListener(new BlacklistedWordsEvent());
+            jda.addEventListener(new SnipeEvent());
             logger.info("Instantiated Events");
             logger.info("Bot Ready To Go");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");
-        }*/
+        }
     }
 
     public static void shutdownThread() {

@@ -14,17 +14,24 @@ public class MemberCountChannelEvent extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(@Nonnull GuildMemberJoinEvent event) {
-        if (MemberCountChannelCommand.isVCSet) {
+        if (MemberCountChannelCommand.isVCSet && !MemberCountChannelCommand.isMessageSet) {
             VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(MemberCountChannelCommand.vcID);
             Objects.requireNonNull(voiceChannel).getManager().setName("| " + (event.getGuild().getMembers().size())).queueAfter(3, TimeUnit.SECONDS);
+        } else if (MemberCountChannelCommand.isVCSet) {
+            VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(MemberCountChannelCommand.vcID);
+            Objects.requireNonNull(voiceChannel).getManager().setName(MemberCountChannelCommand.message.replace("{$count}", Integer.toString(event.getGuild().getMemberCount()))).queueAfter(3, TimeUnit.SECONDS);
         }
     }
 
     @Override
     public void onGuildMemberRemove(@Nonnull GuildMemberRemoveEvent event) {
-        if (MemberCountChannelCommand.isVCSet) {
+        if (MemberCountChannelCommand.isVCSet && !MemberCountChannelCommand.isMessageSet) {
             VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(MemberCountChannelCommand.vcID);
             Objects.requireNonNull(voiceChannel).getManager().setName("| " + (event.getGuild().getMembers().size())).queueAfter(3, TimeUnit.SECONDS);
+        } else if (MemberCountChannelCommand.isVCSet) {
+            VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(MemberCountChannelCommand.vcID);
+            Objects.requireNonNull(voiceChannel).getManager().setName(MemberCountChannelCommand.message.replace("{$count}", Integer.toString(event.getGuild().getMemberCount()))).queueAfter(3, TimeUnit.SECONDS);
         }
     }
+
 }

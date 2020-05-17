@@ -10,22 +10,25 @@ import java.util.List;
 public class MockCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (args.isEmpty())
-        {
-            event.getChannel().sendMessage("Please insert some text to clapify").queue();
+        if (args.isEmpty()) {
+            event.getChannel().sendMessage("Please insert some text to mock").queue();
             return;
         }
-        if (event.getMessage().getContentRaw().toLowerCase().startsWith(Core.PREFIX + "clapify"))
+        StringBuilder message = new StringBuilder();
+        for (String msg : args)
         {
-            String newMessage = event.getMessage().getContentRaw().replace(Core.PREFIX + "clapify", "").replaceAll(" ", ":clap:");
-            newMessage += ":clap:";
-            event.getMessage().delete().queue();
-            event.getChannel().sendMessage(newMessage).queue();
-        } else { String newMessage = event.getMessage().getContentRaw().replace(Core.PREFIX + "clap", "").replaceAll(" ", ":clap:");
-            newMessage += ":clap:";
-            event.getMessage().delete().queue();
-            event.getChannel().sendMessage(newMessage).queue();
+            message.append(msg).append(" ");
         }
+        String newMessage = "";
+        for (char letter : message.toString().toCharArray()) {
+            if (Math.random() > .50) {
+                newMessage += (Character.toUpperCase(letter));
+            } else {
+                newMessage += (letter);
+            }
+        }
+        event.getMessage().delete().queue();
+        event.getChannel().sendMessage(newMessage).queue();
     }
 
     @Override

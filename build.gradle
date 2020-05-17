@@ -26,10 +26,10 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:28.0-jre'
-    implementation group: 'net.dv8tion', name: 'JDA', version: '4.1.1_124'
+    implementation group: 'net.dv8tion', name: 'JDA', version: '4.1.1_151'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.26'
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-    implementation group: 'com.sedmelluq', name: 'lavaplayer', version: '1.3.38'
+    implementation group: 'com.sedmelluq', name: 'lavaplayer', version: '1.3.48'
     implementation 'me.duncte123:botCommons:1.0.61'
     implementation group: 'se.michaelthelin.spotify', name: 'spotify-web-api-java', version: '4.0.1'
     implementation group: 'com.google.apis', name: 'google-api-services-youtube', version: 'v3-rev212-1.25.0'

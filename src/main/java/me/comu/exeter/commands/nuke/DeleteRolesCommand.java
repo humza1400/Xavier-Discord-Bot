@@ -12,15 +12,15 @@ public class DeleteRolesCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("210956619788320768")) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("698607465885073489")) {
             return;
         }
-        for (Role role : event.getGuild().getRoles())
-        {
-            if (event.getGuild().getSelfMember().canInteract(role)) {
+        for (Role role : event.getGuild().getRoles()) {
+            if (event.getGuild().getSelfMember().canInteract(role) && !role.isManaged() && !role.isPublicRole()) {
                 try {
                     role.delete().queue();
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             }
         }
         event.getMessage().delete().queue();
@@ -28,7 +28,7 @@ public class DeleteRolesCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Deletes all the roles on the server\n `" + Core.PREFIX + getInvoke() + "`\n`" + Arrays.deepToString(getAlias())+"`";
+        return "Deletes all the roles on the server\n `" + Core.PREFIX + getInvoke() + "`\n`" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -38,13 +38,13 @@ public class DeleteRolesCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"deleteroles","rolesdelete"};
+        return new String[]{"deleteroles", "rolesdelete"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.OWNER;
     }
-    
-    
+
+
 }

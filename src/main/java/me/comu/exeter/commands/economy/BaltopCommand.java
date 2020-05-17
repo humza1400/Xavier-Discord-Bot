@@ -5,6 +5,7 @@ import me.comu.exeter.interfaces.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.utils.MarkdownUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ public class BaltopCommand implements ICommand {
             if (counter2 != 11)
                 try {
                     String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator();
-                    stringBuffer.append("**").append(counter2).append("**. ").append(name).append(" - ").append(EconomyManager.getBalance(user.getId())).append(" credits\n");
+                    stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(name).append(" - ").append(EconomyManager.getBalance(user.getId())).append(" credits\n");
                     counter2++;
                 } catch (NullPointerException ex) {
                     event.getChannel().sendMessage("The economy config contained an invalid user and has automatically been resolved. (" + x + ")").queue();
@@ -28,7 +29,7 @@ public class BaltopCommand implements ICommand {
                 }
 
         }
-        event.getChannel().sendMessage(EmbedUtils.embedMessage("**Top 10 Rich List:**\n" + stringBuffer.toString()).build()).queue();
+        event.getChannel().sendMessage(EmbedUtils.embedMessage(MarkdownUtil.bold("Top 10 Rich List:") +"\n" + stringBuffer.toString()).build()).queue();
 
     }
 

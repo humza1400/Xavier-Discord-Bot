@@ -20,7 +20,7 @@ public class BanCommand implements ICommand {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
 
-        if (!Objects.requireNonNull(member).hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID && !member.getId().equalsIgnoreCase("210956619788320768")) {
+        if (!Objects.requireNonNull(member).hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID && !member.getId().equalsIgnoreCase("698607465885073489")) {
             channel.sendMessage("You don't have permission to ban that user").queue();
             return;
         }
@@ -38,7 +38,7 @@ public class BanCommand implements ICommand {
         if (mentionedMembers.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone","everyone").replaceAll("@here","here")).queue();
+                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
                 return;
             } else if (targets.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();

@@ -70,6 +70,10 @@ public class CommandManager {
         register(new EmbedMessageCommand());
         register(new EmbedImageCommand());
         register(new ReactionRoleCommand(eventWaiter));
+        register(new StealEmoteCommand());
+        register(new ChangeBotNameCommand());
+        register(new ChangeBotAvatarCommand());
+        register(new SnipeCommand());
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());
@@ -133,6 +137,9 @@ public class CommandManager {
         register(new TokenCommand());
         register(new TopicCommand());
         register(new WouldYouRatherCommand());
+        register(new GeoIPCommand());
+        register(new MockCommand());
+        register(new MCNameHistoryCommand());
         // MODERATION
         register(new BindLogChannelCommand(eventWaiter));
         register(new SetRainbowRoleCommand());
@@ -180,6 +187,8 @@ public class CommandManager {
         register(new MembersRoleCommand());
         register(new PollCommand());
         register(new AutoNukeChannelsCommand());
+        register(new BlacklistWordCommand());
+        register(new NSFWCommand());
         // MUSIC
         register(new JoinCommand());
         register(new LeaveCommand());

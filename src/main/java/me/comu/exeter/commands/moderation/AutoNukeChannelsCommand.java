@@ -4,42 +4,52 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.utils.WidgetUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class AutoNukeChannelsCommand implements ICommand {
 
     private boolean isRunning = false;
-    private long delay = 3;
+    private long delay = 1;
     private final List<String> ancChannels = new ArrayList<>();
+    private ScheduledExecutorService anc;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && Objects.requireNonNull(event.getMember()).getIdLong() != 664551103190401026L) {
+            event.getChannel().sendMessage("You don't have permission to interact with the the ANC").queue();
+            return;
+        }
+
+        if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
+            event.getChannel().sendMessage("I don't have permissions to start the ANC").queue();
+            return;
+        }
+
+
         Thread thread = new Thread(() -> {
             for (String s : ancChannels) {
                 try {
                     TextChannel textChannel = event.getJDA().getTextChannelById(s);
-                    textChannel.createCopy().setNSFW(textChannel.isNSFW()).setSlowmode(textChannel.getSlowmode()).setParent(textChannel.getParent()).setPosition(textChannel.getPosition()).queue((textChannel1 -> {
-                        ancChannels.remove(textChannel.getId());
-                        textChannel.delete().queue();
-                      textChannel1.sendMessage("Channel Auto Nuked! Current Delay: `" + delay + "` hours").queue();
-                      ancChannels.add(textChannel1.getId());
-                    }));
+                    if (textChannel != null) {
+                        textChannel.createCopy().setNSFW(textChannel.isNSFW()).setSlowmode(textChannel.getSlowmode()).setParent(textChannel.getParent()).setPosition(textChannel.getPosition()).queue((textChannel1 -> {
+                            ancChannels.remove(textChannel.getId());
+                            textChannel.delete().queue();
+                            textChannel1.sendMessage("Channel Auto Nuked! Current Delay: `" + delay + "` hours").queue();
+                            ancChannels.add(textChannel1.getId());
+                        }));
+                    }
                 } catch (NullPointerException ex) {
                     ancChannels.remove(s);
                 }
             }
         });
+
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to set this channel as ANC").queue();
             return;
@@ -55,15 +65,25 @@ public class AutoNukeChannelsCommand implements ICommand {
                 ancChannels.remove(event.getChannel().getId());
                 return;
             }
-            event.getChannel().sendMessage("`" + event.getChannel().getName() + "` will now be auto-nuked every 3 hours").queue();
+            event.getChannel().sendMessage("`" + event.getChannel().getName() + "` will now be auto-nuked every " + delay + " hours").queue();
             ancChannels.add(event.getChannel().getId());
         } else if (args.get(0).equalsIgnoreCase("start")) {
+            if (isRunning)
+            {
+                event.getChannel().sendMessage("The ANC is already running!").queue();
+                return;
+            }
+            anc = Executors.newScheduledThreadPool(1);
             isRunning = true;
-            scheduledExecutorService.scheduleAtFixedRate(thread, 0, delay, TimeUnit.HOURS);
+            anc.scheduleAtFixedRate(thread, 0, delay, TimeUnit.HOURS);
             event.getChannel().sendMessage("Started the ANC Executor!").queue();
         } else if (args.get(0).equalsIgnoreCase("stop")) {
+            if (!isRunning) {
+                event.getChannel().sendMessage("The ANC isn't running :|").queue();
+                return;
+            }
             isRunning = false;
-            scheduledExecutorService.shutdown();
+            anc.shutdown();
             event.getChannel().sendMessage("Stopped the ANC Executor!").queue();
         } else if (args.get(0).equalsIgnoreCase("list")) {
             event.getChannel().sendMessage("**Channels in the ANC Hash**:\n" + ancChannels.toString()).queue();
@@ -75,19 +95,18 @@ public class AutoNukeChannelsCommand implements ICommand {
                 event.getChannel().sendMessage("Successfully cleared **" + ancChannels.size() + "** ANC Channels").queue();
             }
         } else if (args.get(0).equalsIgnoreCase("delay")) {
-            if (args.size() == 1)
-            {
+            if (args.size() == 1) {
                 event.getChannel().sendMessage("Please insert a delay value").queue();
-            } else if (args.get(1).equalsIgnoreCase("\\d+"))
-            {
-                delay = Integer.parseInt(args.get(1));
-                event.getChannel().sendMessage("Channels will now be nuked at `" + delay + "` hour intervals!").queue();
-            } else
-            {
-                event.getChannel().sendMessage("Please insert a delay value").queue();
+            } else {
+                try {
+                    delay = Integer.parseInt(args.get(1));
+                    event.getChannel().sendMessage("Channels will now be nuked at `" + delay + "` hour intervals!").queue();
+                } catch (Exception ex) {
+                    event.getChannel().sendMessage("Please insert a valid delay value").queue();
+                }
             }
-        }
-        else if (args.get(0).equalsIgnoreCase("clean")) {
+
+        } else if (args.get(0).equalsIgnoreCase("clean")) {
             int count = 0;
             for (String s : ancChannels) {
                 try {
@@ -114,7 +133,7 @@ public class AutoNukeChannelsCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"autonukechannel","anc"};
+        return new String[]{"autonukechannel", "anc"};
     }
 
     @Override

@@ -24,13 +24,10 @@ public class OffEvent extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
-        if (OffCommand.shouldDelete) {
-            if (event.getAuthor().getId().equals(OffCommand.userID)) {
-                event.getMessage().delete().queue();
-            }
+        if (OffCommand.offedUsers.contains(event.getAuthor().getId())) {
+            event.getMessage().delete().queue();
         }
-        if (AntiRaidCommand.isActive() &&event.getMessage().isWebhookMessage() && (!(event.getMessage().getMentionedUsers().isEmpty() || event.getMessage().getMentionedRoles().isEmpty()) || event.getMessage().getContentRaw().contains(".gg/")))
-        {
+        if (AntiRaidCommand.isActive() && event.getMessage().isWebhookMessage() && (!(event.getMessage().getMentionedUsers().isEmpty() || event.getMessage().getMentionedRoles().isEmpty()) || event.getMessage().getContentRaw().contains(".gg/"))) {
             event.getMessage().delete().queue();
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
                 String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
@@ -40,7 +37,7 @@ public class OffEvent extends ListenerAdapter {
             event.getChannel().retrieveWebhooks().queue((webhooks -> {
                 for (Webhook webhook : webhooks) {
                     event.getChannel().deleteWebhookById(webhook.getId()).queue((specificwebhook -> {
-                        if (webhook.getOwner() != null && webhook.getOwner().getIdLong() != (Core.OWNERID)&& !webhook.getOwner().getId().equals(event.getJDA().getSelfUser().getId()) && !webhook.getOwner().getId().equals(event.getGuild().getOwnerId()) && !WhitelistCommand.getWhitelistedIDs().containsKey(webhook.getOwner().getId())) {
+                        if (webhook.getOwner() != null && webhook.getOwner().getIdLong() != (Core.OWNERID) && !webhook.getOwner().getId().equals(event.getJDA().getSelfUser().getId()) && !webhook.getOwner().getId().equals(event.getGuild().getOwnerId()) && !WhitelistCommand.getWhitelistedIDs().containsKey(webhook.getOwner().getId())) {
                             if (event.getGuild().getSelfMember().canInteract(webhook.getOwner())) {
                                 Member member = webhook.getOwner();
                                 List<Role> roles = member.getRoles();

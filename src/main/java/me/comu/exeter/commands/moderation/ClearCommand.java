@@ -8,10 +8,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class ClearCommand implements ICommand {
@@ -51,12 +48,13 @@ public class ClearCommand implements ICommand {
                 try {
                     event.getChannel().deleteMessages(botMessages).queue();
                     StringBuilder buffer = new StringBuilder();
+                    Set<String> set = new HashSet<>(botNames);
+                    botNames.clear();
+                    botNames.addAll(set);
                     for (String s : botNames) {
                         buffer.append(s).append(", ");
                     }
-                    removeDuplicates(botNames);
-//            int index = botNames.get(botNames.size()).charAt(botNames.get(botNames.size()).length()-1);
-//            botNames.get(botNames.size()).replace('')
+                    buffer.setCharAt(buffer.length()-2, '.');
                     event.getChannel().sendMessage(String.format("Deleted `%s` messages by `%s`", botMessages.size(), buffer.toString())).queue();
                     event.getChannel().getHistory().retrievePast(2).queue((deleteMessages -> {
                         event.getChannel().deleteMessages(deleteMessages).queueAfter(3, TimeUnit.SECONDS);

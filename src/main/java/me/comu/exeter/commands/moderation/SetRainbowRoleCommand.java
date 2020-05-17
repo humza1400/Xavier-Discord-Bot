@@ -63,7 +63,7 @@ public class SetRainbowRoleCommand implements ICommand {
                 List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
                 if (roles.isEmpty())
                 {
-                    event.getChannel().sendMessage("Couldn't find role `" + args.get(0) + "`. Maybe try using the role ID instead.".replaceAll("@everyone","everyone").replaceAll("@here","here")).queue();
+                    event.getChannel().sendMessage("Couldn't find role `" + args.get(0) + "`. Maybe try using the role ID instead.".replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
                     return;
                 }
                 if (roles.size() > 1)

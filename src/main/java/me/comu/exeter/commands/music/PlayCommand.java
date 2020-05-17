@@ -4,7 +4,6 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchResult;
-import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.PlayerManager;
@@ -96,7 +95,7 @@ public class PlayCommand implements ICommand {
                     .setMaxResults(1L)
                     .setType("video")
                     .setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)")
-                    .setKey(Config.get("YTAPIKEY"))
+                    .setKey("AIzaSyAls9zrVVQtZksm-tMrKLhmXx3T1hrt_5c")
                     .execute()
                     .getItems();
             if (!results.isEmpty()) {

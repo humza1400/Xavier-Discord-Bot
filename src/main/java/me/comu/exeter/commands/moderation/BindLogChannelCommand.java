@@ -3,9 +3,7 @@ package me.comu.exeter.commands.moderation;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -32,7 +30,7 @@ public class BindLogChannelCommand implements ICommand {
         if (bound) {
             event.getChannel().sendMessage("Chat-log channel already bound. Nullifying...").queue();
         }
-        if (bound && args.get(0).equalsIgnoreCase("null"))
+        if (bound && !args.isEmpty() && args.get(0).equalsIgnoreCase("null"))
         {
             event.getChannel().sendMessage("Unbound the current logs channel: `" + channelName + "`").queue();
             return;
@@ -42,8 +40,8 @@ public class BindLogChannelCommand implements ICommand {
         channelName = channel.getName();
         event.getChannel().sendMessage("Log channel bound to `#" + channelName + "`").queue();
         bound = true;
-        if (bound) {
-            eventWaiter.waitForEvent(MessageReceivedEvent.class, (e) -> e.isFromType(ChannelType.TEXT), e-> channel.sendMessage((String.format("(%s)[%s]<%#s>: %s", event.getGuild().getName(), channelName, event.getAuthor(), e.getMessage()))).queue());
+/*        if (bound) {
+            eventWaiter.waitForEvent(MessageReceivedEvent.class, (e) -> e.isFromType(ChannelType.TEXT), e-> Objects.requireNonNull(event.getJDA().getTextChannelById("710368870845775913")).sendMessage((String.format("(%s)[%s]<%#s>: %s", event.getGuild().getName(), channelName, event.getAuthor(), e.getMessage()))).queue());
 //        eventWaiter.waitForEvent(LogMessageReceivedEvent.class, (e) ->
 //                {   if (e.isFromType(ChannelType.TEXT)) {
 //                        return true;
@@ -52,7 +50,7 @@ public class BindLogChannelCommand implements ICommand {
 //                }, (e) -> { logger.info(String.format("[DEBUG] (%s)[%s]<%#s>: %s", event.getGuild().getName(), channelName, event.getAuthor(), e.getMessage()));}
 //
 //                );
-        }
+        }*/
     }
 
 /*    private void registerWaiter(long messageId, long channelId, ShardManager shardManager) {

@@ -22,7 +22,7 @@ public class SayCommand implements ICommand {
             StringJoiner stringJoiner = new StringJoiner(" ");
             args.forEach(stringJoiner::add);
             String message = stringJoiner.toString();
-            message = message.replaceAll("@everyone", "everyone").replaceAll("@here","here");
+            message = message.replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere");
             if (message.contains(".gg/"))
             {
                 event.getChannel().sendMessage("Your message contains blacklisted words").queue();

@@ -65,7 +65,7 @@ class  Listener extends ListenerAdapter {
            logger.info("Shutdown thread called; Saved modules...");
            Core.shutdownThread();
         }
-        if (/*!event.getAuthor().isBot() && */!event.getMessage().isWebhookMessage() && event.getMessage().getContentRaw().startsWith(Core.PREFIX)) {
+        if (!event.getAuthor().isBot() && !event.getMessage().isWebhookMessage() && event.getMessage().getContentRaw().startsWith(Core.PREFIX)) {
             manager.handle(event);
         }
     }

@@ -4,7 +4,6 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -14,7 +13,6 @@ import java.util.List;
 public class PrefixCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        Member memberPerms = event.getMember();
 
         if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             event.getChannel().sendMessage("You don't have permission to change the prefix, sorry bro").queue();

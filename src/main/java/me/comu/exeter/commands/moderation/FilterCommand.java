@@ -6,10 +6,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class FilterCommand implements ICommand {
 
@@ -63,10 +60,12 @@ public class FilterCommand implements ICommand {
                 filteredRoles.put(Objects.requireNonNull(role).getId(), event.getGuild().getId());
                 event.getChannel().sendMessage("All users with the `" + role.getName() + "` role will now be excluded from the filter.").queue();
             } catch (NullPointerException | NumberFormatException ex) {
-                List<Role> roles = event.getGuild().getRolesByName(args.get(1), false);
+                StringJoiner stringJoiner = new StringJoiner(" ");
+                args.stream().skip(1).forEach(stringJoiner::add);
+                List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString().replaceFirst("(?!)addrole",""), false);
                 if (roles.isEmpty())
                 {
-                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.".replaceAll("@everyone","everyone").replaceAll("@here","here")).queue();
+                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.".replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
                     return;
                 }
                 if (roles.size() > 1)
@@ -94,11 +93,12 @@ public class FilterCommand implements ICommand {
                     event.getChannel().sendMessage("`" + role.getName() + "` is not filter-whitelisted").queue();
                 }
             } catch (NullPointerException | NumberFormatException ex) {
-
-                List<Role> roles = event.getGuild().getRolesByName(args.get(1), true);
+                StringJoiner stringJoiner = new StringJoiner(" ");
+                args.stream().skip(1).forEach(stringJoiner::add);
+                List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString().replaceFirst("(?!)addrole",""), false);
                 if (roles.isEmpty())
                 {
-                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.".replaceAll("@everyone","everyone").replaceAll("@here","here")).queue();
+                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.".replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
                     return;
                 }
                 if (roles.size() > 1)

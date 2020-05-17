@@ -65,7 +65,7 @@ class ConfigGUI
             servers.add(g.getName());
         }
 
-        JLabel title = new JLabel("Discord Bot | By swag#1234");
+        JLabel title = new JLabel("Discord Bot | By swag#0014");
         title.setFont(new Font("Tahoma", Font.PLAIN, 30));
         title.setSize(500, 40);
         title.setLocation(300, 30);

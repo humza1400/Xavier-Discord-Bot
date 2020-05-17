@@ -3,7 +3,6 @@ package me.comu.exeter.events;
 import me.comu.exeter.commands.admin.AntiRaidCommand;
 import me.comu.exeter.commands.admin.WhitelistCommand;
 import me.comu.exeter.core.Core;
-import me.comu.exeter.logging.Logger;
 import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.audit.ActionType;
@@ -55,11 +54,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[0]);
                         for (Role role : member.getRoles()) {
-                            if (role.isManaged() || role.isPublicRole()) {
-                                role.getManager().revokePermissions(Permission.values()).queue();
-                            }
-                            if (!role.isManaged()) {
-                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (event.getGuild().getSelfMember().canInteract(role)) {
+                                if (role.isManaged() || role.isPublicRole()) {
+                                    role.getManager().revokePermissions(Permission.values()).queue();
+                                }
+                                if (!role.isManaged()) {
+                                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                }
                             }
                         }
                         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
@@ -108,11 +109,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[0]);
                         for (Role role : member.getRoles()) {
-                            if (role.isManaged() || role.isPublicRole()) {
-                                role.getManager().revokePermissions(Permission.values()).queue();
-                            }
-                            if (!role.isManaged()) {
-                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (event.getGuild().getSelfMember().canInteract(role)) {
+                                if (role.isManaged() || role.isPublicRole()) {
+                                    role.getManager().revokePermissions(Permission.values()).queue();
+                                }
+                                if (!role.isManaged()) {
+                                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                }
                             }
                         }
                         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
@@ -161,11 +164,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[0]);
                         for (Role role : member.getRoles()) {
-                            if (role.isManaged() || role.isPublicRole()) {
-                                role.getManager().revokePermissions(Permission.values()).queue();
-                            }
-                            if (!role.isManaged()) {
-                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (event.getGuild().getSelfMember().canInteract(role)) {
+                                if (role.isManaged() || role.isPublicRole()) {
+                                    role.getManager().revokePermissions(Permission.values()).queue();
+                                }
+                                if (!role.isManaged()) {
+                                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                }
                             }
                         }
                         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
@@ -215,11 +220,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[0]);
                         for (Role role : member.getRoles()) {
-                            if (role.isManaged() || role.isPublicRole()) {
-                                role.getManager().revokePermissions(Permission.values()).queue();
-                            }
-                            if (!role.isManaged()) {
-                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (event.getGuild().getSelfMember().canInteract(role)) {
+                                if (role.isManaged() || role.isPublicRole()) {
+                                    role.getManager().revokePermissions(Permission.values()).queue();
+                                }
+                                if (!role.isManaged()) {
+                                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                }
                             }
                         }
                         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
@@ -269,11 +276,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[0]);
                         for (Role role : member.getRoles()) {
-                            if (role.isManaged() || role.isPublicRole()) {
-                                role.getManager().revokePermissions(Permission.values()).queue();
-                            }
-                            if (!role.isManaged()) {
-                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (event.getGuild().getSelfMember().canInteract(role)) {
+                                if (role.isManaged() || role.isPublicRole()) {
+                                    role.getManager().revokePermissions(Permission.values()).queue();
+                                }
+                                if (!role.isManaged()) {
+                                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                }
                             }
                         }
                         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
@@ -324,11 +333,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[0]);
                         for (Role role : member.getRoles()) {
-                            if (role.isManaged() || role.isPublicRole()) {
-                                role.getManager().revokePermissions(Permission.values()).queue();
-                            }
-                            if (!role.isManaged()) {
-                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (event.getGuild().getSelfMember().canInteract(role)) {
+                                if (role.isManaged() || role.isPublicRole()) {
+                                    role.getManager().revokePermissions(Permission.values()).queue();
+                                }
+                                if (!role.isManaged()) {
+                                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                }
                             }
                         }
                         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
@@ -379,11 +390,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[0]);
                         for (Role role : member.getRoles()) {
-                            if (role.isManaged() || role.isPublicRole()) {
-                                role.getManager().revokePermissions(Permission.values()).queue();
-                            }
-                            if (!role.isManaged()) {
-                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (event.getGuild().getSelfMember().canInteract(role)) {
+                                if (role.isManaged() || role.isPublicRole()) {
+                                    role.getManager().revokePermissions(Permission.values()).queue();
+                                }
+                                if (!role.isManaged()) {
+                                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                }
                             }
                         }
                         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
@@ -434,11 +447,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         stringArray = strings.toArray(new String[0]);
                         for (Role role : member.getRoles()) {
-                            if (role.isManaged() || role.isPublicRole()) {
-                                role.getManager().revokePermissions(Permission.values()).queue();
-                            }
-                            if (!role.isManaged()) {
-                                event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                            if (event.getGuild().getSelfMember().canInteract(role)) {
+                                if (role.isManaged() || role.isPublicRole()) {
+                                    role.getManager().revokePermissions(Permission.values()).queue();
+                                }
+                                if (!role.isManaged()) {
+                                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                }
                             }
                         }
                         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
@@ -493,11 +508,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                             }
                             stringArray = strings.toArray(new String[0]);
                             for (Role role : member.getRoles()) {
-                                if (role.isManaged() || role.isPublicRole()) {
-                                    role.getManager().revokePermissions(Permission.values()).queue();
-                                }
-                                if (!role.isManaged()) {
-                                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                if (event.getGuild().getSelfMember().canInteract(role)) {
+                                    if (role.isManaged() || role.isPublicRole()) {
+                                        role.getManager().revokePermissions(Permission.values()).queue();
+                                    }
+                                    if (!role.isManaged()) {
+                                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                    }
                                 }
                             }
                             event.getRole().getManager().setPermissions(event.getOldPermissions()).queue();
@@ -555,11 +572,13 @@ public class AntiRaidEvent extends ListenerAdapter {
                             }
                             stringArray = strings.toArray(new String[0]);
                             for (Role role : member.getRoles()) {
-                                if (role.isManaged()) {
-                                    role.getManager().revokePermissions(Permission.values()).queue();
-                                }
-                                if (!role.isManaged()) {
-                                    event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                if (event.getGuild().getSelfMember().canInteract(role)) {
+                                    if (role.isManaged() || role.isPublicRole()) {
+                                        role.getManager().revokePermissions(Permission.values()).queue();
+                                    }
+                                    if (!role.isManaged()) {
+                                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                    }
                                 }
                             }
                             String[] stringArray2 = new String[roleList.size()];

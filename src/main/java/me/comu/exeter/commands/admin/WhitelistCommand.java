@@ -17,7 +17,7 @@ public class WhitelistCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong() && !event.getMember().getId().equalsIgnoreCase("210956619788320768")) {
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong() && !event.getMember().getId().equalsIgnoreCase("698607465885073489")) {
             event.getChannel().sendMessage("You don't have permission to whitelist anyone").queue();
             return;
         }

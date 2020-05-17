@@ -2,11 +2,11 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.util.ChatTrackingManager;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.utils.MarkdownUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +39,7 @@ public class WhitelistedCommand implements ICommand {
                     WhitelistCommand.getWhitelistedIDs().remove(x);
                 }
             }
-            event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + counter + " Whitelisted Users: (GLOBAL)**\n" + globalStringBuffer.toString()).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedMessage(MarkdownUtil.bold(counter + " Whitelisted Users: (GLOBAL)\n" + globalStringBuffer.toString())).build()).queue();
             WhitelistedJSONHandler.saveWhitelistConfig();
             return;
         }
@@ -60,7 +60,7 @@ public class WhitelistedCommand implements ICommand {
             }
         }
 
-        event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + counter2 + " Whitelisted Users: (LOCAL)**\n" + stringBuffer.toString()).build()).queue();
+        event.getChannel().sendMessage(EmbedUtils.embedMessage(MarkdownUtil.bold(counter2 + " Whitelisted Users: (LOCAL)\n" + stringBuffer.toString())).build()).queue();
         WhitelistedJSONHandler.saveWhitelistConfig();
 
     }

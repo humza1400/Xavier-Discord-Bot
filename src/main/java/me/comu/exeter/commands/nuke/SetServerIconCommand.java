@@ -17,7 +17,7 @@ public class SetServerIconCommand implements ICommand {
             return;
         }
             try {
-                Icon icon = Icon.from(new File("serverIcon.jpg"));
+                Icon icon = Icon.from(new File("icon.gif"));
                 event.getGuild().getManager().setIcon(icon).queue();
             }
             catch(IOException ignored) {

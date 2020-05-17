@@ -78,7 +78,7 @@ public class WhoHasAdminCommand implements ICommand {
     @Override
     public String getHelp() {
 
-        return "Lists all roles that have admin\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "'";
+        return "Lists all roles that have admin\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

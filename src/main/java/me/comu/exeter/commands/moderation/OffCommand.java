@@ -6,14 +6,14 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class OffCommand implements ICommand {
 
-    public static String userID;
-    public static boolean shouldDelete = false;
+    public static List<String> offedUsers = new ArrayList<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -35,18 +35,33 @@ public class OffCommand implements ICommand {
         if (!args.isEmpty() && mentionedMembers.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone","everyone").replaceAll("@here","here")).queue();
+                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
                 return;
             } else if (targets.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                 return;
             }
-            shouldDelete = true;
-            userID = targets.get(0).getId();
+            if (offedUsers.contains(targets.get(0).getId()))
+            {
+                offedUsers.remove(targets.get(0).getId());
+                event.getChannel().sendMessage("Ok, Turned on **" + targets.get(0).getAsMention() + "**.").queue();
+                return;
+            }
+            offedUsers.add(targets.get(0).getId());
+            if (targets.get(0).getId().equals(event.getJDA().getSelfUser().getId()))
+            {
+                event.getChannel().sendMessage("You can't turn me off :(").queue();
+                return;
+            }
             event.getChannel().sendMessage("Ok, Turned off **" + targets.get(0).getAsMention() + "**.").queue();
-        } else if (!args.isEmpty() && !mentionedMembers.isEmpty()) {
-            shouldDelete = true;
-            userID = mentionedMembers.get(0).getId();
+        } else if (!args.isEmpty()) {
+            if (offedUsers.contains(mentionedMembers.get(0).getId()))
+            {
+                offedUsers.remove(mentionedMembers.get(0).getId());
+                event.getChannel().sendMessage("Ok, Turned on **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
+                return;
+            }
+            offedUsers.add(mentionedMembers.get(0).getId());
             event.getChannel().sendMessage("Ok, Turned off **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
         }
     }

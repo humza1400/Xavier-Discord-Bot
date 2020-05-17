@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.utils.MarkdownUtil;
 
 import javax.annotation.Nonnull;
 import java.time.LocalDateTime;
@@ -43,15 +44,15 @@ public class BanEvent extends ListenerAdapter {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                     LocalDateTime now = LocalDateTime.now();
                     String botCheck = Objects.requireNonNull(member).getUser().isBot() ? "`Yes`" : "`No`";
-                    Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
-                    Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
+                    Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + MarkdownUtil.monospace(member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")")+"\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
+                    Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + MarkdownUtil.monospace(member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")")+"`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
                     if (!WhitelistCommand.getWhitelistedIDs().isEmpty())
                     {
                         for (String x : WhitelistCommand.getWhitelistedIDs().keySet()) {
                             if (WhitelistCommand.getWhitelistedIDs().get(x).equals(event.getGuild().getId())) {
                                 User whitelistUser = event.getJDA().getUserById(x);
                                 if (!Objects.requireNonNull(whitelistUser).isBot())
-                                    Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x)).getId(),"**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
+                                    Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x)).getId(),"**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + MarkdownUtil.monospace(member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")")+"`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
                             }
                         }
                     }

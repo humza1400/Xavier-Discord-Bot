@@ -6,6 +6,7 @@ import me.comu.exeter.util.ChatTrackingManager;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.utils.MarkdownUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class ChatStatsCommand implements ICommand {
                 if (counter2 != 11)
                     try {
                         String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator().replaceAll("`","\\`");
-                        stringBuffer.append("**").append(counter2).append("**. ").append(name).append(" - ").append(ChatTrackingManager.getChatCredits(user.getId())).append(" messages\n");
+                        stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(name).append(" - ").append(ChatTrackingManager.getChatCredits(user.getId())).append(" messages\n");
                         counter2++;
                     } catch (NullPointerException ex) {
                         event.getChannel().sendMessage("The hash set contained an invalid user and has been automatically resolved. (" + x + ")").queue();
@@ -30,9 +31,9 @@ public class ChatStatsCommand implements ICommand {
                     }
 
             }
-            event.getChannel().sendMessage(EmbedUtils.embedMessage("**Most Active Chatters:**\n" + stringBuffer.toString()).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedMessage(MarkdownUtil.bold("Most Active Chatters:") + "\n" + stringBuffer.toString()).build()).queue();
         } else {
-            event.getChannel().sendMessage(event.getMessage().getMentionedMembers().get(0).getAsMention() + " has sent **" + ChatTrackingManager.getChatCredits(event.getMessage().getMentionedMembers().get(0).getId()) + "** messages.").queue();
+            event.getChannel().sendMessage(event.getMessage().getMentionedMembers().get(0).getAsMention() + " has sent " + MarkdownUtil.bold(Integer.toString(ChatTrackingManager.getChatCredits(event.getMessage().getMentionedMembers().get(0).getId()))) + " messages.").queue();
         }
     }
 

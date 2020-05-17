@@ -128,7 +128,7 @@ public class GiveRoleCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Gives the specified role to the specified role\n" + "`" + Core.PREFIX + getInvoke() + " [user] <role>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Gives the specified role to the specified user\n" + "`" + Core.PREFIX + getInvoke() + " [user] <role>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
