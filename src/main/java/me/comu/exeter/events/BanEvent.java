@@ -22,14 +22,8 @@ public class BanEvent extends ListenerAdapter {
 
     @Override
     public void onGuildBan(@Nonnull GuildBanEvent event) {
-        if (AntiRaidCommand.isActive())
+        if (AntiRaidCommand.isActive() && event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
         {
-            if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
-            {
-                String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
-                Wrapper.sendPrivateMessage(event.getJDA(), userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_BAN**");
-                return;
-            }
             event.getGuild().retrieveAuditLogs().type(ActionType.BAN).queue((auditLogEntries -> {
                 User user = auditLogEntries.get(0).getUser();
                 String userId = Objects.requireNonNull(user).getId();

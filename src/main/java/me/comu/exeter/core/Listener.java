@@ -30,6 +30,7 @@ class  Listener extends ListenerAdapter {
    @Override
    public void onReady(@Nonnull ReadyEvent event) {
        logger.info(String.format("Logged in as %#s", event.getJDA().getSelfUser()));
+       logger.info(String.format("Owner is is %#s", event.getJDA().getUserById(Core.OWNERID)));
    }
 
     @Override

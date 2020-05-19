@@ -12,18 +12,17 @@ import java.util.Objects;
 public class IDLookupCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (args.isEmpty())
-        {
+        if (args.isEmpty()) {
             event.getChannel().sendMessage("Please specify an ID to look up!").queue();
             return;
         }
         try {
-                event.getJDA().retrieveUserById(args.get(0)).queue((user -> {
-                    event.getChannel().sendMessage(EmbedUtils.embedImage(user.getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(args.get(0) + " belongs to `" + user.getAsTag() + "`").build()).queue();
-                }));
+            event.getJDA().retrieveUserById(args.get(0)).queue((user -> {
+                event.getChannel().sendMessage(EmbedUtils.embedImage(user.getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(args.get(0) + " belongs to `" + user.getAsTag() + "`").build()).queue();
+            }), (error) ->
+                    event.getChannel().sendMessage("No user found with that ID").queue());
 
-        } catch (NumberFormatException | NullPointerException ex)
-        {
+        } catch (NumberFormatException | NullPointerException ex) {
             event.getChannel().sendMessage("No user exists with that ID.").queue();
         }
     }
@@ -40,10 +39,10 @@ public class IDLookupCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"lookup","id","whosid","whoid"};
+        return new String[]{"lookup", "id", "whosid", "whoid"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MISC;
     }

@@ -1,5 +1,6 @@
 package me.comu.exeter.events;
 
+import me.comu.exeter.commands.admin.AntiRaidChannelSafetyCommand;
 import me.comu.exeter.commands.admin.AntiRaidCommand;
 import me.comu.exeter.commands.admin.BlacklistCommand;
 import me.comu.exeter.commands.admin.WhitelistCommand;
@@ -32,15 +33,21 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
             amount += g.getMembers().size();
         }
         Core.jda.getPresence().setActivity(Activity.watching(String.format("over %s users", amount)));
-
+        for (TextChannel channel : event.getJDA().getTextChannels())
+        {
+            AntiRaidChannelSafetyCommand.channels.put(channel.getId(), Integer.toString(channel.getPositionRaw()));
+        }
+        for (VoiceChannel channel : event.getJDA().getVoiceChannels())
+        {
+            AntiRaidChannelSafetyCommand.channels.put(channel.getId(), Integer.toString(channel.getPositionRaw()));
+        }
+        for (net.dv8tion.jda.api.entities.Category channel : event.getJDA().getCategories())
+        {
+            AntiRaidChannelSafetyCommand.channels.put(channel.getId(), Integer.toString(channel.getPositionRaw()));
+        }
         if (AntiRaidCommand.isActive()) {
             if (event.getMember().getUser().isBot()) {
-                if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
-                {
-                    String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
-                    Wrapper.sendPrivateMessage(event.getJDA(), userComu, "Someone may have just attempted to wizz in `" + event.getGuild().getName() + "`, and I don't have permission to do anything about it. **TYPE_BOT_ADD**");
-                    return;
-                }
+
                 Member member = event.getMember();
                 event.getGuild().retrieveAuditLogs().type(ActionType.BOT_ADD).queue((auditLogEntries -> {
                     User user = auditLogEntries.get(0).getUser();

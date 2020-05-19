@@ -25,7 +25,7 @@ public class WouldYouRatherCommand implements ICommand {
             embedBuilder.addField("", "or", false);
             embedBuilder.addField("", secondOption, false);
 //            embedBuilder.setColor(new Color(new Random().nextInt(255), new Random().nextInt(255), new Random().nextInt(255)));
-            embedBuilder.setColor(Wrapper.getRandomColor());
+            embedBuilder.setColor(Wrapper.getAmbientColor());
             event.getChannel().sendMessage(embedBuilder.build()).queue(message -> {
                 message.addReaction("\u0031\u20E3").queue();
                 message.addReaction("\u0032\u20E3").queue();

@@ -26,13 +26,13 @@ public class AboutCommand implements ICommand {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(event.getGuild().getName() + " Bot");
         embedBuilder.setDescription("discord.gg/" + event.getGuild().getName() + " (:");
-        embedBuilder.addField("Author","Swag", false);
+        embedBuilder.addField("Author", "Swag", false);
         embedBuilder.addField("Information", "Powered by IntelliJ IDEA & Gradle 5.6.2", false);
-        embedBuilder.addField("Help", "`" + Core.PREFIX + "help" + '`', false);
+        embedBuilder.addField("Help", "`" + Core.PREFIX + "help" + '`' , false);
         embedBuilder.setColor(0x521e8a);
         embedBuilder.setFooter("Requested By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
         event.getChannel().sendTyping().queue();
-        event.getChannel(). sendMessage(embedBuilder.build()).queue();
+        event.getChannel().sendMessage(embedBuilder.build()).queue();
         embedBuilder.clear();
 
 
@@ -50,10 +50,10 @@ public class AboutCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"ab"};
+        return new String[]{"ab"};
     }
 
-  @Override
+    @Override
     public Category getCategory() {
         return Category.BOT;
     }

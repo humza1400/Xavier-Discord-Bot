@@ -59,6 +59,7 @@ public class CommandManager {
         register(new UnblacklistCommand());
         register(new ModMailCommand());
         register(new CreateAChannelCommand());
+        register(new AntiRaidChannelSafetyCommand());
         // BOT
         register(new HelpCommand(this));
         register(new AboutCommand());
@@ -140,6 +141,8 @@ public class CommandManager {
         register(new GeoIPCommand());
         register(new MockCommand());
         register(new MCNameHistoryCommand());
+        register(new SearchImageCommand());
+        register(new UrbanCommand());
         // MODERATION
         register(new BindLogChannelCommand(eventWaiter));
         register(new SetRainbowRoleCommand());

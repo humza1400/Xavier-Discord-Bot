@@ -19,7 +19,7 @@ public class CreateAChannelCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && Objects.requireNonNull(event.getMember()).getIdLong() != 664551103190401026L) {
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && Objects.requireNonNull(event.getMember()).getIdLong() != 699562509366984784L) {
             event.getChannel().sendMessage("You don't have permission to set the \"Create-A-Channel\" channel").queue();
             return;
         }

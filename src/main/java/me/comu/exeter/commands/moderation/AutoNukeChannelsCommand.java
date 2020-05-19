@@ -18,10 +18,11 @@ public class AutoNukeChannelsCommand implements ICommand {
     private long delay = 1;
     private final List<String> ancChannels = new ArrayList<>();
     private ScheduledExecutorService anc;
+    private ScheduledFuture<?> scheduledFuture;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && Objects.requireNonNull(event.getMember()).getIdLong() != 664551103190401026L) {
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && Objects.requireNonNull(event.getMember()).getIdLong() != 699562509366984784L) {
             event.getChannel().sendMessage("You don't have permission to interact with the the ANC").queue();
             return;
         }
@@ -68,14 +69,14 @@ public class AutoNukeChannelsCommand implements ICommand {
             event.getChannel().sendMessage("`" + event.getChannel().getName() + "` will now be auto-nuked every " + delay + " hours").queue();
             ancChannels.add(event.getChannel().getId());
         } else if (args.get(0).equalsIgnoreCase("start")) {
-            if (isRunning)
-            {
+            if (isRunning) {
                 event.getChannel().sendMessage("The ANC is already running!").queue();
                 return;
             }
             anc = Executors.newScheduledThreadPool(1);
             isRunning = true;
             anc.scheduleAtFixedRate(thread, 0, delay, TimeUnit.HOURS);
+            scheduledFuture = anc.scheduleAtFixedRate(thread, 0, delay, TimeUnit.HOURS);
             event.getChannel().sendMessage("Started the ANC Executor!").queue();
         } else if (args.get(0).equalsIgnoreCase("stop")) {
             if (!isRunning) {
@@ -117,13 +118,19 @@ public class AutoNukeChannelsCommand implements ICommand {
                 }
             }
             event.getChannel().sendMessage("Cleaned up **" + count + "** ANC Channels!").queue();
+        } else if (args.get(0).equalsIgnoreCase("cd") || args.get(0).equalsIgnoreCase("cooldown")) {
+            if (isRunning) {
+                event.getChannel().sendMessageFormat("`%s` minutes until next channel nuke.", scheduledFuture.getDelay(TimeUnit.MINUTES)).queue();
+            } else {
+                event.getChannel().sendMessage("The ANC is not running!").queue();
+            }
         }
 
     }
 
     @Override
     public String getHelp() {
-        return "Remakes all channels after the specified amount of time (default: 3 hours)\n" + "`" + Core.PREFIX + getInvoke() + " [start/stop/list/clear/clean/delay(h)]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`\nCurrently: `" + (isRunning ? "enabled" : "disabled") + "` at `" + delay + "` hour intervals";
+        return "Remakes all channels after the specified amount of time (default: 3 hours)\n" + "`" + Core.PREFIX + getInvoke() + " [start/stop/list/clear/clean/cd/delay/(h)]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`\nCurrently: `" + (isRunning ? "enabled" : "disabled") + "` at `" + delay + "` hour intervals";
     }
 
     @Override

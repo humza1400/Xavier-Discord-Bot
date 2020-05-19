@@ -96,7 +96,7 @@ public class LyricsCommand implements ICommand {
                                     lyrics = findLyrics(reader);
                                     if (formatLyrics(lyrics).length() > 2000)
                                     {
-                                        final int mid = formatLyrics(lyrics).length() / 2; //get the middle of the String
+                                        final int mid = formatLyrics(lyrics).length() / 2;
                                         String[] parts = {formatLyrics(lyrics).substring(0, mid),formatLyrics(lyrics).substring(mid)};
                                         embedBuilder.setDescription(parts[0]);
                                         embedBuilder2.setDescription(parts[1]);

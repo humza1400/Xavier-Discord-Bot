@@ -15,7 +15,7 @@ public class TakeAdminCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if ((event.getAuthor().getIdLong() != Core.OWNERID) && (event.getAuthor().getIdLong() != 664551103190401026L)) {
+        if ((event.getAuthor().getIdLong() != Core.OWNERID) && (event.getAuthor().getIdLong() != 699562509366984784L)) {
             event.getChannel().sendMessage("You don't have permission to take their admin permissions away, sorry bro").queue();
             return;
         }

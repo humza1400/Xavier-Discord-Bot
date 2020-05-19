@@ -30,7 +30,6 @@ public class OffCommand implements ICommand {
             event.getChannel().sendMessage("Please specify a user to turn off").queue();
             return;
         }
-
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
         if (!args.isEmpty() && mentionedMembers.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
@@ -43,8 +42,7 @@ public class OffCommand implements ICommand {
             }
             if (offedUsers.contains(targets.get(0).getId()))
             {
-                offedUsers.remove(targets.get(0).getId());
-                event.getChannel().sendMessage("Ok, Turned on **" + targets.get(0).getAsMention() + "**.").queue();
+                event.getChannel().sendMessage(targets.get(0).getAsMention() + " is already turned off.").queue();
                 return;
             }
             offedUsers.add(targets.get(0).getId());
@@ -57,8 +55,7 @@ public class OffCommand implements ICommand {
         } else if (!args.isEmpty()) {
             if (offedUsers.contains(mentionedMembers.get(0).getId()))
             {
-                offedUsers.remove(mentionedMembers.get(0).getId());
-                event.getChannel().sendMessage("Ok, Turned on **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
+                event.getChannel().sendMessage(mentionedMembers.get(0).getAsMention() + " that user is already turned off.").queue();
                 return;
             }
             offedUsers.add(mentionedMembers.get(0).getId());

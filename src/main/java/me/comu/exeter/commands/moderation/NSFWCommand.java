@@ -28,7 +28,7 @@ public class NSFWCommand implements ICommand {
             return;
         }
         channel.getManager().setNSFW(!channel.isNSFW()).queue();
-        event.getChannel().sendMessage(channel.isNSFW() ? "Enabled NSFW for `" + channel.getName() + "`" : "Disabled NSFW for `" + channel.getName() + "`").queue();
+        event.getChannel().sendMessage(channel.isNSFW() ? "Disabled NSFW for `" + channel.getName() + "`" : "Enabled NSFW for `" + channel.getName() + "`").queue();
 
     }
 

