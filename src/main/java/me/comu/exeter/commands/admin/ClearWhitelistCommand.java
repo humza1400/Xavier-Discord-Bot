@@ -17,6 +17,7 @@ public class ClearWhitelistCommand implements ICommand {
             return;
         }
         WhitelistCommand.getWhitelistedIDs().clear();
+        WhitelistedJSONHandler.whitelistedIDs.clear();
         event.getChannel().sendMessage("Successfully cleared all values in the whitelist hash").queue();
         WhitelistedJSONHandler.saveWhitelistConfig();
     }

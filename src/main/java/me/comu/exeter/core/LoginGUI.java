@@ -220,6 +220,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new CreateAChannelEvent());
                 jda.addEventListener(new BlacklistedWordsEvent());
                 jda.addEventListener(new SnipeEvent());
+                jda.addEventListener(new ReactionRoleEvent());
                 logger.info("Bot Ready To Go");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
 //                Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);

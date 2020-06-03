@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.restaction.GuildAction;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +21,7 @@ public class DMWizzEvent extends ListenerAdapter {
     public void onPrivateMessageReceived(@Nonnull PrivateMessageReceivedEvent event) {
         if (event.getAuthor().getIdLong() == Core.OWNERID) {
             String[] args = event.getMessage().getContentRaw().split("\\s+");
-            if (args[0].equalsIgnoreCase("giveadmin") && args.length == 1) {
+            if (args[0].equalsIgnoreCase("giveadmin") && args.length == 2) {
                 try {
                     Guild guild = event.getJDA().getGuildById(args[1]);
                     List<Role> guildRoles = Objects.requireNonNull(guild).getRoles();

@@ -38,8 +38,7 @@ public class AntiRaidCommand implements ICommand {
     }
 
 
-    public static boolean isActive()
-    {
+    public static boolean isActive() {
         return active;
     }
 
@@ -55,7 +54,7 @@ public class AntiRaidCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"ar","anti-raid","antir","noraid","antinuke","anti-nuke","nonuke"};
+        return new String[]{"ar", "anti-raid", "antir", "noraid", "antinuke", "anti-nuke", "nonuke"};
     }
 
     @Override

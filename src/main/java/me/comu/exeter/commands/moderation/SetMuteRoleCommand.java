@@ -32,7 +32,7 @@ public class SetMuteRoleCommand implements ICommand {
             return;
         }
 
-        if (args.size() != 1) {
+        if (args.size() != 2) {
             channel.sendMessage("Please specify a role").queue();
             return;
         }
@@ -40,11 +40,6 @@ public class SetMuteRoleCommand implements ICommand {
             channel.sendMessage("Please insert a valid role id").queue();
             return;
         }*/
-
-        if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a role");
-            return;
-        }
 
         try {
             role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));

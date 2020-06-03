@@ -25,15 +25,6 @@ public class MassDMCommand implements ICommand {
             return;
         }
         System.out.println("Starting mass dm to " + event.getGuild().getMembers().size() + " members in " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
-//        try {  /*for (Member member : memberList) {
-//                if (!member.getUser().isBot()) {
-//                    Wrapper.sendPrivateMessage(member.getUser(), message);
-//                    counter++;
-//                    System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
-//                    Thread.sleep(2000);
-//                }
-//            }
-//        } catch (InterruptedException ex) {ex.printStackTrace();}*/
         Thread massDM = new Thread(() -> {
             try {
                 int counter = 0;

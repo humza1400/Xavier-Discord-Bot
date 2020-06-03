@@ -36,7 +36,7 @@ public class KillCommand implements ICommand {
             }
             event.getChannel().sendMessage(EmbedUtils.embedImage(killUrls[new Random().nextInt(killUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** kills **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
         }
-        else if (!args.isEmpty() && !mentionedMembers.isEmpty())
+        else if (!args.isEmpty())
         {
             event.getChannel().sendMessage(EmbedUtils.embedImage(killUrls[new Random().nextInt(killUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** kills **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
         }

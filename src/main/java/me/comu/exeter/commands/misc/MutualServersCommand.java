@@ -32,7 +32,7 @@ public class MutualServersCommand implements ICommand {
                 event.getChannel().sendMessage(EmbedUtils.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + memberList.get(0).getUser().getName() + "#" + memberList.get(0).getUser().getDiscriminator()).build()).queue();
                 return;
         }
-        if (!args.isEmpty() && memberList.isEmpty()) {
+        if (!args.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
                 event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();

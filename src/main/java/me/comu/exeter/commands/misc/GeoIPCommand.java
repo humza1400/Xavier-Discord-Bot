@@ -56,7 +56,7 @@ public class GeoIPCommand implements ICommand {
             embed.setDescription(url.toString());
             event.getChannel().sendMessage(embed.build()).queue();
         } catch (IOException e) {
-            event.getChannel().sendMessage(ip.replaceAll("@everyone", "everyone").replaceAll("@here", "here") + " couldn't be resolved. (IOException)").queue();
+            event.getChannel().sendMessage(ip.replaceAll("@everyone", "everyone").replaceAll("@here", "here") + " couldn't be resolved.").queue();
         }
     }
 

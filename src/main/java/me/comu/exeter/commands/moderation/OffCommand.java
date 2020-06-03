@@ -75,7 +75,7 @@ public class OffCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"disable"};
+        return new String[0];
     }
 
     @Override

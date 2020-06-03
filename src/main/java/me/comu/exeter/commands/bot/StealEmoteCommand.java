@@ -35,45 +35,40 @@ public class StealEmoteCommand implements ICommand {
 
         Emote emote = event.getMessage().getEmotes().get(0);
         String name = args.get(1);
-        if (emote.isAnimated())
-        {
+        if (emote.isAnimated()) {
             event.getChannel().sendMessage("\u2699 Creating " + name + " emoji...").queue(
-            message -> {
-                Wrapper.saveGif(emote.getImageUrl(), "cache",name);
-                message.editMessage("\u2699 Saving emoji...").queue(message1 -> {
-                    try {
-                        event.getGuild().createEmote(name, Icon.from(new File("cache/" + name + ".gif"))).queue(success -> {
-                            message1.editMessage("\u2705 Successfully created **" + name + "**").queue();
-                            Config.clearCacheDirectory();
+                    message -> {
+                        Wrapper.saveGif(emote.getImageUrl(), "cache", name);
+                        message.editMessage("\u2699 Saving emoji...").queue(message1 -> {
+                            try {
+                                event.getGuild().createEmote(name, Icon.from(new File("cache/" + name + ".gif"))).queue(success -> {
+                                    message1.editMessage("\u2705 Successfully created " + "<a:" + name + ":" + success.getId() + ">").queue();
+                                    Config.clearCacheDirectory();
+                                }, failure -> message.editMessage("\u274C Something went wrong try again later.").queue());
+                            } catch (Exception ex) {
+                                message.editMessage("\u274C Something went wrong try again later.").queue();
+                            }
                         });
-                    } catch (Exception ex)
-                    {
-                        message.editMessage("\u274C Something went wrong try again later.").queue();
                     }
-                });
-            }
             );
 
         } else {
             event.getChannel().sendMessage("\u2699 Creating " + name + " emoji...").queue(
                     message -> {
-                        Wrapper.saveImage(emote.getImageUrl(), "cache",name);
+                        Wrapper.saveImage(emote.getImageUrl(), "cache", name);
                         message.editMessage("\u2699 Saving emoji...").queue(message1 -> {
                             try {
-                                event.getGuild().createEmote(name, Icon.from(new File("cache/" + name + ".png"))).queue(success ->
-                                        message1.editMessage("\u2705 Successfully created **" + name + "**").queue());
-                                        Config.clearCacheDirectory();
-                            } catch (Exception ex)
-                            {
+                                event.getGuild().createEmote(name, Icon.from(new File("cache/" + name + ".png"))).queue(success -> {
+                                    message1.editMessage("\u2705 Successfully created " + "<:" + name + ":" + success.getId() + ">").queue();
+                                    Config.clearCacheDirectory();
+                                }, failure -> message.editMessage("\u274C Something went wrong try again later.").queue());
+                            } catch (Exception ex) {
                                 message.editMessage("\u274C Something went wrong try again later.").queue();
                             }
                         });
                     }
             );
         }
-
-
-
 
 
     }
@@ -90,7 +85,7 @@ public class StealEmoteCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"addemote","addemoji","stealemoji","emoteadd","emojiadd","emotestea","emojisteal"};
+        return new String[]{"addemote", "addemoji", "stealemoji", "emoteadd", "emojiadd", "emotestea", "emojisteal"};
     }
 
     @Override

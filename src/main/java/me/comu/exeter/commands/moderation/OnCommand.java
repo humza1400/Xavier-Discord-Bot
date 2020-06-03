@@ -73,7 +73,7 @@ public class OnCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"enable", "reenable"};
+        return new String[0];
     }
 
     @Override

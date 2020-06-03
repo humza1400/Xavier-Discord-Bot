@@ -2,71 +2,52 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.Permission;
+import me.comu.exeter.wrapper.Wrapper;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringJoiner;
 
 public class MembersRoleCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_ROLES) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to view role members").queue();
-            return;
-        }
-        if (args.isEmpty())
-        {
+        if (args.isEmpty()) {
             event.getChannel().sendMessage("Please specify a role").queue();
             return;
         }
-        if (!event.getMessage().getMentionedRoles().isEmpty())
-        {
+        if (!event.getMessage().getMentionedRoles().isEmpty()) {
             Role role = event.getMessage().getMentionedRoles().get(0);
-            List<String> members = new ArrayList<>();
-            for (Member member : event.getGuild().getMembers())
-            {
-                for (Role memberRole : member.getRoles())
-                {
-                    if (memberRole.getId().equalsIgnoreCase(role.getId()))
-                    {
-                        members.add(member.getAsMention());
-                    }
-                }
+            List<Member> members = event.getGuild().getMembersWithRoles(role);
+            if (members.isEmpty()) {
+                event.getChannel().sendMessage("There are no members in **" + role.getName() + "**").queue();
+            } else {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Member member : members) stringBuilder.append(member.getAsMention()).append("\n");
+                event.getChannel().sendMessage(new EmbedBuilder().setColor(Wrapper.getAmbientColor()).setTitle(members.size() + " Members in " + role.getName()).setDescription(stringBuilder.toString()).build()).queue();
             }
-            if (members.isEmpty())
-            event.getChannel().sendMessage("There are no members in **" + role.getName() + "**");
-             else
-            event.getChannel().sendMessage("**All Members In " + role.getName() + "**: (" + members.size() + ")\n" + members.toString()).queue();
         } else {
             StringJoiner stringJoiner = new StringJoiner(" ");
             args.forEach(stringJoiner::add);
             String roleName = stringJoiner.toString();
-            if (event.getGuild().getRolesByName(roleName, true).isEmpty())
-            {
-               event.getChannel().sendMessage("No role found with that name, maybe try mentioning it instead?").queue();
+            if (event.getGuild().getRolesByName(roleName, true).isEmpty()) {
+                event.getChannel().sendMessage("No role found with that name, maybe try using the role-id or mentioning it instead?").queue();
             } else {
                 Role role = event.getGuild().getRolesByName(roleName, true).get(0);
-                List<String> members = new ArrayList<>();
-                for (Member member : event.getGuild().getMembers())
-                {
-                    for (Role memberRole : member.getRoles())
-                    {
-                        if (memberRole.getId().equalsIgnoreCase(role.getId()))
-                        {
-                            members.add(member.getAsMention());
-                        }
-                    }
-                }
+                List<Member> members = event.getGuild().getMembersWithRoles(role);
                 if (members.isEmpty())
-                    event.getChannel().sendMessage("There are no members in **" + role.getName() + "**");
-                else
-                    event.getChannel().sendMessage("**All Members In " + role.getName() + "**: (" + members.size() + ")\n" + members.toString()).queue();
+                    event.getChannel().sendMessage("There are no members in **" + role.getName() + "**").queue();
+                else {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (Member member : members) stringBuilder.append(member.getAsMention()).append("\n");
+                    event.getChannel().sendMessage(new EmbedBuilder().setColor(Wrapper.getAmbientColor()).setTitle(members.size() + " Members in " + role.getName()).setDescription(stringBuilder.toString()).build()).queue();
+                }
             }
         }
-
     }
 
     @Override
@@ -76,12 +57,12 @@ public class MembersRoleCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "members";
+        return "rolemembers";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[] {"whoisin","whoisinrole","rolemembers"};
+        return new String[]{"whoisin", "whoisinrole", "rolemembers", "rolemember", "members"};
     }
 
     @Override

@@ -46,11 +46,11 @@ public class MarryCommand implements ICommand {
         }
 
         if (Wrapper.marriedUsers.containsKey(event.getAuthor().getId())) {
-            event.getChannel().sendMessage("Bro wtf, you're already married! " + Objects.requireNonNull(event.getJDA().getUserById(Wrapper.marriedUsers.get(event.getMember().getId()))).getAsMention() + " you seeing this?!").queue();
+            event.getChannel().sendMessage("Bro wtf, you're already married! " + Objects.requireNonNull(event.getJDA().getUserById(Wrapper.marriedUsers.get(Objects.requireNonNull(event.getMember()).getId()))).getAsMention() + " you seeing this?!").queue();
             return;
         }
         if (Wrapper.marriedUsers.containsValue(Objects.requireNonNull(event.getMember()).getId())) {
-            event.getChannel().sendMessage("Bro wtf, you're already married! " + Objects.requireNonNull(Objects.requireNonNull(event.getJDA().getUserById(Wrapper.getKeyByValue(Wrapper.marriedUsers, event.getMember().getId())))).getAsMention() + " you seeing this?!").queue();
+            event.getChannel().sendMessage("Bro wtf, you're already married! " + Objects.requireNonNull(Objects.requireNonNull(event.getJDA().getUserById(Objects.requireNonNull(Wrapper.getKeyByValue(Wrapper.marriedUsers, event.getMember().getId()))))).getAsMention() + " you seeing this?!").queue();
             return;
         }
         if (Wrapper.marriedUsers.containsKey(members.get(0).getId()) || Wrapper.marriedUsers.containsValue(members.get(0).getId())) {

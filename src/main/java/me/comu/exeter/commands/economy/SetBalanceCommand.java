@@ -21,19 +21,15 @@ public class SetBalanceCommand implements ICommand {
             return;
         }
 
-        if (args.isEmpty())
-        {
+        if (args.isEmpty()) {
             event.getChannel().sendMessage("Please insert a valid user an amount").queue();
             return;
         }
-        if (args.get(0).equalsIgnoreCase("all") || args.get(0).equalsIgnoreCase("everyone") && args.size() == 2)
-        {
-            for (String x : EconomyManager.getUsers().keySet())
-            {
+        if (args.get(0).equalsIgnoreCase("all") || args.get(0).equalsIgnoreCase("everyone") && args.size() == 2) {
+            for (String x : EconomyManager.getUsers().keySet()) {
                 try {
                     EconomyManager.setBalance(x, Integer.parseInt(args.get(1)));
-                } catch (NumberFormatException ex)
-                {
+                } catch (NumberFormatException ex) {
                     event.getChannel().sendMessage("That number is either invalid or too large").queue();
                     return;
                 }
@@ -44,9 +40,9 @@ public class SetBalanceCommand implements ICommand {
         List<Member> memberList = event.getMessage().getMentionedMembers();
         try {
             if (memberList.isEmpty())
-            amount = Integer.parseInt(args.get(0));
+                amount = Integer.parseInt(args.get(0));
             else
-                amount  = Integer.parseInt(args.get(1));
+                amount = Integer.parseInt(args.get(1));
         } catch (NumberFormatException ex) {
             event.getChannel().sendMessage("That number is either invalid or too large").queue();
             return;
@@ -55,18 +51,16 @@ public class SetBalanceCommand implements ICommand {
 //        {
 //            EconomyManager.getUsers().put(event.getMember().getUser(), 0.0);
 //        }
-        if (memberList.isEmpty())
-        {
+        if (memberList.isEmpty()) {
             EconomyManager.setBalance(Objects.requireNonNull(event.getMember()).getUser().getId(), amount);
             event.getChannel().sendMessage(String.format("Set your balance to **%s**! %s", amount, event.getMember().getAsMention())).queue();
             EcoJSONHandler.saveEconomyConfig();
             return;
         }
-        if (!memberList.isEmpty()) {
 //            if (EconomyManager.verifyUser(memberList.get(0).getUser())) EconomyManager.getUsers().put(memberList.get(0).getUser(), 0.0);
-            EconomyManager.setBalance(memberList.get(0).getUser().getId(), amount);
-            event.getChannel().sendMessage(String.format("Set the balance of %s to **%s**!", memberList.get(0).getAsMention(), amount)).queue();
-        }
+        EconomyManager.setBalance(memberList.get(0).getUser().getId(), amount);
+        event.getChannel().sendMessage(String.format("Set the balance of %s to **%s**!", memberList.get(0).getAsMention(), amount)).queue();
+
         EcoJSONHandler.saveEconomyConfig();
     }
 
@@ -82,10 +76,10 @@ public class SetBalanceCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"setbalance","ecoset","seteco","setcredits","setmoney"};
+        return new String[]{"setbalance", "ecoset", "seteco", "setcredits", "setmoney"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.ECONOMY;
     }

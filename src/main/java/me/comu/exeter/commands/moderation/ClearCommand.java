@@ -55,9 +55,9 @@ public class ClearCommand implements ICommand {
                         buffer.append(s).append(", ");
                     }
                     buffer.setCharAt(buffer.length()-2, '.');
-                    event.getChannel().sendMessage(String.format("Deleted `%s` messages by `%s`", botMessages.size(), buffer.toString())).queue();
-                    event.getChannel().getHistory().retrievePast(2).queue((deleteMessages -> {
-                        event.getChannel().deleteMessages(deleteMessages).queueAfter(3, TimeUnit.SECONDS);
+                    event.getChannel().sendMessage(String.format("Deleted `%s` messages by `%s`", botMessages.size(), buffer.toString())).queue((message -> {
+                        event.getMessage().delete().queueAfter(3, TimeUnit.SECONDS);
+                        message.delete().queueAfter(3, TimeUnit.SECONDS);
                     }));
                 } catch (IllegalArgumentException ex)
                 {

@@ -6,11 +6,11 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.*;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class AutoNukeChannelsCommand implements ICommand {
 
@@ -75,7 +75,6 @@ public class AutoNukeChannelsCommand implements ICommand {
             }
             anc = Executors.newScheduledThreadPool(1);
             isRunning = true;
-            anc.scheduleAtFixedRate(thread, 0, delay, TimeUnit.HOURS);
             scheduledFuture = anc.scheduleAtFixedRate(thread, 0, delay, TimeUnit.HOURS);
             event.getChannel().sendMessage("Started the ANC Executor!").queue();
         } else if (args.get(0).equalsIgnoreCase("stop")) {
@@ -92,8 +91,8 @@ public class AutoNukeChannelsCommand implements ICommand {
             if (ancChannels.isEmpty()) {
                 event.getChannel().sendMessage("The ANC Hash is already empty!").queue();
             } else {
-                ancChannels.clear();
                 event.getChannel().sendMessage("Successfully cleared **" + ancChannels.size() + "** ANC Channels").queue();
+                ancChannels.clear();
             }
         } else if (args.get(0).equalsIgnoreCase("delay")) {
             if (args.size() == 1) {
@@ -109,12 +108,10 @@ public class AutoNukeChannelsCommand implements ICommand {
 
         } else if (args.get(0).equalsIgnoreCase("clean")) {
             int count = 0;
-            for (String s : ancChannels) {
-                try {
-                    event.getJDA().getTextChannelById(s);
-                } catch (NullPointerException ex) {
+            for (Iterator<String> iterator = ancChannels.iterator(); iterator.hasNext(); ) {
+                if (event.getGuild().getTextChannelById(iterator.next()) == null) {
                     count++;
-                    ancChannels.remove(s);
+                    iterator.remove();
                 }
             }
             event.getChannel().sendMessage("Cleaned up **" + count + "** ANC Channels!").queue();

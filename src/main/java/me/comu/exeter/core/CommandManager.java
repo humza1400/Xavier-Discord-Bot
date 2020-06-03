@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class CommandManager {
 
-    private final Map<String, ICommand> commands = new ConcurrentHashMap<>();
+    public static final Map<String, ICommand> commands = new ConcurrentHashMap<>();
 
     CommandManager(EventWaiter eventWaiter) {
 
@@ -59,7 +59,8 @@ public class CommandManager {
         register(new UnblacklistCommand());
         register(new ModMailCommand());
         register(new CreateAChannelCommand());
-        register(new AntiRaidChannelSafetyCommand());
+        register(new DisableModuleCommand());
+        register(new EnableModuleCommand());
         // BOT
         register(new HelpCommand(this));
         register(new AboutCommand());
@@ -70,11 +71,12 @@ public class CommandManager {
         register(new SayCommand());
         register(new EmbedMessageCommand());
         register(new EmbedImageCommand());
-        register(new ReactionRoleCommand(eventWaiter));
         register(new StealEmoteCommand());
         register(new ChangeBotNameCommand());
         register(new ChangeBotAvatarCommand());
         register(new SnipeCommand());
+        register(new ReactionRoleCommand());
+        register(new ShowCreditMessagesCommand());
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());
@@ -143,6 +145,7 @@ public class CommandManager {
         register(new MCNameHistoryCommand());
         register(new SearchImageCommand());
         register(new UrbanCommand());
+        register(new CoronavirusCommand());
         // MODERATION
         register(new BindLogChannelCommand(eventWaiter));
         register(new SetRainbowRoleCommand());
@@ -231,12 +234,25 @@ public class CommandManager {
 
     }
 
-    private void register(ICommand command) {
+    public static void register(ICommand command) {
         if (!commands.containsKey(command.getInvoke())) {
             commands.put(command.getInvoke(), command);
             for (int i = 0; i < command.getAlias().length; i++) {
                 if (!commands.containsKey(command.getAlias()[i])) {
                     commands.put(command.getAlias()[i], command);
+                }
+            }
+        }
+    }
+
+    public static void unregister(ICommand command)
+    {
+        if (commands.containsKey(command.getInvoke()))
+        {
+            commands.remove(command.getInvoke());
+            for (int i = 0; i < command.getAlias().length; i++) {
+                if (commands.containsKey(command.getAlias()[i])) {
+                    commands.remove(command.getAlias()[i], command);
                 }
             }
         }
@@ -258,8 +274,6 @@ public class CommandManager {
             final List<String> args = Arrays.asList(split).subList(1, split.length);
             commands.get(invoke).handle(args, event);
         }
-
-
     }
 
 }

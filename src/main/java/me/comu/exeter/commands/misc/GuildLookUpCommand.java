@@ -18,10 +18,8 @@ public class GuildLookUpCommand implements ICommand {
             return;
         }
         try {
-            if (!args.isEmpty()) {
                 event.getChannel().sendMessage(EmbedUtils.embedImage(Objects.requireNonNull(event.getJDA().getGuildById(args.get(0)).getIconUrl()).concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(args.get(0) + " belongs to `" + Objects.requireNonNull(event.getJDA().getGuildById(args.get(0))).getName() + "`").build()).queue();
 
-            }
         } catch (NumberFormatException | NullPointerException ex)
         {
             event.getChannel().sendMessage("No guild exists with that ID.").queue();

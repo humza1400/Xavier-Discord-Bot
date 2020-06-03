@@ -28,7 +28,8 @@ public class RepeatCommand implements ICommand {
             textChannel.sendMessage("I'm not even connected to a voice channel bro").queue();
             return;
         }
-        if (audioManager.isConnected() && !Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
+        audioManager.isConnected();
+        if (!Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
             event.getChannel().sendMessage("You need to be in the same voice channel as me to loop a song").queue();
             return;
         }

@@ -20,7 +20,7 @@ public class MemberCountChannelEvent extends ListenerAdapter {
                 Objects.requireNonNull(voiceChannel).getManager().setName("| " + (event.getGuild().getMembers().size())).queueAfter(3, TimeUnit.SECONDS);
             } else if (MemberCountChannelCommand.isVCSet) {
                 VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(MemberCountChannelCommand.vcID);
-                Objects.requireNonNull(voiceChannel).getManager().setName(MemberCountChannelCommand.message.replace("{$count}", Integer.toString(event.getGuild().getMemberCount()))).queueAfter(3, TimeUnit.SECONDS);
+                Objects.requireNonNull(voiceChannel).getManager().setName(MemberCountChannelCommand.message.replace("{$count}", Integer.toString(event.getGuild().getMembers().size()))).queueAfter(3, TimeUnit.SECONDS);
             }
         } catch (NullPointerException ex) {
             MemberCountChannelCommand.isVCSet = false;
@@ -36,7 +36,7 @@ public class MemberCountChannelEvent extends ListenerAdapter {
                 Objects.requireNonNull(voiceChannel).getManager().setName("| " + (event.getGuild().getMembers().size())).queueAfter(3, TimeUnit.SECONDS);
             } else if (MemberCountChannelCommand.isVCSet) {
                 VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(MemberCountChannelCommand.vcID);
-                Objects.requireNonNull(voiceChannel).getManager().setName(MemberCountChannelCommand.message.replace("{$count}", Integer.toString(event.getGuild().getMemberCount()))).queueAfter(3, TimeUnit.SECONDS);
+                Objects.requireNonNull(voiceChannel).getManager().setName(MemberCountChannelCommand.message.replace("{$count}", Integer.toString(event.getGuild().getMembers().size()))).queueAfter(3, TimeUnit.SECONDS);
             }
         } catch (NullPointerException ex) {
             MemberCountChannelCommand.isVCSet = false;

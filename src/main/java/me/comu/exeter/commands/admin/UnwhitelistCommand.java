@@ -2,6 +2,8 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.util.CompositeKey;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -18,15 +20,13 @@ public class UnwhitelistCommand implements ICommand {
             event.getChannel().sendMessage("You don't have permission to unwhitelist anyone").queue();
             return;
         }
-        if (args.isEmpty())
-        {
+        if (args.isEmpty()) {
             event.getChannel().sendMessage("You need to specify a user to unwhitelist").queue();
             return;
         }
 
-        if (WhitelistCommand.getWhitelistedIDs().containsKey(args.get(0)))
-        {
-            WhitelistCommand.getWhitelistedIDs().remove(args.get(0));
+        if (WhitelistCommand.getWhitelistedIDs().containsKey(CompositeKey.of(event.getGuild().getId(), args.get(0)))) {
+            WhitelistCommand.getWhitelistedIDs().remove(CompositeKey.of(event.getGuild().getId(), args.get(0)));
             event.getChannel().sendMessage("Successfully Removed `" + args.get(0) + "` from the whitelist").queue();
             WhitelistedJSONHandler.saveWhitelistConfig();
             return;
@@ -36,42 +36,38 @@ public class UnwhitelistCommand implements ICommand {
             String id = args.get(0);
             try {
                 Member member = event.getGuild().getMemberById(Long.parseLong(id));
-                if (!WhitelistCommand.getWhitelistedIDs().containsKey(id))
-                {
+                if (!Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
                     event.getChannel().sendMessage("That user is not whitelisted!").queue();
                     return;
                 }
-                WhitelistCommand.getWhitelistedIDs().remove(id);
+                WhitelistCommand.getWhitelistedIDs().remove(CompositeKey.of(event.getGuild().getId(), id));
                 event.getChannel().sendMessage("Successfully removed `" + Objects.requireNonNull(member).getUser().getName() + "#" + member.getUser().getDiscriminator() + "` from the whitelist").queue();
                 WhitelistedJSONHandler.saveWhitelistConfig();
             } catch (NumberFormatException ex) {
                 String[] split = id.split("#");
                 try {
                     User user = event.getJDA().getUserByTag(split[0], split[1]);
-                    if (!WhitelistCommand.getWhitelistedIDs().containsKey(Objects.requireNonNull(user).getId()))
-                    {
+                    if (!Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), event.getGuild().getId(), Objects.requireNonNull(user).getId())) {
                         event.getChannel().sendMessage("That user is not whitelisted!").queue();
                         return;
                     }
-                    WhitelistCommand.getWhitelistedIDs().remove(user.getId());
+                    WhitelistCommand.getWhitelistedIDs().remove(CompositeKey.of(event.getGuild().getId(), user.getId()));
                     event.getChannel().sendMessage("Successfully removed `" + user.getName() + "#" + user.getDiscriminator() + "` from the whitelist").queue();
                     WhitelistedJSONHandler.saveWhitelistConfig();
-                } catch (NullPointerException | IllegalArgumentException | ArrayIndexOutOfBoundsException exx)
-                {
-                    event.getChannel().sendMessage("Invalid ID + " + id.replaceAll("@everyone","everyone".replaceAll("@here","here"))).queue();
+                } catch (NullPointerException | IllegalArgumentException | ArrayIndexOutOfBoundsException exx) {
+                    event.getChannel().sendMessage("Invalid ID + " + id.replaceAll("@everyone", "everyone".replaceAll("@here", "here"))).queue();
                 }
-            } catch (NullPointerException ex)
-            {
-                event.getChannel().sendMessage("Invalid ID + " + id.replaceAll("@everyone","everyone".replaceAll("@here","here"))).queue();
+            } catch (NullPointerException ex) {
+                event.getChannel().sendMessage("Invalid ID + " + id.replaceAll("@everyone", "everyone".replaceAll("@here", "here"))).queue();
             }
         } else {
             String id = memberList.get(0).getId();
-            if (!WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
+            if (!Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
                 event.getChannel().sendMessage("That user is not whitelisted!").queue();
                 return;
             }
-            if (WhitelistCommand.getWhitelistedIDs().containsKey(id)) {
-                WhitelistCommand.getWhitelistedIDs().remove(id);
+            if (WhitelistCommand.getWhitelistedIDs().containsKey(CompositeKey.of(event.getGuild().getId(), id))) {
+                WhitelistCommand.getWhitelistedIDs().remove(CompositeKey.of(event.getGuild().getId(), id));
                 event.getChannel().sendMessage("Successfully removed `" + Objects.requireNonNull(event.getJDA().getUserById(id)).getName() + "#" + Objects.requireNonNull(event.getJDA().getUserById(id)).getDiscriminator() + "` from the whitelist hash").queue();
                 WhitelistedJSONHandler.saveWhitelistConfig();
             }
@@ -90,10 +86,10 @@ public class UnwhitelistCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"removewhitelist","uwl","untrust","unwl"};
+        return new String[]{"removewhitelist", "uwl", "untrust", "unwl"};
     }
 
-   @Override
+    @Override
     public Category getCategory() {
         return Category.ADMIN;
     }

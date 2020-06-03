@@ -14,7 +14,7 @@ public class WhitelistConfigCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         String hashMap = new JSONObject(WhitelistCommand.getWhitelistedIDs()).toString().replaceAll("\\{", "{\n").replaceAll(",", ",\n").replaceAll("}", "\n}");
-        event.getChannel().sendMessage("```java\n" + hashMap + "```").queue();
+        event.getChannel().sendMessage("```json\n" + hashMap + "```").queue();
         WhitelistedJSONHandler.saveWhitelistConfig();
     }
 

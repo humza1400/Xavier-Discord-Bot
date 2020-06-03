@@ -204,7 +204,7 @@ public class HelpCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"assistance", "halp", "autism", "cmds", "commands"};
+        return new String[]{"assistance", "halp", "autism", "cmds", "commands","?"};
     }
 
     @Override

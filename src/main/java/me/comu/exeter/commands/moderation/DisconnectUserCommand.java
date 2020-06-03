@@ -29,7 +29,7 @@ public class DisconnectUserCommand implements ICommand {
             event.getChannel().sendMessage("Please specify a user to disconnect from VC").queue();
             return;
         }
-        if (!args.isEmpty() && mentionedMembers.isEmpty())
+        if (mentionedMembers.isEmpty())
         {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {

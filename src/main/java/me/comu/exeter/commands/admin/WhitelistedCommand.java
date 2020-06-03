@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.util.CompositeKey;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
@@ -27,15 +28,16 @@ public class WhitelistedCommand implements ICommand {
         if (event.getAuthor().getIdLong() == Core.OWNERID && !args.isEmpty() && args.get(0).equals("-g")) {
             StringBuilder globalStringBuffer = new StringBuilder();
             int counter = 0;
-            for (String x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                User user = event.getJDA().getUserById(x);
+            for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+                User user = event.getJDA().getUserById(x.getUserID());
                 try {
-                    String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator() + String.format(" (%s)", Objects.requireNonNull(event.getJDA().getGuildById(WhitelistCommand.getWhitelistedIDs().get(x))).getName());
+                    String level = WhitelistCommand.getWhitelistedIDs().get(x);
+                    String name = Objects.requireNonNull(user).getAsTag() + " - " + level + String.format(" (%s)", Objects.requireNonNull(event.getJDA().getGuildById(x.getGuildID())).getName());
                     globalStringBuffer.append(" + ").append(name).append("\n");
                     counter++;
                 } catch (NullPointerException ex)
                 {
-                    event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x + ")").queue();
+                    event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x.getUserID() + ")").queue();
                     WhitelistCommand.getWhitelistedIDs().remove(x);
                 }
             }
@@ -45,15 +47,17 @@ public class WhitelistedCommand implements ICommand {
         }
         StringBuilder stringBuffer = new StringBuilder();
         int counter2 = 0;
-        for (String x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-            if (WhitelistCommand.getWhitelistedIDs().get(x).equals(event.getGuild().getId())) {
-                User user = event.getJDA().getUserById(x);
+
+        for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+            if (x.getGuildID().equals(event.getGuild().getId())) {
+                User user = event.getJDA().getUserById(x.getUserID());
                 try {
-                    String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator();
+                    String level = WhitelistCommand.getWhitelistedIDs().get(x);
+                    String name = Objects.requireNonNull(user).getAsTag() + " - " + level;
                     stringBuffer.append(" + ").append(name).append("\n");
                     counter2++;
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x + ")").queue();
+                    event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x.getUserID() + ")").queue();
                     WhitelistCommand.getWhitelistedIDs().remove(x);
 
                 }

@@ -1,24 +1,20 @@
 package me.comu.exeter.commands.bot;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class ReactionRoleCommand implements ICommand {
-    private final EventWaiter waiter;
+    public static String messageID;
+    public static String roleID;
+    public static Emote emoji;
 
-    public ReactionRoleCommand(EventWaiter waiter) {
-        this.waiter = waiter;
-    }
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
@@ -31,49 +27,26 @@ public class ReactionRoleCommand implements ICommand {
             event.getChannel().sendMessage("I don't have permissions to create reaction roles").queue();
             return;
         }
-        if (args.isEmpty() || args.size() < 3)
-        {
+        if (args.size() != 3 || event.getMessage().getEmotes().isEmpty()) {
             event.getChannel().sendMessage("Please insert a valid: message-id, role-id, and emoji (in that order).").queue();
             return;
         }
-
-        try {
-            event.getChannel().retrieveMessageById(args.get(0)).queue(message -> {
-                event.getChannel().sendMessage("Set reaction role message successfully!").queue();
-                startWaiter(message.getIdLong(), event.getChannel().getIdLong(), args.get(2), event.getGuild().getRoleById(args.get(1)), event.getGuild());
-            });
-        } catch (Exception ex)
-        {
-            event.getChannel().sendMessage("Caught exception. Please insert a valid: message-id, role-id, and emoji (in that order).").queue();
-        }
+        messageID = args.get(0);
+        roleID = args.get(1);
+        emoji = event.getMessage().getEmotes().get(0);
+        event.getChannel().retrieveMessageById(args.get(0)).queue(success -> {
+            success.clearReactions().queue();
+            success.addReaction(event.getMessage().getEmotes().get(0)).queue();
+            event.getChannel().sendMessage("Successfully set up your reaction role message!").queue();
+        }, error -> event.getChannel().sendMessage("Couldn't find that message, maybe it was deleted.").queue());
 
 
     }
-    private void startWaiter(long messageId, long channelId, String emojiID, Role role, Guild guild) {
-        waiter.waitForEvent(
-                GuildMessageReactionAddEvent.class,
-                (event) -> {
-                    MessageReaction.ReactionEmote emote = event.getReactionEmote();
-                    User user = event.getUser();
-                    return !user.isBot() && event.getMessageIdLong() == messageId && !emote.isEmote();
-                },
-                (event) -> {
-                    TextChannel channel = guild.getTextChannelById(channelId);
-                    User user = event.getUser();
-                    guild.addRoleToMember(Objects.requireNonNull(guild.getMemberById(user.getId())), role).queue();
-                    Objects.requireNonNull(channel).sendMessageFormat("%#s role reacted and received **%s**!", user, role.getName()).queue();
-                },
-                1, TimeUnit.MINUTES,
-                () -> {
-                    TextChannel channel = guild.getTextChannelById(channelId);
-                    Objects.requireNonNull(channel).sendMessage("I stopped listening for reactions").queue();
-                }
-        );
-    }
+
 
     @Override
     public String getHelp() {
-        return "Creates a reaction role with a message\n`" + Core.PREFIX + getInvoke() + " [message-id] <role-id> (emoji-id)`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Creates a reaction role with a message\n`" + Core.PREFIX + getInvoke() + "[message-id] <role-id> (emoji)`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

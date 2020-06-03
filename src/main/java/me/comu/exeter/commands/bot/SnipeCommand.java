@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class SnipeCommand implements ICommand {
 
@@ -31,10 +32,10 @@ public class SnipeCommand implements ICommand {
         return;
         }
         if (containedAttachments) {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(Wrapper.extractUrls(contentDeleted).get(0)).setColor(Wrapper.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(event.getGuild().getMemberById(author).getUser().getAsTag(), null, event.getGuild().getMemberById(author).getUser().getEffectiveAvatarUrl()).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(Wrapper.extractUrls(contentDeleted).get(0)).setColor(Wrapper.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl()).build()).queue();
         } else {
             EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setColor(Wrapper.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(event.getGuild().getMemberById(author).getUser().getAsTag(), null, event.getGuild().getMemberById(author).getUser().getEffectiveAvatarUrl());
+            embedBuilder.setColor(Wrapper.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
         }
 

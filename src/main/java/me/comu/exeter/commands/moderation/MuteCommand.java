@@ -37,7 +37,7 @@ public class MuteCommand implements ICommand {
             channel.sendMessage("Please specify a user to mute").queue();
             return;
         }
-        if (mentionedMembers.isEmpty() && !args.isEmpty())
+        if (mentionedMembers.isEmpty())
         {
             try {
                 List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);

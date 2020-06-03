@@ -1,5 +1,6 @@
 package me.comu.exeter.events;
 
+import me.comu.exeter.commands.bot.ShowCreditMessagesCommand;
 import me.comu.exeter.commands.economy.EconomyManager;
 import me.comu.exeter.util.ChatTrackingManager;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -18,8 +19,9 @@ public class CreditOnMessageEvent extends ListenerAdapter {
             return;
         double d = Math.random();
         int amount = new Random().nextInt(31);
-        if (d > 0.97 && amount != 0)
+        if (d > 0.98 && amount != 0)
         {
+            if (ShowCreditMessagesCommand.creditNotifications)
             event.getChannel().sendMessage(String.format("%s got lucky and received " + MarkdownUtil.monospace(Integer.toString(amount)) + " credits!", event.getAuthor().getName()).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere").replaceAll("`","\\`")).queue();
 
             if (EconomyManager.verifyUser(event.getAuthor().getId()))

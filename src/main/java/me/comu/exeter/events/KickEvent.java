@@ -3,6 +3,7 @@ package me.comu.exeter.events;
 import me.comu.exeter.commands.admin.AntiRaidCommand;
 import me.comu.exeter.commands.admin.WhitelistCommand;
 import me.comu.exeter.core.Core;
+import me.comu.exeter.util.CompositeKey;
 import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.audit.ActionType;
@@ -26,10 +27,10 @@ public class KickEvent extends ListenerAdapter {
                     if (auditLogEntries.get(0).getType().equals(ActionType.KICK)) {
                         User user = auditLogEntries.get(0).getUser();
                         String userId = Objects.requireNonNull(user).getId();
-                        if (user.getIdLong() != Core.OWNERID && !userId.equals(event.getJDA().getSelfUser().getId()) && !userId.equals(event.getGuild().getOwnerId()) && !userId.equals("464114153616048131") && !userId.equals("155149108183695360") && !userId.equals("650802703949234185") && !userId.equals("235148962103951360") && !WhitelistCommand.getWhitelistedIDs().containsKey(userId)) {
+                        if (user.getIdLong() != Core.OWNERID && !userId.equals(event.getJDA().getSelfUser().getId()) && !userId.equals(event.getGuild().getOwnerId()) && !Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), userId, event.getGuild().getId())) {
                             Member member = event.getGuild().getMemberById(userId);
                             try {
-                                event.getGuild().ban(Objects.requireNonNull(member), 0).reason("wizzing").queue();
+                                event.getGuild().ban(Objects.requireNonNull(member), 0).reason("Triggered Anti-Nuke").queue();
                             } catch (HierarchyException | IllegalArgumentException ignored) {
                             }
                             String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
@@ -40,11 +41,11 @@ public class KickEvent extends ListenerAdapter {
                             Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Kick`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
                             Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Kick`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
                             if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
-                                for (String x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                    if (WhitelistCommand.getWhitelistedIDs().get(x).equals(event.getGuild().getId())) {
-                                        User whitelistUser = event.getJDA().getUserById(x);
+                                for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                        User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                         if (whitelistUser != null && !whitelistUser.isBot())
-                                            Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x)).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Kick`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
+                                            Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Kick`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
                                     }
                                 }
                             }

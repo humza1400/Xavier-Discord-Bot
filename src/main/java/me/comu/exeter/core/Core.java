@@ -101,6 +101,7 @@ public class Core {
             jda.addEventListener(new CreateAChannelEvent());
             jda.addEventListener(new BlacklistedWordsEvent());
             jda.addEventListener(new SnipeEvent());
+            jda.addEventListener(new ReactionRoleEvent());
             logger.info("Instantiated Events");
             logger.info("Bot Ready To Go");
         } catch (LoginException | InterruptedException e) {

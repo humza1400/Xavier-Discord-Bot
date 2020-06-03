@@ -48,7 +48,7 @@ public class CreateAChannelEvent extends ListenerAdapter {
                                 Objects.requireNonNull(event.getJDA().getGuildById(CreateAChannelCommand.guildID)).moveVoiceMember(event.getEntity(), voiceChannel).queue();
                                 CreateAChannelCommand.map.put(event.getEntity().getId(), voiceChannel.getId());
                                 voiceChannel.upsertPermissionOverride(event.getEntity()).setAllow(Permission.MANAGE_CHANNEL).queue();
-                                Objects.requireNonNull(event.getJDA().getGuildById(CreateAChannelCommand.guildID).getVoiceChannelById(CreateAChannelCommand.channelID)).upsertPermissionOverride(event.getEntity()).setDeny(Permission.VOICE_CONNECT).queue();
+                                Objects.requireNonNull(Objects.requireNonNull(event.getJDA().getGuildById(CreateAChannelCommand.guildID)).getVoiceChannelById(CreateAChannelCommand.channelID)).upsertPermissionOverride(event.getEntity()).setDeny(Permission.VOICE_CONNECT).queue();
                             }));
                 }
             }
@@ -77,7 +77,7 @@ public class CreateAChannelEvent extends ListenerAdapter {
                             Objects.requireNonNull(event.getJDA().getGuildById(CreateAChannelCommand.guildID)).moveVoiceMember(event.getEntity(), voiceChannel).queue();
                             CreateAChannelCommand.map.put(event.getEntity().getId(), voiceChannel.getId());
                             voiceChannel.upsertPermissionOverride(event.getEntity()).setAllow(Permission.MANAGE_CHANNEL).queue();
-                            Objects.requireNonNull(event.getJDA().getGuildById(CreateAChannelCommand.guildID).getVoiceChannelById(CreateAChannelCommand.channelID)).upsertPermissionOverride(event.getEntity()).setDeny(Permission.VOICE_CONNECT).queue();
+                            Objects.requireNonNull(Objects.requireNonNull(event.getJDA().getGuildById(CreateAChannelCommand.guildID)).getVoiceChannelById(CreateAChannelCommand.channelID)).upsertPermissionOverride(event.getEntity()).setDeny(Permission.VOICE_CONNECT).queue();
                         }));
             }
             if (event.getChannelLeft().getMembers().isEmpty() && CreateAChannelCommand.map.containsValue(event.getChannelLeft().getId())) {

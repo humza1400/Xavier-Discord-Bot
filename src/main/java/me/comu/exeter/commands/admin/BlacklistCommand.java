@@ -16,7 +16,7 @@ public class BlacklistCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if ( Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("You don't have permission to blacklist anyone").queue();
             return;
         }
@@ -26,39 +26,46 @@ public class BlacklistCommand implements ICommand {
             return;
         }
 
-        if (args.isEmpty() || event.getMessage().getMentionedMembers().isEmpty())
-        {
+        if (args.isEmpty() || event.getMessage().getMentionedMembers().isEmpty()) {
             event.getChannel().sendMessage("Please specify a user to blacklist").queue();
             return;
         }
-        if (!(event.getGuild().getSelfMember().canInteract(event.getMessage().getMentionedMembers().get(0))))
-        {
-            event.getChannel().sendMessage("You cannot blacklist that user").queue();
-            return;
+        if (args.get(1).equalsIgnoreCase("clear")) {
+            if (blacklistedUsers.isEmpty()) {
+                event.getChannel().sendMessage("Nobody is blacklisted.").queue();
+                return;
+            }
+                blacklistedUsers.clear();
+                event.getChannel().sendMessage("Purged all blacklisted users!").queue();
+                return;
+            }
+            if (!(event.getGuild().getSelfMember().canInteract(event.getMessage().getMentionedMembers().get(0)))) {
+                event.getChannel().sendMessage("You cannot blacklist that user").queue();
+                return;
+            }
+            blacklistedUsers.put(event.getMessage().getMentionedMembers().get(0).getId(), event.getGuild().getId());
+            event.getGuild().ban(event.getMessage().getMentionedMembers().get(0).getUser(), 0, "Blacklisted").queue();
+            event.getChannel().sendMessage("Blacklisted " + event.getMessage().getMentionedMembers().get(0).getAsMention()).queue();
+
         }
-        blacklistedUsers.put(event.getMessage().getMentionedMembers().get(0).getId(), event.getGuild().getId());
-        event.getGuild().ban(event.getMessage().getMentionedMembers().get(0).getUser(), 0,"Blacklisted").queue();
-        event.getChannel().sendMessage("Blacklisted " + event.getMessage().getMentionedMembers().get(0).getAsMention()).queue();
 
-    }
+        @Override
+        public String getHelp () {
+            return "Blacklists the specified user from the guild\n`" + Core.PREFIX + getInvoke() + " [user]/[clear]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        }
 
-    @Override
-    public String getHelp() {
-        return "Blacklists the specified user from the guild\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
-    }
+        @Override
+        public String getInvoke () {
+            return "blacklist";
+        }
 
-    @Override
-    public String getInvoke() {
-        return "blacklist";
-    }
+        @Override
+        public String[] getAlias () {
+            return new String[]{"bl"};
+        }
 
-    @Override
-    public String[] getAlias() {
-        return new String[] {"bl"};
+        @Override
+        public Category getCategory () {
+            return Category.ADMIN;
+        }
     }
-
-    @Override
-    public Category getCategory() {
-        return Category.ADMIN;
-    }
-}

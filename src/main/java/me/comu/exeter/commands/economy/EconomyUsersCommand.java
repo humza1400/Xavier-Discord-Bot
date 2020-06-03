@@ -11,13 +11,12 @@ import java.util.Objects;
 public class EconomyUsersCommand implements ICommand {
 
     @Override
-    public void handle(List<String> args, GuildMessageReceivedEvent event)  {
+    public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
-        if (EconomyManager.verifyUser(Objects.requireNonNull(event.getMember()).getUser().getId()))
-        {
+        if (EconomyManager.verifyUser(Objects.requireNonNull(event.getMember()).getUser().getId())) {
             EconomyManager.getUsers().put(event.getMember().getUser().getId(), 0);
         }
-        event.getChannel().sendMessage(EconomyManager.getUsers().toString()).queue();
+        event.getChannel().sendMessage(EconomyManager.getUsers().toString()).queue(null, failure -> event.getChannel().sendMessage("Too much data!").queue());
         EcoJSONHandler.saveEconomyConfig();
     }
 
@@ -36,7 +35,7 @@ public class EconomyUsersCommand implements ICommand {
         return new String[0];
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.ECONOMY;
     }

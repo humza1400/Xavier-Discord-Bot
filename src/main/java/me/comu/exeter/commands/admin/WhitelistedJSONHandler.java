@@ -2,40 +2,47 @@ package me.comu.exeter.commands.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.comu.exeter.logging.Logger;
+import me.comu.exeter.util.CompositeKey;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class WhitelistedJSONHandler {
 
+    static Map<String, Map<String, String>> whitelistedIDs = new HashMap<>();
 
-
-        public static void saveWhitelistConfig()
-        {
-            JSONObject jsonObject = new JSONObject(WhitelistCommand.getWhitelistedIDs());
-            try(FileWriter fileWriter = new FileWriter("whitelisted.json")){
-                fileWriter.write(jsonObject.toString());
-                fileWriter.flush();
-                fileWriter.close();
-                Logger.getLogger().print("Saved whitelisted.json");
-            }
-            catch (IOException e)
-            {e.printStackTrace();
-            }
-        }
-        public static void loadWhitelistConfig(File file)
-        {
-            try {
-                HashMap<String, String> whitelistedJSON = new ObjectMapper().readValue(file, HashMap.class);
-                WhitelistCommand.setWhitelistedIDs(whitelistedJSON);
-                Logger.getLogger().print("Loaded whitelisted.json");
-            } catch (IOException ex)
-            {
-                ex.printStackTrace();
-            }
+    public static void saveWhitelistConfig() {
+        for (Map.Entry entry : WhitelistCommand.getWhitelistedIDs().entrySet()) {
+            CompositeKey compositeKey = (CompositeKey) entry.getKey();
+            String permissionLevel = (String) entry.getValue();
+            if (!whitelistedIDs.containsKey(compositeKey.getGuildID()))
+                whitelistedIDs.put(compositeKey.getGuildID(), new HashMap<>());
+            whitelistedIDs.get(compositeKey.getGuildID()).put(compositeKey.getUserID(), permissionLevel);
         }
 
+        JSONObject jsonObject = new JSONObject(whitelistedIDs);
+        try (FileWriter fileWriter = new FileWriter("whitelisted.json")) {
+            fileWriter.write(jsonObject.toString());
+            fileWriter.flush();
+            fileWriter.close();
+            Logger.getLogger().print("Saved whitelisted.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    public static void loadWhitelistConfig(File file) {
+        try {
+            Map<String, Map<String, String>> whitelistedIDs = new ObjectMapper().readValue(file, HashMap.class);
+            WhitelistCommand.setWhitelistedIDs(whitelistedIDs);
+            Logger.getLogger().print("Loaded whitelisted.json");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+}
