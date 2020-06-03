@@ -19,7 +19,6 @@ public class PrivateMessageCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        String message = event.getMessage().getContentRaw();
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER)) {
@@ -44,14 +43,12 @@ public class PrivateMessageCommand implements ICommand {
             args.stream().skip(1).forEach(stringJoiner::add);
             event.getMessage().delete().queue();
             sendPrivateMessage(targets.get(0).getUser(), stringJoiner.toString(), event.getChannel());
-            event.getChannel().sendMessage(EmbedUtils.embedMessage("Successfully messaged " + args.get(0)).build()).queue();
             return;
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
         args.stream().skip(1).forEach(stringJoiner::add);
         event.getMessage().delete().queue();
         sendPrivateMessage(mentionedMembers.get(0).getUser(), stringJoiner.toString(), event.getChannel());
-        event.getChannel().sendMessage(EmbedUtils.embedMessage("Successfully messaged " + mentionedMembers.get(0).getEffectiveName()).build()).queue();
     }
 
     private void sendPrivateMessage(User user, String content, TextChannel textChannel) {

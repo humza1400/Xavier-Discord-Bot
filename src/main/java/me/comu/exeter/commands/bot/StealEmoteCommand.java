@@ -28,13 +28,13 @@ public class StealEmoteCommand implements ICommand {
             return;
         }
 
-        if (args.size() != 2 || event.getMessage().getEmotes().size() == 0) {
+        if (event.getMessage().getEmotes().size() == 0) {
             event.getChannel().sendMessage("Please insert a valid emote and an emote-name").queue();
             return;
         }
 
         Emote emote = event.getMessage().getEmotes().get(0);
-        String name = args.get(1);
+        String name = args.size() == 1 ? emote.getName() : args.get(1);
         if (emote.isAnimated()) {
             event.getChannel().sendMessage("\u2699 Creating " + name + " emoji...").queue(
                     message -> {

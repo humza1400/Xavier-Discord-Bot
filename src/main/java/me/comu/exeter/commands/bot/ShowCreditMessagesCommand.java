@@ -42,7 +42,7 @@ public class ShowCreditMessagesCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Toggles whether or not it should send messages when someone gets credits in chat [on/off]\n`" + Core.PREFIX + getInvoke() + "`n\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Toggles whether or not it should send messages when someone gets credits in chat\n`" + Core.PREFIX + getInvoke() + " [on/off]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
 
