@@ -17,13 +17,12 @@ public class BegCommand implements ICommand {
             EconomyManager.getUsers().put(event.getMember().getUser().getId(), 0);
         }
         double d = Math.random();
-        if (d > 0.29)
-        {
+        if (d > 0.29) {
             event.getChannel().sendMessage("Keep begging bud...").queue();
         } else {
             int begMoney = Wrapper.randomNum(0, 10);
             EconomyManager.setBalance(event.getMember().getUser().getId(), EconomyManager.getBalance(event.getMember().getUser().getId()) + begMoney);
-            event.getChannel().sendMessage(String.format("Aight, **%s**, I'll pity you with **%s** credits.", event.getMember().getEffectiveName(), begMoney)).queue();
+            event.getChannel().sendMessage(String.format("Aight, **%s**, I'll pity you with **%s** credits.", event.getMember().getEffectiveName(), begMoney).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
         }
 
         EcoJSONHandler.saveEconomyConfig();
