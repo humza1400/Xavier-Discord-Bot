@@ -53,7 +53,7 @@ public class ShowCreditMessagesCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"showcreditmessages","showcreditmsg","creditmsg","creditmsgs","showcreditmsgs"};
+        return new String[] {"showcreditmessages","creditnotifications","creditnotifs","showcreditmsg","creditmsg","creditmsgs","showcreditmsgs"};
     }
 
     @Override
