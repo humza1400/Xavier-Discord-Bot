@@ -78,6 +78,8 @@ public class CommandManager {
         register(new SnipeCommand());
         register(new ReactionRoleCommand());
         register(new ShowCreditMessagesCommand());
+        register(new StatusCommand());
+        register(new TokenInfoCommand());
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());

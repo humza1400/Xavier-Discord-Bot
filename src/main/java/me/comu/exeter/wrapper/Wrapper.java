@@ -20,15 +20,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.awt.*;
 import java.io.*;
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -287,6 +286,43 @@ public class Wrapper {
 
     public static String makeCompoundKey(String guild, String user) {
         return guild + "|" + user;
+    }
+
+    public static String getDiscordStatus() {
+        try {
+            URL url = new URL("https://srhpyqt94yxb.statuspage.io/api/v2/summary.json");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) discord/0.0.306 Chrome/78.0.3904.130 Electron/7.1.11 Safari/537.36");
+            connection.setRequestProperty("Content-Type", "application/json");
+            if (connection.getResponseCode() >= 200) {
+                InputStream inputStream = connection.getInputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+                br.close();
+                connection.disconnect();
+                if (sb.toString().substring(0, 301).contains("operational")) {
+                    return "Operational";
+                } else {
+                    return "API Down";
+                }
+            } else {
+                System.out.println(connection.getResponseMessage());
+                connection.disconnect();
+            }
+
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+            return "Malformed URL";
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return "IOException";
+        }
+        return null;
     }
 
 }

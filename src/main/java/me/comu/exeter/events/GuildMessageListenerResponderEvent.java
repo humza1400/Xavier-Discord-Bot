@@ -20,7 +20,7 @@ public class GuildMessageListenerResponderEvent extends ListenerAdapter {
 //                event.getChannel().sendMessage(EmbedUtils.embedImage( "https://cdn.discordapp.com/attachments/645864864752861184/657355585263632414/Screenshot_990.png").setColor(event.getMember().getColor()).addField("Dated 11 year old named tae:", "<@447803380958756864>", false).build()).queue();
 //            }
             if (!event.getMessage().getMentionedMembers().isEmpty() && event.getMessage().getMentionedMembers().get(0).getId().equalsIgnoreCase(event.getJDA().getSelfUser().getId())) {
-                MessageEmbed embed = new EmbedBuilder().addField("Current prefix:" , Core.PREFIX, false).addField("More Information", Core.PREFIX + "help", false).setColor(Wrapper.getAmbientColor()).build();
+                MessageEmbed embed = new EmbedBuilder().addField("Current prefix" , Core.PREFIX, false).addField("More Information", Core.PREFIX + "help", false).setColor(Wrapper.getAmbientColor()).build();
                 event.getChannel().sendMessage(embed).queue();
             }
 //            if (msg.contains("comu") || msg.contains("<@175728291460808706>") || msg.contains("august") || msg.contains("auggie") || msg.contains("c o m u")) {
