@@ -149,6 +149,7 @@ public class CommandManager {
         register(new SearchImageCommand());
         register(new UrbanCommand());
         register(new CoronavirusCommand());
+        register(new FakeAddressGeneratorCommand());
         // MODERATION
         register(new BindLogChannelCommand(eventWaiter));
         register(new SetRainbowRoleCommand());

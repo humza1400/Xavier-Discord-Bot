@@ -61,6 +61,10 @@ public class LyricsCommand implements ICommand {
                     String jsonResponse = Objects.requireNonNull(response.body()).string();
                     Logger.getLogger().print(jsonResponse + "\n");
                     JSONObject jsonObject = new JSONObject(jsonResponse);
+                    if (jsonObject.getJSONObject("response").getJSONArray("hits").isEmpty()){
+                        event.getChannel().sendMessage("Couldn't find lyrics to that song").queue();
+                        return;
+                    }
                     String result = jsonObject.getJSONObject("response").getJSONArray("hits").get(0).toString();
                     JSONObject jsonObject2 = new JSONObject(result);
                     String songID = jsonObject2.getJSONObject("result").toMap().get("id").toString();

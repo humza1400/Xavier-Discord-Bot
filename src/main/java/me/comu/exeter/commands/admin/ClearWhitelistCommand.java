@@ -34,7 +34,7 @@ public class ClearWhitelistCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"emptywhitelist", "nullwhitelist", "nullifywhitelist", "resetwhitelist","purgewhitelist","whitelistclear","wlclear","clearwl"};
+        return new String[]{"emptywhitelist", "nullwhitelist", "nullifywhitelist", "resetwhitelist","purgewhitelist","whitelistclear","wlclear","clearwl","wldclear"};
     }
 
    @Override
