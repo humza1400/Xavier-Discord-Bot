@@ -15,7 +15,7 @@ public class BlacklistedWordsEvent extends ListenerAdapter {
         if (event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().getId().equals(event.getGuild().getSelfMember().getId())) {
             String[] args = event.getMessage().getContentRaw().split("\\s+");
             for (String string : args) {
-                if (BlacklistWordCommand.blacklistedWords.contains(string)) {
+                if (BlacklistWordCommand.blacklistedWords.contains(string.toLowerCase())) {
                     if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
                         event.getChannel().sendMessage("A blacklisted word was sent but I don't have permission to do anything :/").queue();
                         return;

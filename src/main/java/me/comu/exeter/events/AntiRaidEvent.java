@@ -1,5 +1,6 @@
 package me.comu.exeter.events;
 
+import me.comu.exeter.commands.admin.AntiRaidChannelSafetyCommand;
 import me.comu.exeter.commands.admin.AntiRaidCommand;
 import me.comu.exeter.commands.admin.WhitelistCommand;
 import me.comu.exeter.core.Core;
@@ -56,7 +57,6 @@ public class AntiRaidEvent extends ListenerAdapter {
                         stringArray = strings.toArray(new String[0]);
                         if (member.getRoles().size() == 0) {
                             event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
-                            stringArray[0] = "@\u200beveryone";
                         } else {
                             for (Role role : member.getRoles()) {
                                 if (event.getGuild().getSelfMember().canInteract(role)) {
@@ -97,60 +97,118 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onVoiceChannelDelete(@Nonnull VoiceChannelDeleteEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active && event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-            event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
-                if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE) && auditLogEntries.get(1).getType().equals(ActionType.CHANNEL_DELETE)) {
-                    String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
-                    Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
-                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
-                        int permissionLevel = Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), id)));
-                        if (permissionLevel == 0 || permissionLevel == 1 || permissionLevel == 2)
-                            return;
-                    }
-                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
-                        Member member = event.getGuild().getMemberById(id);
-                        List<Role> roles = Objects.requireNonNull(member).getRoles();
-                        String[] stringArray = new String[member.getRoles().size()];
-                        List<String> strings = Arrays.asList(stringArray);
-                        for (int i = 0; i < roles.size(); i++) {
-                            stringArray[i] = roles.get(i).getName();
+            if (!AntiRaidChannelSafetyCommand.isActive()) {
+                event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
+                    if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE)) {
+                        String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
+                        Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
+                        if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
+                            int permissionLevel = Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), id)));
+                            if (permissionLevel == 0 || permissionLevel == 1 || permissionLevel == 2)
+                                return;
                         }
-                        stringArray = strings.toArray(new String[0]);
-                        if (member.getRoles().size() == 0) {
-                            event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
-                            stringArray[0] = "@\u200beveryone";
-                        } else {
-                            for (Role role : member.getRoles()) {
-                                if (event.getGuild().getSelfMember().canInteract(role)) {
-                                    if (role.isManaged() || role.isPublicRole()) {
-                                        role.getManager().revokePermissions(Permission.values()).queue();
+                        if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
+                            Member member = event.getGuild().getMemberById(id);
+                            List<Role> roles = Objects.requireNonNull(member).getRoles();
+                            String[] stringArray = new String[member.getRoles().size()];
+                            List<String> strings = Arrays.asList(stringArray);
+                            for (int i = 0; i < roles.size(); i++) {
+                                stringArray[i] = roles.get(i).getName();
+                            }
+                            stringArray = strings.toArray(new String[0]);
+                            if (member.getRoles().size() == 0) {
+                                event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
+
+                            } else {
+                                for (Role role : member.getRoles()) {
+                                    if (event.getGuild().getSelfMember().canInteract(role)) {
+                                        if (role.isManaged() || role.isPublicRole()) {
+                                            role.getManager().revokePermissions(Permission.values()).queue();
+                                        }
+                                        if (!role.isManaged()) {
+                                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                        }
                                     }
-                                    if (!role.isManaged()) {
-                                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                }
+                            }
+                            String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
+                            String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
+                            String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                            LocalDateTime now = LocalDateTime.now();
+                            String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
+                            Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!userComu.equalsIgnoreCase(userOwner))
+                                Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
+                                for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                        User whitelistUser = event.getJDA().getUserById(x.getUserID());
+                                        if (!Objects.requireNonNull(whitelistUser).isBot())
+                                            Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                                     }
                                 }
                             }
                         }
-                        String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
-                        String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
-                        String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
-                        LocalDateTime now = LocalDateTime.now();
-                        String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
-                        Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
-                        if (!userComu.equalsIgnoreCase(userOwner))
-                            Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
-                        if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
-                            for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
-                                    User whitelistUser = event.getJDA().getUserById(x.getUserID());
-                                    if (!Objects.requireNonNull(whitelistUser).isBot())
-                                        Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                    }
+                });
+            } else {
+                event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
+                    if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE)) {
+                        String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
+                        Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
+                        if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
+                            int permissionLevel = Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), id)));
+                            if (permissionLevel == 0 || permissionLevel == 1 || permissionLevel == 2)
+                                return;
+                        }
+                        if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
+                            Member member = event.getGuild().getMemberById(id);
+                            List<Role> roles = Objects.requireNonNull(member).getRoles();
+                            String[] stringArray = new String[member.getRoles().size()];
+                            List<String> strings = Arrays.asList(stringArray);
+                            for (int i = 0; i < roles.size(); i++) {
+                                stringArray[i] = roles.get(i).getName();
+                            }
+                            stringArray = strings.toArray(new String[0]);
+                            if (member.getRoles().size() == 0) {
+                                event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
+                            } else {
+                                for (Role role : member.getRoles()) {
+                                    if (event.getGuild().getSelfMember().canInteract(role)) {
+                                        if (role.isManaged() || role.isPublicRole()) {
+                                            role.getManager().revokePermissions(Permission.values()).queue();
+                                        }
+                                        if (!role.isManaged()) {
+                                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                        }
+                                    }
+                                }
+                            }
+
+                            event.getChannel().createCopy().setParent(event.getChannel().getParent()).setPosition(AntiRaidChannelSafetyCommand.channelPositions.get(event.getChannel().getId())).queue();
+                            String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
+                            String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
+                            String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                            LocalDateTime now = LocalDateTime.now();
+                            String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
+                            Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!userComu.equalsIgnoreCase(userOwner))
+                                Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
+                                for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                        User whitelistUser = event.getJDA().getUserById(x.getUserID());
+                                        if (!Objects.requireNonNull(whitelistUser).isBot())
+                                            Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
@@ -178,7 +236,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                         stringArray = strings.toArray(new String[0]);
                         if (member.getRoles().size() == 0) {
                             event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
-                            stringArray[0] = "@\u200beveryone";
+
                         } else {
                             for (Role role : member.getRoles()) {
                                 if (event.getGuild().getSelfMember().canInteract(role)) {
@@ -220,60 +278,118 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onTextChannelDelete(@Nonnull TextChannelDeleteEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active && event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-            event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
-                if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE)) {
-                    String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
-                    Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
-                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
-                        int permissionLevel = Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), id)));
-                        if (permissionLevel == 0 || permissionLevel == 1 || permissionLevel == 2)
-                            return;
-                    }
-                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
-                        Member member = event.getGuild().getMemberById(id);
-                        List<Role> roles = Objects.requireNonNull(member).getRoles();
-                        String[] stringArray = new String[member.getRoles().size()];
-                        List<String> strings = Arrays.asList(stringArray);
-                        for (int i = 0; i < roles.size(); i++) {
-                            stringArray[i] = roles.get(i).getName();
+            if (!AntiRaidChannelSafetyCommand.isActive()) {
+                event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
+                    if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE)) {
+                        String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
+                        Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
+                        if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
+                            int permissionLevel = Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), id)));
+                            if (permissionLevel == 0 || permissionLevel == 1 || permissionLevel == 2)
+                                return;
                         }
-                        stringArray = strings.toArray(new String[0]);
-                        if (member.getRoles().size() == 0) {
-                            event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
-                        } else {
-                            for (Role role : member.getRoles()) {
-                                if (event.getGuild().getSelfMember().canInteract(role)) {
-                                    if (role.isManaged() || role.isPublicRole()) {
-                                        role.getManager().revokePermissions(Permission.values()).queue();
-                                    }
-                                    if (!role.isManaged()) {
-                                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                        if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
+                            Member member = event.getGuild().getMemberById(id);
+                            List<Role> roles = Objects.requireNonNull(member).getRoles();
+                            String[] stringArray = new String[member.getRoles().size()];
+                            List<String> strings = Arrays.asList(stringArray);
+                            for (int i = 0; i < roles.size(); i++) {
+                                stringArray[i] = roles.get(i).getName();
+                            }
+                            stringArray = strings.toArray(new String[0]);
+                            if (member.getRoles().size() == 0) {
+                                event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
+                            } else {
+                                for (Role role : member.getRoles()) {
+                                    if (event.getGuild().getSelfMember().canInteract(role)) {
+                                        if (role.isManaged() || role.isPublicRole()) {
+                                            role.getManager().revokePermissions(Permission.values()).queue();
+                                        }
+                                        if (!role.isManaged()) {
+                                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                        }
                                     }
                                 }
                             }
-                        }
-                        String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
-                        String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
-                        String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
-                        LocalDateTime now = LocalDateTime.now();
-                        String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
-                        Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
-                        if (!userComu.equalsIgnoreCase(userOwner))
-                            Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
-                        if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
-                            for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
-                                    User whitelistUser = event.getJDA().getUserById(x.getUserID());
-                                    if (!Objects.requireNonNull(whitelistUser).isBot())
-                                        Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
+                            String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
+                            String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                            LocalDateTime now = LocalDateTime.now();
+                            String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
+                            Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!userComu.equalsIgnoreCase(userOwner))
+                                Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
+                                for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                        User whitelistUser = event.getJDA().getUserById(x.getUserID());
+                                        if (!Objects.requireNonNull(whitelistUser).isBot())
+                                            Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                                    }
                                 }
                             }
-                        }
 
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
+                    if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE)) {
+                        String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
+                        Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
+                        if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
+                            int permissionLevel = Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), id)));
+                            if (permissionLevel == 0 || permissionLevel == 1 || permissionLevel == 2)
+                                return;
+                        }
+                        if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
+                            Member member = event.getGuild().getMemberById(id);
+                            List<Role> roles = Objects.requireNonNull(member).getRoles();
+                            String[] stringArray = new String[member.getRoles().size()];
+                            List<String> strings = Arrays.asList(stringArray);
+                            for (int i = 0; i < roles.size(); i++) {
+                                stringArray[i] = roles.get(i).getName();
+                            }
+                            stringArray = strings.toArray(new String[0]);
+                            if (member.getRoles().size() == 0) {
+                                event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
+                            } else {
+                                for (Role role : member.getRoles()) {
+                                    if (event.getGuild().getSelfMember().canInteract(role)) {
+                                        if (role.isManaged() || role.isPublicRole()) {
+                                            role.getManager().revokePermissions(Permission.values()).queue();
+                                        }
+                                        if (!role.isManaged()) {
+                                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                        }
+                                    }
+                                }
+                            }
+                                event.getChannel().createCopy().setNSFW(event.getChannel().isNSFW()).setSlowmode(event.getChannel().getSlowmode()).setParent(event.getChannel().getParent()).setPosition(AntiRaidChannelSafetyCommand.channelPositions.get(event.getChannel().getId())).queue();
+                            String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
+                            String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
+                            String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                            LocalDateTime now = LocalDateTime.now();
+                            String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
+                            Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `ARCS & Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!userComu.equalsIgnoreCase(userOwner))
+                                Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `ARCS & Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
+                                for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                        User whitelistUser = event.getJDA().getUserById(x.getUserID());
+                                        if (!Objects.requireNonNull(whitelistUser).isBot())
+                                            Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `ARCS & Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                });
+            }
         }
     }
 
@@ -301,7 +417,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                         stringArray = strings.toArray(new String[0]);
                         if (member.getRoles().size() == 0) {
                             event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
-                            stringArray[0] = "@\u200beveryone";
+
                         } else {
                             for (Role role : member.getRoles()) {
                                 if (event.getGuild().getSelfMember().canInteract(role)) {
@@ -344,63 +460,122 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onCategoryDelete(@Nonnull CategoryDeleteEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active && event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-            event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
-                if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE)) {
-                    String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
-                    Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
-                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
-                        int permissionLevel = Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), id)));
-                        if (permissionLevel == 0 || permissionLevel == 1 || permissionLevel == 2)
-                            return;
-                    }
-                    if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
-                        Member member = event.getGuild().getMemberById(id);
-                        List<Role> roles = Objects.requireNonNull(member).getRoles();
-                        String[] stringArray = new String[member.getRoles().size()];
-                        List<String> strings = Arrays.asList(stringArray);
-                        for (int i = 0; i < roles.size(); i++) {
-                            stringArray[i] = roles.get(i).getName();
+            if (!AntiRaidChannelSafetyCommand.isActive()) {
+                event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
+                    if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE)) {
+                        String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
+                        Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
+                        if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
+                            int permissionLevel = Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), id)));
+                            if (permissionLevel == 0 || permissionLevel == 1 || permissionLevel == 2)
+                                return;
                         }
-                        stringArray = strings.toArray(new String[0]);
-                        if (member.getRoles().size() == 0) {
-                            event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
-                            stringArray[0] = "@\u200beveryone";
-                        } else {
-                            for (Role role : member.getRoles()) {
-                                if (event.getGuild().getSelfMember().canInteract(role)) {
-                                    if (role.isManaged() || role.isPublicRole()) {
-                                        role.getManager().revokePermissions(Permission.values()).queue();
-                                    }
-                                    if (!role.isManaged()) {
-                                        event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                        if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
+                            Member member = event.getGuild().getMemberById(id);
+                            List<Role> roles = Objects.requireNonNull(member).getRoles();
+                            String[] stringArray = new String[member.getRoles().size()];
+                            List<String> strings = Arrays.asList(stringArray);
+                            for (int i = 0; i < roles.size(); i++) {
+                                stringArray[i] = roles.get(i).getName();
+                            }
+                            stringArray = strings.toArray(new String[0]);
+                            if (member.getRoles().size() == 0) {
+                                event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
+
+                            } else {
+                                for (Role role : member.getRoles()) {
+                                    if (event.getGuild().getSelfMember().canInteract(role)) {
+                                        if (role.isManaged() || role.isPublicRole()) {
+                                            role.getManager().revokePermissions(Permission.values()).queue();
+                                        }
+                                        if (!role.isManaged()) {
+                                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                        }
                                     }
                                 }
                             }
-                        }
-                        String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
-                        String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
-                        String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
-                        LocalDateTime now = LocalDateTime.now();
-                        String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
-                        Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
-                        if (!userComu.equalsIgnoreCase(userOwner))
-                            Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
-                        if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
-                            for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
-                                    User whitelistUser = event.getJDA().getUserById(x.getUserID());
-                                    if (!Objects.requireNonNull(whitelistUser).isBot())
-                                        Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
+                            String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
+                            String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                            LocalDateTime now = LocalDateTime.now();
+                            String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
+                            Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!userComu.equalsIgnoreCase(userOwner))
+                                Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
+                                for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                        User whitelistUser = event.getJDA().getUserById(x.getUserID());
+                                        if (!Objects.requireNonNull(whitelistUser).isBot())
+                                            Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                                    }
                                 }
                             }
+
                         }
-
                     }
-                }
-            });
+                });
 
+            } else {
+                event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
+                    if (auditLogEntries.get(0).getType().equals(ActionType.CHANNEL_DELETE)) {
+                        String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
+                        Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
+                        if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
+                            int permissionLevel = Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), id)));
+                            if (permissionLevel == 0 || permissionLevel == 1 || permissionLevel == 2)
+                                return;
+                        }
+                        if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
+                            Member member = event.getGuild().getMemberById(id);
+                            List<Role> roles = Objects.requireNonNull(member).getRoles();
+                            String[] stringArray = new String[member.getRoles().size()];
+                            List<String> strings = Arrays.asList(stringArray);
+                            for (int i = 0; i < roles.size(); i++) {
+                                stringArray[i] = roles.get(i).getName();
+                            }
+                            stringArray = strings.toArray(new String[0]);
+                            if (member.getRoles().size() == 0) {
+                                event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
 
+                            } else {
+                                for (Role role : member.getRoles()) {
+                                    if (event.getGuild().getSelfMember().canInteract(role)) {
+                                        if (role.isManaged() || role.isPublicRole()) {
+                                            role.getManager().revokePermissions(Permission.values()).queue();
+                                        }
+                                        if (!role.isManaged()) {
+                                            event.getGuild().removeRoleFromMember(member.getId(), role).queue();
+                                        }
+                                    }
+                                }
+                            }
+                            event.getCategory().createCopy().setPosition(AntiRaidChannelSafetyCommand.channelPositions.get(event.getCategory().getId())).queue();
+                            String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
+                            String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
+                            String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                            LocalDateTime now = LocalDateTime.now();
+                            String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
+                            Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `ARCS & Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!userComu.equalsIgnoreCase(userOwner))
+                                Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `ARCS & Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                            if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
+                                for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                        User whitelistUser = event.getJDA().getUserById(x.getUserID());
+                                        if (!Objects.requireNonNull(whitelistUser).isBot())
+                                            Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `ARCS & Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                });
+
+            }
         }
     }
 
@@ -409,7 +584,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active && event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
-                if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_CREATE) && auditLogEntries.get(1).getType().equals(ActionType.ROLE_CREATE)) {
+                if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_CREATE)) {
                     String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
                     Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
                     if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
@@ -429,7 +604,7 @@ public class AntiRaidEvent extends ListenerAdapter {
 
                         if (member.getRoles().size() == 0) {
                             event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
-                            stringArray[0] = "@\u200beveryone";
+
                         } else {
                             for (Role role : member.getRoles()) {
                                 if (event.getGuild().getSelfMember().canInteract(role)) {
@@ -473,7 +648,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active && event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
-                if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_DELETE) && auditLogEntries.get(1).getType().equals(ActionType.ROLE_DELETE)) {
+                if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_DELETE)) {
                     String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
                     Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
                     if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
@@ -492,7 +667,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                         stringArray = strings.toArray(new String[0]);
                         if (member.getRoles().size() == 0) {
                             event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
-                            stringArray[0] = "@\u200beveryone";
+
                         } else {
                             for (Role role : member.getRoles()) {
                                 if (event.getGuild().getSelfMember().canInteract(role)) {
@@ -559,7 +734,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                             stringArray = strings.toArray(new String[0]);
                             if (member.getRoles().size() == 0) {
                                 event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
-                                stringArray[0] = "@\u200beveryone";
+
                             } else {
                                 for (Role role : member.getRoles()) {
                                     if (event.getGuild().getSelfMember().canInteract(role)) {
@@ -629,7 +804,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                             stringArray = strings.toArray(new String[0]);
                             if (member.getRoles().size() == 0) {
                                 event.getGuild().getPublicRole().getManager().setPermissions(0).givePermissions(Permission.CREATE_INSTANT_INVITE, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY, Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EXT_EMOJI, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_USE_VAD, Permission.VOICE_STREAM, Permission.NICKNAME_CHANGE).queue();
-                                stringArray[0] = "@\u200beveryone";
+
                             } else {
                                 for (Role role : member.getRoles()) {
                                     if (event.getGuild().getSelfMember().canInteract(role)) {

@@ -61,6 +61,7 @@ public class CommandManager {
         register(new CreateAChannelCommand());
         register(new DisableModuleCommand());
         register(new EnableModuleCommand());
+        register(new AntiRaidChannelSafetyCommand());
         // BOT
         register(new HelpCommand(this));
         register(new AboutCommand());

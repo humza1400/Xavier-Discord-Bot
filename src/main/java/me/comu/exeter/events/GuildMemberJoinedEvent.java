@@ -1,5 +1,6 @@
 package me.comu.exeter.events;
 
+import me.comu.exeter.commands.admin.AntiRaidChannelSafetyCommand;
 import me.comu.exeter.commands.admin.AntiRaidCommand;
 import me.comu.exeter.commands.admin.BlacklistCommand;
 import me.comu.exeter.commands.admin.WhitelistCommand;
@@ -28,6 +29,15 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
     private static final String[] messages = {"[member] joined", "welcome [member]", "hello [member]", "[member] has arrived", "we've been missing you [member]", "[member] is amazing for joining", "Yo [member]", "everyone welcome [member]", "what it do [member]"};
 
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
+        for (TextChannel textChannel : event.getJDA().getTextChannels())
+            AntiRaidChannelSafetyCommand.channelPositions.put(textChannel.getId(), textChannel.getPosition());
+
+        for (VoiceChannel voiceChannel : event.getJDA().getVoiceChannels())
+            AntiRaidChannelSafetyCommand.channelPositions.put(voiceChannel.getId(), voiceChannel.getPosition());
+
+        for (Category category : event.getJDA().getCategories())
+            AntiRaidChannelSafetyCommand.channelPositions.put(category.getId(), category.getPosition());
+
         int amount = 0;
         for (Guild g : event.getJDA().getGuilds()) {
             amount += g.getMembers().size();

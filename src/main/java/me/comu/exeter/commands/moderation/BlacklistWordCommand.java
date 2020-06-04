@@ -42,7 +42,7 @@ public class BlacklistWordCommand implements ICommand {
         StringJoiner stringJoiner = new StringJoiner(" ");
         args.forEach(stringJoiner::add);
         String message = stringJoiner.toString();
-        blacklistedWords.add(message);
+        blacklistedWords.add(message.toLowerCase());
         event.getChannel().sendMessage("Adding that word to the blacklisted words hash " + event.getMember().getAsMention()).queue();
     }
 

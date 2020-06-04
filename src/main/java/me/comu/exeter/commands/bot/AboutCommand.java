@@ -18,7 +18,7 @@ public class AboutCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
 
         if (!selfMember.hasPermission(Permission.MANAGE_SERVER)) {
-            event.getChannel().sendMessage("I don't have permissions to embed messages `(Manage_Server Permission)`").queue();
+            event.getChannel().sendMessage("I don't have permissions to embed messages `(Embed_Links Permission)`").queue();
             return;
         }
 

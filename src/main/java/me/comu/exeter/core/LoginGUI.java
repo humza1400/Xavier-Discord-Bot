@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
-import me.comu.exeter.util.HWIDUtils;
 import me.comu.exeter.wrapper.Wrapper;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDABuilder;
@@ -20,8 +19,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -175,7 +172,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 return;
             }
             try {
-                try {
+          /*      try {
                     if (!HWIDUtils.get("https://pastebin.com/raw/WYd6SZmC").contains(HWIDUtils.getHWID())) {
                         jStatusField.setText("NOT AUTHORIZED");
                         return;
@@ -183,7 +180,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 } catch (IOException | NoSuchAlgorithmException ex) {
                     jStatusField.setText("NOT AUTHORIZED");
                     return;
-                }
+                }*/
                 jStatusField.setText("AUTHORIZED");
                 stopButton.setText("Stop");
                 String TOKEN = jTokenField.getText().trim();

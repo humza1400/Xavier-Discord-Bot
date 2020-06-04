@@ -84,7 +84,7 @@ public class CreateAChannelEvent extends ListenerAdapter {
                 try {
                     CreateAChannelCommand.map.remove(event.getEntity().getId());
                     event.getChannelLeft().delete().reason("Create-A-Channel VC").queue();
-                    Objects.requireNonNull(event.getJDA().getVoiceChannelById(CreateAChannelCommand.channelID)).putPermissionOverride(event.getEntity()).setAllow(Permission.VOICE_CONNECT).queue();
+                    Objects.requireNonNull(event.getJDA().getVoiceChannelById(CreateAChannelCommand.channelID)).putPermissionOverride(event.getEntity()).clear(Permission.VOICE_CONNECT).queue();
                 } catch (Exception ex) {
                     Logger.getLogger().print("Tried deleting an already deleted channel");
                 }
