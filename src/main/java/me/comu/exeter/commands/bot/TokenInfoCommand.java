@@ -25,22 +25,37 @@ public class TokenInfoCommand implements ICommand {
             return;
         }
         OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder().url("https://canary.discordapp.com/api/v7/users/@me").get()
+        Request botRequest = new Request.Builder().url("https://canary.discordapp.com/api/v7/users/@me").get()
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) discord/0.0.306 Chrome/78.0.3904.130 Electron/7.1.11 Safari/537.36")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", args.get(0))
+                .addHeader("Authorization", "Bot " + args.get(0))
                 .build();
         try {
-            Response response = okHttpClient.newCall(request).execute();
-            if (response.isSuccessful()) {
+            Response response = okHttpClient.newCall(botRequest).execute();
+            if (response.code() == 200) {
                 String jsonResponse = Objects.requireNonNull(response.body()).string();
                 JsonParser parser = new JsonParser();
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 JsonElement el = parser.parse(jsonResponse);
                 jsonResponse = gson.toJson(el);
-                event.getChannel().sendMessage(MarkdownUtil.codeblock(jsonResponse)).queue();
+                event.getChannel().sendMessage(MarkdownUtil.codeblock("json", jsonResponse)).queue();
             } else {
-                event.getChannel().sendMessage("Token Couldn't Be Resolved | " + response.code() + " " + response.message()).queue();
+                Request userRequest = new Request.Builder().url("https://canary.discordapp.com/api/v7/users/@me").get()
+                        .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) discord/0.0.306 Chrome/78.0.3904.130 Electron/7.1.11 Safari/537.36")
+                        .addHeader("Content-Type", "application/json")
+                        .addHeader("Authorization", args.get(0))
+                        .build();
+                Response response1 = okHttpClient.newCall(userRequest).execute();
+                if (response1.code() == 200) {
+                    String jsonResponse = Objects.requireNonNull(response1.body()).string();
+                    JsonParser parser = new JsonParser();
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    JsonElement el = parser.parse(jsonResponse);
+                    jsonResponse = gson.toJson(el);
+                    event.getChannel().sendMessage(MarkdownUtil.codeblock("json", jsonResponse)).queue();
+                } else {
+                    event.getChannel().sendMessage("Token Couldn't Be Resolved | " + response1.code() + " " + response1.message()).queue();
+                }
             }
 
         } catch (IOException ex) {
@@ -50,7 +65,7 @@ public class TokenInfoCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Shows information about the specified token\n`" + Core.PREFIX + getInvoke() + " ` [token]\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Shows information about the specified token\n`" + Core.PREFIX + getInvoke() + " [token]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
