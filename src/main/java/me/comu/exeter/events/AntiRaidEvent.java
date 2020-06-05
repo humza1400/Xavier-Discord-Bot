@@ -47,6 +47,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                     }
                     if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                         Member member = event.getGuild().getMemberById(id);
+                        if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                            return;
                         List<Role> roles = Objects.requireNonNull(member).getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
                         List<String> strings = Arrays.asList(stringArray);
@@ -108,6 +110,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                             Member member = event.getGuild().getMemberById(id);
+                            if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                                return;
                             List<Role> roles = Objects.requireNonNull(member).getRoles();
                             String[] stringArray = new String[member.getRoles().size()];
                             List<String> strings = Arrays.asList(stringArray);
@@ -163,6 +167,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                             Member member = event.getGuild().getMemberById(id);
+                            if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                                return;
                             List<Role> roles = Objects.requireNonNull(member).getRoles();
                             String[] stringArray = new String[member.getRoles().size()];
                             List<String> strings = Arrays.asList(stringArray);
@@ -231,6 +237,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                     }
                     if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                         Member member = event.getGuild().getMemberById(id);
+                        if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                            return;
                         List<Role> roles = Objects.requireNonNull(member).getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
                         List<String> strings = Arrays.asList(stringArray);
@@ -294,6 +302,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                             Member member = event.getGuild().getMemberById(id);
+                            if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                                return;
                             List<Role> roles = Objects.requireNonNull(member).getRoles();
                             String[] stringArray = new String[member.getRoles().size()];
                             List<String> strings = Arrays.asList(stringArray);
@@ -349,6 +359,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                             Member member = event.getGuild().getMemberById(id);
+                            if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                                return;
                             List<Role> roles = Objects.requireNonNull(member).getRoles();
                             String[] stringArray = new String[member.getRoles().size()];
                             List<String> strings = Arrays.asList(stringArray);
@@ -417,6 +429,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                     }
                     if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                         Member member = event.getGuild().getMemberById(id);
+                        if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                            return;
                         List<Role> roles = Objects.requireNonNull(member).getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
                         List<String> strings = Arrays.asList(stringArray);
@@ -481,6 +495,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                             Member member = event.getGuild().getMemberById(id);
+                            if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                                return;
                             List<Role> roles = Objects.requireNonNull(member).getRoles();
                             String[] stringArray = new String[member.getRoles().size()];
                             List<String> strings = Arrays.asList(stringArray);
@@ -538,6 +554,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                             Member member = event.getGuild().getMemberById(id);
+                            if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                                return;
                             List<Role> roles = Objects.requireNonNull(member).getRoles();
                             String[] stringArray = new String[member.getRoles().size()];
                             List<String> strings = Arrays.asList(stringArray);
@@ -614,6 +632,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                     }
                     if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                         Member member = event.getGuild().getMemberById(id);
+                        if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                            return;
                         List<Role> roles = Objects.requireNonNull(member).getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
                         List<String> strings = Arrays.asList(stringArray);
@@ -678,6 +698,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                     }
                     if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                         Member member = event.getGuild().getMemberById(id);
+                        if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                            return;
                         List<Role> roles = Objects.requireNonNull(member).getRoles();
                         String[] stringArray = new String[member.getRoles().size()];
                         List<String> strings = Arrays.asList(stringArray);
@@ -745,6 +767,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                             Member member = event.getGuild().getMemberById(id);
+                            if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                                return;
                             List<Role> roles = Objects.requireNonNull(member).getRoles();
                             String[] stringArray = new String[member.getRoles().size()];
                             List<String> strings = Arrays.asList(stringArray);
@@ -814,6 +838,8 @@ public class AntiRaidEvent extends ListenerAdapter {
                         }
                         if (!idLong.equals(Core.OWNERID) && !id.equals(event.getJDA().getSelfUser().getId()) && !id.equals(event.getGuild().getOwnerId())) {
                             Member member = event.getGuild().getMemberById(id);
+                            if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                                return;
                             List<Role> roles = Objects.requireNonNull(member).getRoles();
                             String[] stringArray = new String[member.getRoles().size()];
                             List<String> strings = Arrays.asList(stringArray);

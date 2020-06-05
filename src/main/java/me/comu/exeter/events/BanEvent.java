@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.audit.ActionType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
-import net.dv8tion.jda.api.exceptions.HierarchyException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
@@ -29,10 +28,9 @@ public class BanEvent extends ListenerAdapter {
                 String userId = Objects.requireNonNull(user).getId();
                 if (user.getIdLong() != Core.OWNERID && !userId.equals(event.getJDA().getSelfUser().getId()) && !userId.equals(event.getGuild().getOwnerId()) && !Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), userId, event.getGuild().getId())) {
                     Member member = event.getGuild().getMemberById(userId);
-                    try {
-                        event.getGuild().ban(Objects.requireNonNull(member), 0).reason("Triggered Anti-Nuke").queue();
-                    } catch (HierarchyException | IllegalArgumentException ignored) {
-                    }
+                    if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                        return;
+                    event.getGuild().ban(Objects.requireNonNull(member), 0).reason("Triggered Anti-Nuke").queue();
                     String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                     String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");

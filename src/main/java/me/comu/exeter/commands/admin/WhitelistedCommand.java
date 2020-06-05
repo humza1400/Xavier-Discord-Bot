@@ -38,6 +38,7 @@ public class WhitelistedCommand implements ICommand {
                 } catch (NullPointerException ex) {
                     event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x.getUserID() + ")").queue();
                     WhitelistCommand.getWhitelistedIDs().remove(x);
+                    WhitelistedJSONHandler.saveWhitelistConfig();
                 }
             }
             event.getChannel().sendMessage(EmbedUtils.embedMessage(MarkdownUtil.bold(counter + " Whitelisted Users: (GLOBAL)\n" + globalStringBuffer.toString())).build()).queue();
@@ -58,6 +59,7 @@ public class WhitelistedCommand implements ICommand {
                 } catch (NullPointerException ex) {
                     event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x.getUserID() + ")").queue();
                     WhitelistCommand.getWhitelistedIDs().remove(x);
+                    WhitelistedJSONHandler.saveWhitelistConfig();
 
                 }
             }

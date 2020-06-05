@@ -205,6 +205,7 @@ public class CommandManager {
         register(new AutoNukeChannelsCommand());
         register(new BlacklistWordCommand());
         register(new NSFWCommand());
+        register(new AutoMuteCommand());
         // MUSIC
         register(new JoinCommand());
         register(new LeaveCommand());

@@ -41,6 +41,10 @@ public class OffEvent extends ListenerAdapter {
                         if (webhook.getOwner() != null && webhook.getOwner().getIdLong() != (Core.OWNERID) && !webhook.getOwner().getId().equals(event.getJDA().getSelfUser().getId()) && !webhook.getOwner().getId().equals(event.getGuild().getOwnerId()) && !Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), webhook.getOwner().getId(), event.getGuild().getId())) {
                             if (event.getGuild().getSelfMember().canInteract(webhook.getOwner())) {
                                 Member member = webhook.getOwner();
+                                if (member != null && !event.getGuild().getSelfMember().canInteract(member))
+                                    return;
+                                if (member == null)
+                                    return;
                                 List<Role> roles = member.getRoles();
                                 String[] stringArray = new String[member.getRoles().size()];
                                 List<String> strings = Arrays.asList(stringArray);
