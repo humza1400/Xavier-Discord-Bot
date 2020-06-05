@@ -1,4 +1,4 @@
-package me.comu.exeter.commands.music;
+package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
@@ -68,6 +68,6 @@ public class DiscriminatorCommand implements ICommand {
 
     @Override
     public Category getCategory() {
-        return Category.MUSIC;
+        return Category.BOT;
     }
 }
