@@ -13,7 +13,6 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.logging.Logger;
 import me.comu.exeter.util.CompositeKey;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.RestAction;
 import okhttp3.OkHttpClient;
@@ -25,9 +24,11 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.net.ssl.HttpsURLConnection;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -45,11 +46,6 @@ public class Wrapper {
         action.queue((user) -> user.openPrivateChannel().queue((channel) -> channel.sendMessage(content).queue(null, (error) -> Logger.getLogger().print("Couldn't message " + Objects.requireNonNull(Core.jda.getUserById(userId)).getAsTag()))));
     }
 
-    public void sendPrivateMessageWithDelay(JDA jda, String userId, String content, long delay, TimeUnit timeUnit) {
-        RestAction<User> action = jda.retrieveUserById(userId);
-        action.queue((user) -> user.openPrivateChannel().queueAfter(delay, timeUnit, (channel) -> channel.sendMessage(content).queue(null, (error) -> Logger.getLogger().print("Couldn't message " + Objects.requireNonNull(Core.jda.getUserById(userId)).getAsTag()))));
-    }
-
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
         for (Map.Entry<T, E> entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
@@ -64,9 +60,6 @@ public class Wrapper {
     }
 
 
-    public static boolean botCheck(Message message) {
-        return !message.getAuthor().isBot();
-    }
 
     public static boolean isMarried(String userID) {
         return marriedUsers.containsValue(userID) || marriedUsers.containsKey(userID);
@@ -102,7 +95,7 @@ public class Wrapper {
         return new Color(r, g, b);
     }
 
-    public static String getIpaddress() {
+    private static String getIpaddress() {
         String ipAddress = "null";
         try {
             final URL whatismyip = new URL("http://checkip.amazonaws.com");
@@ -114,7 +107,7 @@ public class Wrapper {
         return ipAddress;
     }
 
-    public static String getHostInformation() {
+    private static String getHostInformation() {
         InetAddress ip;
         String hostname = null;
         try {
@@ -205,8 +198,8 @@ public class Wrapper {
     }
 
     public static List<String> extractUrls(String text) {
-        List<String> containedUrls = new ArrayList<String>();
-        String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+        List<String> containedUrls = new ArrayList<>();
+        String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?+-=\\\\\\.&]*)";
         Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
         Matcher urlMatcher = pattern.matcher(text);
 
@@ -226,7 +219,7 @@ public class Wrapper {
             InputStream in = new BufferedInputStream(connection.getInputStream());
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
-            int n = 0;
+            int n;
             while (-1 != (n = in.read(buf))) {
                 out.write(buf, 0, n);
             }
@@ -249,7 +242,7 @@ public class Wrapper {
             InputStream in = new BufferedInputStream(connection.getInputStream());
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
-            int n = 0;
+            int n;
             while (-1 != (n = in.read(buf))) {
                 out.write(buf, 0, n);
             }
@@ -284,9 +277,6 @@ public class Wrapper {
         client.close();
     }
 
-    public static String makeCompoundKey(String guild, String user) {
-        return guild + "|" + user;
-    }
 
     public static String getDiscordStatus() {
         try {
@@ -323,6 +313,40 @@ public class Wrapper {
             return "IOException";
         }
         return null;
+    }
+    public static String createPaste(String text, boolean raw) throws IOException {
+        byte[] postData = text.getBytes(StandardCharsets.UTF_8);
+        int postDataLength = postData.length;
+
+        String requestURL = "https://hastebin.com/documents";
+        URL url = new URL(requestURL);
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setInstanceFollowRedirects(false);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("User-Agent", "Hastebin Java Api");
+        conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+        conn.setUseCaches(false);
+
+        String response = null;
+        DataOutputStream wr;
+        try {
+            wr = new DataOutputStream(conn.getOutputStream());
+            wr.write(postData);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            response = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (response.contains("\"key\"")) {
+            response = response.substring(response.indexOf(":") + 2, response.length() - 2);
+
+            String postURL = raw ? "https://hastebin.com/raw/" : "https://hastebin.com/";
+            response = postURL + response;
+        }
+
+        return response;
     }
 
 }

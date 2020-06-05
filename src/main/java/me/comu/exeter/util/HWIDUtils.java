@@ -9,8 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-public class HWIDUtils
-{
+public class HWIDUtils {
     public static String getHWID() throws NoSuchAlgorithmException {
         final StringBuilder s = new StringBuilder();
         final String main = System.getenv("PROCESSOR_IDENTIFIER") + System.getenv("COMPUTERNAME") + System.getProperty("user.name").trim();
@@ -31,7 +30,7 @@ public class HWIDUtils
     }
 
     public static String get(final String url) throws IOException {
-        final HttpURLConnection con = (HttpURLConnection)new URL(url).openConnection();
+        final HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", "Mozilla/5.0");
         final BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -45,7 +44,7 @@ public class HWIDUtils
     }
 
     public static String post(final String url, final Map<String, String> requestMap, final String body) throws IOException {
-        final HttpURLConnection con = (HttpURLConnection)new URL(url).openConnection();
+        final HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
         con.setRequestMethod("POST");
         con.setRequestProperty("User-Agent", "Mozilla/5.0");
         if (requestMap != null) {

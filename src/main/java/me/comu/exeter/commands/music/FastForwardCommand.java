@@ -5,7 +5,6 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
-import me.comu.exeter.musicplayer.TrackScheduler;
 import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -23,7 +22,6 @@ public class FastForwardCommand implements ICommand {
         GuildMusicManager guildMusicManager = playerManager.getGuildMusicManager(event.getGuild());
         AudioManager audioManager = event.getGuild().getAudioManager();
         VoiceChannel voiceChannel = audioManager.getConnectedChannel();
-        TrackScheduler scheduler = guildMusicManager.scheduler;
         AudioPlayer player = guildMusicManager.player;
         TextChannel textChannel = event.getChannel();
 

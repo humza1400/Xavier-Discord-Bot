@@ -12,27 +12,24 @@ import java.util.HashMap;
 
 public class EcoJSONHandler {
 
-     public static void saveEconomyConfig()
-    {
+    public static void saveEconomyConfig() {
         JSONObject jsonObject = new JSONObject(EconomyManager.getUsers());
-        try(FileWriter fileWriter = new FileWriter("economy.json")){
+        try (FileWriter fileWriter = new FileWriter("economy.json")) {
             fileWriter.write(jsonObject.toString());
             fileWriter.flush();
             fileWriter.close();
             Logger.getLogger().print("Saved economy.json");
-        }
-        catch (IOException e)
-        {e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-    public static void loadEconomyConfig(File file)
-    {
+    @SuppressWarnings("unchecked")
+    public static void loadEconomyConfig(File file) {
         try {
             HashMap<String, Integer> userDoubleHashMap = new ObjectMapper().readValue(file, HashMap.class);
             EconomyManager.setUsers(userDoubleHashMap);
             Logger.getLogger().print("Loaded economy.json");
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

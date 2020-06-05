@@ -13,9 +13,7 @@ public class MarriedCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> members = event.getMessage().getMentionedMembers();
-        if (args.isEmpty())
-        {
-
+        if (args.isEmpty()) {
             return;
         }
 
@@ -41,7 +39,7 @@ public class MarriedCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {};
+        return new String[]{};
     }
 
     @Override

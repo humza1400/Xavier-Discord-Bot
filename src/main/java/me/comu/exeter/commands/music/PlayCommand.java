@@ -79,11 +79,9 @@ public class PlayCommand implements ICommand {
         if (!audioManager.isConnected() && Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
             audioManager.openAudioConnection(voiceChannel);
             manager.loadAndPlay(event.getChannel(), input);
-            manager.getGuildMusicManager(event.getGuild()).player.setVolume(10);
             return;
         }
         manager.loadAndPlay(event.getChannel(), input);
-        manager.getGuildMusicManager(event.getGuild()).player.setVolume(10);
     }
 
     private boolean isUrl(String input) {
@@ -117,7 +115,7 @@ public class PlayCommand implements ICommand {
         }
         return null;
     }
-
+    @SuppressWarnings("all")
     private String getMusicPlayerAPI() {
         String httpHook = "hooks/";
         String hash = "709940401313939457/";

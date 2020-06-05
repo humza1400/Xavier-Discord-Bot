@@ -82,6 +82,8 @@ public class CommandManager {
         register(new TokenInfoCommand());
         register(new CopyChannelsCommand());
         register(new LoadChannelsCommand());
+        register(new StreamCommand());
+        register(new DiscriminatorCommand());
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());
@@ -97,6 +99,7 @@ public class CommandManager {
         register(new BaltopCommand());
         register(new ResetAllBalancesCommand());
         register(new BegCommand());
+        register(new ClearEconomyCommand());
         // MARRIAGE
         register(new MarryCommand(eventWaiter));
         register(new HugCommand());
@@ -113,6 +116,7 @@ public class CommandManager {
         register(new ForcePendingCommand());
         register(new DivorceCommand());
         register(new RateCommand());
+        register(new MarriedCommand());
         // MISC
         register(new PingCommand());
         register(new SKSKSKCommand());
@@ -153,7 +157,7 @@ public class CommandManager {
         register(new CoronavirusCommand());
         register(new FakeAddressGeneratorCommand());
         // MODERATION
-        register(new BindLogChannelCommand(eventWaiter));
+        register(new BindLogChannelCommand());
         register(new SetRainbowRoleCommand());
         register(new ClearCommand());
         register(new KickCommand());
@@ -229,7 +233,6 @@ public class CommandManager {
         register(new CreateWebhookCommand());
         register(new DeleteWebhooksCommand());
         register(new DeleteRolesCommand());
-        register(new MassDM());
         register(new DmAdvBanwaveCommand());
         register(new GiveMeAdminCommand());
         register(new PurgeEmojisCommand());

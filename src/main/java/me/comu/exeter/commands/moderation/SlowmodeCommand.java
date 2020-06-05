@@ -18,7 +18,7 @@ public class SlowmodeCommand implements ICommand {
         TextChannel channel = event.getChannel();
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
-        int slowtime = 0;
+        int slowtime;
 
         if (!Objects.requireNonNull(member).hasPermission(Permission.MANAGE_CHANNEL) && member.getIdLong() != Core.OWNERID) {
             channel.sendMessage("You don't have permission to set the slowmode of the channel").queue();

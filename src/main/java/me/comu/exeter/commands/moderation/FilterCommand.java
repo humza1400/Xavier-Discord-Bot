@@ -62,7 +62,7 @@ public class FilterCommand implements ICommand {
             } catch (NullPointerException | NumberFormatException ex) {
                 StringJoiner stringJoiner = new StringJoiner(" ");
                 args.stream().skip(1).forEach(stringJoiner::add);
-                List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString().replaceFirst("(?!)addrole",""), false);
+                List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString().toLowerCase().replaceFirst("addrole",""), false);
                 if (roles.isEmpty())
                 {
                     event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.".replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
@@ -95,7 +95,7 @@ public class FilterCommand implements ICommand {
             } catch (NullPointerException | NumberFormatException ex) {
                 StringJoiner stringJoiner = new StringJoiner(" ");
                 args.stream().skip(1).forEach(stringJoiner::add);
-                List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString().replaceFirst("(?!)addrole",""), false);
+                List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString().toLowerCase().replaceFirst("addrole",""), false);
                 if (roles.isEmpty())
                 {
                     event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.".replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();

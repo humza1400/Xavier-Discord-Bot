@@ -44,22 +44,10 @@ public class Core {
                         break;
                     }
                 }
-            } catch (ClassNotFoundException ex) {
+            } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException ex) {
                 Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex2) {
-                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex2);
-            } catch (IllegalAccessException ex3) {
-                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex3);
-            } catch (UnsupportedLookAndFeelException ex4) {
-                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex4);
             }
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    new LoginGUI().setVisible(true);
-                }
-
-            });
+            EventQueue.invokeLater(() -> new LoginGUI().setVisible(true));
         } else {
             me.comu.exeter.logging.Logger.getLogger().print("Couldn't decide whether to launch GUI or headless");
             System.exit(0);
@@ -72,7 +60,6 @@ public class Core {
         EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
         WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
         CommandManager commandManager = new CommandManager(eventWaiter);
-        Listener listener = new Listener(commandManager);
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
         WebUtils.setUserAgent("Mozilla/5.0 | Discord Bot");
         try {
@@ -110,7 +97,7 @@ public class Core {
         }
     }
 
-    public static void shutdownThread() {
+    static void shutdownThread() {
         LoginGUI.running = false;
         LoginGUI.jStatusField.setText("NOT RUNNING");
         jda.shutdownNow();

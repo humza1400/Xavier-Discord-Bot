@@ -1,23 +1,18 @@
 package me.comu.exeter.commands.misc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.web.ContentType;
-import me.duncte123.botcommons.web.WebParserUtils;
-import me.duncte123.botcommons.web.WebUtils;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.StringJoiner;
 
 public class HastebinCommand implements ICommand {
-
-    private static final String HASTE_SERVER = "https://hasteb.in/";
+    
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -26,36 +21,36 @@ public class HastebinCommand implements ICommand {
             channel.sendMessage("Missing arguments").queue();
             return;
         }
-        String invoke = getInvoke();
-        final String contentRaw = event.getMessage().getContentRaw();
-        if (contentRaw.toLowerCase().startsWith(Core.PREFIX + "paste"))
+        StringJoiner stringJoiner = new StringJoiner(" ");
+        args.forEach(stringJoiner::add);
+        final String body = stringJoiner.toString();
+        try {
+            event.getChannel().sendMessage(Wrapper.createPaste(body, false)).queue();
+        } catch (IOException ex)
         {
-        invoke = "paste";
+            event.getChannel().sendMessage("Connection throttled when making GET request").queue();
+            ex.printStackTrace();
         }
-        final int index = contentRaw.indexOf(invoke) + invoke.length();
-        final String body = contentRaw.substring(index).trim();
-
-        this.createPaste(body, (text) -> channel.sendMessage(text).queue());
+//        this.createPaste(body, (text) -> channel.sendMessage(text).queue());
     }
 
 
-
-    private void createPaste(String text, Consumer<String> callback) {
-        Request request = WebUtils.defaultRequest()
-                .post(RequestBody.create(null, text.getBytes()))
-                .addHeader("Content-Type", ContentType.TEXT_PLAIN.getType())
-                .url(HASTE_SERVER + "documents")
-                .build();
-
-        WebUtils.ins.prepareRaw(request, (r) -> WebParserUtils.toJSONObject(r, new ObjectMapper())).async(
-                (json) -> {
-                    String key = json.get("key").asText();
-
-                    callback.accept(HASTE_SERVER + key);
-                },
-                (e) -> callback.accept("Error: " + e.getMessage())
-        );
-    }
+//    private void createPaste(String text, Consumer<String> callback) {
+//        Request request = WebUtils.defaultRequest()
+//                .post(RequestBody.create(null, text.getBytes()))
+//                .addHeader("Content-Type", ContentType.TEXT_PLAIN.getType())
+//                .url("https://hasteb.in/" + "documents")
+//                .build();
+//
+//        WebUtils.ins.prepareRaw(request, (r) -> WebParserUtils.toJSONObject(r, new ObjectMapper())).async(
+//                (json) -> {
+//                    String key = json.get("key").asText();
+//
+//                    callback.accept("https://hasteb.in/" + key);
+//                },
+//                (e) -> callback.accept("Error: " + e.getMessage())
+//        );
+//    }
 
 
     @Override
@@ -65,15 +60,15 @@ public class HastebinCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "haste";
+        return "hastebin";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[] {"paste"};
+        return new String[]{"pastebin", "haste", "paste"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MISC;
     }

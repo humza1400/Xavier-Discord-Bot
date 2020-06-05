@@ -5,8 +5,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +31,7 @@ class ConfigGUI
 
     // constructor, to initialize the components
     // with default values.
-    public ConfigGUI() {
+    ConfigGUI() {
         setTitle("Bot Configurations");
         setBounds(300, 90, 900, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -115,14 +113,10 @@ class ConfigGUI
         female.setSelected(false);
         female.setSize(80, 20);
         female.setLocation(275, 200);
-        female.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (female.isSelected()) {
-                    dispose();
-                    LoginGUI.shouldRenderConfigurations = true;
-
-                }
+        female.addActionListener((actionListener) -> {
+            if (female.isSelected()) {
+                dispose();
+                LoginGUI.shouldRenderConfigurations = true;
             }
         });
         c.add(female);
@@ -137,8 +131,7 @@ class ConfigGUI
         dob.setLocation(100, 250);
         c.add(dob);
 
-
-        serverBox = new JComboBox(servers.toArray());
+        serverBox = new JComboBox<>(servers.toArray(new String[0]));
         serverBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
         serverBox.setSize(260, 40);
         serverBox.setLocation(200, 250);
@@ -174,12 +167,7 @@ class ConfigGUI
         dmDelaySlider.setFont(new Font("Tahoma", Font.PLAIN, 10));
         dmDelaySlider.setSize(300, 375);
         dmDelaySlider.setLocation(675, 200);
-        dmDelaySlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                dmDelay.setText("Delay: " + dmDelaySlider.getValue());
-            }
-        });
+        dmDelaySlider.addChangeListener((changeEvent) -> dmDelay.setText("Delay: " + dmDelaySlider.getValue()));
         c.add(dmDelaySlider);
 
         term = new JCheckBox("This bot was made by swag.");
@@ -239,7 +227,7 @@ class ConfigGUI
             StringBuilder stringBuffer = new StringBuilder();
             int memberCount = 0;
             for (Guild g : Core.jda.getGuilds()) {
-                if (g.getName() == Objects.requireNonNull(serverBox.getSelectedItem()).toString()) {
+                if (g.getName().equals(Objects.requireNonNull(serverBox.getSelectedItem()).toString())) {
                     for (Member member : g.getMembers()) {
                         memberCount++;
                         owner = Objects.requireNonNull(g.getOwner()).getUser().getName() + "#" + g.getOwner().getUser().getDiscriminator();
@@ -305,8 +293,7 @@ class ConfigGUI
                                     tadd.append("Messaged " + member.getUser().getAsTag() + " (" + counter + ")\n");
                                     Thread.sleep(dmDelaySlider.getValue());
                                 }
-                                if (Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getSelfMember().canInteract(member))
-                                {
+                                if (Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getSelfMember().canInteract(member)) {
                                     member.ban(0, "GRIEFED BY SWAG LEL!").queue();
                                     tadd.append("Banned " + member.getUser().getAsTag());
                                 }

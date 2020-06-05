@@ -17,18 +17,19 @@ public class Config {
 
 
 
-    public static boolean createDirectory(String path) {
+     @SuppressWarnings("UnusedReturnValue")
+     private static boolean createDirectory(String path) {
         File file = new File(path);
         return file.mkdirs();
     }
 
-    public static boolean doesExist(String path) {
+     private static boolean doesExist(String path) {
         File file = new File(path);
         return (file.exists());
 
     }
 
-    public static void buildDirectory(String path, String name) {
+     static void buildDirectory(String path, String name) {
         if (doesExist(path)) {
             Logger.getLogger().print("Running on pre-" + name + " directory");
         } else {

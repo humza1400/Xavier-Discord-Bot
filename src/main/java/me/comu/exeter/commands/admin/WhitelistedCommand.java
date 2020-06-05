@@ -35,8 +35,7 @@ public class WhitelistedCommand implements ICommand {
                     String name = Objects.requireNonNull(user).getAsTag() + " - " + level + String.format(" (%s)", Objects.requireNonNull(event.getJDA().getGuildById(x.getGuildID())).getName());
                     globalStringBuffer.append(" + ").append(name).append("\n");
                     counter++;
-                } catch (NullPointerException ex)
-                {
+                } catch (NullPointerException ex) {
                     event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x.getUserID() + ")").queue();
                     WhitelistCommand.getWhitelistedIDs().remove(x);
                 }
@@ -84,7 +83,7 @@ public class WhitelistedCommand implements ICommand {
         return new String[]{"seewhitelist", "arwhitelisted", "whitelistlist", "trustlist", "wld"};
     }
 
-   @Override
+    @Override
     public Category getCategory() {
         return Category.ADMIN;
     }

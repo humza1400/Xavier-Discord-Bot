@@ -18,16 +18,14 @@ public class MCNameHistoryCommand implements ICommand {
             event.getChannel().sendMessage("Please insert an IGN").queue();
             return;
         }
-        fetchUUID(args.get(0), (uuid) -> {
-            fetchNameHistory(uuid, names -> {
-                if (names == null || names.isEmpty()) {
-                    event.getChannel().sendMessage("UUID Returned Null").queue();
-                    return;
-                }
-                final String igns = String.join(", ", names);
-                event.getChannel().sendMessage("**" + args.get(0) + "'s** name history (" + uuid + "):\n" + igns.replaceAll("@everyone", "everyone").replaceAll("@here", "here")).queue();
-            });
-        });
+        fetchUUID(args.get(0), (uuid) -> fetchNameHistory(uuid, names -> {
+            if (names == null || names.isEmpty()) {
+                event.getChannel().sendMessage("UUID Returned Null").queue();
+                return;
+            }
+            final String igns = String.join(", ", names);
+            event.getChannel().sendMessage("**" + args.get(0) + "'s** name history (" + uuid + "):\n" + igns.replaceAll("@everyone", "everyone").replaceAll("@here", "here")).queue();
+        }));
     }
 
     private String fetchUUID(String username, Consumer<String> response) {
@@ -35,9 +33,7 @@ public class MCNameHistoryCommand implements ICommand {
         WebUtils.ins.getJSONObject("https://api.mojang.com/users/profiles/minecraft/" + username).async((jsonNodes) -> {
             response.accept(jsonNodes.get("id").asText());
             stringBuilder.append(jsonNodes.get("id").asText());
-        }, (error) -> {
-            response.accept(null);
-        });
+        }, (error) -> response.accept(null));
         return stringBuilder.toString();
     }
 
@@ -46,9 +42,7 @@ public class MCNameHistoryCommand implements ICommand {
             List<String> names = new ArrayList<>();
             jsonNodes.forEach((item) -> names.add(item.get("name").asText()));
             response.accept(names);
-        }, (error) -> {
-            response.accept(null);
-        });
+        }, (error) -> response.accept(null));
     }
 
 

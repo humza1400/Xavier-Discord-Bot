@@ -46,7 +46,6 @@ public class LockdownCommand implements ICommand {
         }
     }
 
-    public static boolean isIsLockdown() {return inLockdown;}
 
     @Override
     public String getHelp() {

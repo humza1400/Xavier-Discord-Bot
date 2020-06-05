@@ -12,17 +12,15 @@ import java.util.Objects;
 public class GuildLookUpCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (args.isEmpty())
-        {
+        if (args.isEmpty()) {
             event.getChannel().sendMessage("Please specify an ID to look up!").queue();
             return;
         }
         try {
-                event.getChannel().sendMessage(EmbedUtils.embedImage(Objects.requireNonNull(event.getJDA().getGuildById(args.get(0)).getIconUrl()).concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(args.get(0) + " belongs to `" + Objects.requireNonNull(event.getJDA().getGuildById(args.get(0))).getName() + "`").build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(Objects.requireNonNull(Objects.requireNonNull(event.getJDA().getGuildById(args.get(0))).getIconUrl()).concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(args.get(0) + " belongs to `" + Objects.requireNonNull(event.getJDA().getGuildById(args.get(0))).getName() + "`").build()).queue();
 
-        } catch (NumberFormatException | NullPointerException ex)
-        {
-            event.getChannel().sendMessage("No guild exists with that ID.").queue();
+        } catch (NumberFormatException | NullPointerException ex) {
+            event.getChannel().sendMessage("No guild exists with that ID in my database.").queue();
         }
     }
 
@@ -38,10 +36,10 @@ public class GuildLookUpCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"guildlookup","gid","serverlookup","whoguild","serverid","guildid"};
+        return new String[]{"guildlookup", "gid", "serverlookup", "whoguild", "serverid", "guildid"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MISC;
     }

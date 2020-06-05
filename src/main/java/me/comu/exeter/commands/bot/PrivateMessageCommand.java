@@ -55,9 +55,7 @@ public class PrivateMessageCommand implements ICommand {
         user.openPrivateChannel().queue((channel) ->
         {
             try {
-                channel.sendMessage(content).queue((success) -> {
-                    textChannel.sendMessage(EmbedUtils.embedMessage("Successfully messaged " + user.getAsMention()).build()).queue();
-                        }
+                channel.sendMessage(content).queue((success) -> textChannel.sendMessage(EmbedUtils.embedMessage("Successfully messaged " + user.getAsMention()).build()).queue()
                 , (error) ->
                         textChannel.sendMessage(EmbedUtils.embedMessage("Couldn't message " + user.getAsMention()).build()).queue());
             } catch (Exception e) {

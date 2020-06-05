@@ -32,7 +32,7 @@ public class SetLockdownRoleCommand implements ICommand {
             return;
         }
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a role");
+            event.getChannel().sendMessage("Please specify a role").queue();
             return;
         }
 

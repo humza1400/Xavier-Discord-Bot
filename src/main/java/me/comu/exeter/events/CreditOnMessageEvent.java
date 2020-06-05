@@ -19,18 +19,16 @@ public class CreditOnMessageEvent extends ListenerAdapter {
             return;
         double d = Math.random();
         int amount = new Random().nextInt(31);
-        if (d > 0.98 && amount != 0)
-        {
+        if (d > 0.98 && amount != 0) {
             if (ShowCreditMessagesCommand.creditNotifications)
-            event.getChannel().sendMessage(String.format("%s got lucky and received " + MarkdownUtil.monospace(Integer.toString(amount)) + " credits!", event.getAuthor().getName()).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere").replaceAll("`","\\`")).queue();
+                event.getChannel().sendMessage(String.format("%s got lucky and received " + MarkdownUtil.monospace(Integer.toString(amount)) + " credits!", event.getAuthor().getName()).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere").replaceAll("`", "\\`")).queue();
 
             if (EconomyManager.verifyUser(event.getAuthor().getId()))
                 EconomyManager.getUsers().put(event.getAuthor().getId(), 0);
             EconomyManager.setBalance(event.getAuthor().getId(), EconomyManager.getBalance(event.getAuthor().getId()) + amount);
         }
 
-        if (ChatTrackingManager.verifyChatUser(Objects.requireNonNull(event.getMember()).getId()))
-        {
+        if (ChatTrackingManager.verifyChatUser(Objects.requireNonNull(event.getMember()).getId())) {
             ChatTrackingManager.setChatCredits(event.getMember().getId(), 0);
         }
         ChatTrackingManager.setChatCredits(event.getMember().getId(), ChatTrackingManager.getChatCredits(event.getMember().getId()) + 1);

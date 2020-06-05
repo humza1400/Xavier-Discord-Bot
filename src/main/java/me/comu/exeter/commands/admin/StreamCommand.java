@@ -7,20 +7,20 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class StreamCommand implements ICommand {
 
-    private static boolean members;
-
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (event.getMessage().getContentRaw().substring(7).equals("members"))
-        {
-            members = true;
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessage("You don't have permission to change the streaming status").queue();
             return;
         }
-        members = false;
-        Core.jda.getPresence().setActivity(Activity.streaming(event.getMessage().getContentRaw().substring(5), "twitch.tv/souljaboy").asRichPresence());
+        StringJoiner stringJoiner = new StringJoiner(" ");
+        args.forEach(stringJoiner::add);
+        Core.jda.getPresence().setActivity(Activity.streaming(stringJoiner.toString(), "twitch.tv/souljaboy").asRichPresence());
     }
 
 

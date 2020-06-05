@@ -32,7 +32,7 @@ public class PingCommand implements ICommand {
         return new String[0];
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MISC;
     }

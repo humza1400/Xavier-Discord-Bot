@@ -61,7 +61,7 @@ public class LyricsCommand implements ICommand {
                     String jsonResponse = Objects.requireNonNull(response.body()).string();
                     Logger.getLogger().print(jsonResponse + "\n");
                     JSONObject jsonObject = new JSONObject(jsonResponse);
-                    if (jsonObject.getJSONObject("response").getJSONArray("hits").isEmpty()){
+                    if (jsonObject.getJSONObject("response").getJSONArray("hits").isEmpty()) {
                         event.getChannel().sendMessage("Couldn't find lyrics to that song").queue();
                         return;
                     }
@@ -73,12 +73,12 @@ public class LyricsCommand implements ICommand {
                     Request request = new Request.Builder().addHeader("Authorization", "Bearer -l0QGGg7DvRtR3WuHqo41X8igda4a4HPUMdVCqaxhXIQjIcYrGLfBUhwxHdjMmqV").url(songSearch).build();
                     httpClient.newCall(request).enqueue(new Callback() {
                         @Override
-                        public void onFailure(Call call, IOException e) {
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
                             e.printStackTrace();
                         }
 
                         @Override
-                        public void onResponse(Call call, Response response) throws IOException {
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             if (response.isSuccessful()) {
                                 String jsonResponse = Objects.requireNonNull(response.body()).string();
                                 Logger.getLogger().print(jsonResponse + "\n");
@@ -98,10 +98,9 @@ public class LyricsCommand implements ICommand {
                                 try (InputStream stream = getInputStreamFor(songUrl);
                                      BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
                                     lyrics = findLyrics(reader);
-                                    if (formatLyrics(lyrics).length() > 2000)
-                                    {
+                                    if (formatLyrics(lyrics).length() > 2000) {
                                         final int mid = formatLyrics(lyrics).length() / 2;
-                                        String[] parts = {formatLyrics(lyrics).substring(0, mid),formatLyrics(lyrics).substring(mid)};
+                                        String[] parts = {formatLyrics(lyrics).substring(0, mid), formatLyrics(lyrics).substring(mid)};
                                         embedBuilder.setDescription(parts[0]);
                                         embedBuilder2.setDescription(parts[1]);
                                         event.getChannel().sendMessage(embedBuilder.build()).queue();
@@ -145,8 +144,8 @@ public class LyricsCommand implements ICommand {
         return lyrics.replaceAll("(<!--/?sse-->)|(</?[apibu]>)|(\\[[^\\[\\]]+])|(<a[^>]+>)", "")
                 .replaceAll("(<br>){2}(<br>)+", "<br><br>")
                 .replaceAll("<br>", "\n")
-                .replaceAll("<em>","")
-                .replaceAll("</em>","").trim();
+                .replaceAll("<em>", "")
+                .replaceAll("</em>", "").trim();
     }
 
     private static InputStream getInputStreamFor(String url) {

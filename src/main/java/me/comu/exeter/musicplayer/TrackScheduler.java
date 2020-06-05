@@ -20,7 +20,7 @@ public class TrackScheduler extends AudioEventAdapter {
     /**
      * @param player The audio player this scheduler uses
      */
-    public TrackScheduler(AudioPlayer player) {
+    TrackScheduler(AudioPlayer player) {
         this.player = player;
         this.queue = new LinkedBlockingQueue<>();
     }
@@ -58,7 +58,7 @@ public class TrackScheduler extends AudioEventAdapter {
         boolean loop = PlayerManager.loop && (endReason == AudioTrackEndReason.FINISHED);
         // save old track
         AudioTrack loopTrack = null;
-        if(loop) {
+        if (loop) {
             loopTrack = track.makeClone();
         }
 
@@ -67,7 +67,7 @@ public class TrackScheduler extends AudioEventAdapter {
         if (endReason.mayStartNext) {
             nextTrack();
             if (textChannel != null && player.getPlayingTrack() != null)
-            textChannel.sendMessage("Now playing **" + player.getPlayingTrack().getInfo().title + "**").queue();
+                textChannel.sendMessage("Now playing **" + player.getPlayingTrack().getInfo().title + "**").queue();
         }
 
         // re add track if loop is enabled

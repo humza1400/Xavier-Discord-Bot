@@ -1,8 +1,6 @@
 package me.comu.exeter.events;
 
 import me.comu.exeter.commands.moderation.FilterCommand;
-import me.comu.exeter.commands.moderation.MuteCommand;
-import me.comu.exeter.commands.moderation.SetMuteRoleCommand;
 import me.comu.exeter.core.Core;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;

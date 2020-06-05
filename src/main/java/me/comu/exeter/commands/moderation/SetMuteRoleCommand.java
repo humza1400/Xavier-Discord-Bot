@@ -32,14 +32,10 @@ public class SetMuteRoleCommand implements ICommand {
             return;
         }
 
-        if (args.size() != 2) {
+        if (args.size() != 1) {
             channel.sendMessage("Please specify a role").queue();
             return;
         }
-     /*   if (!args.get(0).matches("^[-0-9]+")) {
-            channel.sendMessage("Please insert a valid role id").queue();
-            return;
-        }*/
 
         try {
             role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));

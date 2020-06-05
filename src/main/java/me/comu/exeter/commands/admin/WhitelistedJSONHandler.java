@@ -34,7 +34,7 @@ public class WhitelistedJSONHandler {
             e.printStackTrace();
         }
     }
-
+    @SuppressWarnings("unchecked")
     public static void loadWhitelistConfig(File file) {
         try {
             Map<String, Map<String, String>> whitelistedIDs = new ObjectMapper().readValue(file, HashMap.class);

@@ -30,8 +30,8 @@ public class EnableModuleCommand implements ICommand {
         }
         if (isInListOfHash(DisableModuleCommand.disabledModules, args.get(0))) {
             try {
-                Class commandClass = Class.forName(DisableModuleCommand.disabledModules.get(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0))).getClass().getName());
-                CommandManager.register((ICommand) commandClass.newInstance());
+                Class<?> commandClass = Class.forName(DisableModuleCommand.disabledModules.get(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0))).getClass().getName());
+                CommandManager.register((ICommand) commandClass.getDeclaredConstructor().newInstance());
                 event.getChannel().sendMessage("Successfully enabled " + MarkdownUtil.bold(DisableModuleCommand.disabledModules.get(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0))).getInvoke()) + " in " + MarkdownUtil.monospace(DisableModuleCommand.disabledModules.get(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0))).getCategory().toString()) + ".").queue();
                 DisableModuleCommand.disabledModules.remove(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0)));
             } catch (ClassNotFoundException ex) {
@@ -41,13 +41,7 @@ public class EnableModuleCommand implements ICommand {
                 event.getChannel().sendMessage("Something went wrong! :(").queue();
             }
         } else {
-            try {
-                Class commandClass = Class.forName("me.comu.exeter.commands.moderation.MuteCommand");
-                CommandManager.register((ICommand) commandClass.newInstance());
-                event.getChannel().sendMessage(MarkdownUtil.monospace(args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")) + " is not disabled or it doesn't exist.").queue();
-            } catch (Exception ex) {
-                event.getChannel().sendMessage(ex.getMessage()).queue();
-            }
+            event.getChannel().sendMessage("Couldn't find disabled module of `" + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere") + "`, maybe it's not disabled.").queue();
         }
     }
 
@@ -59,12 +53,12 @@ public class EnableModuleCommand implements ICommand {
         }
         return false;
     }
+
     private static List<String> returnListFromHash(Map<List<String>, ICommand> hashMap, String word) {
         List<String> fart = new ArrayList<>();
         for (List<String> list : hashMap.keySet()) {
             for (String string : list)
-                if (string.equalsIgnoreCase(word))
-                {
+                if (string.equalsIgnoreCase(word)) {
                     fart.addAll(list);
                 }
         }

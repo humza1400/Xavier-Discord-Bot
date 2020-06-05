@@ -8,6 +8,7 @@ import me.comu.exeter.util.CompositeKey;
 import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.audit.ActionType;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
@@ -26,9 +27,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import javax.annotation.Nonnull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AntiRaidEvent extends ListenerAdapter {
@@ -80,7 +79,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                             Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_CREATE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                         if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                             for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                     User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                     if (!Objects.requireNonNull(whitelistUser).isBot())
                                         Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_CREATE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
@@ -142,7 +141,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                             if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                                 for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                         User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                         if (!Objects.requireNonNull(whitelistUser).isBot())
                                             Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
@@ -186,7 +185,12 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 }
                             }
 
-                            event.getChannel().createCopy().setParent(event.getChannel().getParent()).setPosition(AntiRaidChannelSafetyCommand.channelPositions.get(event.getChannel().getId())).queue();
+                            if (AntiRaidChannelSafetyCommand.restorableCategories.stream().anyMatch((restorableCategory -> restorableCategory.getId().equals(event.getChannel().getId())))) {
+                                AntiRaidChannelSafetyCommand.restorableChannels.forEach(restorableChannel -> {
+                                    if (restorableChannel.getChannelType().equals(ChannelType.VOICE))
+                                        event.getGuild().createTextChannel(restorableChannel.getName()).setPosition(restorableChannel.getPosition()).queue();
+                                });
+                            }
                             String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
                             String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                             String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
@@ -198,7 +202,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                             if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                                 for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                         User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                         if (!Objects.requireNonNull(whitelistUser).isBot())
                                             Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `VOICE_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
@@ -260,7 +264,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                             Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CHANNEL_CREATE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                         if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                             for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                     User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                     if (!Objects.requireNonNull(whitelistUser).isBot())
                                         Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CHANNEL_CREATE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
@@ -322,7 +326,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                             if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                                 for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                         User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                         if (!Objects.requireNonNull(whitelistUser).isBot())
                                             Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
@@ -366,7 +370,12 @@ public class AntiRaidEvent extends ListenerAdapter {
                                     }
                                 }
                             }
-                                event.getChannel().createCopy().setNSFW(event.getChannel().isNSFW()).setSlowmode(event.getChannel().getSlowmode()).setParent(event.getChannel().getParent()).setPosition(AntiRaidChannelSafetyCommand.channelPositions.get(event.getChannel().getId())).queue();
+                            if (AntiRaidChannelSafetyCommand.restorableCategories.stream().anyMatch((restorableCategory -> restorableCategory.getId().equals(event.getChannel().getId())))) {
+                                AntiRaidChannelSafetyCommand.restorableChannels.forEach(restorableChannel -> {
+                                    if (restorableChannel.getChannelType().equals(ChannelType.TEXT))
+                                        event.getGuild().createTextChannel(restorableChannel.getName()).setPosition(restorableChannel.getPosition()).queue();
+                                });
+                            }
                             String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
                             String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                             String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
@@ -378,7 +387,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `ARCS & Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                             if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                                 for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                         User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                         if (!Objects.requireNonNull(whitelistUser).isBot())
                                             Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `TEXT_CHANNEL_DELETE`\nBot: " + botCheck + "\nAction Taken: `ARCS & Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
@@ -441,7 +450,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                             Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_CREATE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                         if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                             for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                     User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                     if (!Objects.requireNonNull(whitelistUser).isBot())
                                         Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_CREATE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
@@ -505,7 +514,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                             if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                                 for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                         User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                         if (!Objects.requireNonNull(whitelistUser).isBot())
                                             Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
@@ -551,7 +560,18 @@ public class AntiRaidEvent extends ListenerAdapter {
                                     }
                                 }
                             }
-                            event.getCategory().createCopy().setPosition(AntiRaidChannelSafetyCommand.channelPositions.get(event.getCategory().getId())).queue();
+                            if (AntiRaidChannelSafetyCommand.restorableCategories.stream().anyMatch((restorableCategory -> restorableCategory.getId().equals(event.getId())))) {
+                                AntiRaidChannelSafetyCommand.restorableCategories.forEach((restorableCategory -> event.getGuild().createCategory(restorableCategory.getName()).setPosition(restorableCategory.getPosition()).queue((category -> {
+                                    HashMap<Integer, String> hashMap = restorableCategory.getChildTextChannels();
+                                    for (Map.Entry entry : hashMap.entrySet()) {
+                                        event.getGuild().createTextChannel((String) entry.getValue()).setParent(category).setPosition((int) entry.getKey()).queue();
+                                    }
+                                    HashMap<Integer, String> hashMap2 = restorableCategory.getChildVoiceChannels();
+                                    for (Map.Entry entry : hashMap2.entrySet()) {
+                                        event.getGuild().createVoiceChannel((String) entry.getValue()).setParent(category).setPosition((int) entry.getKey()).queue();
+                                    }
+                                }))));
+                            }
                             String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
                             String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                             String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
@@ -563,7 +583,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `ARCS & Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                             if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                                 for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                         User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                         if (!Objects.requireNonNull(whitelistUser).isBot())
                                             Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `CATEGORY_DELETE`\nBot: " + botCheck + "\nAction Taken: `ARCS & Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
@@ -628,7 +648,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                             Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_CREATE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                         if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                             for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                     User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                     if (!Objects.requireNonNull(whitelistUser).isBot())
                                         Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_CREATE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
@@ -691,7 +711,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                             Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `ROLE_DELETE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                         if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                             for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                     {
                                         User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                         if (!Objects.requireNonNull(whitelistUser).isBot())
@@ -759,7 +779,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `MALICIOUS_PERMISSIONS`\nBot: " + botCheck + "\nAction Taken: `Reverted Permissions For \"" + event.getRole().getName() + "\" & Removed Roles`\nRoles Removed: `" + rolesRemoved + "`");
                             if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                                 for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                         {
                                             User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                             if (!Objects.requireNonNull(whitelistUser).isBot())
@@ -835,7 +855,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nSuspect: `" + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator() + " (" + event.getMember().getId() + ")" + "\nWhen: `" + dtf.format(now) + "`" + "\nType: `MALICIOUS_MEMBER_ROLE_UPDATE`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nWizzer's Roles Removed: `" + rolesRemoved + "`\nSuspect's Roles Removed: `" + Arrays.deepToString(stringArray2) + "`");
                             if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                                 for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                                    if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                         {
                                             User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                             if (!Objects.requireNonNull(whitelistUser).isBot())

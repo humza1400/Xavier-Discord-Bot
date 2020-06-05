@@ -14,7 +14,6 @@ public class SetWelcomeChannelCommand implements ICommand {
 
     public static boolean bound = false;
     public static long logChannelID;
-    private static String channelName;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -27,8 +26,7 @@ public class SetWelcomeChannelCommand implements ICommand {
         }
         TextChannel channel = event.getChannel();
         logChannelID = channel.getIdLong();
-        channelName = channel.getName();
-        event.getChannel().sendMessage("Welcome channel bound to `#" + channelName + "`").queue();
+        event.getChannel().sendMessage("Welcome channel bound to `#" + event.getChannel().getName() + "`").queue();
         bound = true;
     }
 

@@ -19,16 +19,16 @@ public class MockCommand implements ICommand {
         {
             message.append(msg).append(" ");
         }
-        String newMessage = "";
+        StringBuilder newMessage = new StringBuilder();
         for (char letter : message.toString().toCharArray()) {
             if (Math.random() > .50) {
-                newMessage += (Character.toUpperCase(letter));
+                newMessage.append(Character.toUpperCase(letter));
             } else {
-                newMessage += (letter);
+                newMessage.append(letter);
             }
         }
         event.getMessage().delete().queue();
-        event.getChannel().sendMessage(newMessage).queue();
+        event.getChannel().sendMessage(newMessage.toString()).queue();
     }
 
     @Override

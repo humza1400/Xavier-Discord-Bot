@@ -25,13 +25,11 @@ public class SetRainbowRoleCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         TextChannel channel = event.getChannel();
-        Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
         guild = event.getGuild();
 
 
-        if (/*!member.hasPermission(Permission.MANAGE_SERVER) && (!member.hasPermission(Permission.MANAGE_ROLES)) && */Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-//            channel.sendMessage("You don't have permission to set the rainbow role").queue();
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
             event.getChannel().sendMessage("Currently only the owner can set the rainbow role due to ratelimit handling.").queue();
             return;
         }
@@ -41,7 +39,7 @@ public class SetRainbowRoleCommand implements ICommand {
         }
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a role");
+            event.getChannel().sendMessage("Please specify a role").queue();
             return;
         }
 
@@ -49,10 +47,6 @@ public class SetRainbowRoleCommand implements ICommand {
             channel.sendMessage("Please specify a role").queue();
             return;
         }
-  /*      if (!args.get(0).matches("^[-0-9]+")) {
-            channel.sendMessage("Please insert a valid role id").queue();
-            return;
-        }*/
 
         try {
             role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));
@@ -60,20 +54,18 @@ public class SetRainbowRoleCommand implements ICommand {
             isRainbowRoleSet = true;
             channel.sendMessage("Rainbow role successfully set to `" + role.getName() + "`").queue();
         } catch (NullPointerException | NumberFormatException ex) {
-                List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
-                if (roles.isEmpty())
-                {
-                    event.getChannel().sendMessage("Couldn't find role `" + args.get(0) + "`. Maybe try using the role ID instead.".replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
-                    return;
-                }
-                if (roles.size() > 1)
-                {
-                    event.getChannel().sendMessage("Multiple roles found for `" + args.get(0) + "`. Use the role ID instead.").queue();
-                    return;
-                }
-                role = roles.get(0);
-                isRainbowRoleSet = true;
-                channel.sendMessage("Rainbow role successfully set to `" + role.getName() + "`").queue();
+            List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
+            if (roles.isEmpty()) {
+                event.getChannel().sendMessage("Couldn't find role `" + args.get(0) + "`. Maybe try using the role ID instead.".replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                return;
+            }
+            if (roles.size() > 1) {
+                event.getChannel().sendMessage("Multiple roles found for `" + args.get(0) + "`. Use the role ID instead.").queue();
+                return;
+            }
+            role = roles.get(0);
+            isRainbowRoleSet = true;
+            channel.sendMessage("Rainbow role successfully set to `" + role.getName() + "`").queue();
         }
 
     }
@@ -86,16 +78,16 @@ public class SetRainbowRoleCommand implements ICommand {
         return roleID;
     }
 
-    public static Role getRainbowRole() {
+    static Role getRainbowRole() {
         return role;
     }
 
-    public static void nullifyRainbowRole()
-    {
+    static void nullifyRainbowRole() {
         role = null;
         isRainbowRoleSet = false;
         Core.jda.removeEventListener(new RainbowRoleEvent());
     }
+
     @Override
     public String getHelp() {
         return "Sets the rainbow role to the specified role\n`" + Core.PREFIX + getInvoke() + " [role]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
@@ -108,10 +100,10 @@ public class SetRainbowRoleCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"setrainbowrole", "rainbowrole","setrainbow","setuprainbow", "rolerainbow"};
+        return new String[]{"setrainbowrole", "rainbowrole", "setrainbow", "setuprainbow", "rolerainbow"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MODERATION;
     }

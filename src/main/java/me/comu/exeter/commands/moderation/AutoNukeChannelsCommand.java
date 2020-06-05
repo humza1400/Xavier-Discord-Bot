@@ -51,15 +51,6 @@ public class AutoNukeChannelsCommand implements ICommand {
             }
         });
 
-        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to set this channel as ANC").queue();
-            return;
-        }
-
-        if (!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
-            event.getChannel().sendMessage("I don't have permissions to set this channel as ANC").queue();
-            return;
-        }
         if (args.isEmpty()) {
             if (ancChannels.contains(event.getChannel().getId())) {
                 event.getChannel().sendMessage("Removed `" + event.getChannel().getName() + "` from the ANC hash").queue();

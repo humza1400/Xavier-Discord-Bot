@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 public class ClearCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        List<Message> messages;
         TextChannel channel = event.getChannel();
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
@@ -104,14 +103,4 @@ public class ClearCommand implements ICommand {
         return Category.MODERATION;
     }
 
-    private void removeDuplicates(List<String> list)
-    {
-        for (String s : list)
-        {
-            if (!list.contains(s))
-            {
-                list.add(s);
-            }
-        }
-    }
 }

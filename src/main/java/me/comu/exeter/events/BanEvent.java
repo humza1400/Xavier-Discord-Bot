@@ -42,7 +42,7 @@ public class BanEvent extends ListenerAdapter {
                     Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + MarkdownUtil.monospace(member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")") + "`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
                     if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                         for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
-                            if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {
+                            if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                 User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                 if (!Objects.requireNonNull(whitelistUser).isBot())
                                     Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: " + MarkdownUtil.monospace(member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")") + "`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Ban`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
