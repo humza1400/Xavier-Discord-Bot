@@ -713,7 +713,7 @@ public class AntiRaidEvent extends ListenerAdapter {
     public void onRoleUpdatePermissions(@Nonnull RoleUpdatePermissionsEvent event) {
         boolean active = AntiRaidCommand.isActive();
         if (active && event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-            if (event.getNewPermissions().contains(Permission.ADMINISTRATOR) || event.getNewPermissions().contains(Permission.MANAGE_SERVER) || event.getNewPermissions().contains(Permission.BAN_MEMBERS) || event.getNewPermissions().contains(Permission.KICK_MEMBERS) || event.getNewPermissions().contains(Permission.MANAGE_WEBHOOKS)) {
+            if (event.getNewPermissions().contains(Permission.ADMINISTRATOR) || event.getNewPermissions().contains(Permission.MANAGE_SERVER) || event.getNewPermissions().contains(Permission.BAN_MEMBERS) || event.getNewPermissions().contains(Permission.KICK_MEMBERS) || event.getNewPermissions().contains(Permission.MANAGE_WEBHOOKS) || event.getNewPermissions().contains(Permission.MANAGE_CHANNEL) || event.getNewPermissions().contains(Permission.MANAGE_ROLES)) {
                 event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
                     if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_UPDATE)) {
                         String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
