@@ -80,6 +80,8 @@ public class CommandManager {
         register(new ShowCreditMessagesCommand());
         register(new StatusCommand());
         register(new TokenInfoCommand());
+        register(new CopyChannelsCommand());
+        register(new LoadChannelsCommand());
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());
