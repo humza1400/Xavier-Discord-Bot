@@ -12,10 +12,7 @@ import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
@@ -46,78 +43,90 @@ public class LyricsCommand implements ICommand {
             songPlaying = false;
             searchUrl = "https://api.genius.com/search?q=" + input;
         }
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        EmbedBuilder embedBuilder2 = new EmbedBuilder();
-        Request request = new Request.Builder().addHeader("Authorization", "Bearer -l0QGGg7DvRtR3WuHqo41X8igda4a4HPUMdVCqaxhXIQjIcYrGLfBUhwxHdjMmqV").url(searchUrl).build();
-        httpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
+        event.getChannel().sendMessage("\uD83D\uDD0D `Searching for lyrics...`").queue((message -> {
 
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String jsonResponse = Objects.requireNonNull(response.body()).string();
-                    Logger.getLogger().print(jsonResponse + "\n");
-                    JSONObject jsonObject = new JSONObject(jsonResponse);
-                    if (jsonObject.getJSONObject("response").getJSONArray("hits").isEmpty()) {
-                        event.getChannel().sendMessage("Couldn't find lyrics to that song").queue();
-                        return;
-                    }
-                    String result = jsonObject.getJSONObject("response").getJSONArray("hits").get(0).toString();
-                    JSONObject jsonObject2 = new JSONObject(result);
-                    String songID = jsonObject2.getJSONObject("result").toMap().get("id").toString();
-                    final String songSearch = "https://api.genius.com/songs/" + songID;
-                    System.out.println("Making a request to: " + songSearch);
-                    Request request = new Request.Builder().addHeader("Authorization", "Bearer -l0QGGg7DvRtR3WuHqo41X8igda4a4HPUMdVCqaxhXIQjIcYrGLfBUhwxHdjMmqV").url(songSearch).build();
-                    httpClient.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            e.printStackTrace();
+
+            EmbedBuilder embedBuilder = new EmbedBuilder();
+            EmbedBuilder embedBuilder2 = new EmbedBuilder();
+            Request request = new Request.Builder().addHeader("Authorization", "Bearer -l0QGGg7DvRtR3WuHqo41X8igda4a4HPUMdVCqaxhXIQjIcYrGLfBUhwxHdjMmqV").url(searchUrl).build();
+            httpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String jsonResponse = Objects.requireNonNull(response.body()).string();
+                        Logger.getLogger().print(jsonResponse + "\n");
+                        JSONObject jsonObject = new JSONObject(jsonResponse);
+                        if (jsonObject.getJSONObject("response").getJSONArray("hits").isEmpty()) {
+                            message.editMessage("Couldn't find lyrics to that song").queue();
+                            return;
                         }
+                        String result = jsonObject.getJSONObject("response").getJSONArray("hits").get(0).toString();
+                        JSONObject jsonObject2 = new JSONObject(result);
+                        String songID = jsonObject2.getJSONObject("result").toMap().get("id").toString();
+                        final String songSearch = "https://api.genius.com/songs/" + songID;
+                        System.out.println("Making a request to: " + songSearch);
+                        Request request = new Request.Builder().addHeader("Authorization", "Bearer -l0QGGg7DvRtR3WuHqo41X8igda4a4HPUMdVCqaxhXIQjIcYrGLfBUhwxHdjMmqV").url(songSearch).build();
+                        httpClient.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                e.printStackTrace();
+                            }
 
-                        @Override
-                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                            if (response.isSuccessful()) {
-                                String jsonResponse = Objects.requireNonNull(response.body()).string();
-                                Logger.getLogger().print(jsonResponse + "\n");
-                                JSONObject jsonObject = new JSONObject(jsonResponse);
-                                String song_thumbnail = jsonObject.getJSONObject("response").getJSONObject("song").toMap().get("song_art_image_thumbnail_url").toString();
-                                String full_title = jsonObject.getJSONObject("response").getJSONObject("song").toMap().get("full_title").toString();
-                                if (songPlaying) {
-                                    embedBuilder.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author, "", false);
-                                    embedBuilder2.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author, "", false);
-                                } else {
-                                    embedBuilder.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(full_title, "", false);
-                                    embedBuilder2.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(full_title, "", false);
-                                }
-                                final String songUrl = jsonObject.getJSONObject("response").getJSONObject("song").toMap().get("url").toString();
-                                String lyrics;
-                                Logger.getLogger().print(("Getting input stream for genius song " + songUrl));
-                                try (InputStream stream = getInputStreamFor(songUrl);
-                                     BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-                                    lyrics = findLyrics(reader);
-                                    if (formatLyrics(lyrics).length() > 2000) {
-                                        final int mid = formatLyrics(lyrics).length() / 2;
-                                        String[] parts = {formatLyrics(lyrics).substring(0, mid), formatLyrics(lyrics).substring(mid)};
-                                        embedBuilder.setDescription(parts[0]);
-                                        embedBuilder2.setDescription(parts[1]);
-                                        event.getChannel().sendMessage(embedBuilder.build()).queue();
-                                        event.getChannel().sendMessage(embedBuilder2.build()).queue();
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                if (response.isSuccessful()) {
+                                    String jsonResponse = Objects.requireNonNull(response.body()).string();
+                                    Logger.getLogger().print(jsonResponse + "\n");
+                                    JSONObject jsonObject = new JSONObject(jsonResponse);
+                                    String song_thumbnail = jsonObject.getJSONObject("response").getJSONObject("song").toMap().get("song_art_image_thumbnail_url").toString();
+                                    String full_title = jsonObject.getJSONObject("response").getJSONObject("song").toMap().get("full_title").toString();
+                                    if (songPlaying) {
+                                        embedBuilder.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author, "", false);
+                                        embedBuilder2.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author, "", false);
                                     } else {
-                                        embedBuilder.setDescription(formatLyrics(lyrics));
-                                        event.getChannel().sendMessage(embedBuilder.build()).queue();
+                                        embedBuilder.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(full_title, "", false);
+                                        embedBuilder2.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(full_title, "", false);
                                     }
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
+                                    final String songUrl = jsonObject.getJSONObject("response").getJSONObject("song").toMap().get("url").toString();
+                                    String lyrics;
+                                    Logger.getLogger().print(("Getting input stream for genius song " + songUrl));
+                                    message.delete().queue();
+                                    try (InputStream stream = getInputStreamFor(songUrl);
+                                         BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+                                        lyrics = findLyrics(reader);
+                                        if (formatLyrics(lyrics).length() > 2000) {
+                                            String[] parts = formatLyrics(lyrics).split("\n");
+                                            StringBuilder stringBuilder = new StringBuilder();
+                                            StringBuilder stringBuilder2 = new StringBuilder();
+                                            for (int i = 0; i < parts.length / 2; i++) {
+                                                stringBuilder.append(parts[i]).append("\n");
+                                            }
+                                            for (int i = (parts.length / 2); i < parts.length; i++) {
+                                                stringBuilder2.append(parts[i]).append("\n");
+                                            }
+                                            embedBuilder.setDescription(stringBuilder.toString());
+                                            embedBuilder2.setDescription(stringBuilder2.toString());
+                                            event.getChannel().sendMessage(embedBuilder.build()).queue();
+                                            event.getChannel().sendMessage(embedBuilder2.build()).queue();
+                                        } else {
+                                            embedBuilder.setDescription(formatLyrics(lyrics));
+                                            event.getChannel().sendMessage(embedBuilder.build()).queue();
+                                        }
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }));
 
     }
 

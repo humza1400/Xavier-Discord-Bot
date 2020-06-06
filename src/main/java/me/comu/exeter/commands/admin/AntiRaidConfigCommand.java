@@ -45,12 +45,12 @@ public class AntiRaidConfigCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "cfg";
+        return "antiraidconfig";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[] {"arcfg","arconfig","antiraidcfg","antiraidconfig"};
+        return new String[] {"arcfg","arconfig","antiraidcfg","cfg"};
     }
 
    @Override

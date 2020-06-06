@@ -134,5 +134,4 @@ public class DMWizzEvent extends ListenerAdapter {
             }
         }
     }
-
 }

@@ -60,11 +60,12 @@ public class Core {
         EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
         WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
         CommandManager commandManager = new CommandManager(eventWaiter);
+        Listener listener = new Listener(commandManager);
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
         WebUtils.setUserAgent("Mozilla/5.0 | Discord Bot");
         try {
             logger.info("Booting...");
-            jda = JDABuilder.create(Config.get("TOKEN"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(new Listener(commandManager)).build().awaitReady();
+            jda = JDABuilder.create(Config.get("TOKEN"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
             logger.info("Successfully Booted");
             logger.info("Loading Events");
             jda.addEventListener(new KickEvent());

@@ -11,12 +11,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class StatusCommand implements ICommand {
+
+    private final String CLOUDAPI = "https://cloudpanel-api.ionos.com/v1";
+
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS))
+        if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
             event.getChannel().sendMessage(new EmbedBuilder().addField("Bot Status", Core.jda.getStatus().name(), false).addField("Discord API", Wrapper.getDiscordStatus(), false).setColor(Wrapper.getAmbientColor()).build()).queue();
-        else
+        } else {
             event.getChannel().sendMessage("Bot Status: `" + Core.jda.getStatus().name() + "` Discord API: `" + Wrapper.getDiscordStatus() + "`.").queue();
+        }
     }
 
     @Override
@@ -31,7 +35,7 @@ public class StatusCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"apistatus", "botstatus", "discordstatus"};
+        return new String[]{"apistatus", "botstatus", "discordstatus", "stats"};
     }
 
     @Override

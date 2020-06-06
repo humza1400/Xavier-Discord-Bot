@@ -22,7 +22,7 @@ public class PrivateMessageCommand implements ICommand {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER)) {
-            event.getChannel().sendMessage("You don't have permission to private message someone").queue();
+            event.getChannel().sendMessage("You don't have permission to private message anyone").queue();
             return;
         }
 

@@ -4,6 +4,7 @@ import me.comu.exeter.core.CommandManager;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -19,7 +20,10 @@ public class HelpCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-
+        if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)){
+            event.getChannel().sendMessage("I need permission `MESSAGE_EMBED_LINKS`.").queue();
+            return;
+        }
         if (args.isEmpty()) {
             embedHandler(event);
             return;
@@ -178,19 +182,6 @@ public class HelpCommand implements ICommand {
 
 
     }
-/*    private void embedHandler(GuildMessageReceivedEvent event) {
-        EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Commands (" + manager.getCommands().size() + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
-        StringBuilder stringBuilder = embedBuilder.getDescriptionBuilder();
-            manager.getCommands().forEach((command) -> stringBuilder.append('`').append(command.getInvoke()).append("` ")
-            );
-        try {
-            event.getChannel().sendMessage(embedBuilder.build()).queue();
-        } catch (IllegalStateException ex)
-        {
-            event.getChannel().sendMessage("null").queue();
-        }
-
-    }*/
 
     @Override
     public String getHelp() {

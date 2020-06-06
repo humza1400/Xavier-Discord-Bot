@@ -46,7 +46,7 @@ public class EvalCommand implements ICommand {
             engine.setProperty("member", event.getMember());
             String script = imports + event.getMessage().getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);
-            event.getChannel().sendMessage(out == null ? "Executed with error" : "[DEBUG] " + out.toString().replaceAll("JDA","API")).queue();
+            event.getChannel().sendMessage(out == null ? "Executed with error" : "`[DEBUG]:` " + out.toString().replaceAll("JDA","API")).queue();
         } catch (Exception ex) {
             event.getChannel().sendMessage(ex.getMessage()).queue();
         }

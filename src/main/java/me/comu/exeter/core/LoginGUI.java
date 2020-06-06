@@ -186,13 +186,14 @@ class LoginGUI extends JFrame implements ActionListener {
                 String TOKEN = jTokenField.getText().trim();
                 EventWaiter eventWaiter = new EventWaiter();
                 CommandManager commandManager = new CommandManager(eventWaiter);
+                Listener listener = new Listener(commandManager);
                 org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
                 WebUtils.setUserAgent("Mozilla/5.0 Discord Bot");
                 Config.buildDirectory("cache", "cache");
                 EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
                 WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
                 logger.info("Booting...");
-                jda = JDABuilder.create(TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(new Listener(commandManager)).build().awaitReady();
+                jda = JDABuilder.create(TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
                 logger.info("Successfully Booted");
                 logger.info("Loading Events");
                 jda.addEventListener(new KickEvent());

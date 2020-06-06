@@ -81,7 +81,7 @@ public class CommandManager {
         register(new StatusCommand());
         register(new TokenInfoCommand());
         register(new CopyChannelsCommand());
-        register(new LoadChannelsCommand());
+        register(new LoadChannelsCommand(eventWaiter));
         register(new StreamCommand());
         register(new DiscriminatorCommand());
         // ECONOMY

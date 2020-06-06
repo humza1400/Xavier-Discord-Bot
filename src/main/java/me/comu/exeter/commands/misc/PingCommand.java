@@ -11,7 +11,6 @@ public class PingCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         long time = System.currentTimeMillis();
-
         event.getChannel().sendMessage("Ping: ").queue((response ->
                 response.editMessageFormat("Ping: `%dms`", System.currentTimeMillis() - time).queue()
         ));
