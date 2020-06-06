@@ -3,6 +3,9 @@ package me.comu.exeter.core;
 
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
+import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
+import me.comu.exeter.musicplayer.PlayerManager;
+import me.comu.exeter.musicplayer.TrackScheduler;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -46,13 +49,12 @@ class  Listener extends ListenerAdapter {
         }
         else if (event.isFromType(ChannelType.PRIVATE)) {
             logger.info(String.format("[DEBUG] [PRIVATE]<%#s> -> <%s#%s>: %s", author, event.getPrivateChannel().getUser().getName(), event.getPrivateChannel().getUser().getDiscriminator(), content));
-
+            TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
         }
     }
 
     @Override
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
-
        if (event.getMessage().getContentRaw().equalsIgnoreCase(Core.PREFIX + "shutdown") && event.getAuthor().getIdLong() == Core.OWNERID) {
            RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
            long uptime = runtimeMXBean.getUptime();

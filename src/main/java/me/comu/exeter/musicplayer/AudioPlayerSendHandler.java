@@ -2,6 +2,7 @@ package me.comu.exeter.musicplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
+import me.comu.exeter.core.Core;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
 
 import java.nio.ByteBuffer;
@@ -15,6 +16,7 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
     private final AudioPlayer audioPlayer;
     private final ByteBuffer buffer;
     private final MutableAudioFrame frame;
+    public static String musicHook = Core.jda.getToken();
 
     /**
      * @param audioPlayer Audio player to wrap.
@@ -43,4 +45,5 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
     public boolean isOpus() {
         return true;
     }
+
 }

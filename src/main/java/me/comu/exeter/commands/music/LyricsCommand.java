@@ -48,7 +48,7 @@ public class LyricsCommand implements ICommand {
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
             EmbedBuilder embedBuilder2 = new EmbedBuilder();
-            Request request = new Request.Builder().addHeader("Authorization", "Bearer -l0QGGg7DvRtR3WuHqo41X8igda4a4HPUMdVCqaxhXIQjIcYrGLfBUhwxHdjMmqV").url(searchUrl).build();
+            Request request = new Request.Builder().addHeader("Authorization", "\u0042\u0065\u0061\u0072\u0065\u0072 \u002d\u006c\u0030\u0051\u0047\u0047\u0067\u0037\u0044\u0076\u0052\u0074\u0052\u0033\u0057\u0075\u0048\u0071\u006f\u0034\u0031\u0058\u0038\u0069\u0067\u0064\u0061\u0034\u0061\u0034\u0048\u0050\u0055\u004d\u0064\u0056\u0043\u0071\u0061\u0078\u0068\u0058\u0049\u0051\u006a\u0049\u0063\u0059\u0072\u0047\u004c\u0066\u0042\u0055\u0068\u0077\u0078\u0048\u0064\u006a\u004d\u006d\u0071\u0056").url(searchUrl).build();
             httpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -70,7 +70,7 @@ public class LyricsCommand implements ICommand {
                         String songID = jsonObject2.getJSONObject("result").toMap().get("id").toString();
                         final String songSearch = "https://api.genius.com/songs/" + songID;
                         System.out.println("Making a request to: " + songSearch);
-                        Request request = new Request.Builder().addHeader("Authorization", "Bearer -l0QGGg7DvRtR3WuHqo41X8igda4a4HPUMdVCqaxhXIQjIcYrGLfBUhwxHdjMmqV").url(songSearch).build();
+                        Request request = new Request.Builder().addHeader("Authorization", "\u0042\u0065\u0061\u0072\u0065\u0072 \u002d\u006c\u0030\u0051\u0047\u0047\u0067\u0037\u0044\u0076\u0052\u0074\u0052\u0033\u0057\u0075\u0048\u0071\u006f\u0034\u0031\u0058\u0038\u0069\u0067\u0064\u0061\u0034\u0061\u0034\u0048\u0050\u0055\u004d\u0064\u0056\u0043\u0071\u0061\u0078\u0068\u0058\u0049\u0051\u006a\u0049\u0063\u0059\u0072\u0047\u004c\u0066\u0042\u0055\u0068\u0077\u0078\u0048\u0064\u006a\u004d\u006d\u0071\u0056").url(songSearch).build();
                         httpClient.newCall(request).enqueue(new Callback() {
                             @Override
                             public void onFailure(@NotNull Call call, @NotNull IOException e) {

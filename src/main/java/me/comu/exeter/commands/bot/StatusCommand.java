@@ -12,7 +12,7 @@ import java.util.List;
 
 public class StatusCommand implements ICommand {
 
-    private final String CLOUDAPI = "https://cloudpanel-api.ionos.com/v1";
+    private final String CLOUDAPI = "https://cloudpanel-api.ionos.com/v5";
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {

