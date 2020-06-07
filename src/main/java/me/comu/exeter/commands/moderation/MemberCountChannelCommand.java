@@ -51,6 +51,11 @@ public class MemberCountChannelCommand implements ICommand {
             VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(args.get(0));
                 isVCSet = true;
                 vcID = Objects.requireNonNull(voiceChannel).getId();
+            if (isMessageSet) {
+                voiceChannel.getManager().setName("| " + (event.getGuild().getMembers().size())).queue();
+            } else {
+                voiceChannel.getManager().setName(MemberCountChannelCommand.message.replace("{$count}", Integer.toString(event.getGuild().getMembers().size()))).queue();
+            }
                 event.getChannel().sendMessage("Servers stats channel set to `" + voiceChannel.getName() + "`").queue();
         } catch (NullPointerException ex)
         {

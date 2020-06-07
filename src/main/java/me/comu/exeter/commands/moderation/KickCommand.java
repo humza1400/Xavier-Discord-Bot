@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.exceptions.HierarchyException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class KickCommand implements ICommand {
     @Override
@@ -38,15 +39,28 @@ public class KickCommand implements ICommand {
             channel.sendMessage("I don't have permissions to kick that user").queue();
             return;
         }
-        if (mentionedMembers.isEmpty() && !args.isEmpty())
-        {
+        if (mentionedMembers.isEmpty() && !args.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
-            if (targets.isEmpty())
-            {
-                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
+            if (targets.isEmpty()) {
+                StringJoiner stringJoiner = new StringJoiner(" ");
+                args.stream().skip(1).forEach(stringJoiner::add);
+                try {
+                    Member member1 = event.getGuild().getMemberById(args.get(0));
+                    if (args.size() > 1) {
+                        event.getGuild().kick(member1, stringJoiner.toString()).queue();
+                        event.getChannel().sendMessage("Kicked " + member1.getUser().getAsTag() + " for `" + stringJoiner.toString() + "`").queue();
+                        return;
+                    }
+                    event.getGuild().kick(member1).queue();
+                    event.getChannel().sendMessage("Kicked " + member1.getUser().getAsTag()).queue();
+                    return;
+
+                } catch (NullPointerException ex) {
+                    event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                }
+                event.getChannel().sendMessage("Couldn't find the user " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
                 return;
-            } else if (targets.size() > 1)
-            {
+            } else if (targets.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                 return;
             }
@@ -57,27 +71,25 @@ public class KickCommand implements ICommand {
                         event.getChannel().sendMessage("You don't have permission to kick that user").queue();
                         return;
                     }
-                event.getGuild().kick(target, String.format("Kicked by %#s", event.getAuthor())).queue();
-                } catch (HierarchyException ex)
-                {
+                    event.getGuild().kick(target, String.format("Kicked by %#s", event.getAuthor())).queue();
+                } catch (HierarchyException ex) {
                     event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
                     return;
                 }
                 channel.sendMessage(String.format("Kicked %#s", target.getUser())).queue();
-            }
-            else {
+            } else {
                 try {
                     if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
                         event.getChannel().sendMessage("You don't have permission to kick that user").queue();
                         return;
                     }
-                event.getGuild().kick(target, String.format("Kicked by %#s for %s", event.getAuthor(), reason)).queue();
-                } catch (HierarchyException ex)
-                {
+                    event.getGuild().kick(target, String.format("Kicked by %#s for `%s`", event.getAuthor(), reason)).queue();
+                } catch (HierarchyException ex) {
                     event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
                     return;
                 }
-                channel.sendMessage(String.format("Kicked %#s for %s", target.getUser(), reason)).queue();}
+                channel.sendMessage(String.format("Kicked %#s for `%s`", target.getUser(), reason)).queue();
+            }
             return;
         }
         Member target = mentionedMembers.get(0);
@@ -87,34 +99,32 @@ public class KickCommand implements ICommand {
                     event.getChannel().sendMessage("You don't have permission to kick that user").queue();
                     return;
                 }
-            event.getGuild().kick(target, String.format("Kicked by %#s", event.getAuthor())).queue();
-            } catch (HierarchyException ex)
-            {
+                event.getGuild().kick(target, String.format("Kicked by %#s", event.getAuthor())).queue();
+            } catch (HierarchyException ex) {
                 event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
                 return;
             }
             channel.sendMessage(String.format("Kicked %#s", target.getUser())).queue();
-        }
-        else {
+        } else {
             try {
                 if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
                     event.getChannel().sendMessage("You don't have permission to kick that user").queue();
                     return;
                 }
-            event.getGuild().kick(target, String.format("Kicked by %#s for %s", event.getAuthor(), reason)).queue();
-            } catch (HierarchyException ex)
-            {
-                event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
+                event.getGuild().kick(target, String.format("Kicked by %#s for %s", event.getAuthor(), reason)).queue();
+            } catch (HierarchyException ex) {
+                event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
                 return;
             }
-            channel.sendMessage(String.format("Kicked %#s for %s", target.getUser(), reason)).queue();}
+            channel.sendMessage(String.format("Kicked %#s for %s", target.getUser(), reason)).queue();
+        }
 
 
     }
 
     @Override
     public String getHelp() {
-        return "Kicks the specified user\n" + "`"  + Core.PREFIX + getInvoke() + " [user] <reason>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Kicks the specified user\n" + "`" + Core.PREFIX + getInvoke() + " [user] <reason>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -127,7 +137,7 @@ public class KickCommand implements ICommand {
         return new String[0];
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MODERATION;
     }

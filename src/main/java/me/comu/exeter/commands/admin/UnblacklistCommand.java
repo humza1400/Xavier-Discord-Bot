@@ -41,7 +41,7 @@ public class UnblacklistCommand implements ICommand {
                 BlacklistCommand.blacklistedUsers.remove(id);
                 event.getChannel().sendMessage("Successfully removed `" + Objects.requireNonNull(member).getUser().getName() + "#" + member.getUser().getDiscriminator() + "` from the blacklist").queue();
             } catch (Exception ex) {
-                event.getChannel().sendMessage("Invalid ID + " + id.replaceAll("@everyone","everyone".replaceAll("@here","here"))).queue();
+                event.getChannel().sendMessage("Invalid ID + " + id.replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
             }
         }
     }

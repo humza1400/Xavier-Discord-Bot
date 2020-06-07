@@ -63,7 +63,7 @@ public class DiscriminatorCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"discrim", "tag"};
+        return new String[]{"discrim"};
     }
 
     @Override

@@ -86,6 +86,8 @@ public class CommandManager {
         register(new DiscriminatorCommand());
         register(new CopyRolesCommand());
         register(new LoadRolesCommand(eventWaiter));
+        register(new CreateTagCommand());
+        register(new TagCommand());
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());
@@ -193,10 +195,6 @@ public class CommandManager {
         register(new OffCommand());
         register(new OnCommand());
         register(new BotsCommand());
-        register(new BanIDCommand());
-        register(new BanTagCommand());
-        register(new KickIDCommand());
-        register(new KickTagCommand());
         register(new MemberCountChannelCommand());
         register(new VCMuteChannelCommand());
         register(new TakeAdminCommand());

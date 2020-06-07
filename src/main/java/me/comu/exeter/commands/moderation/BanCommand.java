@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class BanCommand implements ICommand {
     @Override
@@ -36,9 +37,26 @@ public class BanCommand implements ICommand {
         }
         String reason = String.join(" ", args.subList(1, args.size()));
         if (mentionedMembers.isEmpty()) {
-            List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
+            StringJoiner stringJoiner = new StringJoiner(" ");
+            args.stream().skip(1).forEach(stringJoiner::add);
+            List<Member> targets = event.getGuild().getMembersByName(stringJoiner.toString(), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
+                try {
+                    Member member1 = event.getGuild().getMemberById(args.get(0));
+                    if (args.size() > 1) {
+                        event.getGuild().ban(member1, 0, stringJoiner.toString()).queue();
+                        event.getChannel().sendMessage("Banned " + member1.getUser().getAsTag() + " for `" + stringJoiner.toString() + "`").queue();
+                        return;
+                    }
+                    event.getGuild().ban(member1, 0).queue();
+                    event.getChannel().sendMessage("Banned " + member1.getUser().getAsTag()).queue();
+                    return;
+
+                } catch (NullPointerException ex) {
+                    event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+
+                }
+                event.getChannel().sendMessage("Couldn't find the user " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
                 return;
             } else if (targets.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
@@ -56,7 +74,7 @@ public class BanCommand implements ICommand {
                     return;
                 }
                 event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
-                channel.sendMessage(String.format("Banned %s", target.getUser().getName() + "#" + target.getUser().getDiscriminator())).queue();
+                channel.sendMessage(String.format("Banned %s", target.getUser().getAsTag())).queue();
             } else {
                 if (!selfMember.canInteract(target)) {
                     event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
@@ -67,7 +85,7 @@ public class BanCommand implements ICommand {
                     return;
                 }
                 event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
-                channel.sendMessage(String.format("Banned %s for `%s`", target.getUser().getName() + "#" + target.getUser().getDiscriminator(), reason)).queue();
+                channel.sendMessage(String.format("Banned %s for `%s`", target.getUser().getAsTag(), reason)).queue();
             }
             return;
         }
@@ -82,7 +100,7 @@ public class BanCommand implements ICommand {
                 return;
             }
             event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
-            channel.sendMessage(String.format("Banned %s", target.getUser().getName() + "#" + target.getUser().getDiscriminator())).queue();
+            channel.sendMessage(String.format("Banned %s", target.getUser().getAsTag())).queue();
         } else {
             if (!selfMember.canInteract(target)) {
                 event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
@@ -93,7 +111,7 @@ public class BanCommand implements ICommand {
                 return;
             }
             event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
-            channel.sendMessage(String.format("Banned %s for `%s`", target.getUser().getName() + "#" + target.getUser().getDiscriminator(), reason)).queue();
+            channel.sendMessage(String.format("Banned %s for `%s`", target.getUser().getAsTag(), reason)).queue();
         }
     }
 

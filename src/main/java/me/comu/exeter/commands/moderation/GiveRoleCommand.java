@@ -37,7 +37,7 @@ public class GiveRoleCommand implements ICommand {
             args.stream().skip(1).forEach(stringJoiner::add);
             List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
             if (roles.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "everyone").replaceAll("@here", "here")).queue();
+                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
                 return;
             } else if (roles.size() > 1) {
                 event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
@@ -58,14 +58,14 @@ public class GiveRoleCommand implements ICommand {
             args.stream().skip(1).forEach(stringJoiner::add);
             List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
             if (members.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "everyone").replaceAll("@here", "here")).queue();
+                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
                 return;
             } else if (members.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                 return;
             }
             if (roles.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "everyone").replaceAll("@here", "here")).queue();
+                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
                 return;
             } else if (roles.size() > 1) {
                 event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
@@ -97,7 +97,7 @@ public class GiveRoleCommand implements ICommand {
         args.stream().skip(1).forEach(stringJoiner::add);
         List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
         if (roles.isEmpty()) {
-            event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "everyone").replaceAll("@here", "here")).queue();
+            event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
             return;
         } else if (roles.size() > 1) {
             event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
