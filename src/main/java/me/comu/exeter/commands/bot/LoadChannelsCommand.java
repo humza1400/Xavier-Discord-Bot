@@ -99,7 +99,7 @@ public class LoadChannelsCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Loads the copied channels into your server\n `" + Core.PREFIX + getInvoke() + " `\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Loads the copied channels into your server\n `" + Core.PREFIX + getInvoke() + " `\nAliases: `" + Arrays.deepToString(getAlias()) + "`\n**Warning:** This deletes all current channels and categories";
     }
 
     @Override

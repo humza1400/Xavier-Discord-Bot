@@ -8,39 +8,38 @@ import java.util.HashMap;
 
 public class RestorableCategory {
 
-    private Category category;
+    private int position;
+    private String id;
+    private String name;
+    private HashMap<Integer, String> voiceChannels = new HashMap<>();
+    private HashMap<Integer, String> textChannels = new HashMap<>();
 
     public RestorableCategory(Category category) {
-        this.category = category;
+        this.position = category.getPosition();
+        this.id = category.getId();
+        this.name = category.getName();
+        category.getChannels().stream().filter((guildChannel -> (guildChannel instanceof TextChannel))).forEach((guildChannel -> this.textChannels.put(guildChannel.getPosition(), guildChannel.getName())));
+        category.getChannels().stream().filter((guildChannel -> (guildChannel instanceof VoiceChannel))).forEach((guildChannel -> this.voiceChannels.put(guildChannel.getPosition(), guildChannel.getName())));
     }
 
     public String getName() {
-        return category.getName();
+        return name;
     }
 
     public int getPosition() {
-        int position = category.getPosition();
         return position;
     }
 
     public String getId() {
-        return category.getId();
+        return id;
     }
 
     public HashMap<Integer, String> getChildTextChannels() {
-        HashMap<Integer, String> hashMap = new HashMap<>();
-        if (category.getChannels().isEmpty())
-            return hashMap;
-        category.getChannels().stream().filter((guildChannel -> (guildChannel instanceof TextChannel))).forEach((guildChannel -> hashMap.put(guildChannel.getPosition(), guildChannel.getName())));
-        return hashMap;
+        return textChannels;
     }
 
     public HashMap<Integer, String> getChildVoiceChannels() {
-        HashMap<Integer, String> hashMap = new HashMap<>();
-        if (category.getChannels().isEmpty())
-            return hashMap;
-        category.getChannels().stream().filter((guildChannel -> (guildChannel instanceof VoiceChannel))).forEach((guildChannel -> hashMap.put(guildChannel.getPosition(), guildChannel.getName())));
-        return hashMap;
+        return voiceChannels;
     }
 
 }

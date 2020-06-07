@@ -19,7 +19,7 @@ public class AntiRaidConfigCommand implements ICommand {
         Member member = event.getMember();
         TextChannel channel = event.getChannel();
         if (!Objects.requireNonNull(member).hasPermission(Permission.ADMINISTRATOR)) {
-            channel.sendMessage("You don't have permission to view the anti-raid config").queue();
+            channel.sendMessage("You don't have permission to view the anti-raid config.").queue();
             return;
         }
 

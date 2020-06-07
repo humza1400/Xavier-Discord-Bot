@@ -84,6 +84,8 @@ public class CommandManager {
         register(new LoadChannelsCommand(eventWaiter));
         register(new StreamCommand());
         register(new DiscriminatorCommand());
+        register(new CopyRolesCommand());
+        register(new LoadRolesCommand(eventWaiter));
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());

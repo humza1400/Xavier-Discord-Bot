@@ -20,6 +20,7 @@ public class CopyChannelsCommand implements ICommand {
             event.getChannel().sendMessage("You don't have permission to copy the channels").queue();
             return;
         }
+        clearCopiedChannels();
         event.getGuild().getCategories().forEach(category -> restorableCategories.add(new RestorableCategory(category)));
         event.getGuild().getChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
         copied = true;

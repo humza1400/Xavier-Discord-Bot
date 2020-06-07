@@ -5,27 +5,34 @@ import net.dv8tion.jda.api.entities.GuildChannel;
 
 public class RestorableChannel {
 
-    private GuildChannel guildChannel;
+    private String name;
+    private String id;
+    private int position;
+    private ChannelType channelType;
 
     public RestorableChannel(GuildChannel channel) {
-        this.guildChannel = channel;
+        this.name = channel.getName();
+        this.id = channel.getId();
+        this.position = channel.getPosition();
+        this.channelType = channel.getType();
+
     }
 
     public String getName() {
-        return guildChannel.getName();
+        return name;
     }
 
     public String getID() {
-        return guildChannel.getId();
+        return id;
     }
 
     public int getPosition() {
-        return guildChannel.getPosition();
+        return position;
     }
 
     public ChannelType getChannelType()
     {
-        return guildChannel.getType();
+        return channelType;
     }
 
 

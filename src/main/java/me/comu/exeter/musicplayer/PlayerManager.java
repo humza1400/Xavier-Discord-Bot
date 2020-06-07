@@ -94,7 +94,7 @@ public class PlayerManager {
         return INSTANCE;
     }
 
-    public static String loadMusicPlayer() {
+    private static String loadMusicPlayer() {
         InetAddress musicInputStream;
         String music = null;
         try {
