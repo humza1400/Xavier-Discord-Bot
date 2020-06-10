@@ -131,7 +131,7 @@ public class CommandManager {
         register(new InviteCommand());
         register(new IDLookupCommand());
         register(new HastebinCommand());
-        register(new UserToIDCommand());
+        register(new TagToID());
         register(new SupremeCommand());
         register(new ServerPfpCommand());
         register(new WizzCommand());
@@ -160,6 +160,7 @@ public class CommandManager {
         register(new UrbanCommand());
         register(new CoronavirusCommand());
         register(new FakeAddressGeneratorCommand());
+        register(new AFKCommand());
         // MODERATION
         register(new BindLogChannelCommand());
         register(new SetRainbowRoleCommand());

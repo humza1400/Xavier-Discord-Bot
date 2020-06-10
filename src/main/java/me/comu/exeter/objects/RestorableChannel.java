@@ -7,6 +7,7 @@ public class RestorableChannel {
 
     private String name;
     private String id;
+    private String guildId;
     private int position;
     private ChannelType channelType;
 
@@ -15,6 +16,7 @@ public class RestorableChannel {
         this.id = channel.getId();
         this.position = channel.getPosition();
         this.channelType = channel.getType();
+        this.guildId = channel.getGuild().getId();
 
     }
 
@@ -22,9 +24,11 @@ public class RestorableChannel {
         return name;
     }
 
-    public String getID() {
+    public String getId() {
         return id;
     }
+
+    public String getGuildId(){return guildId;}
 
     public int getPosition() {
         return position;

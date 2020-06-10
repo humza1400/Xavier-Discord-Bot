@@ -37,7 +37,7 @@ public class VCStatsCommand implements ICommand {
                     try {
                         String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator().replaceAll("`", "\\`");
                         if (!(minuteMap.get(user.getId()) > 100000) && !(minuteMap.get(user.getId()) < 0) && !(hourMap.get(user.getId()) > 100000) && !(hourMap.get(user.getId()) < 0)) {
-                            stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(name).append(" : ").append(hourMap.get(user.getId())).append(" hours ").append(minuteMap.get(user.getId()) % 60).append(" minutes\n");
+                            stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(name.replaceAll("([_`~*>])", "\\\\$1")).append(" : ").append(hourMap.get(user.getId())).append(" hours ").append(minuteMap.get(user.getId()) % 60).append(" minutes\n");
                             counter2++;
                         }
                     } catch (NullPointerException ex) {

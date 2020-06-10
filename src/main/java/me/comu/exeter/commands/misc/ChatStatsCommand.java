@@ -23,7 +23,7 @@ public class ChatStatsCommand implements ICommand {
                 if (counter2 != 11)
                     try {
                         String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator().replaceAll("`","\\`");
-                        stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(name).append(" - ").append(ChatTrackingManager.getChatCredits(user.getId())).append(" messages\n");
+                        stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(name.replaceAll("([_`~*>])", "\\\\$1")).append(" - ").append(ChatTrackingManager.getChatCredits(user.getId())).append(" messages\n");
                         counter2++;
                     } catch (NullPointerException ex) {
                         event.getChannel().sendMessage("The hash set contained an invalid user and has been automatically resolved. (" + x + ")").queue();

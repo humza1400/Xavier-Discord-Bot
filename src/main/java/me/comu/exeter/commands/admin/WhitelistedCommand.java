@@ -32,7 +32,7 @@ public class WhitelistedCommand implements ICommand {
                 User user = event.getJDA().getUserById(x.getUserID());
                 try {
                     String level = WhitelistCommand.getWhitelistedIDs().get(x);
-                    String name = Objects.requireNonNull(user).getAsTag() + " - " + level + String.format(" (%s)", Objects.requireNonNull(event.getJDA().getGuildById(x.getGuildID())).getName());
+                    String name = Objects.requireNonNull(user).getAsTag().replaceAll("([_`~*>])", "\\\\$1") + " - " + level + String.format(" (%s)", Objects.requireNonNull(event.getJDA().getGuildById(x.getGuildID())).getName());
                     globalStringBuffer.append(" + ").append(name).append("\n");
                     counter++;
                 } catch (NullPointerException ex) {
@@ -53,7 +53,7 @@ public class WhitelistedCommand implements ICommand {
                 User user = event.getJDA().getUserById(x.getUserID());
                 try {
                     String level = WhitelistCommand.getWhitelistedIDs().get(x);
-                    String name = Objects.requireNonNull(user).getAsTag() + " - " + level;
+                    String name = Objects.requireNonNull(user).getAsTag().replaceAll("([_`~*>])", "\\\\$1") + " - " + level;
                     stringBuffer.append(" + ").append(name).append("\n");
                     counter2++;
                 } catch (NullPointerException ex) {

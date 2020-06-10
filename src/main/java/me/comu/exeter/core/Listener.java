@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
+import java.util.FormatFlagsConversionMismatchException;
 
 class  Listener extends ListenerAdapter {
 
@@ -33,7 +34,10 @@ class  Listener extends ListenerAdapter {
    @Override
    public void onReady(@Nonnull ReadyEvent event) {
        logger.info(String.format("Logged in as %#s", event.getJDA().getSelfUser()));
-       logger.info(String.format("Owner is %#s", event.getJDA().getUserById(Core.OWNERID)));
+       try {
+           logger.info(String.format("Owner is %#s", event.getJDA().getUserById(Core.OWNERID)));
+       } catch (FormatFlagsConversionMismatchException ignore)
+       {}
    }
 
     @Override
@@ -72,5 +76,6 @@ class  Listener extends ListenerAdapter {
             manager.handle(event);
         }
     }
+
 
 }

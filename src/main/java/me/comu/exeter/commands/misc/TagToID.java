@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class UserToIDCommand implements ICommand {
+public class TagToID implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty())
@@ -33,12 +33,12 @@ public class UserToIDCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "user";
+        return "tagid";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[] {"usertoid","userid","user2id","getuserid"};
+        return new String[] {"tagtoid","tag2id","user2id","gettagid"};
     }
 
      @Override

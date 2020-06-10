@@ -10,6 +10,7 @@ public class RestorableCategory {
 
     private int position;
     private String id;
+    private String guildId;
     private String name;
     private HashMap<Integer, String> voiceChannels = new HashMap<>();
     private HashMap<Integer, String> textChannels = new HashMap<>();
@@ -18,6 +19,7 @@ public class RestorableCategory {
         this.position = category.getPosition();
         this.id = category.getId();
         this.name = category.getName();
+        this.guildId = category.getGuild().getId();
         category.getChannels().stream().filter((guildChannel -> (guildChannel instanceof TextChannel))).forEach((guildChannel -> this.textChannels.put(guildChannel.getPosition(), guildChannel.getName())));
         category.getChannels().stream().filter((guildChannel -> (guildChannel instanceof VoiceChannel))).forEach((guildChannel -> this.voiceChannels.put(guildChannel.getPosition(), guildChannel.getName())));
     }
@@ -32,6 +34,10 @@ public class RestorableCategory {
 
     public String getId() {
         return id;
+    }
+
+    public String getGuildId() {
+        return guildId;
     }
 
     public HashMap<Integer, String> getChildTextChannels() {

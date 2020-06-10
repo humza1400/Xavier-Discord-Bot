@@ -55,7 +55,7 @@ public class WhitelistCommand implements ICommand {
                         return;
                     }
                     whitelistedIDs.put(CompositeKey.of(guildID, id), args.get(1));
-                    event.getChannel().sendMessage("Added `" + Objects.requireNonNull(member).getUser().getName() + "#" + member.getUser().getDiscriminator() + "` to the whitelist with level `" + args.get(1) + "`").queue();
+                    event.getChannel().sendMessage("Added `" + Objects.requireNonNull(member).getUser().getAsTag().replaceAll("([_`~*>])", "\\\\$1") + "` to the whitelist with level `" + args.get(1) + "`").queue();
                     WhitelistedJSONHandler.saveWhitelistConfig();
                 } catch (NumberFormatException ex) {
                     String[] split = id.split("#");

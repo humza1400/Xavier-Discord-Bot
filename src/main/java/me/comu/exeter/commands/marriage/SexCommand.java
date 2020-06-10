@@ -43,7 +43,7 @@ public class SexCommand implements ICommand {
         }
         else if (!args.isEmpty())
         {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(sexUrls[new Random().nextInt(sexUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** rapes **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedImage(sexUrls[new Random().nextInt(sexUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** fucks **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
         }
     }
 

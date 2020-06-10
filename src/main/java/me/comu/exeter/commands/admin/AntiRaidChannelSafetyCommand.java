@@ -59,6 +59,10 @@ public class AntiRaidChannelSafetyCommand implements ICommand {
         }
     }
 
+    private <T> List<T> addElement(List<T> list, T element) {
+        list.add(element);
+        return list;
+    }
 
     public static boolean isActive() {
         return active;

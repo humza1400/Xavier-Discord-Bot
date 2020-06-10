@@ -37,7 +37,7 @@ public class ChangeBotAvatarCommand implements ICommand {
                         v -> event.getChannel().sendMessage("Successfully changed the bot's avatar").queue(),
                         t -> event.getChannel().sendMessage("Failed to change the bot's avatar").queue());
             } catch (IOException e) {
-          event.getChannel().sendMessage("Failed to load the bot's avatar").queue();
+                event.getChannel().sendMessage("Failed to load the bot's avatar").queue();
             }
         }
 

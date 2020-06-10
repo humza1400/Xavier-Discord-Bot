@@ -190,13 +190,14 @@ public class AntiRaidEvent extends ListenerAdapter {
                                     }
                                 }
                             }
-
-                            if (AntiRaidChannelSafetyCommand.restorableCategories.stream().anyMatch((restorableCategory -> restorableCategory.getId().equals(event.getChannel().getId())))) {
+                            // VOICE CHANNELS
+                            if (AntiRaidChannelSafetyCommand.restorableChannels.stream().anyMatch((restorableCategory -> restorableCategory.getId().equals(event.getChannel().getId())))) {
                                 AntiRaidChannelSafetyCommand.restorableChannels.forEach(restorableChannel -> {
-                                    if (restorableChannel.getChannelType().equals(ChannelType.VOICE))
+                                    if (restorableChannel.getGuildId().equals(event.getGuild().getId()) && restorableChannel.getId().equals(event.getChannel().getId()) && restorableChannel.getChannelType().equals(ChannelType.VOICE))
                                         event.getGuild().createTextChannel(restorableChannel.getName()).setPosition(restorableChannel.getPosition()).queue();
                                 });
                             }
+
                             String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
                             String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                             String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
@@ -382,12 +383,14 @@ public class AntiRaidEvent extends ListenerAdapter {
                                     }
                                 }
                             }
-                            if (AntiRaidChannelSafetyCommand.restorableCategories.stream().anyMatch((restorableCategory -> restorableCategory.getId().equals(event.getChannel().getId())))) {
+                            // TEXT CHANNELS
+                            if (AntiRaidChannelSafetyCommand.restorableChannels.stream().anyMatch(restorableCategory -> restorableCategory.getId().equals(event.getChannel().getId()))) {
                                 AntiRaidChannelSafetyCommand.restorableChannels.forEach(restorableChannel -> {
-                                    if (restorableChannel.getChannelType().equals(ChannelType.TEXT))
+                                    if (restorableChannel.getGuildId().equals(event.getGuild().getId()) && restorableChannel.getId().equals(event.getChannel().getId()) && restorableChannel.getChannelType().equals(ChannelType.TEXT))
                                         event.getGuild().createTextChannel(restorableChannel.getName()).setPosition(restorableChannel.getPosition()).queue();
                                 });
                             }
+
                             String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
                             String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                             String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
@@ -578,8 +581,9 @@ public class AntiRaidEvent extends ListenerAdapter {
                                     }
                                 }
                             }
+                            // CATEGORIES
                             if (AntiRaidChannelSafetyCommand.restorableCategories.stream().anyMatch((restorableCategory -> restorableCategory.getId().equals(event.getId())))) {
-                                AntiRaidChannelSafetyCommand.restorableCategories.forEach((restorableCategory -> event.getGuild().createCategory(restorableCategory.getName()).setPosition(restorableCategory.getPosition()).queue((category -> {
+                                AntiRaidChannelSafetyCommand.restorableCategories.stream().filter(restorableCategory -> restorableCategory.getGuildId().equals(event.getGuild().getId())).forEach((restorableCategory -> event.getGuild().createCategory(restorableCategory.getName()).setPosition(restorableCategory.getPosition()).queue((category -> {
                                     HashMap<Integer, String> hashMap = restorableCategory.getChildTextChannels();
                                     for (Map.Entry entry : hashMap.entrySet()) {
                                         event.getGuild().createTextChannel((String) entry.getValue()).setParent(category).setPosition((int) entry.getKey()).queue();
@@ -622,7 +626,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active && event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
-                if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_CREATE)) {
+                if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_CREATE) && auditLogEntries.get(1).getType().equals(ActionType.ROLE_CREATE)) {
                     String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
                     Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
                     if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
@@ -688,7 +692,7 @@ public class AntiRaidEvent extends ListenerAdapter {
         boolean active = AntiRaidCommand.isActive();
         if (active && event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
             event.getGuild().retrieveAuditLogs().queue((auditLogEntries) -> {
-                if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_DELETE)) {
+                if (auditLogEntries.get(0).getType().equals(ActionType.ROLE_DELETE) && auditLogEntries.get(1).getType().equals(ActionType.ROLE_DELETE)) {
                     String id = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getId();
                     Long idLong = Objects.requireNonNull(auditLogEntries.get(0).getUser()).getIdLong();
                     if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {

@@ -5,11 +5,13 @@ import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class ClearCommand implements ICommand {
     @Override
@@ -30,11 +32,10 @@ public class ClearCommand implements ICommand {
 
 
         if (args.isEmpty()) {
-                event.getChannel().sendMessage("Insert an amount of messages to purge").queue();
-                return;
-            }
-        if (args.get(0).equals("bot") || args.get(0).equals("bots"))
-        {
+            event.getChannel().sendMessage("Insert an amount of messages to purge").queue();
+            return;
+        }
+        if (args.get(0).equals("bot") || args.get(0).equals("bots")) {
             List<Message> botMessages = new ArrayList<>();
             List<String> botNames = new ArrayList<>();
             event.getChannel().getHistory().retrievePast(100).queue((botmessagesforbuffer -> {
@@ -53,13 +54,12 @@ public class ClearCommand implements ICommand {
                     for (String s : botNames) {
                         buffer.append(s).append(", ");
                     }
-                    buffer.setCharAt(buffer.length()-2, '.');
+                    buffer.setCharAt(buffer.length() - 2, '.');
                     event.getChannel().sendMessage(String.format("Deleted `%s` messages by `%s`", botMessages.size(), buffer.toString())).queue((message -> {
                         event.getMessage().delete().queueAfter(3, TimeUnit.SECONDS);
                         message.delete().queueAfter(3, TimeUnit.SECONDS);
                     }));
-                } catch (IllegalArgumentException ex)
-                {
+                } catch (IllegalArgumentException ex) {
                     event.getChannel().sendMessage("No bot messages found to purge.").queue();
                 }
             }));
@@ -67,25 +67,34 @@ public class ClearCommand implements ICommand {
         }
         try {
             if (Integer.parseInt(args.get(0)) > 100) {
-                event.getChannel().getHistory().retrievePast(100).queue((tempMessages) -> event.getChannel().purgeMessages(tempMessages));
+                event.getMessage().delete().queue(onDelete -> {
+                    purgePaginatedMessages(channel, Integer.parseInt(args.get(0)), messages -> channel.purgeMessages());
+                    event.getChannel().sendMessage(String.format("Cleared %s messages :champagne_glass:", args.get(0))).queue(tempMessage -> tempMessage.delete().queueAfter(2, TimeUnit.SECONDS));
+                });
             } else {
-                event.getChannel().getHistory().retrievePast(Integer.parseInt(args.get(0))).queue((tempMessages) -> event.getChannel().purgeMessages(tempMessages));
+                event.getMessage().delete().queue(onDelete -> {
+                    event.getChannel().getHistory().retrievePast(Integer.parseInt(args.get(0))).queue((tempMessages) -> event.getChannel().purgeMessages(tempMessages));
+                    event.getChannel().sendMessage(String.format("Cleared %s messages :champagne_glass:", args.get(0))).queue(tempMessage -> tempMessage.delete().queueAfter(2, TimeUnit.SECONDS));
+                });
             }
-            if (Integer.parseInt(args.get(0)) == 1) {
-                event.getChannel().sendMessage(String.format("Cleared %s message :champagne_glass:", args.get(0))).queue();
-            } else {
-                event.getChannel().sendMessage(String.format("Cleared %s messages :champagne_glass:", args.get(0))).queue();
-            }
-            event.getChannel().getHistory().retrievePast(2).queue((cleanMessages) -> event.getChannel().deleteMessages(cleanMessages).queueAfter(3, TimeUnit.SECONDS));
-        } catch (NumberFormatException ex)
-        {
+        } catch (NumberFormatException ex) {
             event.getChannel().sendMessage("Please insert a valid number of messages to purge or purge the bot messages.").queue();
         }
     }
 
+    public void purgePaginatedMessages(MessageChannel channel, int amount, Consumer<List<Message>> callback) {
+        List<Message> messages = new ArrayList<>(amount);
+        channel.getIterableHistory().cache(false).forEachAsync((message) ->
+        {
+            messages.add(message);
+            return messages.size() < amount;
+        }).thenRun(() -> callback.accept(messages));
+    }
+
+
     @Override
     public String getHelp() {
-        return "Purges the specified amount of messages\n `" + Core.PREFIX + getInvoke() + "` [amount]\nAliases:`" + Arrays.deepToString(getAlias()) +"`";
+        return "Purges the specified amount of messages\n `" + Core.PREFIX + getInvoke() + "` [amount]\nAliases:`" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -95,10 +104,10 @@ public class ClearCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"purge"};
+        return new String[]{"purge"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MODERATION;
     }

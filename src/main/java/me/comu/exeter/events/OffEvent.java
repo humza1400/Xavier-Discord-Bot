@@ -25,9 +25,11 @@ public class OffEvent extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
-        if (OffCommand.offedUsers.contains(event.getAuthor().getId())) {
+        if (OffCommand.offedUsers.contains(event.getAuthor().getId()))
             event.getMessage().delete().queue();
-        }
+
+        // Webhook Anti-Raid Event
+
         if (AntiRaidCommand.isActive() && event.getMessage().isWebhookMessage() && (!(event.getMessage().getMentionedUsers().isEmpty() || event.getMessage().getMentionedRoles().isEmpty()) || event.getMessage().getContentRaw().contains(".gg/"))) {
             event.getMessage().delete().queue();
             if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
@@ -91,4 +93,5 @@ public class OffEvent extends ListenerAdapter {
             }));
         }
     }
+
 }

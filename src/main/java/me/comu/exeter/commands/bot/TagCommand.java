@@ -15,12 +15,12 @@ public class TagCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a tag or check the tags: `" + Core.PREFIX + getInvoke() + " tag-list").queue();
+            event.getChannel().sendMessage("Please specify a tag or check the tags: `" + Core.PREFIX + getInvoke() + " tag-list`.").queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase("tag-list")) {
             if (CreateTagCommand.tags.isEmpty()) {
-                event.getChannel().sendMessage("No tags have been set. Set one by doing `" + Core.PREFIX + "createtag [tag] <content>`").queue();
+                event.getChannel().sendMessage("No tags have been set. Set one by doing `" + Core.PREFIX + "createtag [tag] <content>`.").queue();
                 return;
             }
             StringBuilder stringBuilder = new StringBuilder("__All Tags:__\n");

