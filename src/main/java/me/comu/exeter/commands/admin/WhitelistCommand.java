@@ -1,6 +1,7 @@
 package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
+import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.util.CompositeKey;
 import me.comu.exeter.wrapper.Wrapper;
@@ -52,6 +53,10 @@ public class WhitelistCommand implements ICommand {
                     }
                     if (Objects.requireNonNull(userID).getIdLong() == Core.OWNERID || userID.getId().equals(guildOwnerId)) {
                         event.getChannel().sendMessage("The owner is automatically whitelisted.").queue();
+                        return;
+                    }
+                    if (Objects.requireNonNull(userID).getIdLong() == event.getGuild().getSelfMember().getIdLong()|| userID.getId().equals(guildOwnerId)) {
+                        event.getChannel().sendMessage("The bot is automatically whitelisted.").queue();
                         return;
                     }
                     whitelistedIDs.put(CompositeKey.of(guildID, id), args.get(1));
@@ -151,7 +156,7 @@ public class WhitelistCommand implements ICommand {
         return whitelistedIDs;
     }
 
-    static void setWhitelistedIDs(Map<String, Map<String, String>> map) {
+    public static void setWhitelistedIDs(Map<String, Map<String, String>> map) {
         whitelistedIDs.clear();
         for (Map.Entry<String, Map<String, String>> entry : map.entrySet()) {
             for (Map.Entry<String, String> entry1 : entry.getValue().entrySet()) {

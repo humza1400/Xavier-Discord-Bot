@@ -1,8 +1,9 @@
 package me.comu.exeter.core;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
-import me.comu.exeter.commands.economy.EcoJSONHandler;
+import me.comu.exeter.commands.bot.UsernameHistoryCommand;
+import me.comu.exeter.handlers.WhitelistedJSONHandler;
+import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.events.*;
 import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
 import me.comu.exeter.musicplayer.PlayerManager;
@@ -194,10 +195,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 Config.buildDirectory("cache", "cache");
                 EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
                 WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
-                logger.info("Booting...");
                 jda = JDABuilder.create(TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
-                logger.info("Successfully Booted");
-                logger.info("Loading Events");
                 jda.addEventListener(new KickEvent());
                 jda.addEventListener(new BanEvent());
                 jda.addEventListener(new LogMessageReceivedEvent());
@@ -221,7 +219,8 @@ class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new SnipeEvent());
                 jda.addEventListener(new ReactionRoleEvent());
                 TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
-                logger.info("Bot Ready To Go");
+                UsernameHistoryCommand.logAllNames(jda);
+                logger.info("Successfully booted");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
                 running = true;
             } catch (LoginException login) {

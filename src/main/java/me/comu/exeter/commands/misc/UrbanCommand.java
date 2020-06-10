@@ -36,8 +36,7 @@ public class UrbanCommand implements ICommand {
                 .addHeader("x-rapidapi-host", "mashape-community-urban-dictionary.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", "994cd14985mshaa0c788e9757c0dp192967jsn161c66f2a722")
                 .build();
-        try {
-            Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 String jsonResponse = Objects.requireNonNull(response.body()).string();
                 Logger.getLogger().print(jsonResponse + "\n");
@@ -46,8 +45,8 @@ public class UrbanCommand implements ICommand {
                 String permalink = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("permalink").toString();
                 String example = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("example").toString().replaceAll("]", "").replaceAll("\\[", "");
                 String date = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("written_on").toString();
-                date = date.replace(date.substring(date.indexOf("T"), date.length() - 1), "").replace(date.substring(date.indexOf("Z"), date.length() - 1), "").replaceAll("[a-zA-Z]", "").replaceAll("-","/");
-                date = LocalDate.parse(date,DateTimeFormatter.ofPattern("yyyy/MM/dd", Locale.UK)).format(DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.US));
+                date = date.replace(date.substring(date.indexOf("T"), date.length() - 1), "").replace(date.substring(date.indexOf("Z"), date.length() - 1), "").replaceAll("[a-zA-Z]", "").replaceAll("-", "/");
+                date = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd", Locale.UK)).format(DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.US));
                 String author = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("author").toString();
                 String thumbsup = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("thumbs_up").toString();
                 String thumbsdown = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("thumbs_down").toString();

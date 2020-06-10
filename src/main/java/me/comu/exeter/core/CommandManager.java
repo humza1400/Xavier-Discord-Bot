@@ -3,6 +3,9 @@ package me.comu.exeter.core;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.*;
+import me.comu.exeter.commands.admin.GameCommand;
+import me.comu.exeter.commands.admin.ListeningCommand;
+import me.comu.exeter.commands.admin.WatchingCommand;
 import me.comu.exeter.commands.bot.*;
 import me.comu.exeter.commands.economy.*;
 import me.comu.exeter.commands.marriage.*;
@@ -88,6 +91,10 @@ public class CommandManager {
         register(new LoadRolesCommand(eventWaiter));
         register(new CreateTagCommand());
         register(new TagCommand());
+        register(new ListeningCommand());
+        register(new WatchingCommand());
+        register(new GameCommand());
+        register(new UsernameHistoryCommand());
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());
@@ -161,6 +168,9 @@ public class CommandManager {
         register(new CoronavirusCommand());
         register(new FakeAddressGeneratorCommand());
         register(new AFKCommand());
+        register(new GiphyCommand());
+        register(new FNItemShopCommand());
+        register(new FNStatsCommand());
         // MODERATION
         register(new BindLogChannelCommand());
         register(new SetRainbowRoleCommand());

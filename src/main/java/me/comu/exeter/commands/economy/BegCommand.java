@@ -1,6 +1,7 @@
 package me.comu.exeter.commands.economy;
 
 import me.comu.exeter.core.Core;
+import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;

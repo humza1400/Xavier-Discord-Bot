@@ -63,6 +63,7 @@ public class LyricsCommand implements ICommand {
                         JSONObject jsonObject = new JSONObject(jsonResponse);
                         if (jsonObject.getJSONObject("response").getJSONArray("hits").isEmpty()) {
                             message.editMessage("Couldn't find lyrics to that song").queue();
+                            response.close();
                             return;
                         }
                         String result = jsonObject.getJSONObject("response").getJSONArray("hits").get(0).toString();
@@ -118,12 +119,15 @@ public class LyricsCommand implements ICommand {
                                             event.getChannel().sendMessage(embedBuilder.build()).queue();
                                         }
                                     } catch (IOException e) {
+                                        response.close();
                                         throw new RuntimeException(e);
                                     }
                                 }
+                                response.close();
                             }
                         });
                     }
+                    response.close();
                 }
             });
         }));
@@ -184,7 +188,7 @@ public class LyricsCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"lyric", "songlyric", "songlyrics"};
+        return new String[]{"lyric", "songlyric", "songlyrics","genius"};
     }
 
     @Override

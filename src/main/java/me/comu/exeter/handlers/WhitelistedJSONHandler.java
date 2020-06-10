@@ -1,6 +1,7 @@
-package me.comu.exeter.commands.admin;
+package me.comu.exeter.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.comu.exeter.commands.admin.WhitelistCommand;
 import me.comu.exeter.logging.Logger;
 import me.comu.exeter.util.CompositeKey;
 import org.json.JSONObject;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 public class WhitelistedJSONHandler {
 
-    static Map<String, Map<String, String>> whitelistedIDs = new HashMap<>();
+   public static Map<String, Map<String, String>> whitelistedIDs = new HashMap<>();
 
     public static void saveWhitelistConfig() {
         for (Map.Entry entry : WhitelistCommand.getWhitelistedIDs().entrySet()) {
@@ -36,6 +37,14 @@ public class WhitelistedJSONHandler {
     }
     @SuppressWarnings("unchecked")
     public static void loadWhitelistConfig(File file) {
+        if (!file.exists())
+        {
+            boolean didMake = file.mkdir();
+            if (didMake)
+                Logger.getLogger().print("Created whitelisted.json");
+            else
+                Logger.getLogger().print("Failed to create whitelisted.json");
+        }
         try {
             Map<String, Map<String, String>> whitelistedIDs = new ObjectMapper().readValue(file, HashMap.class);
             WhitelistCommand.setWhitelistedIDs(whitelistedIDs);

@@ -1,6 +1,7 @@
 package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
+import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.util.CompositeKey;
 import me.duncte123.botcommons.messaging.EmbedUtils;

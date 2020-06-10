@@ -1,8 +1,10 @@
 package me.comu.exeter.core;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
-import me.comu.exeter.commands.economy.EcoJSONHandler;
+import me.comu.exeter.commands.bot.UsernameHistoryCommand;
+import me.comu.exeter.handlers.UsernameHistoryHandler;
+import me.comu.exeter.handlers.WhitelistedJSONHandler;
+import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.events.*;
 import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
 import me.comu.exeter.musicplayer.PlayerManager;
@@ -58,15 +60,13 @@ public class Core {
         Config.buildDirectory("cache", "cache");
         EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
         WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
+        UsernameHistoryHandler.loadUsernameHistoryConfig(new File("unhistory.json"));
         CommandManager commandManager = new CommandManager(eventWaiter);
         Listener listener = new Listener(commandManager);
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
         WebUtils.setUserAgent("Mozilla/5.0 | Discord Bot");
         try {
-            logger.info("Booting...");
-            jda = JDABuilder.create(Config.get("TOKEN"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
-            logger.info("Successfully Booted");
-            logger.info("Loading Events");
+            jda = JDABuilder.create(Config.get("TOKEN"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setRawEventsEnabled(true).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
             jda.addEventListener(new KickEvent());
             jda.addEventListener(new BanEvent());
             jda.addEventListener(new LogMessageReceivedEvent());
@@ -89,9 +89,10 @@ public class Core {
             jda.addEventListener(new BlacklistedWordsEvent());
             jda.addEventListener(new SnipeEvent());
             jda.addEventListener(new ReactionRoleEvent());
+            jda.addEventListener(new UsernamePresenceUpdateEvent());
             TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
-            logger.info("Instantiated Events");
-            logger.info("Bot Ready To Go");
+            logger.info("Successfully booted");
+            UsernameHistoryCommand.logAllNames(jda);
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");
             e.printStackTrace();

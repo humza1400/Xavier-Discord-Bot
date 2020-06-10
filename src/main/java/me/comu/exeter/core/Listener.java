@@ -1,8 +1,8 @@
 package me.comu.exeter.core;
 
 
-import me.comu.exeter.commands.admin.WhitelistedJSONHandler;
-import me.comu.exeter.commands.economy.EcoJSONHandler;
+import me.comu.exeter.handlers.WhitelistedJSONHandler;
+import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.musicplayer.TrackScheduler;
