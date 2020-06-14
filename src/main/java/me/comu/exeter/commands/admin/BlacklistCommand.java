@@ -26,7 +26,7 @@ public class BlacklistCommand implements ICommand {
             return;
         }
 
-        if (args.isEmpty() || event.getMessage().getMentionedMembers().isEmpty()) {
+        if (args.isEmpty()) {
             event.getChannel().sendMessage("Please specify a user to blacklist").queue();
             return;
         }
@@ -35,10 +35,11 @@ public class BlacklistCommand implements ICommand {
                 event.getChannel().sendMessage("Nobody is blacklisted.").queue();
                 return;
             }
-                blacklistedUsers.clear();
-                event.getChannel().sendMessage("Purged all blacklisted users!").queue();
-                return;
-            }
+            blacklistedUsers.clear();
+            event.getChannel().sendMessage("Purged all blacklisted users!").queue();
+            return;
+        }
+        if (event.getMessage().getMentionedMembers().isEmpty()) {
             if (!(event.getGuild().getSelfMember().canInteract(event.getMessage().getMentionedMembers().get(0)))) {
                 event.getChannel().sendMessage("You cannot blacklist that user").queue();
                 return;
@@ -46,26 +47,37 @@ public class BlacklistCommand implements ICommand {
             blacklistedUsers.put(event.getMessage().getMentionedMembers().get(0).getId(), event.getGuild().getId());
             event.getGuild().ban(event.getMessage().getMentionedMembers().get(0).getUser(), 0, "Blacklisted").queue();
             event.getChannel().sendMessage("Blacklisted " + event.getMessage().getMentionedMembers().get(0).getAsMention()).queue();
-
+        } else {
+            try {
+                event.getJDA().retrieveUserById(args.get(0)).queue(user -> {
+                    blacklistedUsers.put(user.getId(), event.getGuild().getId());
+                    event.getGuild().ban(event.getMessage().getMentionedMembers().get(0).getUser(), 0, "Blacklisted").queue();
+                    event.getChannel().sendMessage("Blacklisted " + user.getAsTag()).queue();
+                });
+            } catch (NullPointerException ex) {
+                event.getChannel().sendMessage("Invalid ID").queue();
+            }
         }
 
-        @Override
-        public String getHelp () {
-            return "Blacklists the specified user from the guild\n`" + Core.PREFIX + getInvoke() + " [user]/[clear]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
-        }
-
-        @Override
-        public String getInvoke () {
-            return "blacklist";
-        }
-
-        @Override
-        public String[] getAlias () {
-            return new String[]{"bl"};
-        }
-
-        @Override
-        public Category getCategory () {
-            return Category.ADMIN;
-        }
     }
+
+    @Override
+    public String getHelp() {
+        return "Blacklists the specified user from the guild\n`" + Core.PREFIX + getInvoke() + " [user]/[clear]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+    }
+
+    @Override
+    public String getInvoke() {
+        return "blacklist";
+    }
+
+    @Override
+    public String[] getAlias() {
+        return new String[]{"bl"};
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.ADMIN;
+    }
+}

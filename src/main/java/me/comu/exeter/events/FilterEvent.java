@@ -40,7 +40,7 @@ public class FilterEvent extends ListenerAdapter {
                                 if (warning == AutoMuteCommand.threshold) {
                                     event.getMessage().delete().reason("Sent Invite Link").queue(null, null);
                                     event.getChannel().sendMessage("Invite links are not allowed, " + event.getMember().getAsMention() + ". **Enjoy your mute. (" + warning + ")**").queue();
-                                    event.getGuild().addRoleToMember(event.getMember(), SetMuteRoleCommand.getMutedRole()).queue();
+                                    event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId()))).queue();
                                     return;
                                 }
                                 AutoMuteCommand.users.replace(event.getMember().getId(), warning + 1);
@@ -62,7 +62,7 @@ public class FilterEvent extends ListenerAdapter {
                                 if (warning == AutoMuteCommand.threshold) {
                                     event.getMessage().delete().reason("Mass Mentioned").queue(null, null);
                                     event.getChannel().sendMessage("Mass mentions are not allowed, " + event.getMember().getAsMention() + ". **Enjoy your mute. (" + warning + ")**").queue();
-                                    event.getGuild().addRoleToMember(event.getMember(), SetMuteRoleCommand.getMutedRole()).queue();
+                                    event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId()))).queue();
                                     return;
                                 }
                                 AutoMuteCommand.users.replace(event.getMember().getId(), warning + 1);
@@ -100,7 +100,7 @@ public class FilterEvent extends ListenerAdapter {
                                 if (warning == AutoMuteCommand.threshold) {
                                     event.getMessage().delete().reason("Sent Invite Link").queue(null, null);
                                     event.getChannel().sendMessage("Invite links are not allowed, " + event.getMember().getAsMention() + ". **Enjoy your mute. (" + warning + ")**").queue();
-                                    event.getGuild().addRoleToMember(event.getMember(), SetMuteRoleCommand.getMutedRole()).queue();
+                                    event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId()))).queue();
                                     return;
                                 }
                                 AutoMuteCommand.users.replace(event.getMember().getId(), warning + 1);

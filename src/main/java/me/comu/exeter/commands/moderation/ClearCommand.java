@@ -5,13 +5,11 @@ import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 public class ClearCommand implements ICommand {
     @Override
@@ -66,9 +64,9 @@ public class ClearCommand implements ICommand {
             return;
         }
         try {
-            if (Integer.parseInt(args.get(0)) > 100) {
+            if (Integer.parseInt(args.get(0)) >= 100) {
                 event.getMessage().delete().queue(onDelete -> {
-                    purgePaginatedMessages(channel, Integer.parseInt(args.get(0)), messages -> channel.purgeMessages());
+                    event.getChannel().getHistory().retrievePast(100).queue(messages -> event.getChannel().purgeMessages(messages));
                     event.getChannel().sendMessage(String.format("Cleared %s messages :champagne_glass:", args.get(0))).queue(tempMessage -> tempMessage.delete().queueAfter(2, TimeUnit.SECONDS));
                 });
             } else {
@@ -82,14 +80,14 @@ public class ClearCommand implements ICommand {
         }
     }
 
-    public void purgePaginatedMessages(MessageChannel channel, int amount, Consumer<List<Message>> callback) {
-        List<Message> messages = new ArrayList<>(amount);
-        channel.getIterableHistory().cache(false).forEachAsync((message) ->
-        {
-            messages.add(message);
-            return messages.size() < amount;
-        }).thenRun(() -> callback.accept(messages));
-    }
+//    public void purgePaginatedMessages(MessageChannel channel, int amount, Consumer<List<Message>> callback) {
+//        List<Message> messages = new ArrayList<>(amount);
+//        channel.getIterableHistory().cache(false).forEachAsync((message) ->
+//        {
+//            messages.add(message);
+//            return messages.size() < amount;
+//        }).thenRun(() -> callback.accept(messages));
+//    }
 
 
     @Override

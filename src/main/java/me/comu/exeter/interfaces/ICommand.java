@@ -16,7 +16,6 @@ public interface ICommand {
 
     Category getCategory();
 
-    enum Category {ADMIN, MODERATION, BOT, MUSIC, ECONOMY, MARRIAGE, MISC, OWNER}
-
+    enum Category {ADMIN, MODERATION, BOT, MUSIC, ECONOMY, MARRIAGE, IMAGE, MISC, OWNER}
 
 }

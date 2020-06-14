@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -12,10 +13,8 @@ import java.util.Objects;
 
 public class CreateAChannelCommand implements ICommand {
 
-    public static boolean isSet = false;
-    public static String channelID = null;
-    public static String guildID = null;
     public static final HashMap<String, String> map = new HashMap<>();
+    private static HashMap<String, String> cacMap = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -30,15 +29,29 @@ public class CreateAChannelCommand implements ICommand {
         }
         try {
             VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(args.get(0));
-            channelID = Objects.requireNonNull(voiceChannel).getId();
-            guildID = event.getGuild().getId();
-            voiceChannel.getManager().setName("Create-A-Channel").queue();
+            verifyCac(event.getGuild());
+            cacMap.put(event.getGuild().getId(), Objects.requireNonNull(voiceChannel).getId());
             event.getChannel().sendMessage("Create-A-Channel Channel Successfully Set To `" + voiceChannel.getName() + "`").queue();
-            isSet = true;
         } catch (NullPointerException | NumberFormatException ex) {
             event.getChannel().sendMessage("Invalid Channel-ID").queue();
+        }
+
     }
 
+    public static boolean isCacSet(Guild guild) {
+
+        return cacMap.containsKey(guild.getId());
+
+    }
+
+    public static HashMap<String, String> getCacMap() {
+
+        return cacMap;
+    }
+
+    public static void verifyCac(Guild guild) {
+        if (isCacSet(guild))
+            getCacMap().remove(guild.getId());
     }
 
     @Override
@@ -53,7 +66,7 @@ public class CreateAChannelCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"cac"};
+        return new String[]{"cac"};
     }
 
     @Override

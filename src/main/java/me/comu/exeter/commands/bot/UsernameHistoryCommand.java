@@ -120,7 +120,7 @@ public class UsernameHistoryCommand implements ICommand {
 
             }
         }
-        UsernameHistoryHandler.saveUsernameHistoryConfig();
+//        UsernameHistoryHandler.saveUsernameHistoryConfig();
     }
 
     @Override

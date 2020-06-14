@@ -11,7 +11,7 @@ public class FakeAddressGeneratorCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
-        event.getChannel().sendMessage("").queue();
+        event.getChannel().sendMessage(".").queue();
     }
 
     @Override

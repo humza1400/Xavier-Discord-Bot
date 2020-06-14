@@ -38,19 +38,36 @@ public class BanCommand implements ICommand {
         String reason = String.join(" ", args.subList(1, args.size()));
         if (mentionedMembers.isEmpty()) {
             StringJoiner stringJoiner = new StringJoiner(" ");
-            args.stream().skip(1).forEach(stringJoiner::add);
+            args.forEach(stringJoiner::add);
             List<Member> targets = event.getGuild().getMembersByName(stringJoiner.toString(), true);
             if (targets.isEmpty()) {
                 try {
                     Member member1 = event.getGuild().getMemberById(args.get(0));
                     if (args.size() > 1) {
-                        event.getGuild().ban(member1, 0, stringJoiner.toString()).queue();
-                        event.getChannel().sendMessage("Banned " + member1.getUser().getAsTag() + " for `" + stringJoiner.toString() + "`").queue();
+                        if (!event.getGuild().getSelfMember().canInteract(Objects.requireNonNull(member1))) {
+                            event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
+                            return;
+                        } else if (!Objects.requireNonNull(event.getMember()).canInteract(member1)){
+                            event.getChannel().sendMessage("You don't have permission to ban that user!").queue();
+                            return;
+                        }
+                        StringJoiner stringJoiner1 = new StringJoiner(" ");
+                        args.stream().skip(1).forEach(stringJoiner1::add);
+                        event.getGuild().ban(member1, 0, stringJoiner1.toString()).queue();
+                        event.getChannel().sendMessage("Banned " + member1.getUser().getAsTag() + " for `" + stringJoiner1.toString() + "`").queue();
+                        return;
+                    }
+                    if (!event.getGuild().getSelfMember().canInteract(Objects.requireNonNull(member1))) {
+                        event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
+                        return;
+                    } else if (!Objects.requireNonNull(event.getMember()).canInteract(member1)){
+                        event.getChannel().sendMessage("You don't have permission to ban that user!").queue();
                         return;
                     }
                     event.getGuild().ban(member1, 0).queue();
                     event.getChannel().sendMessage("Banned " + member1.getUser().getAsTag()).queue();
                     return;
+
 
                 } catch (NullPointerException ex) {
                     event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();

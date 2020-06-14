@@ -61,7 +61,7 @@ public class PollCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"createpoll"};
+        return new String[]{"createpoll","newpoll"};
     }
 
     @Override

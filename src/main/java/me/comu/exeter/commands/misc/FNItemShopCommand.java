@@ -170,7 +170,7 @@ public class FNItemShopCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"fnshop", "fortniteitemshop", "itemshopfn", "dailyshop"};
+        return new String[]{"fnitemshop","fnshop", "fortniteitemshop", "itemshopfn", "dailyshop"};
     }
 
     @Override

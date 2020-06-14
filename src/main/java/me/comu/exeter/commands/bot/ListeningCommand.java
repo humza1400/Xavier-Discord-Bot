@@ -1,4 +1,4 @@
-package me.comu.exeter.commands.admin;
+package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;

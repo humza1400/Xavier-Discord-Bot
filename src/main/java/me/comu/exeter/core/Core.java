@@ -2,10 +2,9 @@ package me.comu.exeter.core;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.bot.UsernameHistoryCommand;
-import me.comu.exeter.handlers.UsernameHistoryHandler;
-import me.comu.exeter.handlers.WhitelistedJSONHandler;
-import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.events.*;
+import me.comu.exeter.handlers.EcoJSONHandler;
+import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.musicplayer.TrackScheduler;
@@ -30,7 +29,6 @@ import java.util.logging.Logger;
 public class Core {
 
     public static JDA jda;
-    public static final String DEBUG = "[DEBUG] ";
     public static String PREFIX = ".";
     public static final Long OWNERID = Long.parseLong(Config.get("OWNER"));
 
@@ -60,7 +58,6 @@ public class Core {
         Config.buildDirectory("cache", "cache");
         EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
         WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
-        UsernameHistoryHandler.loadUsernameHistoryConfig(new File("unhistory.json"));
         CommandManager commandManager = new CommandManager(eventWaiter);
         Listener listener = new Listener(commandManager);
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
@@ -92,7 +89,6 @@ public class Core {
             jda.addEventListener(new UsernamePresenceUpdateEvent());
             TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
             logger.info("Successfully booted");
-            UsernameHistoryCommand.logAllNames(jda);
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");
             e.printStackTrace();

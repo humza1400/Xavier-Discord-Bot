@@ -49,10 +49,10 @@ class  Listener extends ListenerAdapter {
             Guild guild = event.getGuild();
             TextChannel textChannel = event.getTextChannel();
 
-          logger.info(String.format("[DEBUG] (%s)[%s]<%#s>: %s", guild.getName(), textChannel.getName(), author, content));
+          logger.info(String.format("(%s)[%s]<%#s>: %s", guild.getName(), textChannel.getName(), author, content));
         }
         else if (event.isFromType(ChannelType.PRIVATE)) {
-            logger.info(String.format("[DEBUG] [PRIVATE]<%#s> -> <%s#%s>: %s", author, event.getPrivateChannel().getUser().getName(), event.getPrivateChannel().getUser().getDiscriminator(), content));
+            logger.info(String.format("[PRIVATE]<%#s> -> <%s#%s>: %s", author, event.getPrivateChannel().getUser().getName(), event.getPrivateChannel().getUser().getDiscriminator(), content));
             TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
         }
     }

@@ -19,6 +19,12 @@ public class AFKCommand implements ICommand {
             afkUserMessageIndex.clear();
             return;
         }
+        if (args.isEmpty() && afkUsers.containsKey(Objects.requireNonNull(event.getMember()).getId())) {
+            event.getChannel().sendMessage(event.getMember().getUser().getAsTag() + " is no longer AFK.").queue();
+            afkUsers.remove(event.getMember().getId());
+            afkUserMessageIndex.remove(event.getMember().getId());
+            return;
+        }
         if (afkUsers.containsKey(Objects.requireNonNull(event.getMember()).getId()) && afkUserMessageIndex.get(event.getMember().getId()) == 3) {
             afkUsers.remove(event.getMember().getId());
             afkUserMessageIndex.remove(event.getMember().getId());

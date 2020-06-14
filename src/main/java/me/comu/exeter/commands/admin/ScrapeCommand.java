@@ -38,7 +38,7 @@ public class ScrapeCommand implements ICommand {
             event.getChannel().sendTyping().queue();
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             long time = System.currentTimeMillis();
-            event.getChannel().sendMessage(Core.DEBUG + "A;; users scraped to `Swag's Test Server` in `#ilovemen`").queue(response -> response.editMessageFormat(Core.DEBUG + "users scraped to `Swag's Test Server` in `#ilovemen` (%d ms)" , System.currentTimeMillis() - time).queue());
+            event.getChannel().sendMessage("A;; users scraped to `Swag's Test Server` in `#ilovemen`").queue(response -> response.editMessageFormat("users scraped to `Swag's Test Server` in `#ilovemen` (%d ms)" , System.currentTimeMillis() - time).queue());
             embedBuilder.clear();
         } catch (IllegalArgumentException e) {
             event.getChannel().sendMessage("Value cannot be longer than 1024 characters!").queue();

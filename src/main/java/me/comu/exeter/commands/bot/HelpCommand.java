@@ -134,6 +134,21 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
+        } else if (args.get(0).equalsIgnoreCase("image")) {
+            StringBuilder buffer = new StringBuilder();
+            int count = 0;
+            for (ICommand command : manager.getCommands()) {
+                if (command.getCategory().equals(Category.IMAGE)) {
+                    if (!buffer.toString().contains(command.getInvoke())) {
+                        buffer.append("`").append(command.getInvoke()).append("`\n");
+                        count++;
+                    }
+                }
+            }
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("Image Manipulation Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            embedBuilder.setDescription(buffer.toString());
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            return;
         } else if (args.get(0).equalsIgnoreCase("owner")) {
             if (event.getAuthor().getIdLong() != Core.OWNERID)
             {

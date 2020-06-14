@@ -28,7 +28,7 @@ public class AutoMuteCommand implements ICommand {
             event.getChannel().sendMessage("You don't have permission to toggle Auto-Mute").queue();
             return;
         }
-        if (!SetMuteRoleCommand.isMuteRoleSet()) {
+        if (!SetMuteRoleCommand.isMuteRoleSet(event.getGuild())) {
             event.getChannel().sendMessage("Please specify a mute-role before you set-up Auto-Mute").queue();
             return;
         }
@@ -67,7 +67,7 @@ public class AutoMuteCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[0];
+        return new String[] {"automod"};
     }
 
     @Override

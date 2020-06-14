@@ -1,8 +1,6 @@
 package me.comu.exeter.commands.bot;
 
 import club.minnced.discord.webhook.WebhookClient;
-import club.minnced.discord.webhook.send.WebhookEmbed;
-import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import club.minnced.discord.webhook.send.WebhookMessage;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.comu.exeter.core.Core;
@@ -25,11 +23,10 @@ public class WebhookCommand implements ICommand {
             args.stream().skip(1).forEach(stringJoiner::add);
             WebhookClient client = WebhookClient.withUrl(args.get(0));
             WebhookMessageBuilder builder = new WebhookMessageBuilder();
-            WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(stringJoiner.toString()).setImageUrl("https://cdn.discordapp.com/attachments/307987620124688384/656152227957702676/tenor.gif").build();
-            builder.addEmbeds(firstEmbed);
-            WebhookMessage message = builder.build();
+            WebhookMessage message = builder.setContent(stringJoiner.toString()).build();
             client.send(message);
             client.close();
+            event.getChannel().sendMessage("Successfully sent POST request").queue();
         } catch (Exception ex)
         {
             event.getChannel().sendMessage("Invalid Webhook URL").queue();

@@ -47,8 +47,8 @@ public class UnmuteCommand implements ICommand {
                 return;
             }
             Member target = targets.get(0);
-            if (target.getRoles().contains(SetMuteRoleCommand.getMutedRole())) {
-                event.getGuild().removeRoleFromMember(target, SetMuteRoleCommand.getMutedRole()).reason("Unmuted by " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).queue();
+            if (target.getRoles().contains(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))) {
+                event.getGuild().removeRoleFromMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason("Unmuted by " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).queue();
                 channel.sendMessage("Unmuted "+ target.getAsMention()).queue();
             } else {
                 event.getChannel().sendMessage("That user is not muted").queue();
@@ -56,8 +56,8 @@ public class UnmuteCommand implements ICommand {
             return;
         }
         Member target = mentionedMembers.get(0);
-        if (target.getRoles().contains(SetMuteRoleCommand.getMutedRole())) {
-            event.getGuild().removeRoleFromMember(target, SetMuteRoleCommand.getMutedRole()).reason("Unmuted by " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).queue();
+        if (target.getRoles().contains(Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId()))))) {
+            event.getGuild().removeRoleFromMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason("Unmuted by " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).queue();
             channel.sendMessage("Unmuted "+ target.getAsMention()).queue();
         } else {
             event.getChannel().sendMessage("That user is not muted").queue();

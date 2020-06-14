@@ -3,9 +3,6 @@ package me.comu.exeter.core;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.*;
-import me.comu.exeter.commands.admin.GameCommand;
-import me.comu.exeter.commands.admin.ListeningCommand;
-import me.comu.exeter.commands.admin.WatchingCommand;
 import me.comu.exeter.commands.bot.*;
 import me.comu.exeter.commands.economy.*;
 import me.comu.exeter.commands.marriage.*;
@@ -33,7 +30,6 @@ public class CommandManager {
         /* TODO:
          - add log command that logs all event updates
          - marry system
-         - add custom commands like dyno
          - Add a command to move tracks in the queue
          - Add back command to music
         */
@@ -95,6 +91,8 @@ public class CommandManager {
         register(new WatchingCommand());
         register(new GameCommand());
         register(new UsernameHistoryCommand());
+        register(new DeleteTagCommand());
+        register(new AutoResponseCommand());
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());

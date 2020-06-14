@@ -23,7 +23,7 @@ public class EditEvent extends ListenerAdapter {
             String[] args = content.split("\\s+");
             String messageContent = args[0].replaceFirst(Core.PREFIX, "");
             if (manager.getCommand(messageContent) != null)
-            event.getChannel().sendMessage(Core.DEBUG + "attempting to invoke on edit: " + messageContent).queue();
+            event.getChannel().sendMessage("[DEBUG] attempting to invoke on edit: " + messageContent).queue();
 
         }
     }

@@ -15,47 +15,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="545fff34-981f-4bba-bc67-87ed5345bed8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/GameCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ListeningCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/UsernameHistoryCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WatchingCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNItemShopCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNStatsCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GiphyCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/UsernamePresenceUpdateEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/UsernameHistoryHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unhistory.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/DeleteTagCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/BlurImageCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/ResizeImageCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ARSaveConfigCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ARSaveConfigCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ClearWhitelistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ClearWhitelistCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnwhitelistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnwhitelistCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistConfigCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistConfigCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedJSONHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/WhitelistedJSONHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/AddBalanceCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/AddBalanceCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/BegCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/BegCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/CheckBalanceCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/CheckBalanceCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/ClearEconomyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/ClearEconomyCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/CoinflipCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/CoinflipCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EcoConfigCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EcoConfigCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EcoJSONHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/EcoJSONHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EcoSaveConfigCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EcoSaveConfigCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EconomyUsersCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/EconomyUsersCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/PayCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/PayCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/PurchaseCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/PurchaseCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/ResetAllBalancesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/ResetAllBalancesCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/RobCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/RobCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/SetBalanceCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/SetBalanceCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UrbanCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UrbanCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LyricsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LyricsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/BlacklistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/BlacklistCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/CreateAChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/CreateAChannelCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ScrapeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ScrapeCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AutoResponseCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AutoResponseCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CreateTagCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CreateTagCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/GameCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/GameCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ListeningCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ListeningCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TagCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TagCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TokenInfoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TokenInfoCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/UsernameHistoryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/UsernameHistoryCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WatchingCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WatchingCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WebhookCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WebhookCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AFKCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AFKCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNItemShopCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNItemShopCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FakeAddressGeneratorCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FakeAddressGeneratorCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UserInfoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UserInfoCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoMuteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoMuteCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ClearCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ClearCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MuteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MuteCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/PollCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/PollCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetMuteRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetMuteRoleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnmuteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnmuteCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Listener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Listener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/database/SQLDataSource.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitelisted.json" beforeDir="false" afterPath="$PROJECT_DIR$/whitelisted.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreateAChannelEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreateAChannelEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/EditEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/EditEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/FilterEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/FilterEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/MarriageEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/MarriageEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/interfaces/ICommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/interfaces/ICommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/logging/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/logging/Logger.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -133,32 +132,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/interfaces/ICommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="94" column="38" lean-forward="true" selection-start-line="94" selection-start-column="38" selection-end-line="94" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/unhistory.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="2" selection-start-column="2" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/UsernameHistoryCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="81" column="60" lean-forward="true" selection-start-line="81" selection-start-column="60" selection-end-line="81" selection-end-column="60" />
-              <folding>
-                <element signature="e#6738#6739#0" expanded="true" />
-                <element signature="e#6991#6992#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="238">
+              <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -166,65 +143,83 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="521">
-              <caret line="96" column="45" selection-start-line="96" selection-start-column="45" selection-end-line="96" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ClearWhitelistCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="20" column="23" lean-forward="true" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/UsernameHistoryHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/EcoJSONHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="28" selection-start-line="28" selection-end-line="35" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Config.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/WhitelistedJSONHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/UsernamePresenceUpdateEvent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="15" column="125" selection-start-line="15" selection-start-column="125" selection-end-line="15" selection-end-column="125" />
+            <state relative-caret-position="711">
+              <caret line="94" column="18" lean-forward="true" selection-start-line="94" selection-start-column="18" selection-end-line="94" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AutoResponseCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+              <folding>
+                <element signature="e#3337#3338#0" expanded="true" />
+                <element signature="e#3582#3583#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/BlacklistCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="24">
+              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+              <folding>
+                <element signature="e#3078#3079#0" expanded="true" />
+                <element signature="e#3167#3168#0" expanded="true" />
+                <element signature="e#3255#3256#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/entities/Guild.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="517">
+              <caret line="3225" column="30" selection-start-line="3225" selection-start-column="30" selection-end-line="3225" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TagCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/DeleteTagCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="302">
+              <caret line="26" column="19" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="20" column="94" selection-start-line="20" selection-start-column="94" selection-end-line="20" selection-end-column="94" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CreateTagCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="21" column="19" lean-forward="true" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -240,36 +235,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>owner is auto</find>
-      <find>owner is</find>
-      <find>-</find>
-      <find>system.</find>
-      <find>s</find>
-      <find>system.out.pri</find>
-      <find>TimeFormatter</find>
-      <find>symbol</find>
-      <find>DateTimeF</find>
-      <find>timeformatter</find>
-      <find>dddd</find>
-      <find>url</find>
-      <find>vbucks</find>
-      <find>vBucks</find>
-      <find>JSONArray jsonArray = new JSONArray(jsonResponse);</find>
-      <find>item1</find>
-      <find>0</find>
-      <find>1</find>
-      <find>new</find>
-      <find>put</find>
-      <find>event</find>
-      <find>.replaceall</find>
-      <find>requested</find>
-      <find>usernamehisto</find>
+      <find>arsave</find>
+      <find>1000</find>
+      <find>already</find>
       <find>// bot</find>
-      <find>no logg</find>
-      <find>(HashMa</find>
-      <find>F</find>
-      <find>for (Map.</find>
-      <find>added</find>
+      <find>false</find>
+      <find>getmemberbyid</find>
+      <find>by</find>
+      <find>&quot;bot</find>
+      <find>invoke</find>
+      <find>Core.clas</find>
+      <find>logger</find>
+      <find>dotenv</find>
+      <find>commons</find>
+      <find>httpcl</find>
+      <find>org.</find>
+      <find>com.</find>
+      <find>debug</find>
+      <find>java</find>
+      <find>get</find>
+      <find>%2f</find>
+      <find>they're</find>
+      <find>addrole</find>
+      <find>map</find>
+      <find>remove</find>
+      <find>clear</find>
+      <find>Clear</find>
+      <find>tags.cl</find>
+      <find>tag</find>
+      <find>&quot;more</find>
+      <find>getmentioned</find>
     </findStrings>
     <replaceStrings>
       <replace>ip.</replace>
@@ -279,7 +274,6 @@
       <replace>699562509366984784L</replace>
       <replace>if (active &amp;&amp; event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {</replace>
       <replace>if (active &amp;&amp; !AntiRaidChannelSafetyCommand.isActive()) {</replace>
-      <replace>true</replace>
       <replace>guildID</replace>
       <replace>if (Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID())) {</replace>
       <replace>for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {</replace>
@@ -302,6 +296,7 @@
       <replace>8</replace>
       <replace>15</replace>
       <replace>2</replace>
+      <replace>true</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -310,65 +305,65 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/LoadRolesCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CopyChannelsCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CopyRolesCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanTagCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/GiveRoleCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MemberCountChannelCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CreateTagCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/DiscriminatorCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnblacklistCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnwhitelistCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/VCStatsCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ChatStatsCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreateAChannelEvent.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidChannelSafetyCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/objects/RestorableChannel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/objects/RestorableCategory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ChangeBotAvatarCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TagCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ClearCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SexCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WebhookCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/BanwaveCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/StreamCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Listener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/TagToID.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/OffEvent.java" />
-        <option value="$PROJECT_DIR$/.env" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AFKCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreditOnMessageEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UrbanCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ListeningCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WatchingCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/GameCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LyricsCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GiphyCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNStatsCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNItemShopCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/UsernamePresenceUpdateEvent.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/EcoJSONHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/WhitelistedJSONHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" />
         <option value="$PROJECT_DIR$/unhistory.json" />
-        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/UsernameHistoryCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/UsernameHistoryHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/MarriageEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/GameCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WatchingCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ListeningCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNItemShopCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/UsernameHistoryCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AFKCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/PollCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FakeAddressGeneratorCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ARSaveConfigCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ClearCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CreateTagCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UserInfoCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WebhookCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Listener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/logging/Logger.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ScrapeCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/EditEvent.java" />
+        <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TokenInfoCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetMuteRoleCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/FilterEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnmuteCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MuteCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/CreateAChannelCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreateAChannelEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoMuteCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TagCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/interfaces/ICommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/BlacklistCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AutoResponseCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/DeleteTagCommand.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="721" />
-    <option name="y" value="280" />
-    <option name="width" value="1296" />
-    <option name="height" value="1416" />
+    <option name="x" value="532" />
+    <option name="y" value="617" />
+    <option name="width" value="1674" />
+    <option name="height" value="1249" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -379,7 +374,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -387,10 +381,66 @@
               <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
               <item name="music bot" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
+            <path>
+              <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="music bot" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="music bot" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="music bot" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="music bot" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="exeter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="music bot" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="exeter" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="music bot" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="exeter" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
+              <item name="bot" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="music bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="music bot" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="exeter" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
+              <item name="image" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -405,11 +455,9 @@
     <property name="settings.editor.selected.configurable" value="discord-application" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\player\Desktop\music bot\src\main\java\me\comu\exeter\configs" />
-      <recent name="C:\Users\player\Desktop\music bot\src\main\java\music\bot" />
-      <recent name="C:\Users\player\Desktop\music bot\src\main\java\music\bot\MusicPlayer" />
-      <recent name="C:\Users\player\Desktop\music bot\src\main\java\music\bot\music" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\player\Desktop\music bot\src" />
+      <recent name="C:\Users\player\Desktop\music bot" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="me.comu.exeter.objects" />
@@ -418,9 +466,11 @@
       <recent name="me.comu.exeter.util" />
       <recent name="me.comu.exeter.commands.admin" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\player\Desktop\music bot\src" />
-      <recent name="C:\Users\player\Desktop\music bot" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\player\Desktop\music bot\src\main\java\me\comu\exeter\configs" />
+      <recent name="C:\Users\player\Desktop\music bot\src\main\java\music\bot" />
+      <recent name="C:\Users\player\Desktop\music bot\src\main\java\music\bot\MusicPlayer" />
+      <recent name="C:\Users\player\Desktop\music bot\src\main\java\music\bot\music" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -808,7 +858,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591756316635</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="fag">
+      <created>1591813432556</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1591813432556</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TodoView">
@@ -822,8 +879,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49943116" visible="true" weight="0.15143085" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49943116" visible="true" weight="0.15858506" />
       <window_info id="Structure" order="1" sideWeight="0.5005688" side_tool="true" weight="0.13434023" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -832,12 +890,12 @@
       <window_info id="Favorites" order="6" sideWeight="0.5005688" side_tool="true" weight="0.13434023" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32969603" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49960256" weight="0.34840217" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49960256" visible="true" weight="0.34840217" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3998441" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32969603" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.33125487" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.33125487" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49960256" weight="0.32969603" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50039744" side_tool="true" weight="0.32969603" />
       <window_info anchor="bottom" id="Build" order="10" weight="0.32969603" />
@@ -910,7 +968,6 @@
     <MESSAGE value="fixed shit" />
     <MESSAGE value="random shit" />
     <MESSAGE value="bunch of bug fixes and exploit patches" />
-    <MESSAGE value="fag" />
     <MESSAGE value="ARCS" />
     <MESSAGE value="t" />
     <MESSAGE value="tokeninfo command" />
@@ -927,19 +984,10 @@
     <MESSAGE value="added copy/load roles + fixed caching of restorableobjects" />
     <MESSAGE value="merged banid and kickid to ban and kick cmds, removed bantag and kicktag cuz useless" />
     <MESSAGE value="fixed stuffs + afk cmd" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed stuffs + afk cmd" />
+    <MESSAGE value="fag" />
+    <option name="LAST_COMMIT_MESSAGE" value="fag" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickCommand.java</url>
-          <line>51</line>
-          <properties />
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="((HashMap.Node)AntiRaidChannelSafetyCommand.restorableCategories.entrySet().toArray()[0]).getValue()" custom="java.util.HashMap.Node" />
@@ -1005,426 +1053,420 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/OffEvent.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="20" column="77" selection-start-line="20" selection-start-column="77" selection-end-line="20" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/exceptions/HierarchyException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/internal/utils/config/AuthorizationConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="45" column="2" lean-forward="true" selection-start-line="45" selection-start-column="2" selection-end-line="48" selection-end-column="5" />
+          <folding>
+            <element signature="e#1255#1256#0" expanded="true" />
+            <element signature="e#1298#1299#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/internal/JDAImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="143" column="94" selection-start-line="143" selection-start-column="94" selection-end-line="143" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNItemShopCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2652">
+          <caret line="172" column="41" selection-start-line="172" selection-start-column="41" selection-end-line="172" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UserInfoCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1819">
+          <caret line="119" column="57" selection-start-line="119" selection-start-column="57" selection-end-line="119" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WebhookCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
-          <caret line="54" column="33" lean-forward="true" selection-start-line="54" selection-start-column="33" selection-end-line="54" selection-end-column="33" />
+          <caret line="26" column="33" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GeoIPCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        <state relative-caret-position="272">
+          <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+          <folding>
+            <element signature="e#7433#7434#0" expanded="true" />
+            <element signature="e#7461#7462#0" expanded="true" />
+            <element signature="e#7509#7510#0" expanded="true" />
+            <element signature="e#7545#7546#0" expanded="true" />
+            <element signature="e#7596#7597#0" expanded="true" />
+            <element signature="e#7638#7639#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreditOnMessageEvent.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="58" column="11" lean-forward="true" selection-start-line="58" selection-start-column="11" selection-end-line="58" selection-end-column="11" />
+        <state relative-caret-position="935">
+          <caret line="66" column="21" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
+          <folding>
+            <element signature="e#7568#7569#0" expanded="true" />
+            <element signature="e#7597#7598#0" expanded="true" />
+            <element signature="e#7645#7646#0" expanded="true" />
+            <element signature="e#7681#7682#0" expanded="true" />
+            <element signature="e#7732#7733#0" expanded="true" />
+            <element signature="e#7774#7775#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GuildLookUpCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/SetBalanceCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        <state relative-caret-position="1020">
+          <caret line="68" column="29" lean-forward="true" selection-start-line="68" selection-start-column="29" selection-end-line="68" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.14.4/5ca737573596452ff2ca307170c901eba388b7dc/okhttp-3.14.4-sources.jar!/okhttp3/Response.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/events/GenericEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/events/Event.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="43" column="19" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
-          <folding>
-            <element signature="e#6384#6385#0" expanded="true" />
-            <element signature="e#6405#6406#0" expanded="true" />
-          </folding>
+          <caret line="28" column="48" selection-start-line="28" selection-start-column="48" selection-end-line="28" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.5/c5b4c491aecb72e7c32a78da0b5c6b9cda8dee0f/gson-2.8.5-sources.jar!/com/google/gson/JsonObject.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/events/message/GenericMessageEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-973">
-          <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
+        <state relative-caret-position="187">
+          <caret line="29" column="53" lean-forward="true" selection-start-line="29" selection-start-column="53" selection-end-line="29" selection-end-column="53" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UrbanCommand.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/events/message/MessageReceivedEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="38" column="19" lean-forward="true" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="19" />
-          <folding>
-            <element signature="e#4192#4193#0" expanded="true" />
-            <element signature="e#4304#4305#0" expanded="true" />
-            <element signature="e#4391#4392#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="187">
+          <caret line="31" column="56" selection-start-line="31" selection-start-column="56" selection-end-line="31" selection-end-column="56" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/KissCommand.java">
+    <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        <state relative-caret-position="442">
+          <caret line="26" column="31" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistedCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Config.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="39" column="59" selection-start-line="39" selection-start-column="59" selection-end-line="39" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMemberJoinedEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/GameCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="34" column="33" selection-start-line="34" selection-start-column="32" selection-end-line="34" selection-end-column="33" />
+        <state relative-caret-position="765">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ListeningCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="28" column="85" selection-end-line="54" />
+        <state relative-caret-position="187">
+          <caret line="31" column="38" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/JDA.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27761">
+          <caret line="1796" column="16" selection-start-line="1796" selection-start-column="16" selection-end-line="1796" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Listener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="54" column="40" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TokenInfoCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="25" column="52" selection-start-line="25" selection-start-column="52" selection-end-line="25" selection-end-column="52" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#5391#5392#0" expanded="true" />
+            <element signature="e#5425#5426#0" expanded="true" />
+            <element signature="e#5473#5474#0" expanded="true" />
+            <element signature="e#5509#5510#0" expanded="true" />
+            <element signature="e#5560#5561#0" expanded="true" />
+            <element signature="e#5595#5596#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/WatchingCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/BlurImageCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="29" column="5" selection-end-line="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="34">
+          <caret line="2" column="29" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/StreamCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/ResizeImageCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" selection-end-line="54" />
+        <state relative-caret-position="34">
+          <caret line="2" column="31" selection-start-line="2" selection-start-column="31" selection-end-line="2" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LyricsCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="89" column="116" selection-start-line="89" selection-start-column="110" selection-end-line="89" selection-end-column="116" />
+        <state relative-caret-position="935">
+          <caret line="65" column="69" selection-start-line="65" selection-start-column="69" selection-end-line="65" selection-end-column="69" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/logging/Logger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="878" column="45" selection-start-line="878" selection-start-column="45" selection-end-line="878" selection-end-column="45" />
+        <state relative-caret-position="102">
+          <caret line="7" column="42" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.neovisionaries/nv-websocket-client/2.9/a36a1dacb4796733c16a21e892060d38b32f61f9/nv-websocket-client-2.9-sources.jar!/com/neovisionaries/ws/client/ReadingThread.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ScrapeCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="275" column="40" selection-start-line="275" selection-start-column="40" selection-end-line="275" selection-end-column="40" />
-          <folding>
-            <element signature="e#8382#8383#0" expanded="true" />
-            <element signature="e#8458#8459#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="544">
+          <caret line="40" column="148" selection-start-line="40" selection-start-column="148" selection-end-line="40" selection-end-column="148" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/io/IOException.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/EditEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="38" column="6" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="6" />
+        <state relative-caret-position="306">
+          <caret line="25" column="52" selection-start-line="25" selection-start-column="52" selection-end-line="25" selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GiphyCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/logback.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="861">
-          <caret line="55" column="33" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="204">
+          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNStatsCommand.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/hooks/ListenerAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="56" column="26" lean-forward="true" selection-start-line="56" selection-start-column="26" selection-end-line="56" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6009#6010#0" expanded="true" />
-            <element signature="e#6126#6127#0" expanded="true" />
-            <element signature="e#6213#6214#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="527">
+          <caret line="113" column="22" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/time/format/DateTimeFormatter.java">
+    <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="282" column="21" selection-start-line="282" selection-start-column="21" selection-end-line="282" selection-end-column="21" />
+        <state relative-caret-position="85">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/util/CompositeKey.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/entities/ISnowflake.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="56" column="27" selection-start-line="56" selection-start-column="27" selection-end-line="56" selection-end-column="27" />
+        <state relative-caret-position="460">
+          <caret line="36" column="19" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
           <folding>
+            <element signature="e#1181#1182#0" expanded="true" />
+            <element signature="e#1238#1239#0" expanded="true" />
             <element signature="e#1718#1719#0" expanded="true" />
             <element signature="e#1777#1778#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/text/SimpleDateFormat.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/util/List.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="661">
-          <caret line="2006" column="25" lean-forward="true" selection-start-line="2006" selection-start-column="25" selection-end-line="2006" selection-end-column="25" />
-          <folding>
-            <element signature="e#23443#23444#0" expanded="true" />
-            <element signature="e#23515#23516#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="278">
+          <caret line="144" column="12" selection-start-line="144" selection-start-column="12" selection-end-line="144" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/SayCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/FilterEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
+        <state relative-caret-position="545">
+          <caret line="102" column="33" selection-start-line="102" selection-start-column="33" selection-end-line="102" selection-end-column="33" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/text/DateFormat.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnmuteCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="342" column="24" selection-start-line="342" selection-start-column="24" selection-end-line="342" selection-end-column="24" />
+        <state relative-caret-position="333">
+          <caret line="50" column="152" lean-forward="true" selection-start-line="50" selection-start-column="152" selection-end-line="50" selection-end-column="152" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/EmbedBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="771" column="24" selection-start-line="771" selection-start-column="24" selection-end-line="771" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidConfigCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNItemShopCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="146" column="165" selection-start-line="146" selection-start-column="165" selection-end-line="146" selection-end-column="165" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1886#1887#0" expanded="true" />
-            <element signature="e#1919#1920#0" expanded="true" />
-            <element signature="e#1967#1968#0" expanded="true" />
-            <element signature="e#2059#2060#0" expanded="true" />
-            <element signature="e#2110#2111#0" expanded="true" />
-            <element signature="e#2146#2147#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/UptimeCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AFKCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="70" selection-start-line="34" selection-start-column="70" selection-end-line="34" selection-end-column="70" />
-          <folding>
-            <element signature="e#2269#2270#0" expanded="true" />
-            <element signature="e#2297#2298#0" expanded="true" />
-            <element signature="e#2345#2346#0" expanded="true" />
-            <element signature="e#2419#2420#0" expanded="true" />
-            <element signature="e#2470#2471#0" expanded="true" />
-            <element signature="e#2506#2507#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/util/CompositeKey.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="13" column="38" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CopyChannelsCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/LoadChannelsCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
-          <caret line="37" column="77" lean-forward="true" selection-start-line="37" selection-start-column="77" selection-end-line="37" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/time/Instant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="212" column="32" selection-start-line="212" selection-start-column="32" selection-end-line="212" selection-end-column="32" />
-          <folding>
-            <element signature="e#11865#11866#0" expanded="true" />
-            <element signature="e#11915#11916#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="197" selection-start-line="197" selection-end-line="197" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/requests/RestAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="466" column="14" selection-start-line="466" selection-start-column="14" selection-end-line="466" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="62" column="148" selection-start-line="62" selection-start-column="114" selection-end-line="62" selection-end-column="148" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/lang/AbstractStringBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="443" column="33" selection-start-line="443" selection-start-column="33" selection-end-line="443" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_231/src.zip!/java/lang/StringBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="135" column="17" selection-start-line="135" selection-start-column="17" selection-end-line="135" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/HelpCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="42" column="213" lean-forward="true" selection-start-line="42" selection-start-column="120" selection-end-line="42" selection-end-column="213" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/UsernamePresenceUpdateEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="15" column="125" selection-start-line="15" selection-start-column="125" selection-end-line="15" selection-end-column="125" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/ClearWhitelistCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="20" column="23" lean-forward="true" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/EcoJSONHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MuteCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="28" selection-start-line="28" selection-end-line="35" selection-end-column="9" />
+        <state relative-caret-position="738">
+          <caret line="93" column="180" lean-forward="true" selection-start-line="93" selection-start-column="180" selection-end-line="93" selection-end-column="180" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/WhitelistedJSONHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetMuteRoleCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+        <state relative-caret-position="150">
+          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="62" />
+          <folding>
+            <element signature="e#3406#3407#0" expanded="true" />
+            <element signature="e#3541#3542#0" expanded="true" />
+            <element signature="e#3634#3635#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/events/guild/voice/GenericGuildVoiceUpdateEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="60" column="18" selection-start-line="60" selection-start-column="18" selection-end-line="60" selection-end-column="18" />
+          <folding>
+            <element signature="e#1717#1718#0" expanded="true" />
+            <element signature="e#1751#1752#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreateAChannelEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="560">
+          <caret line="39" column="145" selection-start-line="39" selection-start-column="145" selection-end-line="39" selection-end-column="145" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/CreateAChannelCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoMuteCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="611">
+          <caret line="69" column="37" selection-start-line="69" selection-start-column="37" selection-end-line="69" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AboutCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="13" column="13" selection-end-line="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CreateTagCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="21" column="19" lean-forward="true" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="96" column="45" selection-start-line="96" selection-start-column="45" selection-end-line="96" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="94" column="38" lean-forward="true" selection-start-line="94" selection-start-column="38" selection-end-line="94" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/unhistory.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="2" selection-start-column="2" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/UsernameHistoryHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/UsernameHistoryCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="81" column="60" lean-forward="true" selection-start-line="81" selection-start-column="60" selection-end-line="81" selection-end-column="60" />
+        <state relative-caret-position="711">
+          <caret line="94" column="18" lean-forward="true" selection-start-line="94" selection-start-column="18" selection-end-line="94" selection-end-column="18" />
           <folding>
-            <element signature="e#6738#6739#0" expanded="true" />
-            <element signature="e#6991#6992#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/interfaces/ICommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TagCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="20" column="94" selection-start-line="20" selection-start-column="94" selection-end-line="20" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/4.1.1_156/c4ab636b7284937feac286b1d95d2c9de40e8401/JDA-4.1.1_156-sources.jar!/net/dv8tion/jda/api/entities/Guild.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="3225" column="30" selection-start-line="3225" selection-start-column="30" selection-end-line="3225" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/BlacklistCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding>
+            <element signature="e#3078#3079#0" expanded="true" />
+            <element signature="e#3167#3168#0" expanded="true" />
+            <element signature="e#3255#3256#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/DeleteTagCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="26" column="19" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AutoResponseCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <folding>
+            <element signature="e#3337#3338#0" expanded="true" />
+            <element signature="e#3582#3583#0" expanded="true" />
           </folding>
         </state>
       </provider>

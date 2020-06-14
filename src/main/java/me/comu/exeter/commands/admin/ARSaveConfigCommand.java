@@ -33,6 +33,6 @@ public class ARSaveConfigCommand implements ICommand {
 
      @Override
     public Category getCategory() {
-        return Category.ECONOMY;
+        return Category.ADMIN;
     }
 }

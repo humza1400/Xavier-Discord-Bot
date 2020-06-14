@@ -32,6 +32,10 @@ public class CreateTagCommand implements ICommand {
         StringJoiner stringJoiner = new StringJoiner(" ");
         args.stream().skip(1).forEach(stringJoiner::add);
         String tag = args.get(0);
+        if (tags.containsKey(tag)) {
+            event.getChannel().sendMessage("`" + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere") + "` already exists as a tag!").queue();
+            return;
+        }
         String tagMessage = stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere");
         tags.put(tag, tagMessage);
         event.getChannel().sendMessage("Successfully added `" + tag + "` with the content of `" + tagMessage + "`").queue();

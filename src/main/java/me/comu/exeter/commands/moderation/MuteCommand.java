@@ -28,7 +28,7 @@ public class MuteCommand implements ICommand {
             channel.sendMessage("I don't have permissions to mute that user").queue();
             return;
         }
-        if (!SetMuteRoleCommand.isMuteRoleSet()) {
+        if (!SetMuteRoleCommand.isMuteRoleSet(event.getGuild())) {
             channel.sendMessage("Please set a mute-role first `" + Core.PREFIX + "help muterole`").queue();
             return;
         }
@@ -37,30 +37,30 @@ public class MuteCommand implements ICommand {
             channel.sendMessage("Please specify a user to mute").queue();
             return;
         }
-        if (mentionedMembers.isEmpty())
-        {
+        if (mentionedMembers.isEmpty()) {
             try {
                 List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
-                if (targets.isEmpty())
-                {
-                    event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
+                if (targets.isEmpty()) {
+                    event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
                     return;
-                } else if (targets.size() > 1)
-                {
+                } else if (targets.size() > 1) {
                     event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                     return;
                 }
                 Member target = targets.get(0);
                 String reason = String.join(" ", args.subList(1, args.size()));
+                if (target.getRoles().contains(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))) {
+                    channel.sendMessage("They're already muted bro, let it go").queue();
+                    return;
+                }
                 if (reason.equals("")) {
-                    event.getGuild().addRoleToMember(target, SetMuteRoleCommand.getMutedRole()).reason(String.format("Muted by %#s", event.getAuthor())).queue();
+                    event.getGuild().addRoleToMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason(String.format("Muted by %#s", event.getAuthor())).queue();
                     channel.sendMessage(String.format("Muted %s", target.getAsMention())).queue();
                 } else {
-                    event.getGuild().addRoleToMember(target, SetMuteRoleCommand.getMutedRole()).reason(String.format("Muted by %#s for %s", event.getAuthor(), reason)).queue();
+                    event.getGuild().addRoleToMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason(String.format("Muted by %#s for %s", event.getAuthor(), reason)).queue();
                     channel.sendMessage(String.format("Muted %s for `%s`", target.getAsMention(), reason)).queue();
                 }
-            } catch (HierarchyException ex)
-            {
+            } catch (HierarchyException ex) {
                 channel.sendMessage("I cannot mute anyone whilst the mute role is at a higher precedent than my own").queue();
             }
             return;
@@ -68,16 +68,16 @@ public class MuteCommand implements ICommand {
         Member target = mentionedMembers.get(0);
         String reason = String.join(" ", args.subList(1, args.size()));
 
-        if (target.getRoles().contains(SetMuteRoleCommand.getMutedRole())) {
-                channel.sendMessage("They're already muted bro, let it go").queue();
-                return;
+        if (target.getRoles().contains(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))) {
+            channel.sendMessage("They're already muted bro, let it go").queue();
+            return;
         }
         try {
             if (reason.equals("")) {
-                event.getGuild().addRoleToMember(target, SetMuteRoleCommand.getMutedRole()).reason(String.format("Muted by %#s", event.getAuthor())).queue();
+                event.getGuild().addRoleToMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason(String.format("Muted by %#s", event.getAuthor())).queue();
                 channel.sendMessage(String.format("Muted %s", target.getAsMention())).queue();
             } else {
-                event.getGuild().addRoleToMember(target, SetMuteRoleCommand.getMutedRole()).reason(String.format("Muted by %#s for %s", event.getAuthor(), reason)).queue();
+                event.getGuild().addRoleToMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason(String.format("Muted by %#s for %s", event.getAuthor(), reason)).queue();
                 channel.sendMessage(String.format("Muted %s for `%s`", target.getAsMention(), reason)).queue();
             }
         } catch (HierarchyException ex) {
@@ -104,7 +104,7 @@ public class MuteCommand implements ICommand {
         return new String[]{"silence", "quiet", "stfu", "shhh"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MODERATION;
     }

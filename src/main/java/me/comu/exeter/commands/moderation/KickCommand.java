@@ -47,11 +47,25 @@ public class KickCommand implements ICommand {
                 try {
                     Member member1 = event.getGuild().getMemberById(args.get(0));
                     if (args.size() > 1) {
-                        event.getGuild().kick(member1, stringJoiner.toString()).queue();
+                        if (!event.getGuild().getSelfMember().canInteract(Objects.requireNonNull(member1))) {
+                            event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
+                            return;
+                        } else if (!Objects.requireNonNull(event.getMember()).canInteract(member1)){
+                            event.getChannel().sendMessage("You don't have permission to kick that user!").queue();
+                            return;
+                        }
+                        event.getGuild().kick(Objects.requireNonNull(member1), args.get(0)).queue();
                         event.getChannel().sendMessage("Kicked " + member1.getUser().getAsTag() + " for `" + stringJoiner.toString() + "`").queue();
                         return;
                     }
-                    event.getGuild().kick(member1).queue();
+                    if (!event.getGuild().getSelfMember().canInteract(Objects.requireNonNull(member1))) {
+                        event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
+                        return;
+                    } else if (!Objects.requireNonNull(event.getMember()).canInteract(member1)){
+                        event.getChannel().sendMessage("You don't have permission to kick that user!").queue();
+                        return;
+                    }
+                    event.getGuild().kick(Objects.requireNonNull(member1)).queue(null, failure -> event.getChannel().sendMessage("You don't have permissions to kick that user").queue());
                     event.getChannel().sendMessage("Kicked " + member1.getUser().getAsTag()).queue();
                     return;
 

@@ -3,6 +3,7 @@ package me.comu.exeter.commands.misc;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
@@ -17,33 +18,37 @@ public class UserInfoCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy hh:mm a");
         List<Member> memberList = event.getMessage().getMentionedMembers();
 
         if (event.getMessage().getMentionedMembers().isEmpty() && args.isEmpty()) {
             try {
                 MessageEmbed embed = new EmbedBuilder().setColor(Objects.requireNonNull(event.getMember()).getColor())
                         .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
-                        .addField("Username", event.getMember().getUser().getAsTag(), false)
-                        .addField("User ID", String.format("%s %s", event.getAuthor().getId(), event.getMember().getAsMention()), false)
-                        .addField("Account Created", event.getMember().getUser().getTimeCreated().format(timeFormatter), false)
-                        .addField("Joined Server", event.getMember().getTimeJoined().format(timeFormatter), false)
-                        .addField("Online Status", event.getMember().getOnlineStatus().name().replaceAll("_", " "), false)
-                        .addField("Activity:", displayGameInfo(event.getMember()), false)
-                        .addField(String.format("Roles: (%s)", event.getMember().getRoles().size()), getRolesAsString(event.getMember().getRoles()), false)
-                        .addField("Bot Account", event.getMember().getUser().isBot() ? "Yes" : "No", false).build();
+                        .addField("Username", event.getMember().getUser().getAsTag(), true)
+                        .addField("Online Status", event.getMember().getOnlineStatus().name().replaceAll("_", " "), true)
+                        .addField("Bot Account", event.getMember().getUser().isBot() ? "Yes" : "No", true)
+                        .addField("Account Created", event.getMember().getUser().getTimeCreated().format(timeFormatter), true)
+                        .addField("Joined Server", event.getMember().getTimeJoined().format(timeFormatter), true)
+                        .addField("Activity", displayGameInfo(event.getMember()), true)
+                        .addField(String.format("Roles: (%s)", event.getMember().getRoles().size()), getRolesAsString(event.getMember().getRoles()), true)
+                        .addField("Administrator", event.getMember().hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                        .addField("Account ID", event.getMember().getId(), true)
+                        .build();
                 event.getChannel().sendMessage(embed).queue();
             } catch (IllegalArgumentException ex) {
                 MessageEmbed embedEx = new EmbedBuilder().setColor(Objects.requireNonNull(event.getMember()).getColor())
                         .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
-                        .addField("Username", event.getMember().getUser().getAsTag(), false)
-                        .addField("User ID", String.format("%s %s", event.getAuthor().getId(), event.getMember().getAsMention()), false)
-                        .addField("Account Created", event.getMember().getUser().getTimeCreated().format(timeFormatter), false)
-                        .addField("Joined Server", event.getMember().getTimeJoined().format(timeFormatter), false)
-                        .addField("Online Status", event.getMember().getOnlineStatus().name().replaceAll("_", " "), false)
-                        .addField("Activity:", displayGameInfo(event.getMember()), false)
-                        .addField(String.format("Roles: (%s)", event.getMember().getRoles().size()), "Too many to display", false)
-                        .addField("Bot Account", event.getMember().getUser().isBot() ? "Yes" : "No", false).build();
+                        .addField("Username", event.getMember().getUser().getAsTag(), true)
+                        .addField("Online Status", event.getMember().getOnlineStatus().name().replaceAll("_", " "), true)
+                        .addField("Bot Account", event.getMember().getUser().isBot() ? "Yes" : "No", true)
+                        .addField("Account Created", event.getMember().getUser().getTimeCreated().format(timeFormatter), true)
+                        .addField("Joined Server", event.getMember().getTimeJoined().format(timeFormatter), true)
+                        .addField("Activity:", displayGameInfo(event.getMember()), true)
+                        .addField(String.format("Roles: (%s)", event.getMember().getRoles().size()), "Too many to display", true)
+                        .addField("Administrator", event.getMember().hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                        .addField("Account ID", event.getMember().getId(), true)
+                        .build();
                 event.getChannel().sendMessage(embedEx).queue();
             }
         }
@@ -51,27 +56,30 @@ public class UserInfoCommand implements ICommand {
             try {
                 MessageEmbed embed = new EmbedBuilder().setColor(memberList.get(0).getColor())
                         .setThumbnail(memberList.get(0).getUser().getEffectiveAvatarUrl())
-                        .addField("Username", memberList.get(0).getUser().getAsTag(), false)
-                        .addField("User Id", String.format("%s %s", memberList.get(0).getId(), memberList.get(0).getAsMention()), false)
-                        .addField("Account Created", memberList.get(0).getUser().getTimeCreated().format(timeFormatter), false)
-                        .addField("Joined Server", memberList.get(0).getTimeJoined().format(timeFormatter), false)
-                        .addField("Online Status", memberList.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
-                        .addField("Activity:", displayGameInfo(memberList.get(0)), false)
-                        .addField(String.format("Roles: (%s)", memberList.get(0).getRoles().size()), getRolesAsString(memberList.get(0).getRoles()), false)
-                        .addField("Bot Account", memberList.get(0).getUser().isBot() ? "Yes" : "No", false)
+                        .addField("Username", memberList.get(0).getUser().getAsTag(), true)
+                        .addField("Online Status", memberList.get(0).getOnlineStatus().name().replaceAll("_", " "), true)
+                        .addField("Bot Account", memberList.get(0).getUser().isBot() ? "Yes" : "No", true)
+                        .addField("Account Created", memberList.get(0).getUser().getTimeCreated().format(timeFormatter), true)
+                        .addField("Joined Server", memberList.get(0).getTimeJoined().format(timeFormatter), true)
+                        .addField("Activity:", displayGameInfo(memberList.get(0)), true)
+                        .addField(String.format("Roles: (%s)", memberList.get(0).getRoles().size()), getRolesAsString(memberList.get(0).getRoles()), true)
+                        .addField("Administrator",memberList.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                        .addField("Account ID", memberList.get(0).getId(), true)
                         .build();
                 event.getChannel().sendMessage(embed).queue();
             } catch (IllegalArgumentException ex) {
                 MessageEmbed embedEx = new EmbedBuilder().setColor(memberList.get(0).getColor())
                         .setThumbnail(memberList.get(0).getUser().getEffectiveAvatarUrl())
-                        .addField("Username", memberList.get(0).getUser().getAsTag(), false)
-                        .addField("User Id", String.format("%s %s", memberList.get(0).getId(), memberList.get(0).getAsMention()), false)
-                        .addField("Account Created", memberList.get(0).getUser().getTimeCreated().format(timeFormatter), false)
-                        .addField("Joined Server", memberList.get(0).getTimeJoined().format(timeFormatter), false)
-                        .addField("Online Status", memberList.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
-                        .addField("Activity:", displayGameInfo(memberList.get(0)), false)
-                        .addField(String.format("Roles: (%s)", memberList.get(0).getRoles().size()), getRolesAsString(memberList.get(0).getRoles()), false)
-                        .addField("Bot Account", memberList.get(0).getUser().isBot() ? "Yes" : "No", false)
+                        .setThumbnail(memberList.get(0).getUser().getEffectiveAvatarUrl())
+                        .addField("Username", memberList.get(0).getUser().getAsTag(), true)
+                        .addField("Online Status", memberList.get(0).getOnlineStatus().name().replaceAll("_", " "), true)
+                        .addField("Bot Account", memberList.get(0).getUser().isBot() ? "Yes" : "No", true)
+                        .addField("Account Created", memberList.get(0).getUser().getTimeCreated().format(timeFormatter), true)
+                        .addField("Joined Server", memberList.get(0).getTimeJoined().format(timeFormatter), true)
+                        .addField("Activity:", displayGameInfo(memberList.get(0)), true)
+                        .addField(String.format("Roles: (%s)", memberList.get(0).getRoles().size()), "Too many to display", true)
+                        .addField("Administrator",memberList.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                        .addField("Account ID", memberList.get(0).getId(), true)
                         .build();
                 event.getChannel().sendMessage(embedEx).queue();
             }
@@ -88,27 +96,29 @@ public class UserInfoCommand implements ICommand {
             try {
                 MessageEmbed embed = new EmbedBuilder().setColor(targets.get(0).getColor())
                         .setThumbnail(targets.get(0).getUser().getEffectiveAvatarUrl())
-                        .addField("Username", targets.get(0).getUser().getAsTag(), false)
-                        .addField("User Id", String.format("%s %s", targets.get(0).getId(), targets.get(0).getAsMention()), false)
-                        .addField("Account Created", targets.get(0).getUser().getTimeCreated().format(timeFormatter), false)
-                        .addField("Joined Server", targets.get(0).getTimeJoined().format(timeFormatter), false)
-                        .addField("Online Status", targets.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
-                        .addField("Activity:", displayGameInfo(targets.get(0)), false)
-                        .addField(String.format("Roles: (%s)", targets.get(0).getRoles().size()), getRolesAsString(targets.get(0).getRoles()), false)
-                        .addField("Bot Account", targets.get(0).getUser().isBot() ? "Yes" : "No", false)
+                        .addField("Username", targets.get(0).getUser().getAsTag(), true)
+                        .addField("Bot Account", targets.get(0).getUser().isBot() ? "Yes" : "No", true)
+                        .addField("Online Status", targets.get(0).getOnlineStatus().name().replaceAll("_", " "), true)
+                        .addField("Account Created", targets.get(0).getUser().getTimeCreated().format(timeFormatter), true)
+                        .addField("Joined Server", targets.get(0).getTimeJoined().format(timeFormatter), true)
+                        .addField("Activity:", displayGameInfo(targets.get(0)), true)
+                        .addField(String.format("Roles: (%s)", targets.get(0).getRoles().size()), getRolesAsString(targets.get(0).getRoles()), true)
+                        .addField("Administrator",targets.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                        .addField("Account ID", targets.get(0).getId(), true)
                         .build();
                 event.getChannel().sendMessage(embed).queue();
             } catch (IllegalArgumentException ex) {
                 MessageEmbed embedEx = new EmbedBuilder().setColor(targets.get(0).getColor())
                         .setThumbnail(targets.get(0).getUser().getEffectiveAvatarUrl())
-                        .addField("Username", targets.get(0).getUser().getAsTag(), false)
-                        .addField("User Id", String.format("%s %s", targets.get(0).getId(), targets.get(0).getAsMention()), false)
-                        .addField("Account Created", targets.get(0).getUser().getTimeCreated().format(timeFormatter), false)
-                        .addField("Joined Server", targets.get(0).getTimeJoined().format(timeFormatter), false)
-                        .addField("Online Status", targets.get(0).getOnlineStatus().name().replaceAll("_", " "), false)
-                        .addField("Activity:", displayGameInfo(targets.get(0)), false)
-                        .addField(String.format("Roles: (%s)", targets.get(0).getRoles().size()), getRolesAsString(targets.get(0).getRoles()), false)
-                        .addField("Bot Account", targets.get(0).getUser().isBot() ? "Yes" : "No", false)
+                        .addField("Username", targets.get(0).getUser().getAsTag(), true)
+                        .addField("Online Status", targets.get(0).getOnlineStatus().name().replaceAll("_", " "), true)
+                        .addField("Bot Account", targets.get(0).getUser().isBot() ? "Yes" : "No", true)
+                        .addField("Account Created", targets.get(0).getUser().getTimeCreated().format(timeFormatter), true)
+                        .addField("Joined Server", targets.get(0).getTimeJoined().format(timeFormatter), true)
+                        .addField("Activity:", displayGameInfo(targets.get(0)), true)
+                        .addField(String.format("Roles: (%s)", targets.get(0).getRoles().size()), "Too many to display", true)
+                        .addField("Administrator",targets.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                        .addField("Account ID", targets.get(0).getId(), true)
                         .build();
                 event.getChannel().sendMessage(embedEx).queue();
             }

@@ -5,12 +5,10 @@ import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class TagCommand implements ICommand {
 
-    static HashMap<String, String> tags = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -24,9 +22,7 @@ public class TagCommand implements ICommand {
                 return;
             }
             StringBuilder stringBuilder = new StringBuilder("__All Tags:__\n");
-            CreateTagCommand.tags.forEach((k, v) -> {
-                stringBuilder.append("`").append(k).append("`: ").append(v).append("\n");
-            });
+            CreateTagCommand.tags.forEach((k, v) -> stringBuilder.append("`").append(k).append("`: ").append(v).append("\n"));
             event.getChannel().sendMessage(stringBuilder.toString()).queue();
             return;
         }

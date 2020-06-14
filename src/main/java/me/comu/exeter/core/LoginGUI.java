@@ -219,7 +219,6 @@ class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new SnipeEvent());
                 jda.addEventListener(new ReactionRoleEvent());
                 TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
-                UsernameHistoryCommand.logAllNames(jda);
                 logger.info("Successfully booted");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
                 running = true;

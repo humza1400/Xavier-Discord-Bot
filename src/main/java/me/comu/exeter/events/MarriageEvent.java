@@ -28,6 +28,8 @@ public class MarriageEvent extends ListenerAdapter {
                     event.getChannel().sendMessage(event.getAuthor().getAsMention() + " just rejected " + Objects.requireNonNull(event.getJDA().getUserById(MarryCommand.getProposerID)).getAsMention() + "'s marriage proposal. Maybe next time bro.").queue();
                     MarryCommand.pending = false;
                 }
+            } else {
+                MarryCommand.pending = false;
             }
         }
     }
