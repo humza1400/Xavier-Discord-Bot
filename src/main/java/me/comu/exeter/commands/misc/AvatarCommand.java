@@ -22,8 +22,16 @@ public class AvatarCommand implements ICommand {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty())
             {
-                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
-                return;
+                try {
+                Member member = event.getGuild().getMemberById(args.get(0));
+                    event.getChannel().sendMessage(EmbedUtils.embedImage(member.getUser().getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
+                } catch (NullPointerException ex) {
+                    event.getChannel().sendMessage("Couldn't find a user matching that ID").queue();
+                    return;
+                } catch (IllegalArgumentException ex) {
+                    event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                    return;
+                }
             } else if (targets.size() > 1)
             {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();

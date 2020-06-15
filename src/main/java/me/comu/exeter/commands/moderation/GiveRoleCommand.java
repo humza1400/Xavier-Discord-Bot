@@ -32,24 +32,55 @@ public class GiveRoleCommand implements ICommand {
             event.getChannel().sendMessage("Please specify a valid user and valid role").queue();
             return;
         }
+        if (args.size() < 2) {
+            event.getChannel().sendMessage("Please specify a valid user and a valid role").queue();
+            return;
+        }
         if (args.get(0).equalsIgnoreCase("all")) {
             StringJoiner stringJoiner = new StringJoiner(" ");
             args.stream().skip(1).forEach(stringJoiner::add);
             List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
             if (roles.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
-                return;
+                try {
+                    Role role = Objects.requireNonNull(event.getGuild().getRoleById(args.get(1)));
+                    if (!event.getGuild().getSelfMember().canInteract(role)) {
+                        event.getChannel().sendMessage("I don't have permission to interact with that role!").queue();
+                        return;
+                    }
+                    if (event.getMember().canInteract(role)) {
+                        for (Member m : event.getGuild().getMembers()) {
+                            if (!m.getRoles().contains(role)) {
+                                event.getGuild().addRoleToMember(m, role).reason("Given by " + event.getAuthor().getAsTag()).queue();
+                            }
+                        }
+                        event.getChannel().sendMessage("Giving everyone the `" + role.getName() + "` role, this may take some time").queue();
+                        return;
+                    } else {
+                        event.getChannel().sendMessage("You don't have permission to interact with that role!").queue();
+                        return;
+                    }
+                } catch (NullPointerException ex) {
+                    event.getChannel().sendMessage("Couldn't find a role matching that ID").queue();
+                } catch (NumberFormatException ex) {
+                    event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                    return;
+                }
             } else if (roles.size() > 1) {
                 event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
                 return;
             }
-            for (Member m : event.getGuild().getMembers()) {
-                if (!m.getRoles().contains(roles.get(0))) {
-                    event.getGuild().addRoleToMember(m, roles.get(0)).reason("Given by " + event.getAuthor().getAsTag()).queue();
+            if (event.getMember().canInteract(roles.get(0))) {
+                for (Member m : event.getGuild().getMembers()) {
+                    if (!m.getRoles().contains(roles.get(0))) {
+                        event.getGuild().addRoleToMember(m, roles.get(0)).reason("Given by " + event.getAuthor().getAsTag()).queue();
+                    }
                 }
+                event.getChannel().sendMessage("Giving everyone the `" + roles.get(0).getName() + "` role, this may take some time").queue();
+                return;
+            } else {
+                event.getChannel().sendMessage("You don't have permission to interact with that role!").queue();
+                return;
             }
-            event.getChannel().sendMessage("Giving everyone the `" + roles.get(0).getName() + "` role, this may take some time").queue();
-            return;
         }
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
         if (mentionedMembers.isEmpty()) {
@@ -58,15 +89,39 @@ public class GiveRoleCommand implements ICommand {
             args.stream().skip(1).forEach(stringJoiner::add);
             List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
             if (members.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
+                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
                 return;
             } else if (members.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                 return;
             }
             if (roles.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
-                return;
+                try {
+                    Role role = Objects.requireNonNull(event.getGuild().getRoleById(args.get(1)));
+                    if (!event.getMember().canInteract(role)) {
+                        event.getChannel().sendMessage("You cannot modify a role or user whilst it is a higher precedent than your own").queue();
+                        return;
+                    }
+                    if (!event.getGuild().getSelfMember().canInteract(role)) {
+                        event.getChannel().sendMessage("I cannot modify a role or user whilst it is a higher precedent than my own").queue();
+                        return;
+                    }
+                    if (members.get(0).getRoles().contains(role)) {
+                        event.getGuild().removeRoleFromMember(members.get(0), role).queue();
+                        event.getChannel().sendMessage("Removed **" + role.getName() + "** from **" + members.get(0).getAsMention() + "**.").queue();
+                        return;
+                    } else {
+                        event.getGuild().addRoleToMember(members.get(0), role).reason("Given by " + event.getAuthor().getAsTag()).queue();
+                        event.getChannel().sendMessage("Added **" + role.getName() + "** to **" + members.get(0).getAsMention() + "**.").queue();
+                        return;
+                    }
+
+                } catch (NullPointerException ex) {
+                    event.getChannel().sendMessage("Couldn't find a role matching that ID").queue();
+                } catch (NumberFormatException ex) {
+                    event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                    return;
+                }
             } else if (roles.size() > 1) {
                 event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
                 return;
@@ -97,8 +152,32 @@ public class GiveRoleCommand implements ICommand {
         args.stream().skip(1).forEach(stringJoiner::add);
         List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
         if (roles.isEmpty()) {
-            event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
-            return;
+            try {
+                Role role = Objects.requireNonNull(event.getGuild().getRoleById(args.get(1)));
+                if (!event.getMember().canInteract(role)) {
+                    event.getChannel().sendMessage("You cannot modify a role or user whilst it is a higher precedent than your own").queue();
+                    return;
+                }
+                if (!event.getGuild().getSelfMember().canInteract(role)) {
+                    event.getChannel().sendMessage("I cannot modify a role or user whilst it is a higher precedent than my own").queue();
+                    return;
+                }
+                if (mentionedMembers.get(0).getRoles().contains(role)) {
+                    event.getGuild().removeRoleFromMember(mentionedMembers.get(0), role).queue();
+                    event.getChannel().sendMessage("Removed **" + role.getName() + "** from **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
+                    return;
+                } else {
+                    event.getGuild().addRoleToMember(mentionedMembers.get(0), role).reason("Given by " + event.getAuthor().getAsTag()).queue();
+                    event.getChannel().sendMessage("Added **" + role.getName() + "** to **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
+                    return;
+                }
+
+            } catch (NullPointerException ex) {
+                event.getChannel().sendMessage("Couldn't find a role matching that ID").queue();
+            } catch (NumberFormatException ex) {
+                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                return;
+            }
         } else if (roles.size() > 1) {
             event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
             return;

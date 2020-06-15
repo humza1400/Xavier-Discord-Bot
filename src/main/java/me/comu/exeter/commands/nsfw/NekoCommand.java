@@ -38,8 +38,9 @@ public class NekoCommand implements ICommand {
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     String url = jsonObject.toMap().get("url").toString();
                     event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
+                } else {
+                    event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
                 }
-
             }
         });
 
