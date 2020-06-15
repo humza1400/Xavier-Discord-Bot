@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -18,7 +19,7 @@ public class CreateAChannelCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && Objects.requireNonNull(event.getMember()).getIdLong() != 699562509366984784L) {
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && Objects.requireNonNull(event.getMember()).getIdLong() != 699562509366984784L) {
             event.getChannel().sendMessage("You don't have permission to set the \"Create-A-Channel\" channel").queue();
             return;
         }

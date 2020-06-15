@@ -13,11 +13,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class PetCommand implements ICommand {
+public class FeedCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
-        String petUrl = "https://nekos.life/api/v2/img/pat";
+        String petUrl = "https://nekos.life/api/v2/img/feed";
 
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().get().url(petUrl).build();
@@ -32,11 +32,10 @@ public class PetCommand implements ICommand {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String jsonResponse = Objects.requireNonNull(response.body()).string();
-                    System.out.println(jsonResponse);
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     String url = jsonObject.toMap().get("url").toString();
                     if (args.isEmpty()) {
-                        event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** pets themselves :flushed:", event.getMember().getEffectiveName())).build()).queue();
+                        event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** feeds themselves :flushed:", event.getMember().getEffectiveName())).build()).queue();
                         return;
                     }
 
@@ -50,9 +49,9 @@ public class PetCommand implements ICommand {
                             event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                             return;
                         }
-                        event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** pets **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
+                        event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** feeds **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
                     } else if (!args.isEmpty()) {
-                        event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** pets **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
+                        event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** feeds **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
                     }
                 } else {
                     event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
@@ -64,17 +63,17 @@ public class PetCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Pets the specified user\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Smugs at the specified user\n`" + Core.PREFIX + getInvoke() + " [user]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
     public String getInvoke() {
-        return "pet";
+        return "feed";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[] {"pat"};
+        return new String[0];
     }
 
     @Override

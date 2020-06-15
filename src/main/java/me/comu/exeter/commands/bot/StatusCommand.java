@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class StatusCommand implements ICommand {
 
@@ -17,9 +18,9 @@ public class StatusCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-            event.getChannel().sendMessage(new EmbedBuilder().addField("Bot Status", Core.jda.getStatus().name(), false).addField("Discord API", Wrapper.getDiscordStatus(), false).setColor(Wrapper.getAmbientColor()).build()).queue();
+            event.getChannel().sendMessage(new EmbedBuilder().addField("Bot Status", Core.jda.getStatus().name(), false).addField("Discord API", Objects.requireNonNull(Wrapper.getDiscordStatus()).toUpperCase(), false).setColor(Wrapper.getAmbientColor()).build()).queue();
         } else {
-            event.getChannel().sendMessage("Bot Status: `" + Core.jda.getStatus().name() + "` Discord API: `" + Wrapper.getDiscordStatus() + "`.").queue();
+            event.getChannel().sendMessage("Bot Status: `" + Core.jda.getStatus().name() + "` Discord API: `" + Objects.requireNonNull(Wrapper.getDiscordStatus()).toUpperCase() + "`.").queue();
         }
     }
 

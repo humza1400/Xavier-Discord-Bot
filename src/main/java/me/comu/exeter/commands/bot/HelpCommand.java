@@ -20,7 +20,7 @@ public class HelpCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)){
+        if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
             event.getChannel().sendMessage("I need permission `MESSAGE_EMBED_LINKS`.").queue();
             return;
         }
@@ -89,6 +89,21 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(buffer.toString());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
+        } else if (args.get(0).equalsIgnoreCase("nsfw")) {
+            StringBuilder buffer = new StringBuilder();
+            int count = 0;
+            for (ICommand command : manager.getCommands()) {
+                if (command.getCategory().equals(Category.NSFW)) {
+                    if (!buffer.toString().contains(command.getInvoke())) {
+                        buffer.append("`").append(command.getInvoke()).append("`\n");
+                        count++;
+                    }
+                }
+            }
+            EmbedBuilder embedBuilder = new EmbedBuilder().setTitle("NSFW Commands (" + count + ')').setColor(0xFF633B).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+            embedBuilder.setDescription(buffer.toString());
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            return;
         } else if (args.get(0).equalsIgnoreCase("misc")) {
             StringBuilder buffer = new StringBuilder();
             int count = 0;
@@ -150,8 +165,7 @@ public class HelpCommand implements ICommand {
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             return;
         } else if (args.get(0).equalsIgnoreCase("owner")) {
-            if (event.getAuthor().getIdLong() != Core.OWNERID)
-            {
+            if (event.getAuthor().getIdLong() != Core.OWNERID) {
                 event.getChannel().sendMessage("You aren't authorized to execute that command").queue();
                 return;
             }
@@ -210,7 +224,7 @@ public class HelpCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"assistance", "halp", "autism", "cmds", "commands","?"};
+        return new String[]{"assistance", "halp", "autism", "cmds", "commands", "?"};
     }
 
     @Override

@@ -9,6 +9,7 @@ import me.comu.exeter.commands.marriage.*;
 import me.comu.exeter.commands.misc.*;
 import me.comu.exeter.commands.moderation.*;
 import me.comu.exeter.commands.music.*;
+import me.comu.exeter.commands.nsfw.*;
 import me.comu.exeter.commands.nuke.*;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -126,6 +127,23 @@ public class CommandManager {
         register(new DivorceCommand());
         register(new RateCommand());
         register(new MarriedCommand());
+        register(new PetCommand());
+        register(new SmugCommand());
+        register(new FeedCommand());
+        register(new TickleCommand());
+        register(new CuddleCommand());
+        //NSFW
+        register(new AnalCommand());
+        register(new HentaiCommand());
+        register(new BoobsCommand());
+        register(new FeetCommand());
+        register(new BlowjobCommand());
+        register(new LesbianCommand());
+        register(new PussyCommand());
+        register(new NekoCommand());
+        register(new WaifuCommand());
+        // IMAGE MANIPULATION
+
         // MISC
         register(new PingCommand());
         register(new SKSKSKCommand());
@@ -169,6 +187,9 @@ public class CommandManager {
         register(new GiphyCommand());
         register(new FNItemShopCommand());
         register(new FNStatsCommand());
+        register(new ProxiesCommand());
+        register(new PenisCommand());
+        register(new ReverseGoogleSearchCommand());
         // MODERATION
         register(new BindLogChannelCommand());
         register(new SetRainbowRoleCommand());

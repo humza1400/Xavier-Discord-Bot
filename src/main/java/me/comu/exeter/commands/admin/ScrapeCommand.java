@@ -54,7 +54,7 @@ public class ScrapeCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "scrape";
+        return "scrapeusers";
     }
 
     @Override

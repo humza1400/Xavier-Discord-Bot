@@ -53,7 +53,7 @@ public class HugCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"cuddle"};
+        return new String[0];
     }
 
     @Override
