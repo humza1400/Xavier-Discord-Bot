@@ -125,7 +125,6 @@ public class CommandManager {
         register(new LickCommand());
         register(new SexCommand());
         register(new WaveCommand());
-        register(new ForcePendingCommand());
         register(new DivorceCommand());
         register(new RateCommand());
         register(new MarriedCommand());

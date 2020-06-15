@@ -23,7 +23,7 @@ public class AvatarCommand implements ICommand {
             if (targets.isEmpty())
             {
                 try {
-                Member member = event.getGuild().getMemberById(args.get(0));
+                Member member = Objects.requireNonNull(event.getGuild().getMemberById(args.get(0)));
                     event.getChannel().sendMessage(EmbedUtils.embedImage(member.getUser().getEffectiveAvatarUrl().concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
                 } catch (NullPointerException ex) {
                     event.getChannel().sendMessage("Couldn't find a user matching that ID").queue();

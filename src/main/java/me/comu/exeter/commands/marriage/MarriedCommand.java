@@ -14,7 +14,17 @@ public class MarriedCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> members = event.getMessage().getMentionedMembers();
         if (args.isEmpty()) {
-            return;
+            if (!Wrapper.isMarried(event.getAuthor().getId())) {
+                event.getChannel().sendMessage("You're not married to anyone.").queue();
+            } else {
+                try {
+                    event.getJDA().retrieveUserById(Wrapper.getMarriedUser(event.getAuthor().getId())).queue(user ->
+                            event.getChannel().sendMessage("You are happily married to " + user.getAsMention()).queue());
+                } catch (NullPointerException ex) {
+                    event.getChannel().sendMessage("Uh oh, looks like the user you were married to has left you.").queue();
+                    Wrapper.marriedUsers.remove(event.getAuthor().getId());
+                }
+            }
         }
 
         if (members.isEmpty()) {
@@ -23,6 +33,13 @@ public class MarriedCommand implements ICommand {
         }
         if (!Wrapper.isMarried(members.get(0).getId())) {
             event.getChannel().sendMessage("That user isn't married to anyone").queue();
+        } else {
+            try {
+                event.getJDA().retrieveUserById(Wrapper.getMarriedUser(members.get(0).getId())).queue(user -> event.getChannel().sendMessage(members.get(0).getAsMention() + " is happily married to " + user.getAsMention()).queue());
+            } catch (NullPointerException ex) {
+                event.getChannel().sendMessage("Uh oh, looks like the user " + members.get(0).getAsMention() + " was married to has left them.").queue();
+                Wrapper.marriedUsers.remove(members.get(0).getId());
+            }
         }
 
     }

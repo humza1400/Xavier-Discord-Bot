@@ -1,7 +1,6 @@
 package me.comu.exeter.core;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import me.comu.exeter.commands.bot.UsernameHistoryCommand;
 import me.comu.exeter.events.*;
 import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.handlers.WhitelistedJSONHandler;
@@ -64,6 +63,7 @@ public class Core {
         WebUtils.setUserAgent("Mozilla/5.0 | Discord Bot");
         try {
             jda = JDABuilder.create(Config.get("TOKEN"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setRawEventsEnabled(true).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
+            jda.addEventListener(eventWaiter);
             jda.addEventListener(new KickEvent());
             jda.addEventListener(new BanEvent());
             jda.addEventListener(new LogMessageReceivedEvent());
@@ -79,7 +79,6 @@ public class Core {
             jda.addEventListener(new CreditOnMessageEvent());
             jda.addEventListener(new VoiceChannelCreditsEvent());
             jda.addEventListener(new VCTimeTrackingEvent());
-            jda.addEventListener(new MarriageEvent());
             jda.addEventListener(new DMWizzEvent());
             jda.addEventListener(new SuggestionMessageCleanerEvent());
             jda.addEventListener(new CreateAChannelEvent());

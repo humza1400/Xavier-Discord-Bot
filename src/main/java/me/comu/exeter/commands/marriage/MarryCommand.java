@@ -8,15 +8,15 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class MarryCommand implements ICommand {
 
-    public static boolean pending = false;
-    public static long marriageChannelID;
-    public static long getProposedID;
-    public static long getProposerID;
+    private boolean pending = false;
+    private EventWaiter eventWaiter;
 
     public MarryCommand(EventWaiter waiter) {
+        this.eventWaiter = waiter;
     }
 
     @Override
@@ -25,9 +25,8 @@ public class MarryCommand implements ICommand {
             event.getChannel().sendMessage("Please specify who you want to marry.").queue();
             return;
         }
-        if (pending)
-        {
-            event.getChannel().sendMessage("Someone already has a pending marriage request to respond to").queue();
+        if (pending) {
+            event.getChannel().sendMessage("You already have a pending marriage request to respond to").queue();
             return;
         }
         List<Member> members = event.getMessage().getMentionedMembers();
@@ -56,12 +55,23 @@ public class MarryCommand implements ICommand {
         if (Wrapper.marriedUsers.containsKey(members.get(0).getId()) || Wrapper.marriedUsers.containsValue(members.get(0).getId())) {
             event.getChannel().sendMessage("Bro, they're already married, let it go.").queue();
         }
-
-        event.getChannel().sendMessage(event.getMember().getUser().getName() + " has requested to marry you, do you accept? (Yes/No) " + members.get(0).getUser().getAsMention()).queue();
-        marriageChannelID = event.getChannel().getIdLong();
-        getProposerID = event.getAuthor().getIdLong();
-        getProposedID = members.get(0).getIdLong();
         pending = true;
+        event.getChannel().sendMessage(event.getMember().getUser().getName() + " has requested to marry you, do you accept? (Yes/No) " + members.get(0).getUser().getAsMention()).queue();
+        eventWaiter.waitForEvent(GuildMessageReceivedEvent.class,
+                e -> members.get(0).getId().equals(e.getAuthor().getId()) && event.getChannel().equals(e.getChannel()),
+                e -> {
+                    if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                        event.getChannel().sendMessage(e.getAuthor().getAsMention() + " has accepted " + event.getAuthor().getAsMention() + "'s marriage proposal. **Congratulations**!").queue();
+                        Wrapper.marriedUsers.put(event.getAuthor().getId(), e.getAuthor().getId());
+                        pending = false;
+                    } else if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                        event.getChannel().sendMessage(e.getAuthor().getAsMention() + " just rejected " + event.getAuthor().getAsMention() + "'s marriage proposal LOL. Maybe next time bro.").queue();
+                        pending = false;
+                    }
+                }, 10, TimeUnit.SECONDS, () -> {
+                    event.getChannel().sendMessage(members.get(0).getAsMention() + " never replied to " + event.getAuthor().getAsMention() + "'s marriage proposal :(. F in the chat boys").queue();
+                    pending = false;
+                });
     }
 
 

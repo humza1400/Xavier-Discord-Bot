@@ -28,9 +28,10 @@ public class SnipeCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (!snipeable)
         {
-        event.getChannel().sendMessage("There's nothing to snipe!").queue();
+        event.getChannel().sendMessage("There's nothing to snipe.").queue();
         return;
         }
+
         if (containedAttachments) {
             event.getChannel().sendMessage(EmbedUtils.embedImage(Wrapper.extractUrls(contentDeleted).get(0)).setColor(Wrapper.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl()).build()).queue();
         } else {
