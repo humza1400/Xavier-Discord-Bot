@@ -5,8 +5,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.commands.admin.*;
 import me.comu.exeter.commands.bot.*;
 import me.comu.exeter.commands.economy.*;
-import me.comu.exeter.commands.image.ResizeImageCommand;
-import me.comu.exeter.commands.image.ScaleImageCommand;
+import me.comu.exeter.commands.image.*;
 import me.comu.exeter.commands.marriage.*;
 import me.comu.exeter.commands.misc.*;
 import me.comu.exeter.commands.moderation.*;
@@ -144,8 +143,13 @@ public class CommandManager {
         register(new NekoCommand());
         register(new WaifuCommand());
         // IMAGE MANIPULATION
+        register(new ReduceImageCommand());
+        register(new EnlargeImageCommand());
         register(new ResizeImageCommand());
-        register(new ScaleImageCommand());
+        register(new StretchImageCommand());
+        register(new CompressImageCommand());
+        register(new BlurImageCommand());
+        register(new GrayScaleImageCommand());
         // MISC
         register(new PingCommand());
         register(new SKSKSKCommand());
@@ -193,6 +197,7 @@ public class CommandManager {
         register(new PenisCommand());
         register(new ReverseGoogleSearchCommand());
         register(new LeetSpeakCommand());
+        register(new FactsCommand());
         // MODERATION
         register(new BindLogChannelCommand());
         register(new SetRainbowRoleCommand());

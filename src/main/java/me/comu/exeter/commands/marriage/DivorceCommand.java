@@ -21,18 +21,21 @@ public class DivorceCommand implements ICommand {
             event.getChannel().sendMessage("Please specify a person to divorce").queue();
             return;
         }
-        if (Wrapper.isMarried(members.get(0).getId())) {
+        if (!Wrapper.isMarried(members.get(0).getId())) {
             event.getChannel().sendMessage("That user isn't even married to anyone...").queue();
             return;
         }
         String marriedUser = Wrapper.getMarriedUser(event.getAuthor().getId());
-        if (Wrapper.marriedUsers.get(event.getAuthor().getId()).equals(marriedUser)) {
-            Wrapper.marriedUsers.remove(event.getAuthor().getId());
+        try {
+            if (Wrapper.marriedUsers.get(event.getAuthor().getId()).equals(marriedUser)) {
+                Wrapper.marriedUsers.remove(event.getAuthor().getId());
+            }
+        } catch (NullPointerException ex) {
+            if (marriedUser.equals(Wrapper.getKeyByValue(Wrapper.marriedUsers, event.getAuthor().getId()))) {
+                Wrapper.marriedUsers.remove(marriedUser);
+            }
         }
-        if (marriedUser.equals(Wrapper.getKeyByValue(Wrapper.marriedUsers, event.getAuthor().getId())))
-        {
-            Wrapper.marriedUsers.remove(Wrapper.getKeyByValue(Wrapper.marriedUsers, marriedUser));
-        }
+        event.getChannel().sendMessage("How sad, " + event.getAuthor().getAsMention() + " has divorced their beloved " + members.get(0).getAsMention() + ".").queue();
     }
 
     @Override
@@ -47,7 +50,7 @@ public class DivorceCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"breakup","dump"};
+        return new String[]{"breakup", "dump"};
     }
 
     @Override

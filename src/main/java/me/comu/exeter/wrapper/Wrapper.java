@@ -183,7 +183,7 @@ public class Wrapper {
         return containedUrls;
     }
 
-    public static void saveImage(String imageUrl, String path, String name) {
+    public static void saveImage(String imageUrl, String path, String name)  {
         try {
             URLConnection connection = new URL(imageUrl).openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
@@ -202,7 +202,7 @@ public class Wrapper {
             fos.write(response);
             fos.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Invalid URL");
         }
     }
 
@@ -226,6 +226,7 @@ public class Wrapper {
             fos.close();
         } catch (IOException ex) {
             ex.printStackTrace();
+            Config.clearCacheDirectory();
         }
     }
 

@@ -26,7 +26,7 @@ public class MarryCommand implements ICommand {
             return;
         }
         if (pending) {
-            event.getChannel().sendMessage("You already have a pending marriage request to respond to").queue();
+            event.getChannel().sendMessage("Someone already has a pending marriage request to respond to").queue();
             return;
         }
         List<Member> members = event.getMessage().getMentionedMembers();
@@ -61,7 +61,7 @@ public class MarryCommand implements ICommand {
                 e -> members.get(0).getId().equals(e.getAuthor().getId()) && event.getChannel().equals(e.getChannel()),
                 e -> {
                     if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                        event.getChannel().sendMessage(e.getAuthor().getAsMention() + " has accepted " + event.getAuthor().getAsMention() + "'s marriage proposal. **Congratulations**!").queue();
+                        event.getChannel().sendMessage(e.getAuthor().getAsMention() + " has accepted " + event.getAuthor().getAsMention() + "'s marriage proposal. **Congratulations**! \uD83E").queue();
                         Wrapper.marriedUsers.put(event.getAuthor().getId(), e.getAuthor().getId());
                         pending = false;
                     } else if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {

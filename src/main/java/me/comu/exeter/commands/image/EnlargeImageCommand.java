@@ -14,44 +14,36 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class ResizeImageCommand implements ICommand {
+public class EnlargeImageCommand implements ICommand {
 
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (args.size() < 2) {
-            event.getChannel().sendMessage("Please specify a valid width and height to resize the image").queue();
-            return;
-        }
-        int width;
-        int height;
-        try {
-            width = Integer.parseInt(args.get(0));
-            height = Integer.parseInt(args.get(1));
-        } catch (IllegalArgumentException ex) {
-            event.getChannel().sendMessage("Invalid dimensions were specified, please try again.").queue();
-            return;
-        }
         if (event.getMessage().getAttachments().isEmpty()) {
+            if (args.isEmpty()) {
+                event.getChannel().sendMessage("Please insert an image link to manipulate").queue();
+                return;
+            }
             event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
                 try {
                     int random = new Random().nextInt(1000);
                     int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(args.get(2), "cache", "image" + random);
+                    Wrapper.saveImage(args.get(0), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     Image img;
                     BufferedImage tempPNG;
                     File newFilePNG;
                     img = ImageIO.read(file);
                     double aspectRatio = (double) img.getWidth(null)/(double) img.getHeight(null);
-                    tempPNG = resizeImage(img, width, (int) (height/aspectRatio));
+                    tempPNG = resizeImage(img, 2000, (int) (2000/aspectRatio));
                     newFilePNG = new File("cache/image" + newRandom + ".png");
                     ImageIO.write(tempPNG, "png", newFilePNG);
                     message.delete().queue();
                     event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-                } catch (Exception ex) {
+                } catch (Exception ignored) {
                     message.editMessage("Something went wrong with processing the image").queue();
                 }
+
             });
         } else {
             event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
@@ -65,19 +57,18 @@ public class ResizeImageCommand implements ICommand {
                     File newFilePNG;
                     img = ImageIO.read(file);
                     double aspectRatio = (double) img.getWidth(null)/(double) img.getHeight(null);
-                    tempPNG = resizeImage(img, width, (int) (height/aspectRatio));
+                    tempPNG = resizeImage(img, 2000, (int) (2000/aspectRatio));
                     newFilePNG = new File("cache/image" + newRandom + ".png");
                     ImageIO.write(tempPNG, "png", newFilePNG);
                     message.delete().queue();
                     event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-
                 } catch (Exception ex) {
                     message.editMessage("Something went wrong with processing the image").queue();
                 }
+
             });
         }
         Config.clearCacheDirectory();
-
     }
 
     private BufferedImage resizeImage(final Image image, int width, int height) {
@@ -94,17 +85,17 @@ public class ResizeImageCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Scales an image to the specified dimensions\n`" + Core.PREFIX + getInvoke() + " [width] <height>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Enlarges the specified image\n`" + Core.PREFIX + getInvoke() + " `\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
     public String getInvoke() {
-        return "resize";
+        return "enlarge";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[]{"resizeimage", "resizeimg", "scaleimage", "scaleimg", "scale"};
+        return new String[]{"enlargeimage", "enlargeimg", "bigger", "larger"};
     }
 
     @Override

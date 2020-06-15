@@ -14,37 +14,28 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class ResizeImageCommand implements ICommand {
+public class ReduceImageCommand implements ICommand {
 
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (args.size() < 2) {
-            event.getChannel().sendMessage("Please specify a valid width and height to resize the image").queue();
-            return;
-        }
-        int width;
-        int height;
-        try {
-            width = Integer.parseInt(args.get(0));
-            height = Integer.parseInt(args.get(1));
-        } catch (IllegalArgumentException ex) {
-            event.getChannel().sendMessage("Invalid dimensions were specified, please try again.").queue();
-            return;
-        }
         if (event.getMessage().getAttachments().isEmpty()) {
+            if (args.isEmpty()) {
+                event.getChannel().sendMessage("Please insert an image link to manipulate").queue();
+                return;
+            }
             event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
                 try {
                     int random = new Random().nextInt(1000);
                     int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(args.get(2), "cache", "image" + random);
+                    Wrapper.saveImage(args.get(0), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     Image img;
                     BufferedImage tempPNG;
                     File newFilePNG;
                     img = ImageIO.read(file);
                     double aspectRatio = (double) img.getWidth(null)/(double) img.getHeight(null);
-                    tempPNG = resizeImage(img, width, (int) (height/aspectRatio));
+                    tempPNG = resizeImage(img, 100, (int) (100/aspectRatio));
                     newFilePNG = new File("cache/image" + newRandom + ".png");
                     ImageIO.write(tempPNG, "png", newFilePNG);
                     message.delete().queue();
@@ -52,33 +43,35 @@ public class ResizeImageCommand implements ICommand {
                 } catch (Exception ex) {
                     message.editMessage("Something went wrong with processing the image").queue();
                 }
+
             });
         } else {
             event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
+                int random = new Random().nextInt(1000);
+                int newRandom = new Random().nextInt(1000);
+                Wrapper.saveImage(event.getMessage().getAttachments().get(0).getUrl(), "cache", "image" + random);
+                File file = new File("cache/image" + random + ".png");
+                Image img;
+                BufferedImage tempPNG;
+                File newFilePNG;
                 try {
-                    int random = new Random().nextInt(1000);
-                    int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(event.getMessage().getAttachments().get(0).getUrl(), "cache", "image" + random);
-                    File file = new File("cache/image" + random + ".png");
-                    Image img;
-                    BufferedImage tempPNG;
-                    File newFilePNG;
                     img = ImageIO.read(file);
                     double aspectRatio = (double) img.getWidth(null)/(double) img.getHeight(null);
-                    tempPNG = resizeImage(img, width, (int) (height/aspectRatio));
+                    tempPNG = resizeImage(img, 100, (int) (100/aspectRatio));
                     newFilePNG = new File("cache/image" + newRandom + ".png");
                     ImageIO.write(tempPNG, "png", newFilePNG);
                     message.delete().queue();
                     event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-
                 } catch (Exception ex) {
                     message.editMessage("Something went wrong with processing the image").queue();
                 }
+
             });
         }
         Config.clearCacheDirectory();
 
     }
+
 
     private BufferedImage resizeImage(final Image image, int width, int height) {
         final BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -94,17 +87,17 @@ public class ResizeImageCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Scales an image to the specified dimensions\n`" + Core.PREFIX + getInvoke() + " [width] <height>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Reduces the size of an image\n`" + Core.PREFIX + getInvoke() + " `\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
     public String getInvoke() {
-        return "resize";
+        return "reduce";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[]{"resizeimage", "resizeimg", "scaleimage", "scaleimg", "scale"};
+        return new String[]{"reduceimage", "reduceimg", "shorten", "shortenimage", "shortenimg", "smaller", "smallerimage", "smallerimg"};
     }
 
     @Override

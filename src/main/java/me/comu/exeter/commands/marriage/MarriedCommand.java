@@ -25,6 +25,7 @@ public class MarriedCommand implements ICommand {
                     Wrapper.marriedUsers.remove(event.getAuthor().getId());
                 }
             }
+            return;
         }
 
         if (members.isEmpty()) {
