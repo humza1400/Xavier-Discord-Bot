@@ -203,6 +203,7 @@ public class Wrapper {
             fos.close();
         } catch (IOException ex) {
             System.out.println("Invalid URL");
+            Config.clearCacheDirectory();
         }
     }
 
@@ -225,7 +226,7 @@ public class Wrapper {
             fos.write(response);
             fos.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Invalid URK");
             Config.clearCacheDirectory();
         }
     }

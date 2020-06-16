@@ -87,7 +87,7 @@ public class ReduceImageCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Reduces the size of an image\n`" + Core.PREFIX + getInvoke() + " `\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Reduces the size of an image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

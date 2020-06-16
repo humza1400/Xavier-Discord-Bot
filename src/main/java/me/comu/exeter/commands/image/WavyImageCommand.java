@@ -6,7 +6,8 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.DisplacementMap;
+import javafx.scene.effect.FloatMap;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
-public class BlurImageCommand implements ICommand {
+public class WavyImageCommand implements ICommand {
 
 
     @Override
@@ -40,21 +41,10 @@ public class BlurImageCommand implements ICommand {
                     int newRandom = new Random().nextInt(1000);
                     Wrapper.saveImage(args.get(0), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
-                    BufferedImage image = ImageIO.read(file);
-                          /*              int radius = 11;
-                    int size = radius * 2 + 1;
-                    float weight = 1.0f / (size * size);
-                    float[] data = new float[size * size];
+                    BufferedImage img = ImageIO.read(file);
 
-                    for (int i = 0; i < data.length; i++) {
-                        data[i] = weight;
-                    }
-
-                    Kernel kernel = new Kernel(size, size, data);
-                    ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-                    BufferedImage bufferedImage = op.filter(image, null);*/
                     File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(distortImg(image), "png", newFilePNG);
+                    ImageIO.write(wavy(img), "png", newFilePNG);
                     message.delete().queue();
                     event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
                 } catch (Exception ignored) {
@@ -67,23 +57,11 @@ public class BlurImageCommand implements ICommand {
                 try {
                     int random = new Random().nextInt(1000);
                     int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(event.getMessage().getAttachments().get(0).getUrl(), "cache", "image" + random);
+                    Wrapper.saveImage(args.get(0), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
-      /*              int radius = 11;
-                    int size = radius * 2 + 1;
-                    float weight = 1.0f / (size * size);
-                    float[] data = new float[size * size];
-
-                    for (int i = 0; i < data.length; i++) {
-                        data[i] = weight;
-                    }
-
-                    Kernel kernel = new Kernel(size, size, data);
-                    ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-                    BufferedImage bufferedImage = op.filter(image, null);*/
                     File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(distortImg(image), "png", newFilePNG);
+                    ImageIO.write(wavy(image), "png", newFilePNG);
                     message.delete().queue();
                     event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
                 } catch (Exception ex) {
@@ -94,7 +72,7 @@ public class BlurImageCommand implements ICommand {
         }
         Config.clearCacheDirectory();
     }
-    private static BufferedImage distortImg(BufferedImage image) {
+    private static BufferedImage wavy(BufferedImage image) {
         new JFXPanel();
 
         final BufferedImage[] imageContainer = new BufferedImage[1];
@@ -108,7 +86,22 @@ public class BlurImageCommand implements ICommand {
             GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
             ImageView imageView = new ImageView(SwingFXUtils.toFXImage(image, null));
 
-            imageView.setEffect(new GaussianBlur());
+
+            FloatMap floatMap = new FloatMap();
+            floatMap.setWidth(width);
+            floatMap.setHeight(height);
+
+            for (int i = 0; i < width; i++) {
+                double v = (Math.sin(i / 180.0 * Math.PI) - 0.5) / 40.0;
+                for (int j = 0; j < height; j++) {
+                    floatMap.setSamples(i, j, 0.0f, (float) v);
+                }
+            }
+
+            DisplacementMap displacementMap = new DisplacementMap();
+            displacementMap.setMapData(floatMap);
+
+            imageView.setEffect(displacementMap);
 
 
             SnapshotParameters params = new SnapshotParameters();
@@ -130,19 +123,21 @@ public class BlurImageCommand implements ICommand {
     }
 
 
+
+
     @Override
     public String getHelp() {
-        return "Blurs the specified image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Adds a wavy-filter the specified image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
     public String getInvoke() {
-        return "blur";
+        return "wavy";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[]{"blurimage", "blurimg", "blurry"};
+        return new String[]{"wavyfilter", "wavyimage","wavyimg"};
     }
 
     @Override

@@ -19,7 +19,7 @@ public class ReverseGoogleSearchCommand implements ICommand {
         } else {
             if (event.getGuild().getMembersByName(args.get(0), true).isEmpty()) {
                 if (args.get(0).toLowerCase().endsWith("png") || args.get(0).toLowerCase().endsWith("jpg") || args.get(0).toLowerCase().endsWith("jpeg") || args.get(0).toLowerCase().endsWith("gif"))
-                    event.getChannel().sendMessage("https://images.google.com/searchbyimage?image_url=" + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
+                    event.getChannel().sendMessage("https://images.google.com/searchbyimage?image_url=" + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
                 else
                     event.getChannel().sendMessage("I couldn't resolve an image in that link, try again :|").queue();
             } else {
@@ -40,7 +40,7 @@ public class ReverseGoogleSearchCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"revsearch","reversegooglesearch", "searchgoogle", "catfish"};
+        return new String[]{"revsearch", "reversegooglesearch", "searchgoogle", "anticatfish", "catfish"};
     }
 
     @Override

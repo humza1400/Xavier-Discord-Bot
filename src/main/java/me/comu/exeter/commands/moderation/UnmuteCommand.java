@@ -4,6 +4,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -34,22 +35,28 @@ public class UnmuteCommand implements ICommand {
             channel.sendMessage("I don't have permissions to unmute that user").queue();
             return;
         }
-        if (mentionedMembers.isEmpty() && !args.isEmpty())
-        {
+        if (mentionedMembers.isEmpty() && !args.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
-            if (targets.isEmpty())
-            {
-                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
+            if (targets.isEmpty()) {
+                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
                 return;
-            } else if (targets.size() > 1)
-            {
+            } else if (targets.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                return;
+            }
+            try {
+                Role role = Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())));
+                if (role.getName().equalsIgnoreCase("porn"))
+                {}
+            } catch (NullPointerException ex) {
+                event.getChannel().sendMessage("Looks like the previous mute role was deleted, please set a new one.").queue();
+                SetMuteRoleCommand.getMutedRoleMap().remove(event.getGuild().getId());
                 return;
             }
             Member target = targets.get(0);
             if (target.getRoles().contains(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))) {
                 event.getGuild().removeRoleFromMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason("Unmuted by " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).queue();
-                channel.sendMessage("Unmuted "+ target.getAsMention()).queue();
+                channel.sendMessage("Unmuted " + target.getAsMention()).queue();
             } else {
                 event.getChannel().sendMessage("That user is not muted").queue();
             }
@@ -58,7 +65,7 @@ public class UnmuteCommand implements ICommand {
         Member target = mentionedMembers.get(0);
         if (target.getRoles().contains(Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId()))))) {
             event.getGuild().removeRoleFromMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason("Unmuted by " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).queue();
-            channel.sendMessage("Unmuted "+ target.getAsMention()).queue();
+            channel.sendMessage("Unmuted " + target.getAsMention()).queue();
         } else {
             event.getChannel().sendMessage("That user is not muted").queue();
         }
@@ -80,7 +87,7 @@ public class UnmuteCommand implements ICommand {
         return new String[0];
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MODERATION;
     }

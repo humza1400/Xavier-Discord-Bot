@@ -150,6 +150,20 @@ public class CommandManager {
         register(new CompressImageCommand());
         register(new BlurImageCommand());
         register(new GrayScaleImageCommand());
+        register(new DistortImageCommand());
+        register(new SunlightImageCommand());
+        register(new SetRGBImageCommand());
+        register(new PerspectiveImageCommand());
+        register(new MotionBlurImageCommand());
+        register(new GlowImageCommand());
+        register(new ShadowImageCommand());
+        register(new ReflectionImageCommand());
+        register(new AntiqueImageCommand());
+        register(new LightingImageCommand());
+        register(new BloomImageCommand());
+        register(new WavyImageCommand());
+        register(new StaticImageCommand());
+        register(new WarpImageCommand());
         // MISC
         register(new PingCommand());
         register(new SKSKSKCommand());
@@ -198,6 +212,7 @@ public class CommandManager {
         register(new ReverseGoogleSearchCommand());
         register(new LeetSpeakCommand());
         register(new FactsCommand());
+        register(new GetRGBCommand());
         // MODERATION
         register(new BindLogChannelCommand());
         register(new SetRainbowRoleCommand());

@@ -6,7 +6,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
-public class BlurImageCommand implements ICommand {
+public class MotionBlurImageCommand implements ICommand {
 
 
     @Override
@@ -41,18 +41,6 @@ public class BlurImageCommand implements ICommand {
                     Wrapper.saveImage(args.get(0), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
-                          /*              int radius = 11;
-                    int size = radius * 2 + 1;
-                    float weight = 1.0f / (size * size);
-                    float[] data = new float[size * size];
-
-                    for (int i = 0; i < data.length; i++) {
-                        data[i] = weight;
-                    }
-
-                    Kernel kernel = new Kernel(size, size, data);
-                    ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-                    BufferedImage bufferedImage = op.filter(image, null);*/
                     File newFilePNG = new File("cache/image" + newRandom + ".png");
                     ImageIO.write(distortImg(image), "png", newFilePNG);
                     message.delete().queue();
@@ -70,18 +58,6 @@ public class BlurImageCommand implements ICommand {
                     Wrapper.saveImage(event.getMessage().getAttachments().get(0).getUrl(), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
-      /*              int radius = 11;
-                    int size = radius * 2 + 1;
-                    float weight = 1.0f / (size * size);
-                    float[] data = new float[size * size];
-
-                    for (int i = 0; i < data.length; i++) {
-                        data[i] = weight;
-                    }
-
-                    Kernel kernel = new Kernel(size, size, data);
-                    ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-                    BufferedImage bufferedImage = op.filter(image, null);*/
                     File newFilePNG = new File("cache/image" + newRandom + ".png");
                     ImageIO.write(distortImg(image), "png", newFilePNG);
                     message.delete().queue();
@@ -108,7 +84,7 @@ public class BlurImageCommand implements ICommand {
             GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
             ImageView imageView = new ImageView(SwingFXUtils.toFXImage(image, null));
 
-            imageView.setEffect(new GaussianBlur());
+            imageView.setEffect(new MotionBlur());
 
 
             SnapshotParameters params = new SnapshotParameters();
@@ -132,17 +108,17 @@ public class BlurImageCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Blurs the specified image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Adds a motion-blur to the specified image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
     public String getInvoke() {
-        return "blur";
+        return "motionblur";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[]{"blurimage", "blurimg", "blurry"};
+        return new String[]{"blurmotion", "motionblurimage", "motionblurimg"};
     }
 
     @Override

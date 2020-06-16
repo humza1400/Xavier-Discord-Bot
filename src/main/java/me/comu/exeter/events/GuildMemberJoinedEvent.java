@@ -54,10 +54,10 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
                     }
                     stringArray = strings.toArray(new String[0]);
                     for (Role role : humanMember.getRoles()) {
-                        if (role.isManaged()) { // for safe keeping
+                        if (event.getGuild().getSelfMember().canInteract(role) && role.isManaged()) {
                             role.getManager().revokePermissions(Permission.values()).queue();
                         }
-                        if (!role.isManaged()) {
+                        if (event.getGuild().getSelfMember().canInteract(role) && !role.isManaged()) {
                             event.getGuild().removeRoleFromMember(humanMember.getId(), role).queue();
                         }
                     }

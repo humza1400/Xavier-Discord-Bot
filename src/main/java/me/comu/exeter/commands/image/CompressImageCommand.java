@@ -84,7 +84,7 @@ public class CompressImageCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Compresses the specified image\n`" + Core.PREFIX + getInvoke() + " `\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Compresses the specified image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

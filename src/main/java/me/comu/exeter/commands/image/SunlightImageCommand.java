@@ -1,15 +1,5 @@
 package me.comu.exeter.commands.image;
 
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.GaussianBlur;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
@@ -18,13 +8,14 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
 
-public class BlurImageCommand implements ICommand {
+public class SunlightImageCommand implements ICommand {
 
 
     @Override
@@ -41,9 +32,9 @@ public class BlurImageCommand implements ICommand {
                     Wrapper.saveImage(args.get(0), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
-                          /*              int radius = 11;
+                    int radius = 2;
                     int size = radius * 2 + 1;
-                    float weight = 1.0f / (size * size);
+                    float weight = 2.0f / (size * size);
                     float[] data = new float[size * size];
 
                     for (int i = 0; i < data.length; i++) {
@@ -52,9 +43,9 @@ public class BlurImageCommand implements ICommand {
 
                     Kernel kernel = new Kernel(size, size, data);
                     ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-                    BufferedImage bufferedImage = op.filter(image, null);*/
+                    BufferedImage bufferedImage = op.filter(image, null);
                     File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(distortImg(image), "png", newFilePNG);
+                    ImageIO.write(bufferedImage, "png", newFilePNG);
                     message.delete().queue();
                     event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
                 } catch (Exception ignored) {
@@ -70,9 +61,9 @@ public class BlurImageCommand implements ICommand {
                     Wrapper.saveImage(event.getMessage().getAttachments().get(0).getUrl(), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
-      /*              int radius = 11;
+                    int radius = 2;
                     int size = radius * 2 + 1;
-                    float weight = 1.0f / (size * size);
+                    float weight = 2.0f / (size * size);
                     float[] data = new float[size * size];
 
                     for (int i = 0; i < data.length; i++) {
@@ -81,9 +72,9 @@ public class BlurImageCommand implements ICommand {
 
                     Kernel kernel = new Kernel(size, size, data);
                     ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-                    BufferedImage bufferedImage = op.filter(image, null);*/
+                    BufferedImage bufferedImage = op.filter(image, null);
                     File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(distortImg(image), "png", newFilePNG);
+                    ImageIO.write(bufferedImage, "png", newFilePNG);
                     message.delete().queue();
                     event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
                 } catch (Exception ex) {
@@ -94,55 +85,21 @@ public class BlurImageCommand implements ICommand {
         }
         Config.clearCacheDirectory();
     }
-    private static BufferedImage distortImg(BufferedImage image) {
-        new JFXPanel();
-
-        final BufferedImage[] imageContainer = new BufferedImage[1];
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        Platform.runLater(() -> {
-            int width = image.getWidth();
-            int height = image.getHeight();
-            Canvas canvas = new Canvas(width, height);
-            GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-            ImageView imageView = new ImageView(SwingFXUtils.toFXImage(image, null));
-
-            imageView.setEffect(new GaussianBlur());
-
-
-            SnapshotParameters params = new SnapshotParameters();
-            params.setFill(Color.TRANSPARENT);
-
-            Image newImage = imageView.snapshot(params, null);
-            graphicsContext.drawImage(newImage, 0, 0);
-
-            imageContainer[0] = SwingFXUtils.fromFXImage(newImage, image);
-            latch.countDown();
-        });
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Platform.exit();
-        return imageContainer[0];
-    }
 
 
     @Override
     public String getHelp() {
-        return "Blurs the specified image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Adds a sunlight filter to the specified image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
     public String getInvoke() {
-        return "blur";
+        return "sunlight";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[]{"blurimage", "blurimg", "blurry"};
+        return new String[]{"sunlightfilter", "naturallight"};
     }
 
     @Override
