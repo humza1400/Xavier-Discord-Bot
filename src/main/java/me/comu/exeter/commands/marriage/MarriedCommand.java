@@ -57,7 +57,7 @@ public class MarriedCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{};
+        return new String[]{"spouse"};
     }
 
     @Override

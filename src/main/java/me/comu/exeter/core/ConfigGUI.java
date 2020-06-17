@@ -88,7 +88,7 @@ class ConfigGUI
         mno.setLocation(100, 150);
         c.add(mno);
 
-        JTextField tmno = new JTextField(LoginGUI.jTokenField.getText());
+        JTextField tmno = new JTextField(LoginGUI.field.getText());
         tmno.setFont(new Font("Tahoma", Font.PLAIN, 15));
         tmno.setSize(260, 35);
         tmno.setLocation(200, 150);

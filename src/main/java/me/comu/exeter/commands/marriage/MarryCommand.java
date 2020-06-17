@@ -58,7 +58,7 @@ public class MarryCommand implements ICommand {
         pending = true;
         event.getChannel().sendMessage(event.getMember().getUser().getName() + " has requested to marry you, do you accept? (Yes/No) " + members.get(0).getUser().getAsMention()).queue();
         eventWaiter.waitForEvent(GuildMessageReceivedEvent.class,
-                e -> members.get(0).getId().equals(e.getAuthor().getId()) && event.getChannel().equals(e.getChannel()),
+                e -> members.get(0).getId().equals(e.getAuthor().getId()) && event.getChannel().equals(e.getChannel()) && (e.getMessage().getContentRaw().equalsIgnoreCase("yes") || e.getMessage().getContentRaw().equalsIgnoreCase("no")),
                 e -> {
                     if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                         event.getChannel().sendMessage(e.getAuthor().getAsMention() + " has accepted " + event.getAuthor().getAsMention() + "'s marriage proposal. **Congratulations**! \uD83E").queue();
