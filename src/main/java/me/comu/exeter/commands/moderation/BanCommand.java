@@ -69,9 +69,8 @@ public class BanCommand implements ICommand {
                     return;
 
 
-                } catch (NullPointerException ex) {
+                } catch (NullPointerException | NumberFormatException ex) {
                     event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
-
                 }
                 event.getChannel().sendMessage("Couldn't find the user " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
                 return;

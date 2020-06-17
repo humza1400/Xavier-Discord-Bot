@@ -13,91 +13,126 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class WarpImageCommand implements ICommand {
 
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (event.getMessage().getAttachments().isEmpty()) {
-            if (args.isEmpty()) {
-                event.getChannel().sendMessage("Please insert an image link to manipulate").queue();
-                return;
-            }
-            event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
-                try {
-                    int random = new Random().nextInt(1000);
-                    int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(args.get(0), "cache", "image" + random);
-                    File file = new File("cache/image" + random + ".png");
-                    BufferedImage image = ImageIO.read(file);
-                    if (Math.random() > 0.6) {
-                        for (int i = 0; i < image.getWidth(); i++) {
-                            for (int j = 0; j < image.getHeight(); j++) {
-
-                                Color c = new Color(image.getRGB(i, j));
-                                int r = c.getRed();
-                                int g = c.getGreen();
-                                int b = c.getBlue();
-                                int a = c.getAlpha();
-                                Color rgb = new Color(r, g, b, a);
-                                image.setRGB(j, i, rgb.getRGB());
-                            }
-                        }
-                    } else {
-                        for (int i = 0; i < image.getWidth(); i++) {
-                            for (int j = 0; j < image.getHeight(); j++) {
-
-                                Color c = new Color(image.getRGB(i, j));
-                                int r = c.getRed();
-                                int g = c.getGreen();
-                                int b = c.getBlue();
-                                int a = c.getAlpha();
-                                Color rgb = new Color(r, g, b, a);
-                                image.setRGB(i, j, rgb.getRGB());
-                            }
-                        }
-                    }
-                    File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(image, "png", newFilePNG);
-                    message.delete().queue();
-                    event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-                } catch (Exception ignored) {
-                    ignored.printStackTrace();
-                    message.editMessage("Something went wrong with processing the image").queue();
-                }
-
-            });
-        } else {
-            event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
-                try {
-                    int random = new Random().nextInt(1000);
-                    int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(args.get(0), "cache", "image" + random);
-                    File file = new File("cache/image" + random + ".png");
-                    BufferedImage image = ImageIO.read(file);
-                    for (int i = 0; i < image.getWidth(); i++) {
-                        for (int j = 0; j < image.getHeight(); j++) {
-                            Color c = new Color(image.getRGB(i, j));
-                            int r = c.getRed();
-                            int g = c.getGreen();
-                            int b = c.getBlue();
-                            int a = c.getAlpha();
-                            Color rgb = new Color(r, g, b, a);
-                            image.setRGB(j, i, rgb.getRGB());
-                        }
-                    }
-                    File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(image, "png", newFilePNG);
-                    message.delete().queue();
-                    event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-                } catch (Exception ex) {
-                    message.editMessage("Something went wrong with processing the image").queue();
-                }
-
-            });
+        if (Wrapper.beingProcessed) {
+            event.getChannel().sendMessage("An image is already being processed, please wait.").queue();
+            return;
         }
+            if (event.getMessage().getAttachments().isEmpty()) {
+                if (args.isEmpty()) {
+                    event.getChannel().sendMessage("Please insert an image link to manipulate").queue();
+                    return;
+                }
+                event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
+                    try {
+                        int random = new Random().nextInt(1000);
+                        int newRandom = new Random().nextInt(1000);
+                        Wrapper.saveImage(args.get(0), "cache", "image" + random);
+                        File file = new File("cache/image" + random + ".png");
+                        BufferedImage image = ImageIO.read(file);
+                        CompletableFuture.supplyAsync(() -> image)
+                                .thenApply(this::warpImg)
+                                .completeOnTimeout(null, 10, TimeUnit.SECONDS)
+                                .thenAccept(processedImage -> {
+                                    if (processedImage == null) {
+                                        message.editMessage("Processing thread timed out.").queue();
+                                        Config.clearCacheDirectory();
+                                        Wrapper.beingProcessed = false;
+                                    } else {
+                                        try {
+                                            File newFilePNG = new File("cache/image" + newRandom + ".png");
+                                            ImageIO.write(processedImage, "png", newFilePNG);
+                                            message.delete().queue();
+                                            event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                            Wrapper.beingProcessed = false;
+                                        } catch (Exception ignored) {
+                                            message.editMessage("Something went wrong with processing the image").queue();
+                                            Wrapper.beingProcessed = false;
+                                        }
+                                    }
+                                });
+                    } catch (Exception ignored) {
+                        message.editMessage("Something went wrong with processing the image").queue();
+                        Wrapper.beingProcessed = false;
+                    }
+
+                });
+            } else {
+                event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
+                    try {
+                        int random = new Random().nextInt(1000);
+                        int newRandom = new Random().nextInt(1000);
+                        Wrapper.saveImage(args.get(0), "cache", "image" + random);
+                        File file = new File("cache/image" + random + ".png");
+                        BufferedImage image = ImageIO.read(file);
+                        CompletableFuture.supplyAsync(() -> image)
+                                .thenApply(this::warpImg)
+                                .completeOnTimeout(null, 10, TimeUnit.SECONDS)
+                                .thenAccept(processedImage -> {
+                                    if (processedImage == null) {
+                                        message.editMessage("Processing thread timed out.").queue();
+                                        Config.clearCacheDirectory();
+                                        Wrapper.beingProcessed = false;
+                                    } else {
+                                        try {
+                                            File newFilePNG = new File("cache/image" + newRandom + ".png");
+                                            ImageIO.write(processedImage, "png", newFilePNG);
+                                            message.delete().queue();
+                                            event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                            Wrapper.beingProcessed = false;
+                                        } catch (Exception ignored) {
+                                            message.editMessage("Something went wrong with processing the image").queue();
+                                            Wrapper.beingProcessed = false;
+                                        }
+                                    }
+                                });
+                    } catch (Exception ex) {
+                        message.editMessage("Something went wrong with processing the image").queue();
+                        Wrapper.beingProcessed = false;
+                    }
+
+                });
+            }
         Config.clearCacheDirectory();
+    }
+
+    private BufferedImage warpImg(BufferedImage image)
+    {
+        if (Math.random() > 0.6) {
+            for (int i = 0; i < image.getWidth(); i++) {
+                for (int j = 0; j < image.getHeight(); j++) {
+
+                    Color c = new Color(image.getRGB(i, j));
+                    int r = c.getRed();
+                    int g = c.getGreen();
+                    int b = c.getBlue();
+                    int a = c.getAlpha();
+                    Color rgb = new Color(r, g, b, a);
+                    image.setRGB(j, i, rgb.getRGB());
+                }
+            }
+        } else {
+            for (int i = 0; i < image.getWidth(); i++) {
+                for (int j = 0; j < image.getHeight(); j++) {
+
+                    Color c = new Color(image.getRGB(i, j));
+                    int r = c.getRed();
+                    int g = c.getGreen();
+                    int b = c.getBlue();
+                    int a = c.getAlpha();
+                    Color rgb = new Color(r, g, b, a);
+                    image.setRGB(i, j, rgb.getRGB());
+                }
+            }
+        }
+        return image;
     }
 
 

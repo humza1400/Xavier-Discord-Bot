@@ -69,7 +69,7 @@ public class MarryCommand implements ICommand {
                         pending = false;
                     }
                 }, 10, TimeUnit.SECONDS, () -> {
-                    event.getChannel().sendMessage(members.get(0).getAsMention() + " never replied to " + event.getAuthor().getAsMention() + "'s marriage proposal :(. F in the chat boys").queue();
+                    event.getChannel().sendMessage(members.get(0).getAsMention() + " never replied to " + event.getAuthor().getAsMention() + "'s marriage proposal :( F in the chat boys").queue();
                     pending = false;
                 });
     }

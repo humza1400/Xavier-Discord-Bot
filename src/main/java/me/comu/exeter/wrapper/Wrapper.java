@@ -36,6 +36,7 @@ public class Wrapper {
     //    public static List<Shard> shards = new ArrayList<>();
     private static final JsonParser parser = new JsonParser();
     public static final Map<String, String> marriedUsers = new HashMap<>();
+    public static boolean beingProcessed = false;
 
     public static void sendPrivateMessage(JDA jda, String userId, String content) {
         RestAction<User> action = jda.retrieveUserById(userId);

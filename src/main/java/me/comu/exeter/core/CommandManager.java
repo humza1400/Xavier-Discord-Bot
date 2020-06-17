@@ -164,6 +164,7 @@ public class CommandManager {
         register(new WavyImageCommand());
         register(new StaticImageCommand());
         register(new WarpImageCommand());
+        register(new WindowPerspectiveImageCommand());
         // MISC
         register(new PingCommand());
         register(new SKSKSKCommand());

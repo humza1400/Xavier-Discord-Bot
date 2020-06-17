@@ -22,18 +22,25 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class BlurImageCommand implements ICommand {
 
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (Wrapper.beingProcessed) {
+            event.getChannel().sendMessage("An image is already being processed, please wait.").queue();
+            return;
+        }
         if (event.getMessage().getAttachments().isEmpty()) {
             if (args.isEmpty()) {
                 event.getChannel().sendMessage("Please insert an image link to manipulate").queue();
                 return;
             }
+            Wrapper.beingProcessed = true;
             event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
                 try {
                     int random = new Random().nextInt(1000);
@@ -53,16 +60,35 @@ public class BlurImageCommand implements ICommand {
                     Kernel kernel = new Kernel(size, size, data);
                     ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
                     BufferedImage bufferedImage = op.filter(image, null);*/
-                    File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(distortImg(image), "png", newFilePNG);
-                    message.delete().queue();
-                    event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                    CompletableFuture.supplyAsync(() -> image)
+                            .thenApply(this::blurImg)
+                            .completeOnTimeout(null, 10, TimeUnit.SECONDS)
+                            .thenAccept(processedImage -> {
+                                if (processedImage == null) {
+                                    message.editMessage("Processing thread timed out.").queue();
+                                    Config.clearCacheDirectory();
+                                    Wrapper.beingProcessed = false;
+                                } else {
+                                    try {
+                                        File newFilePNG = new File("cache/image" + newRandom + ".png");
+                                        ImageIO.write(processedImage, "png", newFilePNG);
+                                        message.delete().queue();
+                                        event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                        Wrapper.beingProcessed = false;
+                                    } catch (Exception ignored) {
+                                        message.editMessage("Something went wrong with processing the image").queue();
+                                        Wrapper.beingProcessed = false;
+                                    }
+                                }
+                            });
                 } catch (Exception ignored) {
                     message.editMessage("Something went wrong with processing the image").queue();
+                    Wrapper.beingProcessed = false;
                 }
 
             });
         } else {
+            Wrapper.beingProcessed = true;
             event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
                 try {
                     int random = new Random().nextInt(1000);
@@ -82,19 +108,38 @@ public class BlurImageCommand implements ICommand {
                     Kernel kernel = new Kernel(size, size, data);
                     ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
                     BufferedImage bufferedImage = op.filter(image, null);*/
-                    File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(distortImg(image), "png", newFilePNG);
-                    message.delete().queue();
-                    event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                    CompletableFuture.supplyAsync(() -> image)
+                            .thenApply(this::blurImg)
+                            .completeOnTimeout(null, 10, TimeUnit.SECONDS)
+                            .thenAccept(processedImage -> {
+                                if (processedImage == null) {
+                                    message.editMessage("Processing thread timed out.").queue();
+                                    Config.clearCacheDirectory();
+                                    Wrapper.beingProcessed = false;
+                                } else {
+                                    try {
+                                        File newFilePNG = new File("cache/image" + newRandom + ".png");
+                                        ImageIO.write(processedImage, "png", newFilePNG);
+                                        message.delete().queue();
+                                        event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                        Wrapper.beingProcessed = false;
+                                    } catch (Exception ignored) {
+                                        message.editMessage("Something went wrong with processing the image").queue();
+                                        Wrapper.beingProcessed = false;
+                                    }
+                                }
+                            });
                 } catch (Exception ex) {
                     message.editMessage("Something went wrong with processing the image").queue();
+                    Wrapper.beingProcessed = false;
                 }
 
             });
         }
         Config.clearCacheDirectory();
     }
-    private static BufferedImage distortImg(BufferedImage image) {
+
+    private BufferedImage blurImg(BufferedImage image) {
         new JFXPanel();
 
         final BufferedImage[] imageContainer = new BufferedImage[1];

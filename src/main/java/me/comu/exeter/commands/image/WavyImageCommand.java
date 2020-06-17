@@ -1,5 +1,6 @@
 package me.comu.exeter.commands.image;
 
+
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.embed.swing.SwingFXUtils;
@@ -23,56 +24,99 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class WavyImageCommand implements ICommand {
 
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (event.getMessage().getAttachments().isEmpty()) {
-            if (args.isEmpty()) {
-                event.getChannel().sendMessage("Please insert an image link to manipulate").queue();
-                return;
-            }
-            event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
-                try {
-                    int random = new Random().nextInt(1000);
-                    int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(args.get(0), "cache", "image" + random);
-                    File file = new File("cache/image" + random + ".png");
-                    BufferedImage img = ImageIO.read(file);
-
-                    File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(wavy(img), "png", newFilePNG);
-                    message.delete().queue();
-                    event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-                } catch (Exception ignored) {
-                    message.editMessage("Something went wrong with processing the image").queue();
-                }
-
-            });
-        } else {
-            event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
-                try {
-                    int random = new Random().nextInt(1000);
-                    int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(args.get(0), "cache", "image" + random);
-                    File file = new File("cache/image" + random + ".png");
-                    BufferedImage image = ImageIO.read(file);
-                    File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(wavy(image), "png", newFilePNG);
-                    message.delete().queue();
-                    event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-                } catch (Exception ex) {
-                    message.editMessage("Something went wrong with processing the image").queue();
-                }
-
-            });
+        if (Wrapper.beingProcessed) {
+            event.getChannel().sendMessage("An image is already being processed, please wait.").queue();
+            return;
         }
+            if (event.getMessage().getAttachments().isEmpty()) {
+                if (args.isEmpty()) {
+                    event.getChannel().sendMessage("Please insert an image link to manipulate").queue();
+                    return;
+                }
+                Wrapper.beingProcessed = true;
+                event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
+                    try {
+                        int random = new Random().nextInt(1000);
+                        int newRandom = new Random().nextInt(1000);
+                        Wrapper.saveImage(args.get(0), "cache", "image" + random);
+                        File file = new File("cache/image" + random + ".png");
+                        BufferedImage image = ImageIO.read(file);
+                        CompletableFuture.supplyAsync(() -> image)
+                                .thenApply(this::wavy)
+                                .completeOnTimeout(null, 10, TimeUnit.SECONDS)
+                                .thenAccept(processedImage -> {
+                                    if (processedImage == null) {
+                                        message.editMessage("Processing thread timed out.").queue();
+                                        Config.clearCacheDirectory();
+                                        Wrapper.beingProcessed = false;
+                                    } else {
+                                        try {
+                                            File newFilePNG = new File("cache/image" + newRandom + ".png");
+                                            ImageIO.write(processedImage, "png", newFilePNG);
+                                            message.delete().queue();
+                                            event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                            Wrapper.beingProcessed = false;
+                                        } catch (Exception ignored) {
+                                            message.editMessage("Something went wrong with processing the image").queue();
+                                            Wrapper.beingProcessed = false;
+                                        }
+                                    }
+                                });
+                    } catch (Exception ignored) {
+                        message.editMessage("Something went wrong with processing the image").queue();
+                        Wrapper.beingProcessed = false;
+                    }
+                });
+            } else {
+                Wrapper.beingProcessed = true;
+                event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
+                    try {
+                        int random = new Random().nextInt(1000);
+                        int newRandom = new Random().nextInt(1000);
+                        Wrapper.saveImage(args.get(0), "cache", "image" + random);
+                        File file = new File("cache/image" + random + ".png");
+                        BufferedImage image = ImageIO.read(file);
+                        CompletableFuture.supplyAsync(() -> image)
+                                .thenApply(this::wavy)
+                                .completeOnTimeout(null, 10, TimeUnit.SECONDS)
+                                .thenAccept(processedImage -> {
+                                    if (processedImage == null) {
+                                        message.editMessage("Processing thread timed out.").queue();
+                                        Config.clearCacheDirectory();
+                                        Wrapper.beingProcessed = false;
+                                    } else {
+                                        try {
+                                            File newFilePNG = new File("cache/image" + newRandom + ".png");
+                                            ImageIO.write(processedImage, "png", newFilePNG);
+                                            message.delete().queue();
+                                            event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                            Wrapper.beingProcessed = false;
+                                        } catch (Exception ignored) {
+                                            message.editMessage("Something went wrong with processing the image").queue();
+                                            Wrapper.beingProcessed = false;
+                                        }
+                                    }
+                                });
+                    } catch (Exception ex) {
+                        message.editMessage("Something went wrong with processing the image").queue();
+                        Wrapper.beingProcessed = false;
+                    }
+
+                });
+            }
         Config.clearCacheDirectory();
     }
-    private static BufferedImage wavy(BufferedImage image) {
+
+    private BufferedImage wavy(BufferedImage image) {
         new JFXPanel();
 
         final BufferedImage[] imageContainer = new BufferedImage[1];
@@ -123,8 +167,6 @@ public class WavyImageCommand implements ICommand {
     }
 
 
-
-
     @Override
     public String getHelp() {
         return "Adds a wavy-filter the specified image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
@@ -137,7 +179,7 @@ public class WavyImageCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"wavyfilter", "wavyimage","wavyimg"};
+        return new String[]{"wavyfilter", "wavyimage", "wavyimg"};
     }
 
     @Override

@@ -19,6 +19,10 @@ public class SetRGBImageCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (Wrapper.beingProcessed) {
+            event.getChannel().sendMessage("An image is already being processed, please wait.").queue();
+            return;
+        }
         if (args.size() != 3) {
             event.getChannel().sendMessage("Please specify a valid RGB, RGB value, and image to recolor the image with").queue();
             return;
@@ -33,6 +37,7 @@ public class SetRGBImageCommand implements ICommand {
             event.getChannel().sendMessage("Please insert a valid RGB value (0-255)").queue();
             return;
         }
+
         String method;
         int r = 0;
         int g = 0;
@@ -51,61 +56,65 @@ public class SetRGBImageCommand implements ICommand {
             return;
         }
 
-
+        Wrapper.beingProcessed = true;
         if (event.getMessage().getAttachments().isEmpty()) {
-                try {
-                    int random = new Random().nextInt(1000);
-                    int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(args.get(2), "cache", "image" + random);
-                    File file = new File("cache/image" + random + ".png");
-                    BufferedImage image = ImageIO.read(file);
-                    for (int i = 0; i < image.getWidth(); i++) {
-                        switch (method){
-                            case "r":
-                                for (int j = 0; j < image.getHeight(); j++) {
-                                    image.setRGB(i, j, new Color(r, 0, 0, 255).getRGB());
-                                }
-                                break;
-                            case "g":
-                                for (int j = 0; j < image.getHeight(); j++) {
-                                    image.setRGB(i, j, new Color(0, g, 0, 255).getRGB());
-                                }
-                                break;
-                            case "b":
-                                for (int j = 0; j < image.getHeight(); j++) {
-                                    image.setRGB(i, j, new Color(0, 0, b, 255).getRGB());
-                                }
-                                break;
-                        }
+            try {
+                int random = new Random().nextInt(1000);
+                int newRandom = new Random().nextInt(1000);
+                Wrapper.saveImage(args.get(2), "cache", "image" + random);
+                File file = new File("cache/image" + random + ".png");
+                BufferedImage image = ImageIO.read(file);
+                for (int i = 0; i < image.getWidth(); i++) {
+                    switch (method) {
+                        case "r":
+                            for (int j = 0; j < image.getHeight(); j++) {
+                                image.setRGB(i, j, new Color(r, 0, 0, 255).getRGB());
+                            }
+                            break;
+                        case "g":
+                            for (int j = 0; j < image.getHeight(); j++) {
+                                image.setRGB(i, j, new Color(0, g, 0, 255).getRGB());
+                            }
+                            break;
+                        case "b":
+                            for (int j = 0; j < image.getHeight(); j++) {
+                                image.setRGB(i, j, new Color(0, 0, b, 255).getRGB());
+                            }
+                            break;
                     }
-                    File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(image, "png", newFilePNG);
-                    event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    event.getChannel().sendMessage("Something went wrong with processing the image").queue();
                 }
+                File newFilePNG = new File("cache/image" + newRandom + ".png");
+                ImageIO.write(image, "png", newFilePNG);
+                event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                Wrapper.beingProcessed = false;
+            } catch (Exception ex) {
+                event.getChannel().sendMessage("Something went wrong with processing the image").queue();
+                Wrapper.beingProcessed = false;
+            }
 
         } else {
-                try {
-                    int random = new Random().nextInt(1000);
-                    int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(args.get(3), "cache", "image" + random);
-                    File file = new File("cache/image" + random + ".png");
-                    BufferedImage image = ImageIO.read(file);
-                    for (int i = 0; i < image.getWidth(); i++) {
-                        for (int j = 0; j < image.getHeight(); j++) {
-                            image.setRGB(i, j, new Color(r, g, b, 255).getRGB());
-                        }
+            try {
+                Wrapper.beingProcessed = true;
+                int random = new Random().nextInt(1000);
+                int newRandom = new Random().nextInt(1000);
+                Wrapper.saveImage(args.get(3), "cache", "image" + random);
+                File file = new File("cache/image" + random + ".png");
+                BufferedImage image = ImageIO.read(file);
+                for (int i = 0; i < image.getWidth(); i++) {
+                    for (int j = 0; j < image.getHeight(); j++) {
+                        image.setRGB(i, j, new Color(r, g, b, 255).getRGB());
                     }
-                    File newFilePNG = new File("cache/image" + newRandom + ".png");
-                    ImageIO.write(image, "png", newFilePNG);
-                    event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-
-                } catch (Exception ex) {
-                    event.getChannel().sendMessage("Something went wrong with processing the image").queue();
                 }
+                File newFilePNG = new File("cache/image" + newRandom + ".png");
+                ImageIO.write(image, "png", newFilePNG);
+                event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                Wrapper.beingProcessed = false;
+            } catch (Exception ex) {
+                event.getChannel().sendMessage("Something went wrong with processing the image").queue();
+                Wrapper.beingProcessed = false;
+            }
         }
+        Config.clearCacheDirectory();
     }
 
 

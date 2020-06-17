@@ -1,15 +1,6 @@
 package me.comu.exeter.commands.image;
 
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Bloom;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
+
 import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
@@ -23,10 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class BloomImageCommand implements ICommand {
+public class WindowPerspectiveImageCommand implements ICommand {
 
 
     @Override
@@ -40,7 +30,6 @@ public class BloomImageCommand implements ICommand {
                 event.getChannel().sendMessage("Please insert an image link to manipulate").queue();
                 return;
             }
-            Wrapper.beingProcessed = true;
             event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
                 try {
                     int random = new Random().nextInt(1000);
@@ -49,7 +38,7 @@ public class BloomImageCommand implements ICommand {
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
                     CompletableFuture.supplyAsync(() -> image)
-                            .thenApply(this::bloomImg)
+                            .thenApply(this::windowPerspectifyImg)
                             .completeOnTimeout(null, 10, TimeUnit.SECONDS)
                             .thenAccept(processedImage -> {
                                 if (processedImage == null) {
@@ -76,7 +65,6 @@ public class BloomImageCommand implements ICommand {
 
             });
         } else {
-            Wrapper.beingProcessed = true;
             event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
                 try {
                     int random = new Random().nextInt(1000);
@@ -85,7 +73,7 @@ public class BloomImageCommand implements ICommand {
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
                     CompletableFuture.supplyAsync(() -> image)
-                            .thenApply(this::bloomImg)
+                            .thenApply(this::windowPerspectifyImg)
                             .completeOnTimeout(null, 10, TimeUnit.SECONDS)
                             .thenAccept(processedImage -> {
                                 if (processedImage == null) {
@@ -115,55 +103,38 @@ public class BloomImageCommand implements ICommand {
         Config.clearCacheDirectory();
     }
 
-    private BufferedImage bloomImg(BufferedImage image) {
-        new JFXPanel();
+    private BufferedImage windowPerspectifyImg(BufferedImage image) {
+        double radius = 3.0 * image.getHeight();
+        int xC = (int) radius, yC = (int) radius;
+        BufferedImage imageB = new BufferedImage(xC * 2, yC, BufferedImage.TYPE_INT_ARGB);
 
-        final BufferedImage[] imageContainer = new BufferedImage[1];
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        Platform.runLater(() -> {
-            int width = image.getWidth();
-            int height = image.getHeight();
-            Canvas canvas = new Canvas(width, height);
-            GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-            ImageView imageView = new ImageView(SwingFXUtils.toFXImage(image, null));
-
-            imageView.setEffect(new Bloom());
-
-
-            SnapshotParameters params = new SnapshotParameters();
-            params.setFill(Color.TRANSPARENT);
-
-            Image newImage = imageView.snapshot(params, null);
-            graphicsContext.drawImage(newImage, 0, 0);
-
-            imageContainer[0] = SwingFXUtils.fromFXImage(newImage, image);
-            latch.countDown();
-        });
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        double r, i, j;
+        for (int y = 0; y < imageB.getHeight(); y++) {
+            for (int x = 0; x < imageB.getWidth(); x++) {
+                r = Math.sqrt((xC - x) * (xC - x) + (yC - y) * (yC - y));
+                i = (radius - r);
+                j = (-3.0 * image.getWidth() / 2 * (xC - x)) / r + image.getWidth() / 2.0;
+                if (i >= 0 && i < image.getHeight() && j >= 0 && j < image.getWidth()) {
+                    imageB.setRGB(x, y, image.getRGB((int) j, (int) i));
+                }
+            }
         }
-        Platform.exit();
-        return imageContainer[0];
+        return image;
     }
-
 
     @Override
     public String getHelp() {
-        return "Adds a bloom-filter to the specified image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Blurs the specified image\n`" + Core.PREFIX + getInvoke() + " [image]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
     public String getInvoke() {
-        return "bloom";
+        return "windowperspectify";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[]{"bloomfilter", "bloomimage", "bloomimg"};
+        return new String[]{"windowperspective", "windowperspectifyimage", "windowperspectifyimg", "windowperspectiveimage", "windowimageperspective", "windowimgperspective", "windowimgperspectify", "windowimageperspectify", "wperspective", "wperspecimg"};
     }
 
     @Override

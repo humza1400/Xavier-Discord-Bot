@@ -1,5 +1,6 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
     id 'java'
     id 'application'
 }
@@ -26,7 +27,16 @@ dependencies {
     implementation group: 'net.dv8tion', name: 'JDA', version: '4.1.1_165'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.10.2'
     implementation group: 'javax.mail', name: 'mail', version: '1.4.7'
+    implementation group: 'org.openjfx', name: 'javafx-swing', version: '8'
+    implementation group: 'org.openjfx', name: 'javafx-web', version: '8'
+    implementation group: 'org.openjfx', name: 'javafx-fxml', version: '8'
 
+
+}
+
+javafx {
+    version = "12"
+    modules = ['javafx.controls', 'javafx.swing']
 }
 
 application {

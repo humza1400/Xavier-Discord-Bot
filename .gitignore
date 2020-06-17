@@ -31,3 +31,4 @@ out
 
 # Environmental Variables
 *.env
+cache/
