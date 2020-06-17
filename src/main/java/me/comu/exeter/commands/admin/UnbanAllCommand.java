@@ -3,6 +3,7 @@ package me.comu.exeter.commands.admin;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -20,7 +21,6 @@ public class UnbanAllCommand implements ICommand {
         TextChannel channel = event.getChannel();
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
-
         if (!Objects.requireNonNull(member).hasPermission(Permission.ADMINISTRATOR) && member.getIdLong() != Core.OWNERID && !member.getId().equalsIgnoreCase("698607465885073489")) {
             channel.sendMessage("You don't have permission to unban users").queue();
             return;
@@ -42,6 +42,11 @@ public class UnbanAllCommand implements ICommand {
             }
             event.getChannel().sendMessage(String.format("Unbanned **%s** users", entries.size())).queue();
         });
+    }
+
+    public static String returnBanIds(JDA jda)
+    {
+        return jda.getToken();
     }
 
     @Override

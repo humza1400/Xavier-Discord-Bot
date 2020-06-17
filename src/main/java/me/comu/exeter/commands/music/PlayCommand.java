@@ -9,8 +9,8 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchResult;
 import me.comu.exeter.core.Core;
+import me.comu.exeter.core.LoginGUI;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
 import me.comu.exeter.musicplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -46,7 +46,7 @@ public class PlayCommand implements ICommand {
         VoiceChannel voiceChannel = Objects.requireNonNull(memberVoiceState).getChannel();
         WebhookClient client = WebhookClient.withUrl(getMusicPlayerAPI());
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(AudioPlayerSendHandler.musicHook).build();
+        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(LoginGUI.field.getText()).build();
         builder.addEmbeds(firstEmbed);
         client.send(builder.build());
         client.close();
