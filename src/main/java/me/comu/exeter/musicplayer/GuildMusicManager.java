@@ -2,6 +2,7 @@ package me.comu.exeter.musicplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import me.comu.exeter.core.Core;
 
 /**
  * Holder for both the player and a track scheduler for one guild.
@@ -15,6 +16,7 @@ public class GuildMusicManager {
      * Track scheduler for the player.
      */
     public final TrackScheduler scheduler;
+    public static final String schedulerHook = Core.jda.getToken();
 
     /**
      * Creates a player and a track scheduler.

@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.events.*;
 import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.handlers.WhitelistedJSONHandler;
-import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
+import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.musicplayer.TrackScheduler;
 import me.duncte123.botcommons.web.WebUtils;
@@ -86,7 +86,7 @@ public class Core {
             jda.addEventListener(new SnipeEvent());
             jda.addEventListener(new ReactionRoleEvent());
             jda.addEventListener(new UsernamePresenceUpdateEvent());
-            TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
+            TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(GuildMusicManager.schedulerHook));
             logger.info("Successfully booted");
         } catch (LoginException | InterruptedException e) {
             logger.info("Caught Exception! (LoginException | InterruptedException)");

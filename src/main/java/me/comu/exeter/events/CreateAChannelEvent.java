@@ -37,7 +37,7 @@ public class CreateAChannelEvent extends ListenerAdapter {
                 try {
                     CreateAChannelCommand.map.remove(event.getEntity().getId());
                     event.getChannelLeft().delete().reason("Create-A-Channel VC").queue();
-                    Objects.requireNonNull(event.getEntity().getGuild().getVoiceChannelById(CreateAChannelCommand.getCacMap().get(event.getEntity().getGuild().getId()))).putPermissionOverride(event.getEntity()).reset().queue();
+                    Objects.requireNonNull(Objects.requireNonNull(event.getEntity().getGuild().getVoiceChannelById(CreateAChannelCommand.getCacMap().get(event.getEntity().getGuild().getId()))).getPermissionOverride(event.getEntity())).delete().queue();
                 } catch (Exception ex) {
                     Logger.getLogger().print("Tried deleting an already deleted channel");
                 }
@@ -65,7 +65,7 @@ public class CreateAChannelEvent extends ListenerAdapter {
                 try {
                     CreateAChannelCommand.map.remove(event.getEntity().getId());
                     event.getChannelLeft().delete().reason("Create-A-Channel VC").queue();
-                    Objects.requireNonNull(event.getEntity().getGuild().getVoiceChannelById(CreateAChannelCommand.getCacMap().get(event.getEntity().getGuild().getId()))).putPermissionOverride(event.getEntity()).reset().queue();
+                    Objects.requireNonNull(Objects.requireNonNull(event.getEntity().getGuild().getVoiceChannelById(CreateAChannelCommand.getCacMap().get(event.getEntity().getGuild().getId()))).getPermissionOverride(event.getEntity())).delete().queue();
                 } catch (Exception ex) {
                     Logger.getLogger().print("Tried deleting an already deleted channel");
                 }

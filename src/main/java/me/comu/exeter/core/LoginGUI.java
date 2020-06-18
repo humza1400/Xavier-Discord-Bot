@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.events.*;
 import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.handlers.WhitelistedJSONHandler;
-import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
+import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.musicplayer.TrackScheduler;
 import me.duncte123.botcommons.web.WebUtils;
@@ -217,7 +217,7 @@ public class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new BlacklistedWordsEvent());
                 jda.addEventListener(new SnipeEvent());
                 jda.addEventListener(new ReactionRoleEvent());
-                TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
+                TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(GuildMusicManager.schedulerHook));
                 logger.info("Successfully booted");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());
                 running = true;

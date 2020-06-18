@@ -1,9 +1,9 @@
 package me.comu.exeter.core;
 
 
-import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.handlers.EcoJSONHandler;
-import me.comu.exeter.musicplayer.AudioPlayerSendHandler;
+import me.comu.exeter.handlers.WhitelistedJSONHandler;
+import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.musicplayer.TrackScheduler;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -53,7 +53,7 @@ class  Listener extends ListenerAdapter {
         }
         else if (event.isFromType(ChannelType.PRIVATE)) {
             logger.info(String.format("[PRIVATE]<%#s> -> <%s#%s>: %s", author, event.getPrivateChannel().getUser().getName(), event.getPrivateChannel().getUser().getDiscriminator(), content));
-            TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(AudioPlayerSendHandler.musicHook));
+            TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(GuildMusicManager.schedulerHook));
         }
     }
 
