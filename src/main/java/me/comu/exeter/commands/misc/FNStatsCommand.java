@@ -44,7 +44,7 @@ public class FNStatsCommand implements ICommand {
                 String jsonResponse = Objects.requireNonNull(response.body()).string();
                 JSONObject jsonObject = new JSONObject(jsonResponse);
                 if (jsonResponse.contains("error")) {
-                    event.getChannel().sendMessage("Couldn't find player: `" + username.replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere") + "`.").queue();
+                    event.getChannel().sendMessage("Couldn't find player: `" + Wrapper.removeMentions(username)+ "`.").queue();
                     return;
                 }
                 JSONArray stats = jsonObject.getJSONArray("lifeTimeStats");

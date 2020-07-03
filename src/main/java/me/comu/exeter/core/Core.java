@@ -62,7 +62,7 @@ public class Core {
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
         WebUtils.setUserAgent("Mozilla/5.0 | Discord Bot");
         try {
-            jda = JDABuilder.create(Config.get("TOKEN"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setRawEventsEnabled(true).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
+            jda = JDABuilder.create(Config.get("TOKEN"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setRawEventsEnabled(true).setActivity(Activity.streaming("yuh", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
             jda.addEventListener(eventWaiter);
             jda.addEventListener(new KickEvent());
             jda.addEventListener(new BanEvent());

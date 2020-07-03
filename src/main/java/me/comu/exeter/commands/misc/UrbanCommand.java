@@ -56,7 +56,7 @@ public class UrbanCommand implements ICommand {
             event.getChannel().sendMessage("Caught IOException").queue();
             ex.printStackTrace();
         } catch (JSONException ex) {
-            event.getChannel().sendMessage("Nothing found for " + MarkdownUtil.monospace(stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere"))).queue();
+            event.getChannel().sendMessage("Nothing found for " + MarkdownUtil.monospace(Wrapper.removeMentions(stringJoiner.toString()))).queue();
         }
 
     }

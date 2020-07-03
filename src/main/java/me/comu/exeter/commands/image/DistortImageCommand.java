@@ -139,7 +139,7 @@ public class DistortImageCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"distortimage", "distortimg", "skew", "skewimage", "skewimg"};
+        return new String[]{"distortimage","magik", "distortimg", "skew", "skewimage", "skewimg"};
     }
 
     @Override

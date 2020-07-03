@@ -22,6 +22,18 @@ public class AntiRaidChannelSafetyCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        StringBuilder categories = new StringBuilder("`Restorable Categories (" + restorableCategories.size() + ")`\n");
+        StringBuilder channels = new StringBuilder("`Restorable Channels (" + restorableCategories.size() + ")`\n");
+        for (RestorableCategory restorableCategory : restorableCategories)
+        {
+            categories.append(restorableCategory.getName()).append("\n");
+        }
+        for (RestorableChannel restorableChannel : restorableChannels)
+        {
+            channels.append(restorableChannel.getName()).append("\n");
+        }
+        event.getChannel().sendMessage(categories.toString()).queue();
+        event.getChannel().sendMessage(channels.toString()).queue();
         if (args.isEmpty()) {
             event.getChannel().sendMessage(getHelp()).queue();
             return;
@@ -51,15 +63,30 @@ public class AntiRaidChannelSafetyCommand implements ICommand {
                 event.getChannel().sendMessage("ARCS is already enabled").queue();
         } else if (args.get(0).equalsIgnoreCase("false") || args.get(0).equalsIgnoreCase("off")) {
             if (active) {
+                clear();
                 arcs.shutdown();
                 active = false;
+
                 event.getChannel().sendMessage("ARCS is no longer active").queue();
             } else
                 event.getChannel().sendMessage("ARCS is already disabled").queue();
         }
     }
 
-    private <T> List<T> addElement(List<T> list, T element) {
+    public static void restore()
+    {
+        Core.jda.getCategories().forEach(category -> restorableCategories.add(new RestorableCategory(category)));
+        Core.jda.getTextChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
+        Core.jda.getVoiceChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
+    }
+
+    public static void clear()
+    {
+        restorableCategories.clear();
+        restorableChannels.clear();
+    }
+
+    private <Z> List<Z> addElement(List<Z> list, Z element) {
         list.add(element);
         return list;
     }

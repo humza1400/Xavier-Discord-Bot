@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -33,10 +34,10 @@ public class CreateTagCommand implements ICommand {
         args.stream().skip(1).forEach(stringJoiner::add);
         String tag = args.get(0);
         if (tags.containsKey(tag)) {
-            event.getChannel().sendMessage("`" + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere") + "` already exists as a tag!").queue();
+            event.getChannel().sendMessage("`" + Wrapper.removeMentions(args.get(0)) + "` already exists as a tag!").queue();
             return;
         }
-        String tagMessage = stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere");
+        String tagMessage = Wrapper.removeMentions(stringJoiner.toString());
         tags.put(tag, tagMessage);
         event.getChannel().sendMessage("Successfully added `" + tag + "` with the content of `" + tagMessage + "`").queue();
 

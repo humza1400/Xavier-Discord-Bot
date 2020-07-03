@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -65,7 +66,7 @@ public class FilterCommand implements ICommand {
                 List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString().toLowerCase().replaceFirst("addrole",""), false);
                 if (roles.isEmpty())
                 {
-                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.".replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
+                    event.getChannel().sendMessage("Couldn't find role `" + Wrapper.removeMentions(args.get(1)) + "`. Maybe try using the role ID instead.").queue();
                     return;
                 }
                 if (roles.size() > 1)
@@ -98,7 +99,7 @@ public class FilterCommand implements ICommand {
                 List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString().toLowerCase().replaceFirst("addrole",""), false);
                 if (roles.isEmpty())
                 {
-                    event.getChannel().sendMessage("Couldn't find role `" + args.get(1) + "`. Maybe try using the role ID instead.".replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere")).queue();
+                    event.getChannel().sendMessage("Couldn't find role `" + Wrapper.removeMentions(args.get(1)) + "`. Maybe try using the role ID instead.").queue();
                     return;
                 }
                 if (roles.size() > 1)

@@ -50,7 +50,7 @@ public class GiphyCommand implements ICommand {
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     JSONArray dataArray = (JSONArray) jsonObject.get("data");
                     if (dataArray.isEmpty()) {
-                        event.getChannel().sendMessage("No GIF found for `" + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere").replaceAll("([_`~*>])", "\\\\$1") + "`.").queue();
+                        event.getChannel().sendMessage("No GIF found for `" + Wrapper.removeMentions(stringJoiner.toString())).queue();
                         return;
                     }
                     HashMap<String, HashMap> hashMap = (HashMap<String, HashMap>) dataArray.getJSONObject(0).toMap().get("images");

@@ -23,7 +23,7 @@ public class BegCommand implements ICommand {
         } else {
             int begMoney = Wrapper.randomNum(0, 10);
             EconomyManager.setBalance(event.getMember().getUser().getId(), EconomyManager.getBalance(event.getMember().getUser().getId()) + begMoney);
-            event.getChannel().sendMessage(String.format("Aight, **%s**, I'll pity you with **%s** credits.", event.getMember().getEffectiveName(), begMoney).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+            event.getChannel().sendMessage(Wrapper.removeMentions(String.format("Aight, **%s**, I'll pity you with **%s** credits.", event.getMember().getEffectiveName(), begMoney))).queue();
         }
 
         EcoJSONHandler.saveEconomyConfig();

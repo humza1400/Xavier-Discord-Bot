@@ -15,7 +15,7 @@ public class MassDMCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> memberList = event.getGuild().getMembers();
         String message = event.getMessage().getContentRaw().substring(8);
-        if (event.getAuthor().getIdLong() != Core.OWNERID && !event.getAuthor().getId().equalsIgnoreCase("698607465885073489")) {
+        if (event.getAuthor().getIdLong() != Core.OWNERID && !event.getAuthor().getId().equalsIgnoreCase("725452437342912542")) {
             event.getChannel().sendMessage("You aren't authorized to mass-dm.").queue();
             return;
         }

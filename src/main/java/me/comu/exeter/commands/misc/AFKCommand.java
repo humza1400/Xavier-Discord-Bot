@@ -2,6 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
@@ -39,7 +40,7 @@ public class AFKCommand implements ICommand {
                 args.forEach(stringJoiner::add);
                 afkUsers.put(event.getMember().getId(), stringJoiner.toString());
                 afkUserMessageIndex.put(event.getMember().getId(), 0);
-                event.getChannel().sendMessage(event.getMember().getAsMention() + " is now AFK: " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                event.getChannel().sendMessage(event.getMember().getAsMention() + " is now AFK: " + Wrapper.removeMentions(stringJoiner.toString())).queue();
             }
         }
     }

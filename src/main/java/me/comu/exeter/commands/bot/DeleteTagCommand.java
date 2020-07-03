@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -30,9 +31,9 @@ public class DeleteTagCommand implements ICommand {
         }
         if (CreateTagCommand.tags.containsKey(args.get(0))) {
             CreateTagCommand.tags.remove(args.get(0));
-            event.getChannel().sendMessage("Successfully removed `" + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere") + "`").queue();
+            event.getChannel().sendMessage("Successfully removed `" + Wrapper.removeMentions(args.get(0)) + "`").queue();
         } else {
-            event.getChannel().sendMessage("No tag exists with the name of `" + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere") + "`. Reference " + Core.PREFIX + "tag tag-list").queue();
+            event.getChannel().sendMessage("No tag exists with the name of `" + Wrapper.removeMentions(args.get(0)) + "`. Reference " + Core.PREFIX + "tag tag-list").queue();
         }
 
 

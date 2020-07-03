@@ -29,7 +29,7 @@ public class AvatarCommand implements ICommand {
                     event.getChannel().sendMessage("Couldn't find a user matching that ID").queue();
                     return;
                 } catch (IllegalArgumentException ex) {
-                    event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                    event.getChannel().sendMessage("Couldn't find the user " + Wrapper.removeMentions(args.get(0))).queue();
                     return;
                 }
             } else if (targets.size() > 1)

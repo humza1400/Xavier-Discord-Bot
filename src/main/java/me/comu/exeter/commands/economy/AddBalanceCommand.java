@@ -80,7 +80,7 @@ public class AddBalanceCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"addbalance","ecogive","moneygive","givebal"};
+        return new String[] {"addbalance","ecogive","moneygive","givebal","addbcredits","givecredits"};
     }
 
      @Override

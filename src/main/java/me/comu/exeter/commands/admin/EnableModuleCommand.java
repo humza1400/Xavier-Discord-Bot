@@ -3,6 +3,7 @@ package me.comu.exeter.commands.admin;
 import me.comu.exeter.core.CommandManager;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
@@ -35,13 +36,13 @@ public class EnableModuleCommand implements ICommand {
                 event.getChannel().sendMessage("Successfully enabled " + MarkdownUtil.bold(DisableModuleCommand.disabledModules.get(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0))).getInvoke()) + " in " + MarkdownUtil.monospace(DisableModuleCommand.disabledModules.get(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0))).getCategory().toString()) + ".").queue();
                 DisableModuleCommand.disabledModules.remove(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0)));
             } catch (ClassNotFoundException ex) {
-                event.getChannel().sendMessage(MarkdownUtil.monospace(args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")) + " is not disabled or it doesn't exist.").queue();
+                event.getChannel().sendMessage(MarkdownUtil.monospace(Wrapper.removeMentions(args.get(0))) + " is not disabled or it doesn't exist.").queue();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 event.getChannel().sendMessage("Something went wrong! :(").queue();
             }
         } else {
-            event.getChannel().sendMessage("Couldn't find disabled module of `" + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere") + "`, maybe it's not disabled.").queue();
+            event.getChannel().sendMessage("Couldn't find disabled module of `" + Wrapper.removeMentions(args.get(0)) + "`, maybe it's not disabled.").queue();
         }
     }
 

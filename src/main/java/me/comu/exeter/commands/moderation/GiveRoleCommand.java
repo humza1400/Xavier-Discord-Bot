@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -62,7 +63,7 @@ public class GiveRoleCommand implements ICommand {
                 } catch (NullPointerException ex) {
                     event.getChannel().sendMessage("Couldn't find a role matching that ID").queue();
                 } catch (NumberFormatException ex) {
-                    event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                    event.getChannel().sendMessage("Couldn't find the role " + Wrapper.removeMentions(stringJoiner.toString())).queue();
                     return;
                 }
             } else if (roles.size() > 1) {
@@ -89,7 +90,7 @@ public class GiveRoleCommand implements ICommand {
             args.stream().skip(1).forEach(stringJoiner::add);
             List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
             if (members.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                event.getChannel().sendMessage("Couldn't find the user " + Wrapper.removeMentions(args.get(0))).queue();
                 return;
             } else if (members.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
@@ -119,7 +120,7 @@ public class GiveRoleCommand implements ICommand {
                 } catch (NullPointerException ex) {
                     event.getChannel().sendMessage("Couldn't find a role matching that ID").queue();
                 } catch (NumberFormatException ex) {
-                    event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                    event.getChannel().sendMessage("Couldn't find the role " + Wrapper.removeMentions(stringJoiner.toString())).queue();
                     return;
                 }
             } else if (roles.size() > 1) {
@@ -175,7 +176,7 @@ public class GiveRoleCommand implements ICommand {
             } catch (NullPointerException ex) {
                 event.getChannel().sendMessage("Couldn't find a role matching that ID").queue();
             } catch (NumberFormatException ex) {
-                event.getChannel().sendMessage("Couldn't find the role " + stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")).queue();
+                event.getChannel().sendMessage("Couldn't find the role " + Wrapper.removeMentions(stringJoiner.toString())).queue();
                 return;
             }
         } else if (roles.size() > 1) {

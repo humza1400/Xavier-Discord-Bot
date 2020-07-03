@@ -195,6 +195,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 AntiRaidChannelSafetyCommand.restorableChannels.forEach(restorableChannel -> {
                                     if (restorableChannel.getGuildId().equals(event.getGuild().getId()) && restorableChannel.getId().equals(event.getChannel().getId()) && restorableChannel.getChannelType().equals(ChannelType.VOICE))
                                         event.getGuild().createTextChannel(restorableChannel.getName()).setPosition(restorableChannel.getPosition()).queue();
+                                        AntiRaidChannelSafetyCommand.restore();
                                 });
                             }
 
@@ -388,6 +389,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                 AntiRaidChannelSafetyCommand.restorableChannels.forEach(restorableChannel -> {
                                     if (restorableChannel.getGuildId().equals(event.getGuild().getId()) && restorableChannel.getId().equals(event.getChannel().getId()) && restorableChannel.getChannelType().equals(ChannelType.TEXT))
                                         event.getGuild().createTextChannel(restorableChannel.getName()).setPosition(restorableChannel.getPosition()).queue();
+                                        AntiRaidChannelSafetyCommand.restore();
                                 });
                             }
 
@@ -583,7 +585,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                             }
                             // CATEGORIES
                             if (AntiRaidChannelSafetyCommand.restorableCategories.stream().anyMatch((restorableCategory -> restorableCategory.getId().equals(event.getId())))) {
-                                AntiRaidChannelSafetyCommand.restorableCategories.stream().filter(restorableCategory -> restorableCategory.getGuildId().equals(event.getGuild().getId())).forEach((restorableCategory -> event.getGuild().createCategory(restorableCategory.getName()).setPosition(restorableCategory.getPosition()).queue((category -> {
+                                AntiRaidChannelSafetyCommand.restorableCategories.stream().filter(restorableCategory -> restorableCategory.getGuildId().equals(event.getGuild().getId())).filter(restorableCategory -> restorableCategory.getId().equals(event.getId())).forEach((restorableCategory -> event.getGuild().createCategory(restorableCategory.getName()).setPosition(restorableCategory.getPosition()).queue((category -> {
                                     HashMap<Integer, String> hashMap = restorableCategory.getChildTextChannels();
                                     for (Map.Entry entry : hashMap.entrySet()) {
                                         event.getGuild().createTextChannel((String) entry.getValue()).setParent(category).setPosition((int) entry.getKey()).queue();
@@ -592,6 +594,7 @@ public class AntiRaidEvent extends ListenerAdapter {
                                     for (Map.Entry entry : hashMap2.entrySet()) {
                                         event.getGuild().createVoiceChannel((String) entry.getValue()).setParent(category).setPosition((int) entry.getKey()).queue();
                                     }
+                                    AntiRaidChannelSafetyCommand.restore();
                                 }))));
                             }
                             String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);

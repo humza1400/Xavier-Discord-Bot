@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -50,10 +51,10 @@ public class AutoResponseCommand implements ICommand {
         }
         String tag = args.get(0);
         if (responses.containsKey(tag)) {
-            event.getChannel().sendMessage("`" + args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere") + "` already exists as an auto-response!").queue();
+            event.getChannel().sendMessage("`" + Wrapper.removeMentions(args.get(0)) + "` already exists as an auto-response!").queue();
             return;
         }
-        String tagMessage = stringJoiner.toString().replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere");
+        String tagMessage = Wrapper.removeMentions(stringJoiner.toString());
         responses.put(tag, tagMessage);
         event.getChannel().sendMessage("Successfully added `" + tag + "` with an auto-response of `" + tagMessage + "`").queue();
 

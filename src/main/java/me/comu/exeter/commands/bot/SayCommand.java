@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class SayCommand implements ICommand {
             StringJoiner stringJoiner = new StringJoiner(" ");
             args.forEach(stringJoiner::add);
             String message = stringJoiner.toString();
-            message = message.replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere");
+            message = Wrapper.removeMentions(message);
             if (message.contains(".gg/"))
             {
                 event.getChannel().sendMessage("Your message contains blacklisted words").queue();

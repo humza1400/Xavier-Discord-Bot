@@ -3,6 +3,7 @@ package me.comu.exeter.commands.admin;
 import me.comu.exeter.core.CommandManager;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
@@ -49,7 +50,7 @@ public class DisableModuleCommand implements ICommand {
                 }
             }
         }
-        event.getChannel().sendMessage("Couldn't find module " + MarkdownUtil.monospace(args.get(0).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere")) + ". Maybe it's already disabled.").queue();
+        event.getChannel().sendMessage("Couldn't find module " + MarkdownUtil.monospace(Wrapper.removeMentions(args.get(0))) + ". Maybe it's already disabled.").queue();
 
 
     }

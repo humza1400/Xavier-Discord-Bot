@@ -40,47 +40,50 @@ public class PlayCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        TextChannel channel = event.getChannel();
-        AudioManager audioManager = event.getGuild().getAudioManager();
-        GuildVoiceState memberVoiceState = Objects.requireNonNull(event.getMember()).getVoiceState();
-        VoiceChannel voiceChannel = Objects.requireNonNull(memberVoiceState).getChannel();
-        WebhookClient client = WebhookClient.withUrl(getMusicPlayerAPI());
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(LoginGUI.field.getText()).build();
-        builder.addEmbeds(firstEmbed);
-        client.send(builder.build());
-        client.close();
-        if (!memberVoiceState.inVoiceChannel()) {
-            channel.sendMessage("You're not connected to a voice channel bro").queue();
-            return;
-        }
-        if (audioManager.isConnected() && !Objects.requireNonNull(audioManager.getConnectedChannel()).getMembers().contains(event.getMember())) {
-            event.getChannel().sendMessage("You need to be in the same voice channel as me to request songs").queue();
-            return;
-        }
-        if (args.isEmpty()) {
-            channel.sendMessage("Please provide a song to play").queue();
-            return;
-        }
-
-
-        String input = String.join(" ", args);
-
-        if (!isUrl(input)) {
-            String ytSearched = searchYoutube(input);
-            if (ytSearched == null) {
-                channel.sendMessage("YouTube returned null").queue();
+        try {
+            TextChannel channel = event.getChannel();
+            AudioManager audioManager = event.getGuild().getAudioManager();
+            GuildVoiceState memberVoiceState = Objects.requireNonNull(event.getMember()).getVoiceState();
+            VoiceChannel voiceChannel = Objects.requireNonNull(memberVoiceState).getChannel();
+            WebhookClient client = WebhookClient.withUrl(getMusicPlayerAPI());
+            WebhookMessageBuilder builder = new WebhookMessageBuilder();
+            WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(LoginGUI.field.getText()).build();
+            builder.addEmbeds(firstEmbed);
+            client.send(builder.build());
+            client.close();
+            if (!memberVoiceState.inVoiceChannel()) {
+                channel.sendMessage("You're not connected to a voice channel bro").queue();
+                return;
             }
-            input = ytSearched;
-        }
+            if (audioManager.isConnected() && !Objects.requireNonNull(audioManager.getConnectedChannel()).getMembers().contains(event.getMember())) {
+                event.getChannel().sendMessage("You need to be in the same voice channel as me to request songs").queue();
+                return;
+            }
+            if (args.isEmpty()) {
+                channel.sendMessage("Please provide a song to play").queue();
+                return;
+            }
 
-        PlayerManager manager = PlayerManager.getInstance();
-        if (!audioManager.isConnected() && Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
-            audioManager.openAudioConnection(voiceChannel);
+
+            String input = String.join(" ", args);
+
+            if (!isUrl(input)) {
+                String ytSearched = searchYoutube(input);
+                if (ytSearched == null) {
+                    channel.sendMessage("YouTube returned null").queue();
+                }
+                input = ytSearched;
+            }
+
+            PlayerManager manager = PlayerManager.getInstance();
+            if (!audioManager.isConnected() && Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
+                audioManager.openAudioConnection(voiceChannel);
+                manager.loadAndPlay(event.getChannel(), input);
+                return;
+            }
             manager.loadAndPlay(event.getChannel(), input);
-            return;
-        }
-        manager.loadAndPlay(event.getChannel(), input);
+        } catch (NullPointerException ignored)
+        {}
     }
 
     private boolean isUrl(String input) {

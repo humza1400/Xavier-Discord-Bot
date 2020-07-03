@@ -1,6 +1,7 @@
 package me.comu.exeter.events;
 
 import me.comu.exeter.commands.moderation.BindLogChannelCommand;
+import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -24,7 +25,7 @@ public class LogMessageReceivedEvent extends ListenerAdapter {
             User author = event.getAuthor();
             Message message = event.getMessage();
             try {
-                Objects.requireNonNull(event.getJDA().getTextChannelById(BindLogChannelCommand.logChannelID)).sendMessage((String.format("`%s (%s)[%s]<%#s>:` %s", df.format(dateobj.getTime()),guildName, channelName, author, message).replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere"))).queue();
+                Objects.requireNonNull(event.getJDA().getTextChannelById(BindLogChannelCommand.logChannelID)).sendMessage(Wrapper.removeMentions(String.format("`%s (%s)[%s]<%#s>:` %s", df.format(dateobj.getTime()), guildName, channelName, author, message))).queue();
             } catch (NullPointerException ex) {
                 event.getChannel().sendMessage("SOMETHING WENT WRONG").queue();
             }

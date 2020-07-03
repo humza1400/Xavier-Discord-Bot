@@ -38,6 +38,11 @@ public class Wrapper {
     public static final Map<String, String> marriedUsers = new HashMap<>();
     public static boolean beingProcessed = false;
 
+    public static String removeMentions(String string)
+    {
+        return string.replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere").replaceAll("@&", "@\u200b&");
+    }
+
     public static void sendPrivateMessage(JDA jda, String userId, String content) {
         RestAction<User> action = jda.retrieveUserById(userId);
         action.queue((user) -> user.openPrivateChannel().queue((channel) -> channel.sendMessage(content).queue(null, (error) -> Logger.getLogger().print("Couldn't message " + Objects.requireNonNull(Core.jda.getUserById(userId)).getAsTag()))));

