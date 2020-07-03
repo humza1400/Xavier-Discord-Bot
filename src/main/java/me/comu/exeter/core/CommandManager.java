@@ -31,9 +31,9 @@ public class CommandManager {
 
         /* TODO:
          - add log command that logs all event updates
-         - marry system
          - Add a command to move tracks in the queue
          - Add back command to music
+         - add autoplay
         */
 
         // ADMIN
@@ -95,6 +95,7 @@ public class CommandManager {
         register(new UsernameHistoryCommand());
         register(new DeleteTagCommand());
         register(new AutoResponseCommand());
+        register(new EditSnipeCommand());
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());

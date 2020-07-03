@@ -10,12 +10,34 @@
       <artifact name="music bot:jar" />
     </artifacts-to-build>
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="545fff34-981f-4bba-bc67-87ed5345bed8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="545fff34-981f-4bba-bc67-87ed5345bed8" name="Default Changelist" comment="fixed cac">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/EditSnipeCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreateAChannelEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/CreateAChannelEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/StatusCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/StatusCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LyricsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LyricsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/NowPlayingCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/NowPlayingCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SnipeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SnipeEvent.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,13 +199,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1571701363052</updated>
-    </task>
-    <task id="LOCAL-00012" summary="stuff">
-      <created>1577830792268</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1577830792268</updated>
     </task>
     <task id="LOCAL-00013" summary="basic updates">
       <created>1578697275528</created>
@@ -521,7 +536,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593798869764</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="fixed cac">
+      <created>1593802918867</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1593802918868</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TodoView">
@@ -562,7 +584,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fixed" />
     <MESSAGE value="working on copy/load channels" />
     <MESSAGE value="progress" />
     <MESSAGE value="added copy/loading channels command" />
@@ -587,17 +608,58 @@
     <MESSAGE value="raggot" />
     <MESSAGE value="\\ b107 +-9" />
     <MESSAGE value="commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit" />
+    <MESSAGE value="fixed cac" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed cac" />
   </component>
   <component name="WindowStateProjectService">
+    <state width="2517" height="424" key="GridCell.Tab.0.bottom" timestamp="1593808358062">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="424" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1593808358062" />
+    <state width="2517" height="424" key="GridCell.Tab.0.center" timestamp="1593808358062">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="424" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1593808358062" />
+    <state width="2517" height="424" key="GridCell.Tab.0.left" timestamp="1593808358062">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="424" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1593808358062" />
+    <state width="2517" height="424" key="GridCell.Tab.0.right" timestamp="1593808358062">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="424" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1593808358062" />
+    <state width="2517" height="596" key="GridCell.Tab.1.bottom" timestamp="1593806074280">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="596" key="GridCell.Tab.1.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1593806074280" />
+    <state width="2517" height="596" key="GridCell.Tab.1.center" timestamp="1593806074280">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="596" key="GridCell.Tab.1.center/0.0.2560.1400@0.0.2560.1400" timestamp="1593806074280" />
+    <state width="2517" height="596" key="GridCell.Tab.1.left" timestamp="1593806074280">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="596" key="GridCell.Tab.1.left/0.0.2560.1400@0.0.2560.1400" timestamp="1593806074280" />
+    <state width="2517" height="596" key="GridCell.Tab.1.right" timestamp="1593806074280">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="596" key="GridCell.Tab.1.right/0.0.2560.1400@0.0.2560.1400" timestamp="1593806074280" />
     <state x="781" y="345" key="SettingsEditor" timestamp="1593802825579">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="781" y="345" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1593802825579" />
-    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1593802277715">
+    <state x="872" y="433" key="Vcs.Push.Dialog.v2" timestamp="1593802933139">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1593802277715" />
+    <state x="872" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1593802933139" />
+    <state x="552" y="168" width="1350" height="900" key="find.popup" timestamp="1593803983010">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="552" y="168" width="1350" height="900" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1593803983010" />
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1593811239485">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1593811239485" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -26,6 +26,7 @@ public class NowPlayingCommand implements ICommand {
             channel.sendMessage("There is no song currently playing").queue();
             return;
         }
+        // add loading bar
         AudioTrackInfo info = player.getPlayingTrack().getInfo();
         channel.sendMessage(EmbedUtils.embedMessage(String.format(
                 "**Playing** [%s](%s)\n%s %s - %s\n",

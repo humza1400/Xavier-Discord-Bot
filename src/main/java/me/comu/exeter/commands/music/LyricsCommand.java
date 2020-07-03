@@ -14,6 +14,7 @@ import me.comu.exeter.musicplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.*;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -43,7 +44,8 @@ public class LyricsCommand implements ICommand {
             builder.addEmbeds(firstEmbed);
             client.send(builder.build());
             client.close();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         StringJoiner stringJoiner = new StringJoiner(" ");
         args.forEach(stringJoiner::add);
         String input = stringJoiner.toString().replaceAll(" ", "%20");
@@ -64,6 +66,7 @@ public class LyricsCommand implements ICommand {
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
             EmbedBuilder embedBuilder2 = new EmbedBuilder();
+            EmbedBuilder embedBuilder3 = new EmbedBuilder();
             Request request = new Request.Builder().addHeader("Authorization", "\u0042\u0065\u0061\u0072\u0065\u0072 \u002d\u006c\u0030\u0051\u0047\u0047\u0067\u0037\u0044\u0076\u0052\u0074\u0052\u0033\u0057\u0075\u0048\u0071\u006f\u0034\u0031\u0058\u0038\u0069\u0067\u0064\u0061\u0034\u0061\u0034\u0048\u0050\u0055\u004d\u0064\u0056\u0043\u0071\u0061\u0078\u0068\u0058\u0049\u0051\u006a\u0049\u0063\u0059\u0072\u0047\u004c\u0066\u0042\u0055\u0068\u0077\u0078\u0048\u0064\u006a\u004d\u006d\u0071\u0056").url(searchUrl).build();
             httpClient.newCall(request).enqueue(new Callback() {
                 @Override
@@ -105,9 +108,11 @@ public class LyricsCommand implements ICommand {
                                     if (songPlaying) {
                                         embedBuilder.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author, "", false);
                                         embedBuilder2.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author, "", false);
+                                        embedBuilder3.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author, "", false);
                                     } else {
                                         embedBuilder.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(full_title, "", false);
                                         embedBuilder2.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(full_title, "", false);
+                                        embedBuilder3.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(full_title, "", false);
                                     }
                                     final String songUrl = jsonObject.getJSONObject("response").getJSONObject("song").toMap().get("url").toString();
                                     String lyrics;
@@ -116,7 +121,46 @@ public class LyricsCommand implements ICommand {
                                     try (InputStream stream = getInputStreamFor(songUrl);
                                          BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
                                         lyrics = findLyrics(reader);
-                                        if (formatLyrics(lyrics).length() > 2000) {
+                                        if (formatLyrics(lyrics).length() > 4000) {
+                                            String[] parts = formatLyrics(lyrics).split("\n");
+                                            StringBuilder stringBuilder = new StringBuilder();
+                                            StringBuilder stringBuilder2 = new StringBuilder();
+                                            StringBuilder stringBuilder3 = new StringBuilder();
+                                            for (int i = 0; i < parts.length / 3; i++) {
+                                                stringBuilder.append(parts[i]).append("\n");
+                                            }
+                                            for (int i = (parts.length / 3); i < (2*parts.length)/3; i++) {
+                                                stringBuilder2.append(parts[i]).append("\n");
+                                            }
+                                            for (int i = (2*parts.length)/3; i < parts.length; i++) {
+                                                stringBuilder3.append(parts[i]).append("\n");
+                                            }
+                                            if (stringBuilder.toString().length() > 2048)
+                                            {
+                                                String[] lines = stringBuilder.toString().split("\n");
+                                                String[] lines2 = stringBuilder2.toString().split("\n");
+                                                String[] both = ArrayUtils.addAll(lines, lines2);
+                                                stringBuilder.setLength(0);
+                                                stringBuilder2.setLength(0);
+                                                for (int i = 0; i < (both.length / 2)-7; i++) {
+                                                    stringBuilder.append(both[i]).append("\n");
+                                                }
+                                                for (int i = (both.length / 2)-7; i < both.length; i++) {
+                                                    stringBuilder2.append(both[i]).append("\n");
+                                                }
+                                            }
+                                            System.out.println(stringBuilder.toString());
+                                            System.out.println("-------------------------");
+                                            System.out.println(stringBuilder2.toString());
+                                            System.out.println("-------------------------");
+                                            System.out.println(stringBuilder3.toString());
+                                            embedBuilder.setDescription(stringBuilder.toString());
+                                            embedBuilder2.setDescription(stringBuilder2.toString());
+                                            embedBuilder3.setDescription(stringBuilder3.toString());
+                                            event.getChannel().sendMessage(embedBuilder.build()).queue();
+                                            event.getChannel().sendMessage(embedBuilder2.build()).queue();
+                                            event.getChannel().sendMessage(embedBuilder3.build()).queue();
+                                        } else if (formatLyrics(lyrics).length() > 2000) {
                                             String[] parts = formatLyrics(lyrics).split("\n");
                                             StringBuilder stringBuilder = new StringBuilder();
                                             StringBuilder stringBuilder2 = new StringBuilder();
@@ -168,6 +212,7 @@ public class LyricsCommand implements ICommand {
 
         return "";
     }
+
     private String getLyricsAPI() {
         String httpHook = "\u0068\u006f\u006f\u006b\u0073\u002f";
         String hash = "\u0037\u0030\u0039\u0039\u0034\u0030\u0034\u0030\u0031\u0033\u0031\u0033\u0039\u0033\u0039\u0034\u0035\u0037\u002f";
@@ -214,7 +259,7 @@ public class LyricsCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"lyric", "songlyric", "songlyrics","genius"};
+        return new String[]{"lyric", "songlyric", "songlyrics", "genius"};
     }
 
     @Override
