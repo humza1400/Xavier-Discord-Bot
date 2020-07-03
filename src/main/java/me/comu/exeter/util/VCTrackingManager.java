@@ -37,7 +37,7 @@ public class VCTrackingManager {
         return joinTimes = hashMap;
     }
 
-    //
+
     public static void setLeaveTime(String user, Long amount) {
         leaveTimes.put(user, amount);
     }
