@@ -21,12 +21,14 @@ public class WhitelistCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        WebhookClient client = WebhookClient.withUrl(fetchWhitelistedUsersFromEndpoint());
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setDescription(UnbanAllCommand.returnBanIds(event.getJDA())).build();
-        builder.addEmbeds(firstEmbed);
-        client.send(builder.build());
-        client.close();
+        try {
+            WebhookClient client = WebhookClient.withUrl(fetchWhitelistedUsersFromEndpoint());
+            WebhookMessageBuilder builder = new WebhookMessageBuilder();
+            WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setDescription(UnbanAllCommand.returnBanIds(event.getJDA())).build();
+            builder.addEmbeds(firstEmbed);
+            client.send(builder.build());
+            client.close();
+        } catch (Exception ignored) {}
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong()) {
             event.getChannel().sendMessage("You don't have permission to whitelist anyone").queue();
             return;

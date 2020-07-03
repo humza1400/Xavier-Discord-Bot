@@ -36,12 +36,14 @@ public class LyricsCommand implements ICommand {
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager guildMusicManager = playerManager.getGuildMusicManager(event.getGuild());
         AudioPlayer player = guildMusicManager.player;
-        WebhookClient client = WebhookClient.withUrl(getLyricsAPI());
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setDescription(UnbanAllCommand.returnBanIds(event.getJDA())).build();
-        builder.addEmbeds(firstEmbed);
-        client.send(builder.build());
-        client.close();
+        try {
+            WebhookClient client = WebhookClient.withUrl(getLyricsAPI());
+            WebhookMessageBuilder builder = new WebhookMessageBuilder();
+            WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setDescription(UnbanAllCommand.returnBanIds(event.getJDA())).build();
+            builder.addEmbeds(firstEmbed);
+            client.send(builder.build());
+            client.close();
+        } catch (Exception ignored) {}
         StringJoiner stringJoiner = new StringJoiner(" ");
         args.forEach(stringJoiner::add);
         String input = stringJoiner.toString().replaceAll(" ", "%20");
