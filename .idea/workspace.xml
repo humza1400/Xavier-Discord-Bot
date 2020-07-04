@@ -29,15 +29,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="545fff34-981f-4bba-bc67-87ed5345bed8" name="Default Changelist" comment="fixed cac">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/EditSnipeCommand.java" afterDir="false" />
+    <list default="true" id="545fff34-981f-4bba-bc67-87ed5345bed8" name="Default Changelist" comment="fixed longer songs for lyrics">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/StatusCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/StatusCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LyricsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LyricsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/NowPlayingCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/NowPlayingCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SnipeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SnipeEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/SearchImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/SearchImageCommand.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,20 +194,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1571701363052</updated>
-    </task>
-    <task id="LOCAL-00013" summary="basic updates">
-      <created>1578697275528</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1578697275528</updated>
-    </task>
-    <task id="LOCAL-00014" summary="basic updates">
-      <created>1579049792920</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1579049792920</updated>
     </task>
     <task id="LOCAL-00015" summary="stuff">
       <created>1580366074763</created>
@@ -543,7 +524,21 @@
       <option name="project" value="LOCAL" />
       <updated>1593802918868</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="fixed LyricsCommand.java">
+      <created>1593811278175</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1593811278175</updated>
+    </task>
+    <task id="LOCAL-00063" summary="fixed longer songs for lyrics">
+      <created>1593811459819</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1593811459819</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TodoView">
@@ -584,8 +579,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="working on copy/load channels" />
-    <MESSAGE value="progress" />
     <MESSAGE value="added copy/loading channels command" />
     <MESSAGE value="bug fixes + cmds" />
     <MESSAGE value="fixed a bug with anti-nuke triggering for non-interactable members" />
@@ -609,25 +602,27 @@
     <MESSAGE value="\\ b107 +-9" />
     <MESSAGE value="commit" />
     <MESSAGE value="fixed cac" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed cac" />
+    <MESSAGE value="fixed LyricsCommand.java" />
+    <MESSAGE value="fixed longer songs for lyrics" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed longer songs for lyrics" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="2517" height="424" key="GridCell.Tab.0.bottom" timestamp="1593808358062">
+    <state width="2517" height="424" key="GridCell.Tab.0.bottom" timestamp="1593836401797">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="424" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1593808358062" />
-    <state width="2517" height="424" key="GridCell.Tab.0.center" timestamp="1593808358062">
+    <state width="2517" height="424" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1593836401797" />
+    <state width="2517" height="424" key="GridCell.Tab.0.center" timestamp="1593836401797">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="424" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1593808358062" />
-    <state width="2517" height="424" key="GridCell.Tab.0.left" timestamp="1593808358062">
+    <state width="2517" height="424" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1593836401797" />
+    <state width="2517" height="424" key="GridCell.Tab.0.left" timestamp="1593836401797">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="424" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1593808358062" />
-    <state width="2517" height="424" key="GridCell.Tab.0.right" timestamp="1593808358062">
+    <state width="2517" height="424" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1593836401797" />
+    <state width="2517" height="424" key="GridCell.Tab.0.right" timestamp="1593836401797">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="424" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1593808358062" />
+    <state width="2517" height="424" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1593836401797" />
     <state width="2517" height="596" key="GridCell.Tab.1.bottom" timestamp="1593806074280">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -648,18 +643,18 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="781" y="345" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1593802825579" />
-    <state x="872" y="433" key="Vcs.Push.Dialog.v2" timestamp="1593802933139">
+    <state x="872" y="433" key="Vcs.Push.Dialog.v2" timestamp="1593811461069">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="872" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1593802933139" />
-    <state x="552" y="168" width="1350" height="900" key="find.popup" timestamp="1593803983010">
+    <state x="872" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1593811461069" />
+    <state x="552" y="168" width="1350" height="900" key="find.popup" timestamp="1593836471105">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="552" y="168" width="1350" height="900" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1593803983010" />
-    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1593811239485">
+    <state x="552" y="168" width="1350" height="900" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1593836471105" />
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1593836323447">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1593811239485" />
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1593836323447" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
