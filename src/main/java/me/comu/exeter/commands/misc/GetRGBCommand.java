@@ -3,7 +3,7 @@ package me.comu.exeter.commands.misc;
 import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.lang3.Range;
 
@@ -42,7 +42,7 @@ public class GetRGBCommand implements ICommand {
         try {
             int random = new Random().nextInt(1000);
             int newRandom = new Random().nextInt(1000);
-            Wrapper.saveImage("https://data.whicdn.com/images/335463006/original.jpg", "cache", "image" + random);
+            Utility.saveImage("https://data.whicdn.com/images/335463006/original.jpg", "cache", "image" + random);
             File file = new File("cache/image" + random + ".png");
             BufferedImage image = ImageIO.read(file);
             for(int width=0; width < image.getWidth(); width++)

@@ -2,7 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -28,7 +28,7 @@ public class MembersRoleCommand implements ICommand {
             } else {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (Member member : members) stringBuilder.append(member.getAsMention()).append("\n");
-                event.getChannel().sendMessage(new EmbedBuilder().setColor(Wrapper.getAmbientColor()).setTitle(members.size() + " Members in " + role.getName()).setDescription(stringBuilder.toString()).build()).queue();
+                event.getChannel().sendMessage(new EmbedBuilder().setColor(Utility.getAmbientColor()).setTitle(members.size() + " Members in " + role.getName()).setDescription(stringBuilder.toString()).build()).queue();
             }
         } else {
             StringJoiner stringJoiner = new StringJoiner(" ");
@@ -44,7 +44,7 @@ public class MembersRoleCommand implements ICommand {
                 else {
                     StringBuilder stringBuilder = new StringBuilder();
                     for (Member member : members) stringBuilder.append(member.getAsMention()).append("\n");
-                    event.getChannel().sendMessage(new EmbedBuilder().setColor(Wrapper.getAmbientColor()).setTitle(members.size() + " Members in " + role.getName()).setDescription(stringBuilder.toString()).build()).queue();
+                    event.getChannel().sendMessage(new EmbedBuilder().setColor(Utility.getAmbientColor()).setTitle(members.size() + " Members in " + role.getName()).setDescription(stringBuilder.toString()).build()).queue();
                 }
             }
         }

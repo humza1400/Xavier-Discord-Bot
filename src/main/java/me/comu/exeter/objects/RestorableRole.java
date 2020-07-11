@@ -7,13 +7,13 @@ import java.util.EnumSet;
 
 public class RestorableRole {
 
-    private String name;
-    private String id;
-    private int position;
-    private boolean mentionable;
-    private boolean hoisted;
-    private int color;
-    private EnumSet<Permission> permissionCollection;
+    private final String name;
+    private final String id;
+    private final int position;
+    private final boolean mentionable;
+    private final boolean hoisted;
+    private final int color;
+    private final EnumSet<Permission> permissionCollection;
 
     public RestorableRole(Role role) {
         this.name = role.getName();

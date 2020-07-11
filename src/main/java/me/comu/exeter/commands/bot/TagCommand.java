@@ -2,7 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public class TagCommand implements ICommand {
         if (CreateTagCommand.tags.containsKey(args.get(0)))
             event.getChannel().sendMessage(CreateTagCommand.tags.get(args.get(0))).queue();
         else
-            event.getChannel().sendMessage("`" + Wrapper.removeMentions(args.get(0)) + "` does not exist as a tag!").queue();
+            event.getChannel().sendMessage("`" + Utility.removeMentions(args.get(0)) + "` does not exist as a tag!").queue();
     }
 
     @Override

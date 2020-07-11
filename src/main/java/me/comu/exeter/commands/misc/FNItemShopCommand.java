@@ -2,7 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.OkHttpClient;
@@ -126,7 +126,7 @@ public class FNItemShopCommand implements ICommand {
                 Date date = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd");
                 EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setColor(Wrapper.getAmbientColor())
+                        .setColor(Utility.getAmbientColor())
                         .setTitle("Fortnite Daily Item-Shop - " + dateFormat.format(date))
                         .setDescription("Resets everyday at 8:00 PM EST")
                         .addField("", "**__[" + item1Name + "](" + item1Link + ")__**\n**Rarity:** `" + item1Rarity + "`\n**Cost:** `" + item1vBucks + "`", true)

@@ -10,8 +10,8 @@ import java.util.*;
 
 public class CopyChannelsCommand implements ICommand {
 
-    static List<RestorableCategory> restorableCategories = new ArrayList<>();
-    static List<RestorableChannel> restorableChannels = new ArrayList<>();
+    static final List<RestorableCategory> restorableCategories = new ArrayList<>();
+    static final List<RestorableChannel> restorableChannels = new ArrayList<>();
     static boolean copied = false;
 
     @Override

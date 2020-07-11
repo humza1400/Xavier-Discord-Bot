@@ -112,6 +112,7 @@ public class CommandManager {
         register(new ResetAllBalancesCommand());
         register(new BegCommand());
         register(new ClearEconomyCommand());
+        register(new JackpotCommand());
         // MARRIAGE
         register(new MarryCommand(eventWaiter));
         register(new HugCommand());
@@ -264,6 +265,9 @@ public class CommandManager {
         register(new NSFWCommand());
         register(new AutoMuteCommand());
         register(new RecreateChannelCommand());
+        register(new SetConfessionChannelCommand());
+        register(new ConfessCommand());
+        register(new DelRoleCommand());
         // MUSIC
         register(new JoinCommand());
         register(new LeaveCommand());
@@ -279,6 +283,8 @@ public class CommandManager {
         register(new ClearQueueCommand());
         register(new FastForwardCommand());
         register(new RepeatCommand());
+        register(new YouTubeCommand());
+        register(new LastFMCommand());
         // OWNER
         register(new CreateTextChannelCommand());
         register(new DeleteTextChannelsCommand());

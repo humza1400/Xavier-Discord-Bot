@@ -2,7 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class SetMuteRoleCommand implements ICommand {
 
-    static HashMap<String, String> rolesMap = new HashMap<>();
+    static final HashMap<String, String> rolesMap = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -47,11 +47,11 @@ public class SetMuteRoleCommand implements ICommand {
         } catch (NullPointerException | NumberFormatException ex) {
             List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
             if (roles.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find role `" + Wrapper.removeMentions(args.get(0)) + "`. Maybe try using the role ID instead.").queue();
+                event.getChannel().sendMessage("Couldn't find role `" + Utility.removeMentions(args.get(0)) + "`. Maybe try using the role ID instead.").queue();
                 return;
             }
             if (roles.size() > 1) {
-                event.getChannel().sendMessage("Multiple roles found for `" + Wrapper.removeMentions(args.get(0)) + "`. Use the role ID instead.").queue();
+                event.getChannel().sendMessage("Multiple roles found for `" + Utility.removeMentions(args.get(0)) + "`. Use the role ID instead.").queue();
                 return;
             }
             verifyMuteRole(event.getGuild());

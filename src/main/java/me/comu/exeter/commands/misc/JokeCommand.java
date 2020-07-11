@@ -3,7 +3,7 @@ package me.comu.exeter.commands.misc;
 import com.google.gson.JsonElement;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class JokeCommand implements ICommand {
 
     private String randomJoke() {
         try {
-            JsonElement jsonElement = Wrapper.getJsonFromURL("https://icanhazdadjoke.com/");
+            JsonElement jsonElement = Utility.getJsonFromURL("https://icanhazdadjoke.com/");
             return jsonElement.getAsJsonObject().get("joke").getAsString();
         } catch (IOException ex)
         {

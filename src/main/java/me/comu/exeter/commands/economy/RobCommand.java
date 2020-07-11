@@ -3,7 +3,7 @@ package me.comu.exeter.commands.economy;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -33,7 +33,7 @@ public class RobCommand implements ICommand {
         double d = Math.random();
                 if (d >= 0.75)
                 {
-                    int robbedBalance = Wrapper.randomNum(0, (EconomyManager.getBalance(member.getUser().getId()) / 8));
+                    int robbedBalance = Utility.randomNum(0, (EconomyManager.getBalance(member.getUser().getId()) / 8));
                     EconomyManager.setBalance(event.getMember().getUser().getId(), EconomyManager.getBalance(event.getMember().getUser().getId()) + robbedBalance);
                     EconomyManager.setBalance(member.getUser().getId(), EconomyManager.getBalance(member.getUser().getId()) - robbedBalance);
                     event.getChannel().sendMessage(String.format("%s just caught %s lacking and finnesed him for **%s** credits LMAO.", event.getMember().getAsMention(), member.getAsMention(), robbedBalance)).queue();
@@ -41,7 +41,7 @@ public class RobCommand implements ICommand {
                     EconomyManager.setBalance(event.getMember().getId(), EconomyManager.getBalance(event.getMember().getId()) - EconomyManager.getBalance(event.getMember().getId()) / 8);
                     event.getChannel().sendMessage(String.format("%s failed to rob %s and lost **%s** credits, yikes.", event.getMember().getAsMention(), member.getAsMention(), EconomyManager.getBalance(event.getMember().getId()) / 8)).queue();
                 } else {
-            int robbedBalance = Wrapper.randomNum(0, (EconomyManager.getBalance(event.getMember().getUser().getId()) / 8));
+            int robbedBalance = Utility.randomNum(0, (EconomyManager.getBalance(event.getMember().getUser().getId()) / 8));
             EconomyManager.setBalance(member.getUser().getId(), EconomyManager.getBalance(member.getUser().getId()) + robbedBalance);
             EconomyManager.setBalance(event.getMember().getUser().getId(), EconomyManager.getBalance(event.getMember().getUser().getId()) - robbedBalance);
             event.getChannel().sendMessage(String.format("%s stay with the strap and instead robbed %s for **%s** credits LOL.", member.getAsMention(), event.getMember().getAsMention(), robbedBalance)).queue();

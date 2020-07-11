@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LoadRolesCommand implements ICommand {
 
-    private EventWaiter eventWaiter;
+    private final EventWaiter eventWaiter;
 
     public LoadRolesCommand(EventWaiter eventWaiter) {
         this.eventWaiter = eventWaiter;

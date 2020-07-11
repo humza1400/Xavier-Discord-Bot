@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 public class AntiRaidChannelSafetyCommand implements ICommand {
     private static boolean active = false;
-    public static List<RestorableCategory> restorableCategories = new ArrayList<>();
-    public static List<RestorableChannel> restorableChannels = new ArrayList<>();
+    public static final List<RestorableCategory> restorableCategories = new ArrayList<>();
+    public static final List<RestorableChannel> restorableChannels = new ArrayList<>();
     private ScheduledExecutorService arcs;
 
     @Override
@@ -46,7 +46,8 @@ public class AntiRaidChannelSafetyCommand implements ICommand {
             event.getChannel().sendMessage("I don't have permission to toggle ARCS").queue();
             return;
         }
-        Thread backup = new Thread(() -> {
+
+        Runnable backup = (() -> {
             restorableChannels.clear();
             restorableCategories.clear();
             Core.jda.getCategories().forEach(category -> restorableCategories.add(new RestorableCategory(category)));

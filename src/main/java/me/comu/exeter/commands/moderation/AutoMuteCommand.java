@@ -16,7 +16,7 @@ public class AutoMuteCommand implements ICommand {
 
     public static int threshold = 3;
     public static boolean active = false;
-    public static HashMap<String, Integer> users = new HashMap<>();
+    public static final HashMap<String, Integer> users = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {

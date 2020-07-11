@@ -2,7 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class OffCommand implements ICommand {
 
-    public static List<String> offedUsers = new ArrayList<>();
+    public static final List<String> offedUsers = new ArrayList<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -35,7 +35,7 @@ public class OffCommand implements ICommand {
         if (!args.isEmpty() && mentionedMembers.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Wrapper.removeMentions(args.get(0))).queue();
+                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
                 return;
             } else if (targets.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();

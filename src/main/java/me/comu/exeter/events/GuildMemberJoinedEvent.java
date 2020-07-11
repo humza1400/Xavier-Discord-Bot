@@ -7,7 +7,7 @@ import me.comu.exeter.commands.moderation.SetWelcomeChannelCommand;
 import me.comu.exeter.commands.moderation.ToggleWelcomeCommand;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.util.CompositeKey;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.audit.ActionType;
@@ -41,7 +41,12 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
                     User user = auditLogEntries.get(0).getUser();
                     String id = Objects.requireNonNull(user).getId();
                     Long idLong = user.getIdLong();
-                    if (idLong.equals(Core.OWNERID) || id.equals(event.getJDA().getSelfUser().getId()) || id.equals(event.getGuild().getOwnerId()) || Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
+                    if (Utility.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
+                        int permissionLevel = Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), id)));
+                        if (permissionLevel == 0)
+                            return;
+                    }
+                    if (idLong.equals(Core.OWNERID) || id.equals(event.getJDA().getSelfUser().getId()) || id.equals(event.getGuild().getOwnerId())) {
                         return;
                     }
                     event.getGuild().ban(member, 1).reason("Triggered Anti-Nuke").queue();
@@ -65,14 +70,14 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
                     String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                     LocalDateTime now = LocalDateTime.now();
-                    Wrapper.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")`" + "\nBot: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Added Bot`\nAction Taken: `Banned Bot & Removed Roles: \n" + Arrays.deepToString(stringArray) + "`");
-                    Wrapper.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")`" + "\nBot: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Added Bot`\nAction Taken: `Banned Bot & Removed Roles: \n" + Arrays.deepToString(stringArray) + "`");
+                    Utility.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")`" + "\nBot: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Added Bot`\nAction Taken: `Banned Bot & Removed Roles: \n" + Arrays.deepToString(stringArray) + "`");
+                    Utility.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")`" + "\nBot: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Added Bot`\nAction Taken: `Banned Bot & Removed Roles: \n" + Arrays.deepToString(stringArray) + "`");
                     if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                         for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
                             if (WhitelistCommand.getWhitelistedIDs().get(x).equals(event.getGuild().getId())) {
                                 User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                 if (whitelistUser != null && !whitelistUser.isBot())
-                                    Wrapper.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")`" + "\nBot: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Added Bot`\nAction Taken: `Banned Bot & Removed Roles: \n" + Arrays.deepToString(stringArray) + "`");
+                                    Utility.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")`" + "\nBot: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Added Bot`\nAction Taken: `Banned Bot & Removed Roles: \n" + Arrays.deepToString(stringArray) + "`");
                             }
                         }
                     }
@@ -91,7 +96,7 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
             EmbedBuilder joinEmbed = new EmbedBuilder();
             joinEmbed.setColor(0x66d8ff);
             if (event.getMember().getUser().isBot())
-                joinEmbed.setDescription(messages[number].replace("[member]", event.getMember().getAsMention()) + " (BOT)");
+                joinEmbed.setDescription(messages[number].replace("[member]", event.getMember().getAsMention()) + " **(BOT)**");
             else
                 joinEmbed.setDescription(messages[number].replace("[member]", event.getMember().getAsMention()));
             if (!SetWelcomeChannelCommand.bound)
@@ -113,11 +118,10 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
     public void onGuildJoin(@Nonnull GuildJoinEvent event) {
         String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
         try {
-            Wrapper.sendPrivateMessage(event.getJDA(), userComu, "I was added to `" + event.getGuild().getName() + "` (" + event.getGuild().getId() + ") | discord.gg/" + event.getGuild().getTextChannels().get(0).createInvite().setMaxAge(0).complete().getCode());
+            Utility.sendPrivateMessage(event.getJDA(), userComu, "I was added to `" + event.getGuild().getName() + "` (" + event.getGuild().getId() + ") | discord.gg/" + event.getGuild().getTextChannels().get(0).createInvite().setMaxAge(0).complete().getCode());
         } catch (Exception ex) {
-            Wrapper.sendPrivateMessage(event.getJDA(), userComu, "I was added to `" + event.getGuild().getName() + "` (" + event.getGuild().getId() + ") | Couldn't resolve an invite");
+            Utility.sendPrivateMessage(event.getJDA(), userComu, "I was added to `" + event.getGuild().getName() + "` (" + event.getGuild().getId() + ") | Couldn't resolve an invite");
         }
-
 
     }
 

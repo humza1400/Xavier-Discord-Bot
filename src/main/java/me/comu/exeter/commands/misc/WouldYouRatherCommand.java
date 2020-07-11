@@ -2,7 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jsoup.Jsoup;
@@ -25,7 +25,7 @@ public class WouldYouRatherCommand implements ICommand {
             embedBuilder.addField("", "or", false);
             embedBuilder.addField("", secondOption, false);
 //            embedBuilder.setColor(new Color(new Random().nextInt(255), new Random().nextInt(255), new Random().nextInt(255)));
-            embedBuilder.setColor(Wrapper.getAmbientColor());
+            embedBuilder.setColor(Utility.getAmbientColor());
             event.getChannel().sendMessage(embedBuilder.build()).queue(message -> {
                 message.addReaction("\u0031\u20E3").queue();
                 message.addReaction("\u0032\u20E3").queue();

@@ -9,7 +9,7 @@ import java.util.*;
 
 public class BlacklistWordCommand implements ICommand {
 
-    public static List<String> blacklistedWords = new ArrayList<>();
+    public static final List<String> blacklistedWords = new ArrayList<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {

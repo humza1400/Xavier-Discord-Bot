@@ -61,7 +61,7 @@ public class UnbanAllCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"unbaneveryone", "purgebans"};
+        return new String[]{"unbaneveryone", "purgebans","massunban"};
     }
 
    @Override

@@ -2,7 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -24,7 +24,7 @@ public class PrefixCommand implements ICommand {
             return;
         }
         Core.PREFIX = args.get(0);
-        MessageEmbed embed = new EmbedBuilder().addField("Prefix set to", args.get(0), false).setColor(Wrapper.getRandomColor()).build();
+        MessageEmbed embed = new EmbedBuilder().addField("Prefix set to", args.get(0), false).setColor(Utility.getRandomColor()).build();
         event.getChannel().sendMessage(embed).queue();
     }
 

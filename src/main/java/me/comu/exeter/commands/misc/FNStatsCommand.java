@@ -2,7 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.OkHttpClient;
@@ -44,7 +44,7 @@ public class FNStatsCommand implements ICommand {
                 String jsonResponse = Objects.requireNonNull(response.body()).string();
                 JSONObject jsonObject = new JSONObject(jsonResponse);
                 if (jsonResponse.contains("error")) {
-                    event.getChannel().sendMessage("Couldn't find player: `" + Wrapper.removeMentions(username)+ "`.").queue();
+                    event.getChannel().sendMessage("Couldn't find player: `" + Utility.removeMentions(username)+ "`.").queue();
                     return;
                 }
                 JSONArray stats = jsonObject.getJSONArray("lifeTimeStats");
@@ -56,7 +56,7 @@ public class FNStatsCommand implements ICommand {
                 String kd = stats.getJSONObject(11).toMap().get("value").toString();
                 String top10 = stats.getJSONObject(3).toMap().get("value").toString();
                 EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setColor(Wrapper.getAmbientColor())
+                        .setColor(Utility.getAmbientColor())
                         .setTitle(epicName + " - " + Objects.requireNonNull(formattedConsoleName(console)))
                         .addField("Wins", wins + " (" + winPercent + ")", true)
                         .addField("Matches", matchesPlayed, true)

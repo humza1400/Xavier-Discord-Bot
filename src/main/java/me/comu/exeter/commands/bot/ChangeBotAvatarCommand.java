@@ -2,7 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -28,7 +28,7 @@ public class ChangeBotAvatarCommand implements ICommand {
                 url = null;
         else
             url = args.get(0);
-        InputStream s = Wrapper.imageFromUrl(url);
+        InputStream s = Utility.imageFromUrl(url);
         if (s == null) {
             event.getChannel().sendMessage("Failed to change the bot's avatar").queue();
         } else {

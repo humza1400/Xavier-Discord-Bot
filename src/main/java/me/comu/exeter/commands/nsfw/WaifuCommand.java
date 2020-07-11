@@ -5,6 +5,7 @@ import me.comu.exeter.interfaces.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -26,13 +27,13 @@ public class WaifuCommand implements ICommand {
         Request request = new Request.Builder().get().url(petUrl).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
                 e.printStackTrace();
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String jsonResponse = Objects.requireNonNull(response.body()).string();
                     JSONObject jsonObject = new JSONObject(jsonResponse);

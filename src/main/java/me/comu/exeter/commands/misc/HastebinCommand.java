@@ -2,7 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -25,7 +25,7 @@ public class HastebinCommand implements ICommand {
         args.forEach(stringJoiner::add);
         final String body = stringJoiner.toString();
         try {
-            event.getChannel().sendMessage(Wrapper.createPaste(body, false)).queue();
+            event.getChannel().sendMessage(Utility.createPaste(body, false)).queue();
         } catch (IOException ex)
         {
             event.getChannel().sendMessage("Connection throttled when making GET request").queue();

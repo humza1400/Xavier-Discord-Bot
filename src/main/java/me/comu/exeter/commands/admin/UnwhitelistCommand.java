@@ -4,7 +4,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.util.CompositeKey;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -37,7 +37,7 @@ public class UnwhitelistCommand implements ICommand {
             String id = args.get(0);
             try {
                 Member member = event.getGuild().getMemberById(Long.parseLong(id));
-                if (!Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
+                if (!Utility.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
                     event.getChannel().sendMessage("That user is not whitelisted!").queue();
                     return;
                 }
@@ -48,7 +48,7 @@ public class UnwhitelistCommand implements ICommand {
                 String[] split = id.split("#");
                 try {
                     User user = event.getJDA().getUserByTag(split[0], split[1]);
-                    if (!Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), event.getGuild().getId(), Objects.requireNonNull(user).getId())) {
+                    if (!Utility.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), event.getGuild().getId(), Objects.requireNonNull(user).getId())) {
                         event.getChannel().sendMessage("That user is not whitelisted!").queue();
                         return;
                     }
@@ -56,14 +56,14 @@ public class UnwhitelistCommand implements ICommand {
                     event.getChannel().sendMessage("Successfully removed `" + user.getName() + "#" + user.getDiscriminator() + "` from the whitelist").queue();
                     WhitelistedJSONHandler.saveWhitelistConfig();
                 } catch (NullPointerException | IllegalArgumentException | ArrayIndexOutOfBoundsException exx) {
-                    event.getChannel().sendMessage("Invalid ID + " + Wrapper.removeMentions(id)).queue();
+                    event.getChannel().sendMessage("Invalid ID + " + Utility.removeMentions(id)).queue();
                 }
             } catch (NullPointerException ex) {
-                event.getChannel().sendMessage("Invalid ID + " + Wrapper.removeMentions(id)).queue();
+                event.getChannel().sendMessage("Invalid ID + " + Utility.removeMentions(id)).queue();
             }
         } else {
             String id = memberList.get(0).getId();
-            if (!Wrapper.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
+            if (!Utility.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), id, event.getGuild().getId())) {
                 event.getChannel().sendMessage("That user is not whitelisted!").queue();
                 return;
             }

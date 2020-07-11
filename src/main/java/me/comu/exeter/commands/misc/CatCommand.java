@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -20,7 +20,7 @@ public class CatCommand implements ICommand {
 
     private String getCatUrl() {
         try {
-            JsonArray jsonArray = Wrapper.getJsonFromURL("https://api.thecatapi.com/v1/images/search").getAsJsonArray();
+            JsonArray jsonArray = Utility.getJsonFromURL("https://api.thecatapi.com/v1/images/search").getAsJsonArray();
             JsonObject jsonObject = jsonArray.get(0).getAsJsonObject();
             return jsonObject.get("url").getAsString();
         } catch (IOException ex) {

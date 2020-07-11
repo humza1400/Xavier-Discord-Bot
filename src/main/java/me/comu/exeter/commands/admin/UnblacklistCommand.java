@@ -2,7 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -42,7 +42,7 @@ public class UnblacklistCommand implements ICommand {
                 BlacklistCommand.blacklistedUsers.remove(id);
                 event.getChannel().sendMessage("Successfully removed `" + Objects.requireNonNull(member).getUser().getName() + "#" + member.getUser().getDiscriminator() + "` from the blacklist").queue();
             } catch (Exception ex) {
-                event.getChannel().sendMessage("Invalid ID + " + Wrapper.removeMentions(id)).queue();
+                event.getChannel().sendMessage("Invalid ID + " + Utility.removeMentions(id)).queue();
             }
         }
     }

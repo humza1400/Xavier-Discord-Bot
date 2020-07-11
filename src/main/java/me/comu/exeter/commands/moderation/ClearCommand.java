@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class ClearCommand implements ICommand {
     @Override
@@ -62,6 +63,15 @@ public class ClearCommand implements ICommand {
                 }
             }));
             return;
+        } else if (args.get(0).equalsIgnoreCase("image") || args.get(0).equalsIgnoreCase("images")) {
+            event.getChannel().getHistory().retrievePast(100).queue((messages -> {
+                List<Message> messageStream = messages.stream().filter(message -> message.getAttachments().size() > 0).collect(Collectors.toList());
+                int size = messageStream.size();
+                messageStream.forEach(message -> message.delete().queue());
+                event.getChannel().sendMessage("Deleted `" + size + "` messages that contained images").queue(message -> message.delete().queueAfter(3, TimeUnit.SECONDS));
+
+            }));
+            return;
         }
         try {
             if (Integer.parseInt(args.get(0)) >= 100) {
@@ -92,7 +102,7 @@ public class ClearCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Purges the specified amount of messages\n `" + Core.PREFIX + getInvoke() + "` [amount]\nAliases:`" + Arrays.deepToString(getAlias()) + "`";
+        return "Purges the specified amount of messages\n `" + Core.PREFIX + getInvoke() + "` [amount]/[bots]/[images]\nAliases:`" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

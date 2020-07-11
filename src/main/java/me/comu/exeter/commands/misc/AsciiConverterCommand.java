@@ -4,7 +4,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class AsciiConverterCommand implements ICommand {
         }
 
         List<String> fonts = getAsciiFonts();
-        String font = fonts.get(Wrapper.randomNum(0, fonts.size() - 1));
+        String font = fonts.get(Utility.randomNum(0, fonts.size() - 1));
 
         try {
             String ascii = getAsciiArt(input.toString(), font);

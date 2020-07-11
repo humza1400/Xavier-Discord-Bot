@@ -2,7 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ISnowflake;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -41,13 +41,13 @@ public class DiscriminatorCommand implements ICommand {
         }
         if (stringBuilder.toString().length() > 1999) {
             try {
-                event.getChannel().sendMessage(new EmbedBuilder().setDescription(Wrapper.createPaste(stringBuilder.toString(), false)).setColor(Wrapper.getAmbientColor()).setTitle(userIDS.size() + " users found with the #" + tag + "discriminator:").build()).queue();
+                event.getChannel().sendMessage(new EmbedBuilder().setDescription(Utility.createPaste(stringBuilder.toString(), false)).setColor(Utility.getAmbientColor()).setTitle(userIDS.size() + " users found with the #" + tag + "discriminator:").build()).queue();
             } catch (IOException ex) {
                 event.getChannel().sendMessage("Connection throttled when making GET request").queue();
                 ex.printStackTrace();
             }
         } else
-            event.getChannel().sendMessage(new EmbedBuilder().setDescription(stringBuilder.toString().replace(userIDS.size() + " users found with the #" + tag + " tag:", "")).setColor(Wrapper.getAmbientColor()).setTitle(userIDS.size() + " users found with the #" + tag + " discriminator:").build()).queue();
+            event.getChannel().sendMessage(new EmbedBuilder().setDescription(stringBuilder.toString().replace(userIDS.size() + " users found with the #" + tag + " tag:", "")).setColor(Utility.getAmbientColor()).setTitle(userIDS.size() + " users found with the #" + tag + " discriminator:").build()).queue();
     }
 
 

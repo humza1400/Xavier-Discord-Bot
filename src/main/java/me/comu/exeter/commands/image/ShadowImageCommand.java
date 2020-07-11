@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.imageio.ImageIO;
@@ -33,7 +33,7 @@ public class ShadowImageCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (Wrapper.beingProcessed) {
+        if (Utility.beingProcessed) {
             event.getChannel().sendMessage("An image is already being processed, please wait.").queue();
             return;
         }
@@ -42,12 +42,12 @@ public class ShadowImageCommand implements ICommand {
                 event.getChannel().sendMessage("Please insert an image link to manipulate").queue();
                 return;
             }
-            Wrapper.beingProcessed = true;
+            Utility.beingProcessed = true;
             event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
                 try {
                     int random = new Random().nextInt(1000);
                     int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(args.get(0), "cache", "image" + random);
+                    Utility.saveImage(args.get(0), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
                     CompletableFuture.supplyAsync(() -> image)
@@ -57,33 +57,33 @@ public class ShadowImageCommand implements ICommand {
                                 if (processedImage == null) {
                                     message.editMessage("Processing thread timed out.").queue();
                                     Config.clearCacheDirectory();
-                                    Wrapper.beingProcessed = false;
+                                    Utility.beingProcessed = false;
                                 } else {
                                     try {
                                         File newFilePNG = new File("cache/image" + newRandom + ".png");
                                         ImageIO.write(processedImage, "png", newFilePNG);
                                         message.delete().queue();
                                         event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-                                        Wrapper.beingProcessed = false;
+                                        Utility.beingProcessed = false;
                                     } catch (Exception ignored) {
                                         message.editMessage("Something went wrong with processing the image").queue();
-                                        Wrapper.beingProcessed = false;
+                                        Utility.beingProcessed = false;
                                     }
                                 }
                             });
                 } catch (Exception ignored) {
                     message.editMessage("Something went wrong with processing the image").queue();
-                    Wrapper.beingProcessed = false;
+                    Utility.beingProcessed = false;
                 }
 
             });
         } else {
-            Wrapper.beingProcessed = true;
+            Utility.beingProcessed = true;
             event.getChannel().sendMessage("`Processing Image...`").queue(message -> {
                 try {
                     int random = new Random().nextInt(1000);
                     int newRandom = new Random().nextInt(1000);
-                    Wrapper.saveImage(event.getMessage().getAttachments().get(0).getUrl(), "cache", "image" + random);
+                    Utility.saveImage(event.getMessage().getAttachments().get(0).getUrl(), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
       /*              int radius = 11;
@@ -105,23 +105,23 @@ public class ShadowImageCommand implements ICommand {
                                 if (processedImage == null) {
                                     message.editMessage("Processing thread timed out.").queue();
                                     Config.clearCacheDirectory();
-                                    Wrapper.beingProcessed = false;
+                                    Utility.beingProcessed = false;
                                 } else {
                                     try {
                                         File newFilePNG = new File("cache/image" + newRandom + ".png");
                                         ImageIO.write(processedImage, "png", newFilePNG);
                                         message.delete().queue();
                                         event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-                                        Wrapper.beingProcessed = false;
+                                        Utility.beingProcessed = false;
                                     } catch (Exception ignored) {
                                         message.editMessage("Something went wrong with processing the image").queue();
-                                        Wrapper.beingProcessed = false;
+                                        Utility.beingProcessed = false;
                                     }
                                 }
                             });
                 } catch (Exception ex) {
                     message.editMessage("Something went wrong with processing the image").queue();
-                    Wrapper.beingProcessed = false;
+                    Utility.beingProcessed = false;
                 }
 
             });

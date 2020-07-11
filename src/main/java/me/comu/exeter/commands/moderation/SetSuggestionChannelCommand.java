@@ -23,19 +23,18 @@ public class SetSuggestionChannelCommand implements ICommand {
             event.getChannel().sendMessage("You don't have permission to set the suggestion channel").queue();
             return;
         }
-        if (bound) {
-            event.getChannel().sendMessage("Suggestion channel already bound. Nullifying...").queue();
-        }
-        if (bound && !args.isEmpty() && args.get(0).equalsIgnoreCase("null"))
-        {
+        if (bound && !args.isEmpty() && (args.get(0).equalsIgnoreCase("null") || args.get(0).equalsIgnoreCase("nullify"))) {
             event.getChannel().sendMessage("Unbound the current suggestion channel: `" + channelName + "`").queue();
+            bound = false;
             return;
+        } else if (bound) {
+            event.getChannel().sendMessage("Suggestion channel already bound. Nullifying...").queue();
         }
         TextChannel channel = event.getChannel();
         logChannelID = channel.getIdLong();
         channelName = channel.getName();
         //event.getChannel().sendMessage("Suggestion channel bound to `#" + channelName + "`").queue();
-        event.getChannel().sendMessage(EmbedUtils.embedMessage("Please use " + Core.PREFIX + "suggest [suggestion] to give your suggestion to the server!").setTitle("Suggestion Channel Set To #" + channelName).setColor(Color.BLUE).setFooter("Suggested By " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();
+        event.getChannel().sendMessage(EmbedUtils.embedMessage("Please use " + Core.PREFIX + "suggest [suggestion] to give your suggestion to the server!").setTitle("Suggestion Channel Set To #" + channelName).setColor(Color.BLUE).setFooter("Suggested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();
         bound = true;
     }
 
@@ -51,7 +50,7 @@ public class SetSuggestionChannelCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"setsuggestionchannel","setsuggestionschannel","setsuggestion"};
+        return new String[]{"setsuggestionchannel", "setsuggestionschannel", "setsuggestion"};
     }
 
     @Override

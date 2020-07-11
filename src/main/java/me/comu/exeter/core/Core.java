@@ -3,6 +3,7 @@ package me.comu.exeter.core;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.events.*;
 import me.comu.exeter.handlers.EcoJSONHandler;
+import me.comu.exeter.handlers.UsernameHistoryHandler;
 import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
@@ -54,6 +55,7 @@ public class Core {
         Config.buildDirectory("cache", "cache");
         EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
         WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
+        UsernameHistoryHandler.loadUsernameHistoryConfig(new File("unhistory.json"));
         CommandManager commandManager = new CommandManager(eventWaiter);
         Listener listener = new Listener(commandManager);
         org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);

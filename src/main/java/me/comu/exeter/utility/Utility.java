@@ -1,4 +1,4 @@
-package me.comu.exeter.wrapper;
+package me.comu.exeter.utility;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Wrapper {
+public class Utility {
 
     //    public static List<Shard> shards = new ArrayList<>();
     private static final JsonParser parser = new JsonParser();
@@ -46,6 +46,16 @@ public class Wrapper {
     public static void sendPrivateMessage(JDA jda, String userId, String content) {
         RestAction<User> action = jda.retrieveUserById(userId);
         action.queue((user) -> user.openPrivateChannel().queue((channel) -> channel.sendMessage(content).queue(null, (error) -> Logger.getLogger().print("Couldn't message " + Objects.requireNonNull(Core.jda.getUserById(userId)).getAsTag()))));
+    }
+
+    public static <T, E> Set<T> getKeysByValue(Map<T, E> map, E value) {
+        Set<T> keys = new HashSet<T>();
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                keys.add(entry.getKey());
+            }
+        }
+        return keys;
     }
 
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
@@ -177,7 +187,7 @@ public class Wrapper {
 
     public static List<String> extractUrls(String text) {
         List<String> containedUrls = new ArrayList<>();
-        String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?+-=\\\\\\.&]*)";
+        String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?+-=\\\\.&]*)";
         Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
         Matcher urlMatcher = pattern.matcher(text);
 
@@ -189,8 +199,23 @@ public class Wrapper {
         return containedUrls;
     }
 
+    public static Date shiftTimeZone(Date date, TimeZone sourceTimeZone, TimeZone targetTimeZone) {
+        Calendar sourceCalendar = Calendar.getInstance();
+        sourceCalendar.setTime(date);
+        sourceCalendar.setTimeZone(sourceTimeZone);
+
+        Calendar targetCalendar = Calendar.getInstance();
+        for (int field : new int[] {Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, Calendar.HOUR, Calendar.MINUTE, Calendar.SECOND, Calendar.MILLISECOND}) {
+            targetCalendar.set(field, sourceCalendar.get(field));
+        }
+        targetCalendar.setTimeZone(targetTimeZone);
+
+        return targetCalendar.getTime();
+    }
+
     public static void saveImage(String imageUrl, String path, String name)  {
         try {
+            System.out.println("attempting to save " + imageUrl);
             URLConnection connection = new URL(imageUrl).openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
             connection.connect();
@@ -208,6 +233,7 @@ public class Wrapper {
             fos.write(response);
             fos.close();
         } catch (IOException ex) {
+            ex.printStackTrace();
             System.out.println("Invalid URL");
             Config.clearCacheDirectory();
         }
@@ -215,6 +241,7 @@ public class Wrapper {
 
     public static void saveGif(String imageUrl, String path, String name) {
         try {
+            System.out.println("attempting to save " + imageUrl);
             URLConnection connection = new URL(imageUrl).openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
             connection.connect();
@@ -232,7 +259,8 @@ public class Wrapper {
             fos.write(response);
             fos.close();
         } catch (IOException ex) {
-            System.out.println("Invalid URK");
+            ex.printStackTrace();
+            System.out.println("Invalid URL");
             Config.clearCacheDirectory();
         }
     }
@@ -310,6 +338,14 @@ public class Wrapper {
         }
 
         return response;
+    }
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 }
 

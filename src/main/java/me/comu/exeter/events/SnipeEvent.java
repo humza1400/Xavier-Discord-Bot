@@ -22,7 +22,7 @@ public class SnipeEvent extends ListenerAdapter {
             SnipeCommand.messages.put(event.getMessageId(), event.getMessage().getContentRaw());
         } else {
             SnipeCommand.containedAttachments = true;
-            SnipeCommand.messages.put(event.getMessageId(), event.getMessage().getContentRaw() + "\n" + event.getMessage().getAttachments().get(0).getUrl());
+            SnipeCommand.messages.put(event.getMessageId(), event.getMessage().getContentRaw() + "\n" + event.getMessage().getAttachments().get(0).getProxyUrl());
         }
         SnipeCommand.authors.put(event.getMessageId(), event.getMessage().getAuthor().getId());
 
@@ -34,7 +34,7 @@ public class SnipeEvent extends ListenerAdapter {
             EditSnipeCommand.messages.put(event.getMessageId(), event.getMessage().getContentRaw());
         } else {
             EditSnipeCommand.containedAttachments = true;
-            EditSnipeCommand.messages.put(event.getMessageId(), event.getMessage().getContentRaw() + "\n" + event.getMessage().getAttachments().get(0).getUrl());
+            EditSnipeCommand.messages.put(event.getMessageId(), event.getMessage().getContentRaw() + "\n" + event.getMessage().getAttachments().get(0).getProxyUrl());
         }
         EditSnipeCommand.authors.put(event.getMessageId(), event.getMessage().getAuthor().getId());
     }

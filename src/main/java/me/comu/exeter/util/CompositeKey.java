@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class CompositeKey {
 
-    private String guildID;
-    private String userID;
+    private final String guildID;
+    private final String userID;
 
     public CompositeKey(String guildID, String userID) {
         this.guildID = guildID;

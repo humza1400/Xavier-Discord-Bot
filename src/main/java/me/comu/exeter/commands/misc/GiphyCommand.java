@@ -2,7 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.OkHttpClient;
@@ -29,7 +29,7 @@ public class GiphyCommand implements ICommand {
                     JSONObject jsonObject = (JSONObject) new JSONObject(jsonResponse).get("data");
                     HashMap<String, HashMap> hashMap = (HashMap<String, HashMap>) jsonObject.toMap().get("images");
                     String gifUrl = (String) hashMap.get("downsized_large").get("url");
-                    event.getChannel().sendMessage(EmbedUtils.embedImage(gifUrl).setColor(Wrapper.getAmbientColor()).build()).queue();
+                    event.getChannel().sendMessage(EmbedUtils.embedImage(gifUrl).setColor(Utility.getAmbientColor()).build()).queue();
                 } else {
                     event.getChannel().sendMessage("Response was unsuccessful. Something went wrong ig").queue();
                     System.out.println(response.message());
@@ -50,12 +50,12 @@ public class GiphyCommand implements ICommand {
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     JSONArray dataArray = (JSONArray) jsonObject.get("data");
                     if (dataArray.isEmpty()) {
-                        event.getChannel().sendMessage("No GIF found for `" + Wrapper.removeMentions(stringJoiner.toString())).queue();
+                        event.getChannel().sendMessage("No GIF found for `" + Utility.removeMentions(stringJoiner.toString())).queue();
                         return;
                     }
                     HashMap<String, HashMap> hashMap = (HashMap<String, HashMap>) dataArray.getJSONObject(0).toMap().get("images");
                     String gifUrl = (String) hashMap.get("downsized_large").get("url");
-                    event.getChannel().sendMessage(EmbedUtils.embedImage(gifUrl).setColor(Wrapper.getAmbientColor()).setTitle(stringJoiner.toString()).build()).queue();
+                    event.getChannel().sendMessage(EmbedUtils.embedImage(gifUrl).setColor(Utility.getAmbientColor()).setTitle(stringJoiner.toString()).build()).queue();
                 } else {
                     event.getChannel().sendMessage("Response was unsuccessful. Something went wrong ig").queue();
                     System.out.println(response.message());

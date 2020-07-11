@@ -30,7 +30,7 @@ public class ToggleWelcomeCommand implements ICommand {
         {
             if (!active) {
                 active = true;
-                event.getChannel().sendMessage("Welcome messages will now be sent when a user leaves").queue();
+                event.getChannel().sendMessage("Welcome messages will now be sent when a user joins").queue();
             }
             else
                 event.getChannel().sendMessage("Welcome messages are already enabled").queue();

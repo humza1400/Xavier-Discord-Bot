@@ -19,9 +19,10 @@ public class RecreateChannelCommand implements ICommand {
             return;
         }
         event.getChannel().createCopy().queue(textChannel -> {
+            int position = event.getChannel().getPosition();
             event.getChannel().delete().queue();
-            textChannel.getManager().setNSFW(event.getChannel().isNSFW()).setSlowmode(event.getChannel().getSlowmode()).setPosition(event.getChannel().getPosition()).queue();
-            textChannel.sendMessage("`Channel Nuked by " + event.getAuthor().getAsMention() + "`").queue();
+            textChannel.getManager().setNSFW(event.getChannel().isNSFW()).setSlowmode(event.getChannel().getSlowmode()).setPosition(position).queue();
+            textChannel.sendMessage("`Channel Nuked by `" + event.getAuthor().getAsMention()).queue();
         });
     }
 

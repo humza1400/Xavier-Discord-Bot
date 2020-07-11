@@ -2,15 +2,15 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
 
 public class AFKCommand implements ICommand {
 
-    public static HashMap<String, String> afkUsers = new HashMap<>();
-    public static HashMap<String, Integer> afkUserMessageIndex = new HashMap<>();
+    public static final HashMap<String, String> afkUsers = new HashMap<>();
+    public static final HashMap<String, Integer> afkUserMessageIndex = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -40,7 +40,7 @@ public class AFKCommand implements ICommand {
                 args.forEach(stringJoiner::add);
                 afkUsers.put(event.getMember().getId(), stringJoiner.toString());
                 afkUserMessageIndex.put(event.getMember().getId(), 0);
-                event.getChannel().sendMessage(event.getMember().getAsMention() + " is now AFK: " + Wrapper.removeMentions(stringJoiner.toString())).queue();
+                event.getChannel().sendMessage(event.getMember().getAsMention() + " is now AFK: " + Utility.removeMentions(stringJoiner.toString())).queue();
             }
         }
     }

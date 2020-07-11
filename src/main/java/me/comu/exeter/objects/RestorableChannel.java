@@ -5,11 +5,11 @@ import net.dv8tion.jda.api.entities.GuildChannel;
 
 public class RestorableChannel {
 
-    private String name;
-    private String id;
-    private String guildId;
-    private int position;
-    private ChannelType channelType;
+    private final String name;
+    private final String id;
+    private final String guildId;
+    private final int position;
+    private final ChannelType channelType;
 
     public RestorableChannel(GuildChannel channel) {
         this.name = channel.getName();

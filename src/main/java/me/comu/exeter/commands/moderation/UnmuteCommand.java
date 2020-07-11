@@ -2,10 +2,9 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -39,16 +38,19 @@ public class UnmuteCommand implements ICommand {
         if (mentionedMembers.isEmpty() && !args.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Wrapper.removeMentions(args.get(0))).queue();
+                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
                 return;
             } else if (targets.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
                 return;
             }
             try {
-                Role role = Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())));
-                if (role.getName().equalsIgnoreCase("porn"))
-                {}
+                if (event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())) == null)
+                {
+                    event.getChannel().sendMessage("Looks like the previous mute role was deleted, please set a new one.").queue();
+                    SetMuteRoleCommand.getMutedRoleMap().remove(event.getGuild().getId());
+                    return;
+                }
             } catch (NullPointerException ex) {
                 event.getChannel().sendMessage("Looks like the previous mute role was deleted, please set a new one.").queue();
                 SetMuteRoleCommand.getMutedRoleMap().remove(event.getGuild().getId());

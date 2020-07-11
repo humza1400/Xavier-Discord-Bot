@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class CopyRolesCommand implements ICommand {
 
-    static List<RestorableRole> roles = new ArrayList<>();
+    static final List<RestorableRole> roles = new ArrayList<>();
     static boolean copied = false;
 
     @Override

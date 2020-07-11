@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LoadChannelsCommand implements ICommand {
 
-    private EventWaiter eventWaiter;
+    private final EventWaiter eventWaiter;
 
     public LoadChannelsCommand(EventWaiter eventWaiter) {
         this.eventWaiter = eventWaiter;
@@ -57,12 +57,12 @@ public class LoadChannelsCommand implements ICommand {
         });
         CopyChannelsCommand.restorableCategories.forEach((restorableCategory -> event.getGuild().createCategory(restorableCategory.getName()).setPosition(restorableCategory.getPosition()).queue((category -> {
             HashMap<Integer, String> hashMap = restorableCategory.getChildTextChannels();
-            for (Map.Entry entry : hashMap.entrySet()) {
-                event.getGuild().createTextChannel((String) entry.getValue()).setParent(category).setPosition((int) entry.getKey()).queue();
+            for (Map.Entry<Integer, String> entry : hashMap.entrySet()) {
+                event.getGuild().createTextChannel(entry.getValue()).setParent(category).setPosition(entry.getKey()).queue();
             }
             HashMap<Integer, String> hashMap2 = restorableCategory.getChildVoiceChannels();
-            for (Map.Entry entry : hashMap2.entrySet()) {
-                event.getGuild().createVoiceChannel((String) entry.getValue()).setParent(category).setPosition((int) entry.getKey()).queue();
+            for (Map.Entry<Integer, String> entry : hashMap2.entrySet()) {
+                event.getGuild().createVoiceChannel(entry.getValue()).setParent(category).setPosition(entry.getKey()).queue();
             }
         }))));
         CopyChannelsCommand.clearCopiedChannels();

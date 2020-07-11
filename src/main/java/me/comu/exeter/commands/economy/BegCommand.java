@@ -3,7 +3,7 @@ package me.comu.exeter.commands.economy;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -21,9 +21,9 @@ public class BegCommand implements ICommand {
         if (d > 0.29) {
             event.getChannel().sendMessage("Keep begging bud...").queue();
         } else {
-            int begMoney = Wrapper.randomNum(0, 10);
+            int begMoney = Utility.randomNum(0, 10);
             EconomyManager.setBalance(event.getMember().getUser().getId(), EconomyManager.getBalance(event.getMember().getUser().getId()) + begMoney);
-            event.getChannel().sendMessage(Wrapper.removeMentions(String.format("Aight, **%s**, I'll pity you with **%s** credits.", event.getMember().getEffectiveName(), begMoney))).queue();
+            event.getChannel().sendMessage(Utility.removeMentions(String.format("Aight, **%s**, I'll pity you with **%s** credits.", event.getMember().getEffectiveName(), begMoney))).queue();
         }
 
         EcoJSONHandler.saveEconomyConfig();

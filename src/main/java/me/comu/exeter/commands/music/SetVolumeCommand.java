@@ -38,10 +38,7 @@ public class SetVolumeCommand implements ICommand {
             return;
         }
         try {
-            if (Integer.parseInt(args.get(0)) > 200)
-                volume = 200;
-            else
-                volume = Integer.parseInt(args.get(0));
+            volume = Math.min(Integer.parseInt(args.get(0)), 200);
         } catch (NumberFormatException ex) {
             textChannel.sendMessage("That number is either invalid or too large to change the volume to or is a floating point number (integers only)").queue();
             return;

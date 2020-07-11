@@ -2,7 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -49,7 +49,7 @@ public class ProxiesCommand implements ICommand {
             Stream<String> stream = input.lines().limit(20);
             stream.forEach(thing -> stringBuilder.append(thing).append("\n"));
             input.close();
-            event.getChannel().sendMessage(new EmbedBuilder().setDescription(stringBuilder.toString()).setColor(Wrapper.getRandomColor()).build()).queue();
+            event.getChannel().sendMessage(new EmbedBuilder().setDescription(stringBuilder.toString()).setColor(Utility.getRandomColor()).build()).queue();
         } catch (Exception ignored) {
             event.getChannel().sendMessage("Something went wrong with connecting to the endpoint").queue();
         }

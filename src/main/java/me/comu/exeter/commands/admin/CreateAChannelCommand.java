@@ -15,7 +15,7 @@ import java.util.Objects;
 public class CreateAChannelCommand implements ICommand {
 
     public static final HashMap<String, String> map = new HashMap<>();
-    private static HashMap<String, String> cacMap = new HashMap<>();
+    private static final HashMap<String, String> cacMap = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -23,6 +23,13 @@ public class CreateAChannelCommand implements ICommand {
             event.getChannel().sendMessage("You don't have permission to set the \"Create-A-Channel\" channel").queue();
             return;
         }
+
+        if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
+        {
+            event.getChannel().sendMessage("I don't have permission to \"Create-A-Channel\"").queue();
+            return;
+        }
+
 
         if (args.isEmpty()) {
             event.getChannel().sendMessage("Please specify a channel-id").queue();
@@ -57,7 +64,7 @@ public class CreateAChannelCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Sets the specified channel as the \"Create-A-Channel\" channel\n`" + Core.PREFIX + getInvoke() + "` [channel-id]\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Sets the specified channel as the \"Create-A-Channel\" channel\n`" + Core.PREFIX + getInvoke() + " [channel-id]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

@@ -3,7 +3,7 @@ package me.comu.exeter.commands.marriage;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class MarryCommand implements ICommand {
 
     private boolean pending = false;
-    private EventWaiter eventWaiter;
+    private final EventWaiter eventWaiter;
 
     public MarryCommand(EventWaiter waiter) {
         this.eventWaiter = waiter;
@@ -44,15 +44,15 @@ public class MarryCommand implements ICommand {
             return;
         }
 
-        if (Wrapper.marriedUsers.containsKey(event.getAuthor().getId())) {
-            event.getChannel().sendMessage("Bro wtf, you're already married! " + Objects.requireNonNull(event.getJDA().getUserById(Wrapper.marriedUsers.get(Objects.requireNonNull(event.getMember()).getId()))).getAsMention() + " you seeing this?!").queue();
+        if (Utility.marriedUsers.containsKey(event.getAuthor().getId())) {
+            event.getChannel().sendMessage("Bro wtf, you're already married! " + Objects.requireNonNull(event.getJDA().getUserById(Utility.marriedUsers.get(Objects.requireNonNull(event.getMember()).getId()))).getAsMention() + " you seeing this?!").queue();
             return;
         }
-        if (Wrapper.marriedUsers.containsValue(Objects.requireNonNull(event.getMember()).getId())) {
-            event.getChannel().sendMessage("Bro wtf, you're already married! " + Objects.requireNonNull(Objects.requireNonNull(event.getJDA().getUserById(Objects.requireNonNull(Wrapper.getKeyByValue(Wrapper.marriedUsers, event.getMember().getId()))))).getAsMention() + " you seeing this?!").queue();
+        if (Utility.marriedUsers.containsValue(Objects.requireNonNull(event.getMember()).getId())) {
+            event.getChannel().sendMessage("Bro wtf, you're already married! " + Objects.requireNonNull(Objects.requireNonNull(event.getJDA().getUserById(Objects.requireNonNull(Utility.getKeyByValue(Utility.marriedUsers, event.getMember().getId()))))).getAsMention() + " you seeing this?!").queue();
             return;
         }
-        if (Wrapper.marriedUsers.containsKey(members.get(0).getId()) || Wrapper.marriedUsers.containsValue(members.get(0).getId())) {
+        if (Utility.marriedUsers.containsKey(members.get(0).getId()) || Utility.marriedUsers.containsValue(members.get(0).getId())) {
             event.getChannel().sendMessage("Bro, they're already married, let it go.").queue();
         }
         pending = true;
@@ -62,7 +62,7 @@ public class MarryCommand implements ICommand {
                 e -> {
                     if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                         event.getChannel().sendMessage(e.getAuthor().getAsMention() + " has accepted " + event.getAuthor().getAsMention() + "'s marriage proposal. **Congratulations**! \uD83E").queue();
-                        Wrapper.marriedUsers.put(event.getAuthor().getId(), e.getAuthor().getId());
+                        Utility.marriedUsers.put(event.getAuthor().getId(), e.getAuthor().getId());
                         pending = false;
                     } else if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
                         event.getChannel().sendMessage(e.getAuthor().getAsMention() + " just rejected " + event.getAuthor().getAsMention() + "'s marriage proposal LOL. Maybe next time bro.").queue();

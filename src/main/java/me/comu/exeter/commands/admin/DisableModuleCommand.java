@@ -3,7 +3,7 @@ package me.comu.exeter.commands.admin;
 import me.comu.exeter.core.CommandManager;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DisableModuleCommand implements ICommand {
 
-    public static Map<List<String>, ICommand> disabledModules = new ConcurrentHashMap<>();
+    public static final Map<List<String>, ICommand> disabledModules = new ConcurrentHashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -50,7 +50,7 @@ public class DisableModuleCommand implements ICommand {
                 }
             }
         }
-        event.getChannel().sendMessage("Couldn't find module " + MarkdownUtil.monospace(Wrapper.removeMentions(args.get(0))) + ". Maybe it's already disabled.").queue();
+        event.getChannel().sendMessage("Couldn't find module " + MarkdownUtil.monospace(Utility.removeMentions(args.get(0))) + ". Maybe it's already disabled.").queue();
 
 
     }

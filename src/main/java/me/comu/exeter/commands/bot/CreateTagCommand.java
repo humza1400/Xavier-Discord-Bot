@@ -2,7 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -10,7 +10,7 @@ import java.util.*;
 
 public class CreateTagCommand implements ICommand {
 
-    static HashMap<String, String> tags = new HashMap<>();
+    static final HashMap<String, String> tags = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -34,10 +34,10 @@ public class CreateTagCommand implements ICommand {
         args.stream().skip(1).forEach(stringJoiner::add);
         String tag = args.get(0);
         if (tags.containsKey(tag)) {
-            event.getChannel().sendMessage("`" + Wrapper.removeMentions(args.get(0)) + "` already exists as a tag!").queue();
+            event.getChannel().sendMessage("`" + Utility.removeMentions(args.get(0)) + "` already exists as a tag!").queue();
             return;
         }
-        String tagMessage = Wrapper.removeMentions(stringJoiner.toString());
+        String tagMessage = Utility.removeMentions(stringJoiner.toString());
         tags.put(tag, tagMessage);
         event.getChannel().sendMessage("Successfully added `" + tag + "` with the content of `" + tagMessage + "`").queue();
 

@@ -15,18 +15,18 @@ public class CreateRoleCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_ROLES) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to create roles").queue();
+            event.getChannel().sendMessage("You don't have permission to delete roles").queue();
             return;
         }
 
         if (!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
-            event.getChannel().sendMessage("I don't have permissions to create roles").queue();
+            event.getChannel().sendMessage("I don't have permissions to delete roles").queue();
             return;
         }
 
     if (args.isEmpty())
     {
-        event.getChannel().sendMessage("Please enter a role name to create").queue();
+        event.getChannel().sendMessage("Please speicfy a role to delete").queue();
         return;
     }
         StringJoiner stringJoiner = new StringJoiner(" ");
@@ -43,12 +43,12 @@ public class CreateRoleCommand implements ICommand {
 
     @Override
     public String getInvoke() {
-        return "cr";
+        return "createrole";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[] {"addrole","createrole"};
+        return new String[] {"addrole","cr"};
     }
 
      @Override

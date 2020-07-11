@@ -3,7 +3,7 @@ package me.comu.exeter.commands.image;
 import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.imageio.ImageIO;
@@ -19,7 +19,7 @@ public class SetRGBImageCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (Wrapper.beingProcessed) {
+        if (Utility.beingProcessed) {
             event.getChannel().sendMessage("An image is already being processed, please wait.").queue();
             return;
         }
@@ -56,12 +56,12 @@ public class SetRGBImageCommand implements ICommand {
             return;
         }
 
-        Wrapper.beingProcessed = true;
+        Utility.beingProcessed = true;
         if (event.getMessage().getAttachments().isEmpty()) {
             try {
                 int random = new Random().nextInt(1000);
                 int newRandom = new Random().nextInt(1000);
-                Wrapper.saveImage(args.get(2), "cache", "image" + random);
+                Utility.saveImage(args.get(2), "cache", "image" + random);
                 File file = new File("cache/image" + random + ".png");
                 BufferedImage image = ImageIO.read(file);
                 for (int i = 0; i < image.getWidth(); i++) {
@@ -86,18 +86,18 @@ public class SetRGBImageCommand implements ICommand {
                 File newFilePNG = new File("cache/image" + newRandom + ".png");
                 ImageIO.write(image, "png", newFilePNG);
                 event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-                Wrapper.beingProcessed = false;
+                Utility.beingProcessed = false;
             } catch (Exception ex) {
                 event.getChannel().sendMessage("Something went wrong with processing the image").queue();
-                Wrapper.beingProcessed = false;
+                Utility.beingProcessed = false;
             }
 
         } else {
             try {
-                Wrapper.beingProcessed = true;
+                Utility.beingProcessed = true;
                 int random = new Random().nextInt(1000);
                 int newRandom = new Random().nextInt(1000);
-                Wrapper.saveImage(args.get(3), "cache", "image" + random);
+                Utility.saveImage(args.get(3), "cache", "image" + random);
                 File file = new File("cache/image" + random + ".png");
                 BufferedImage image = ImageIO.read(file);
                 for (int i = 0; i < image.getWidth(); i++) {
@@ -108,10 +108,10 @@ public class SetRGBImageCommand implements ICommand {
                 File newFilePNG = new File("cache/image" + newRandom + ".png");
                 ImageIO.write(image, "png", newFilePNG);
                 event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
-                Wrapper.beingProcessed = false;
+                Utility.beingProcessed = false;
             } catch (Exception ex) {
                 event.getChannel().sendMessage("Something went wrong with processing the image").queue();
-                Wrapper.beingProcessed = false;
+                Utility.beingProcessed = false;
             }
         }
         Config.clearCacheDirectory();

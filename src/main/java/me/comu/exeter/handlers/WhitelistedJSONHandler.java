@@ -14,12 +14,12 @@ import java.util.Map;
 
 public class WhitelistedJSONHandler {
 
-   public static Map<String, Map<String, String>> whitelistedIDs = new HashMap<>();
+   public static final Map<String, Map<String, String>> whitelistedIDs = new HashMap<>();
 
     public static void saveWhitelistConfig() {
-        for (Map.Entry entry : WhitelistCommand.getWhitelistedIDs().entrySet()) {
-            CompositeKey compositeKey = (CompositeKey) entry.getKey();
-            String permissionLevel = (String) entry.getValue();
+        for (Map.Entry<CompositeKey, String> entry : WhitelistCommand.getWhitelistedIDs().entrySet()) {
+            CompositeKey compositeKey =  entry.getKey();
+            String permissionLevel =  entry.getValue();
             if (!whitelistedIDs.containsKey(compositeKey.getGuildID()))
                 whitelistedIDs.put(compositeKey.getGuildID(), new HashMap<>());
             whitelistedIDs.get(compositeKey.getGuildID()).put(compositeKey.getUserID(), permissionLevel);

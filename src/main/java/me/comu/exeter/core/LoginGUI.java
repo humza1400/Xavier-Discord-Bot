@@ -3,6 +3,7 @@ package me.comu.exeter.core;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.events.*;
 import me.comu.exeter.handlers.EcoJSONHandler;
+import me.comu.exeter.handlers.UsernameHistoryHandler;
 import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
@@ -194,6 +195,7 @@ public class LoginGUI extends JFrame implements ActionListener {
                 Config.buildDirectory("cache", "cache");
                 EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
                 WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
+                UsernameHistoryHandler.loadUsernameHistoryConfig(new File("unhistory.json"));
                 jda = JDABuilder.create(TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
                 jda.addEventListener(eventWaiter);
                 jda.addEventListener(new KickEvent());

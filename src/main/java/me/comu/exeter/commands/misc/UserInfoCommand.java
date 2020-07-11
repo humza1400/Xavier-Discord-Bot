@@ -2,7 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -88,7 +88,7 @@ public class UserInfoCommand implements ICommand {
         if (!args.isEmpty() && memberList.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Wrapper.removeMentions(args.get(0))).queue();
+                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
                 return;
             } else if (targets.size() > 1) {
                 event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
@@ -137,13 +137,13 @@ public class UserInfoCommand implements ICommand {
         }
     }
 
-    private String getRolesAsString(List rolesList) {
+    private String getRolesAsString(List<Role> rolesList) {
         StringBuilder roles;
         if (!rolesList.isEmpty()) {
-            Role tempRole = (Role) rolesList.get(0);
+            Role tempRole = rolesList.get(0);
             roles = new StringBuilder(tempRole.getName());
             for (int i = 1; i < rolesList.size(); i++) {
-                tempRole = (Role) rolesList.get(i);
+                tempRole =  rolesList.get(i);
                 roles.append(", ").append(tempRole.getName());
             }
         } else {

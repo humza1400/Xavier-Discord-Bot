@@ -8,12 +8,12 @@ import java.util.HashMap;
 
 public class RestorableCategory {
 
-    private int position;
-    private String id;
-    private String guildId;
-    private String name;
-    private HashMap<Integer, String> voiceChannels = new HashMap<>();
-    private HashMap<Integer, String> textChannels = new HashMap<>();
+    private final int position;
+    private final String id;
+    private final String guildId;
+    private final String name;
+    private final HashMap<Integer, String> voiceChannels = new HashMap<>();
+    private final HashMap<Integer, String> textChannels = new HashMap<>();
 
     public RestorableCategory(Category category) {
         this.position = category.getPosition();

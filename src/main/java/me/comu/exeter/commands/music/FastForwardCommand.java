@@ -5,7 +5,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -45,7 +45,7 @@ public class FastForwardCommand implements ICommand {
         }  catch (NumberFormatException ex) {
             textChannel.sendMessage("Please insert a valid number to seek to.").queue();
         }
-        player.getPlayingTrack().setPosition(Wrapper.timeToMS(0, 0, time));
+        player.getPlayingTrack().setPosition(Utility.timeToMS(0, 0, time));
         event.getChannel().sendMessage("Fast-forwarded by " + time + " seconds").queue();
 
     }

@@ -2,7 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -10,7 +10,7 @@ import java.util.*;
 
 public class AutoResponseCommand implements ICommand {
 
-    public static HashMap<String, String> responses = new HashMap<>();
+    public static final HashMap<String, String> responses = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -51,10 +51,10 @@ public class AutoResponseCommand implements ICommand {
         }
         String tag = args.get(0);
         if (responses.containsKey(tag)) {
-            event.getChannel().sendMessage("`" + Wrapper.removeMentions(args.get(0)) + "` already exists as an auto-response!").queue();
+            event.getChannel().sendMessage("`" + Utility.removeMentions(args.get(0)) + "` already exists as an auto-response!").queue();
             return;
         }
-        String tagMessage = Wrapper.removeMentions(stringJoiner.toString());
+        String tagMessage = Utility.removeMentions(stringJoiner.toString());
         responses.put(tag, tagMessage);
         event.getChannel().sendMessage("Successfully added `" + tag + "` with an auto-response of `" + tagMessage + "`").queue();
 

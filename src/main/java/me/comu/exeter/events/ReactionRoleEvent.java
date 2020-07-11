@@ -22,7 +22,8 @@ public class ReactionRoleEvent extends ListenerAdapter {
 
             }
         } else {
-            event.getChannel().sendMessage("Can't assign roles because I'm lacking permissions").queue(null, null);
+            if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_WRITE))
+                event.getChannel().sendMessage("Can't assign roles because I'm lacking permissions").queue(null, null);
         }
     }
 
@@ -35,7 +36,8 @@ public class ReactionRoleEvent extends ListenerAdapter {
                     event.getGuild().removeRoleFromMember(event.getMember(), role).queue(null, failure -> event.getChannel().sendMessage("The reaction role is at a higher precedent than my own, so I can't assign it.").queue());
             }
         } else {
-            event.getChannel().sendMessage("Can't assign roles because I'm lacking permissions").queue(null, null);
+            if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_WRITE))
+                event.getChannel().sendMessage("Can't assign roles because I'm lacking permissions").queue(null, null);
         }
     }
 }

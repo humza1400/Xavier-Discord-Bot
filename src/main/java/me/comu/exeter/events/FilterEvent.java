@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class FilterEvent extends ListenerAdapter {
@@ -23,11 +24,10 @@ public class FilterEvent extends ListenerAdapter {
                 return;
             }
             List<Role> collect = event.getMember().getRoles().stream().filter(role -> FilterCommand.filteredRoles.containsKey(role.getId())).collect(Collectors.toList());
-            for (Role x : event.getMember().getRoles()) {
-                if (collect.contains(x))
-                    return;
-            }
-            if (event.getMember().getIdLong() != Core.OWNERID && !event.getMember().getId().equals(event.getJDA().getSelfUser().getId()) && !FilterCommand.filteredUsers.containsKey(event.getMember().getId())) {
+            if (!collect.isEmpty() || FilterCommand.filteredUsers.containsKey(event.getMember().getId()))
+                return;
+
+            if (event.getMember().getIdLong() != Core.OWNERID && !event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
                 if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) || event.getMember().getId().equals("439205512425504771") || event.getMember().getId().equals("155149108183695360")) {
                     String message = event.getMessage().getContentRaw();
                     if (message.contains(".gg/")) {
@@ -40,7 +40,7 @@ public class FilterEvent extends ListenerAdapter {
                                 if (warning == AutoMuteCommand.threshold) {
                                     event.getMessage().delete().reason("Sent Invite Link").queue(null, null);
                                     event.getChannel().sendMessage("Invite links are not allowed, " + event.getMember().getAsMention() + ". **Enjoy your mute. (" + warning + ")**").queue();
-                                    event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId()))).queue();
+                                    event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).queue();
                                     return;
                                 }
                                 AutoMuteCommand.users.replace(event.getMember().getId(), warning + 1);
@@ -62,7 +62,7 @@ public class FilterEvent extends ListenerAdapter {
                                 if (warning == AutoMuteCommand.threshold) {
                                     event.getMessage().delete().reason("Mass Mentioned").queue(null, null);
                                     event.getChannel().sendMessage("Mass mentions are not allowed, " + event.getMember().getAsMention() + ". **Enjoy your mute. (" + warning + ")**").queue();
-                                    event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId()))).queue();
+                                    event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).queue();
                                     return;
                                 }
                                 AutoMuteCommand.users.replace(event.getMember().getId(), warning + 1);
@@ -87,7 +87,7 @@ public class FilterEvent extends ListenerAdapter {
             if (event.getMember() == null) {
                 return;
             }
-            if (event.getMember().getIdLong() != Core.OWNERID && !event.getMember().getId().equals(event.getJDA().getSelfUser().getId()) && !FilterCommand.filteredUsers.containsKey(event.getMember().getId())) {
+            if (event.getMember().getIdLong() != Core.OWNERID && !event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
                 if (!event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
                     String message = event.getMessage().getContentRaw();
                     if (message.contains(".gg/")) {
@@ -100,7 +100,7 @@ public class FilterEvent extends ListenerAdapter {
                                 if (warning == AutoMuteCommand.threshold) {
                                     event.getMessage().delete().reason("Sent Invite Link").queue(null, null);
                                     event.getChannel().sendMessage("Invite links are not allowed, " + event.getMember().getAsMention() + ". **Enjoy your mute. (" + warning + ")**").queue();
-                                    event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId()))).queue();
+                                    event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).queue();
                                     return;
                                 }
                                 AutoMuteCommand.users.replace(event.getMember().getId(), warning + 1);

@@ -3,7 +3,6 @@
   <component name="AnalysisUIOptions">
     <option name="AUTOSCROLL_TO_SOURCE" value="true" />
     <option name="GROUP_BY_SEVERITY" value="true" />
-    <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
@@ -29,10 +28,173 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="545fff34-981f-4bba-bc67-87ed5345bed8" name="Default Changelist" comment="fixed longer songs for lyrics">
+    <list default="true" id="545fff34-981f-4bba-bc67-87ed5345bed8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/JackpotCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ConfessCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetConfessionChannelCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/LastFMCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/YouTubeCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/economy.json" beforeDir="false" afterPath="$PROJECT_DIR$/economy.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidChannelSafetyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidChannelSafetyCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidConfigCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/AntiRaidConfigCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/CreateAChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/CreateAChannelCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/DisableModuleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/DisableModuleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/EnableModuleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/EnableModuleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/MassDMCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/MassDMCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnbanAllCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnbanAllCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnblacklistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnblacklistCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnwhitelistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/UnwhitelistCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/admin/WhitelistCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AutoResponseCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/AutoResponseCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ChangeBotAvatarCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/ChangeBotAvatarCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CopyChannelsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CopyChannelsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CopyRolesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CopyRolesCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CreateTagCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/CreateTagCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/DeleteTagCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/DeleteTagCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/DiscriminatorCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/DiscriminatorCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/EditSnipeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/EditSnipeCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/LoadChannelsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/LoadChannelsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/LoadRolesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/LoadRolesCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/PrefixCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/PrefixCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/PrivateMessageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/PrivateMessageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/SayCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/SayCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/SnipeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/SnipeCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/StatusCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/StatusCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/StealEmoteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/StealEmoteCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TagCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/TagCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/UsernameHistoryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/bot/UsernameHistoryCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/BegCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/BegCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/RobCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/economy/RobCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/AntiqueImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/AntiqueImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/BloomImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/BloomImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/BlurImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/BlurImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/CompressImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/CompressImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/DistortImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/DistortImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/EnlargeImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/EnlargeImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/GlowImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/GlowImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/GrayScaleImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/GrayScaleImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/LightingImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/LightingImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/MotionBlurImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/MotionBlurImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/PerspectiveImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/PerspectiveImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/ReduceImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/ReduceImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/ReflectionImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/ReflectionImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/ResizeImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/ResizeImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/SetRGBImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/SetRGBImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/ShadowImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/ShadowImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/StaticImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/StaticImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/StretchImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/StretchImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/SunlightImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/SunlightImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/WarpImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/WarpImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/WavyImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/WavyImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/WindowPerspectiveImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/image/WindowPerspectiveImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/BiteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/BiteCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/BootCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/BootCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/CryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/CryCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/CuddleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/CuddleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/DivorceCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/DivorceCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/FeedCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/FeedCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/HoldHandsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/HoldHandsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/HugCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/HugCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/KillCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/KillCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/KissCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/KissCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/LickCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/LickCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/MarriedCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/MarriedCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/MarryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/MarryCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/PetCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/PetCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/PunchCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/PunchCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/RateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/RateCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SexCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SexCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SlapCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SlapCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SmugCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/SmugCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/TickleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/TickleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/WaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/marriage/WaveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AFKCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AFKCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AsciiConverterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AsciiConverterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AvatarCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/AvatarCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/CatCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/CatCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/DogCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/DogCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNItemShopCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNItemShopCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNStatsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/FNStatsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GetRGBCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GetRGBCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GiphyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/GiphyCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/HastebinCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/HastebinCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/InviteManagerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/InviteManagerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/JokeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/JokeCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/MutualServersCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/MutualServersCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/PenisCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/PenisCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ProxiesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ProxiesCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ReverseGoogleSearchCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/ReverseGoogleSearchCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/SearchImageCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/SearchImageCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/TweetCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/TweetCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UrbanCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UrbanCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UserInfoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/UserInfoCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/WouldYouRatherCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/misc/WouldYouRatherCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoMuteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoMuteCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoNukeChannelsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/AutoNukeChannelsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BanCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BlacklistWordCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/BlacklistWordCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/CleanCommandsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/CleanCommandsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ClearCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ClearCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/CreateRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/CreateRoleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/DelRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/DelRoleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/DisconnectUserCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/DisconnectUserCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/FilterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/FilterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/GiveRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/GiveRoleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/KickCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MembersRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MembersRoleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MuteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/MuteCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/OffCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/OffCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/OnCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/OnCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/RecreateChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/RecreateChannelCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetMuteRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetMuteRoleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetRainbowRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetRainbowRoleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetSuggestionChannelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/SetSuggestionChannelCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ToggleWelcomeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/ToggleWelcomeCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnmuteCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/UnmuteCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/WarnCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/moderation/WarnCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/FastForwardCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/FastForwardCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/PlayCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/PlayCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/SetVolumeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/music/SetVolumeCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/AnalCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/AnalCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/BlowjobCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/BlowjobCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/BoobsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/BoobsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/CumslutCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/CumslutCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/FeetCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/FeetCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/HentaiCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/HentaiCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/LesbianCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/LesbianCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/NekoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/NekoCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/PussyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/PussyCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/WaifuCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nsfw/WaifuCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateWebhookCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/CreateWebhookCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DmAdvBanwaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/commands/nuke/DmAdvBanwaveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/CommandManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Core.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Listener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/Listener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/core/LoginGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/AntiRaidEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/BanEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/BanEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/DMWizzEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/DMWizzEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/FilterEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/FilterEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMemberJoinedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMemberJoinedEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/GuildMessageListenerResponderEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/KickEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/KickEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/LogMessageReceivedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/LogMessageReceivedEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/OffEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/OffEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/RainbowRoleEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/RainbowRoleEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/ReactionRoleEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/ReactionRoleEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SnipeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/SnipeEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/UsernamePresenceUpdateEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/events/UsernamePresenceUpdateEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/UsernameHistoryHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/UsernameHistoryHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/WhitelistedJSONHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/handlers/WhitelistedJSONHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/objects/RestorableCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/objects/RestorableCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/objects/RestorableChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/objects/RestorableChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/objects/RestorableRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/objects/RestorableRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/util/CompositeKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/util/CompositeKey.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/comu/exeter/wrapper/Wrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/comu/exeter/utility/Utility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unhistory.json" beforeDir="false" afterPath="$PROJECT_DIR$/unhistory.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitelisted.json" beforeDir="false" afterPath="$PROJECT_DIR$/whitelisted.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,8 +278,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/src/.env&#10;C:/Users/player/Desktop/music bot/.idea/workspace.xml&#10;C:/Users/player/Desktop/music bot/.env" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$MCP_LOC$/eclipse" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.27011493" />
@@ -194,13 +357,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1571701363052</updated>
-    </task>
-    <task id="LOCAL-00015" summary="stuff">
-      <created>1580366074763</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1580366074763</updated>
     </task>
     <task id="LOCAL-00016" summary="stuff">
       <created>1580627620092</created>
@@ -538,7 +694,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593811459819</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="finally finsihed image search cmd">
+      <created>1593836753203</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1593836753204</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TodoView">
@@ -579,7 +742,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="added copy/loading channels command" />
     <MESSAGE value="bug fixes + cmds" />
     <MESSAGE value="fixed a bug with anti-nuke triggering for non-interactable members" />
     <MESSAGE value="bettered antiraid + lyrics fix" />
@@ -604,57 +766,78 @@
     <MESSAGE value="fixed cac" />
     <MESSAGE value="fixed LyricsCommand.java" />
     <MESSAGE value="fixed longer songs for lyrics" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed longer songs for lyrics" />
+    <MESSAGE value="finally finsihed image search cmd" />
+    <option name="LAST_COMMIT_MESSAGE" value="finally finsihed image search cmd" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="2517" height="424" key="GridCell.Tab.0.bottom" timestamp="1593836401797">
+    <state x="1085" y="406" key="#com.intellij.ide.util.MemberChooser" timestamp="1594191223927">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="424" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1593836401797" />
-    <state width="2517" height="424" key="GridCell.Tab.0.center" timestamp="1593836401797">
+    <state x="1085" y="406" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1594191223927" />
+    <state x="1010" y="447" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog" timestamp="1594360170435">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="424" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1593836401797" />
-    <state width="2517" height="424" key="GridCell.Tab.0.left" timestamp="1593836401797">
+    <state x="1010" y="447" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1594360170435" />
+    <state x="1035" y="403" key="#xdebugger.evaluate" timestamp="1594316993408">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="424" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1593836401797" />
-    <state width="2517" height="424" key="GridCell.Tab.0.right" timestamp="1593836401797">
+    <state x="1035" y="403" key="#xdebugger.evaluate/0.0.2560.1400@0.0.2560.1400" timestamp="1594316993408" />
+    <state x="1027" y="545" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1594065921173">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="424" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1593836401797" />
-    <state width="2517" height="596" key="GridCell.Tab.1.bottom" timestamp="1593806074280">
+    <state x="1027" y="545" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.2560.1400@0.0.2560.1400" timestamp="1594065921173" />
+    <state x="1060" y="455" key="FileChooserDialogImpl" timestamp="1594403519023">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="596" key="GridCell.Tab.1.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1593806074280" />
-    <state width="2517" height="596" key="GridCell.Tab.1.center" timestamp="1593806074280">
+    <state x="1060" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1594403519023" />
+    <state width="2517" height="427" key="GridCell.Tab.0.bottom" timestamp="1594450498732">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="596" key="GridCell.Tab.1.center/0.0.2560.1400@0.0.2560.1400" timestamp="1593806074280" />
-    <state width="2517" height="596" key="GridCell.Tab.1.left" timestamp="1593806074280">
+    <state width="2517" height="427" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1594450498732" />
+    <state width="2517" height="427" key="GridCell.Tab.0.center" timestamp="1594450498732">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="596" key="GridCell.Tab.1.left/0.0.2560.1400@0.0.2560.1400" timestamp="1593806074280" />
-    <state width="2517" height="596" key="GridCell.Tab.1.right" timestamp="1593806074280">
+    <state width="2517" height="427" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1594450498732" />
+    <state width="2517" height="427" key="GridCell.Tab.0.left" timestamp="1594450498732">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="596" key="GridCell.Tab.1.right/0.0.2560.1400@0.0.2560.1400" timestamp="1593806074280" />
+    <state width="2517" height="427" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1594450498732" />
+    <state width="2517" height="427" key="GridCell.Tab.0.right" timestamp="1594450498732">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="427" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1594450498732" />
+    <state width="2517" height="451" key="GridCell.Tab.1.bottom" timestamp="1594417222102">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="451" key="GridCell.Tab.1.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1594417222102" />
+    <state width="2517" height="451" key="GridCell.Tab.1.center" timestamp="1594417222101">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="451" key="GridCell.Tab.1.center/0.0.2560.1400@0.0.2560.1400" timestamp="1594417222101" />
+    <state width="2517" height="451" key="GridCell.Tab.1.left" timestamp="1594417222101">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="451" key="GridCell.Tab.1.left/0.0.2560.1400@0.0.2560.1400" timestamp="1594417222101" />
+    <state width="2517" height="451" key="GridCell.Tab.1.right" timestamp="1594417222101">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="451" key="GridCell.Tab.1.right/0.0.2560.1400@0.0.2560.1400" timestamp="1594417222101" />
     <state x="781" y="345" key="SettingsEditor" timestamp="1593802825579">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="781" y="345" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1593802825579" />
-    <state x="872" y="433" key="Vcs.Push.Dialog.v2" timestamp="1593811461069">
+    <state x="872" y="433" key="Vcs.Push.Dialog.v2" timestamp="1593836754732">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="872" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1593811461069" />
-    <state x="552" y="168" width="1350" height="900" key="find.popup" timestamp="1593836471105">
+    <state x="872" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1593836754732" />
+    <state x="702" y="121" width="1350" height="900" key="find.popup" timestamp="1594444698494">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="552" y="168" width="1350" height="900" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1593836471105" />
-    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1593836323447">
+    <state x="702" y="121" width="1350" height="900" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1594444698494" />
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1594449846217">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1593836323447" />
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1594449846217" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -671,64 +854,6 @@
     <SUITE FILE_PATH="coverage/music_bot$Core.ic" NAME="Core Coverage Results" MODIFIED="1591475268942" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>me.comu.exeter.core.*</FILTER>
     </SUITE>
-  </component>
-  <component name="debuggerHistoryManager">
-    <expressions id="watch">
-      <expression>
-        <expression-string>((HashMap.Node) AntiRaidChannelSafetyCommand.restorableCategories.entrySet().toArray()[0]).getValue()</expression-string>
-        <language-id>JAVA</language-id>
-        <custom-info>java.util.HashMap.Node,java.util.HashMap,me.comu.exeter.commands.admin.AntiRaidChannelSafetyCommand</custom-info>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-    </expressions>
-    <expressions id="evaluateExpression">
-      <expression>
-        <expression-string>((HashMap.Node) AntiRaidChannelSafetyCommand.restorableCategories.entrySet().toArray()[0]).getValue()</expression-string>
-        <language-id>JAVA</language-id>
-        <custom-info>java.util.HashMap.Node,java.util.HashMap,me.comu.exeter.commands.admin.AntiRaidChannelSafetyCommand</custom-info>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>dataArray.get(0)</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>System.out.println(jsonObject.get(&quot;data&quot;))</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>Objects.requireNonNull(response.body())</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>res</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>restorableCategory.getPosition()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>restorableCategory.getPosition()+1</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>restorableCategory.getPosition()4</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>final URL currentSongPlaying = new URL(&quot;\u0068\u0074\u0074\u0070://\u0063\u0068\u0065\u0063\u006B\u0069\u0070.\u0061\u006D\u0061\u007A\u006F\u006E\u0077\u0073.\u0063\u006F\u006D&quot;);</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-    </expressions>
   </component>
   <component name="masterDetails">
     <states>

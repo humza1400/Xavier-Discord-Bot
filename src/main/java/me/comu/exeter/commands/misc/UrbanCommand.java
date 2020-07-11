@@ -3,7 +3,7 @@ package me.comu.exeter.commands.misc;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
@@ -50,13 +50,13 @@ public class UrbanCommand implements ICommand {
                 String author = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("author").toString();
                 String thumbsup = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("thumbs_up").toString();
                 String thumbsdown = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("thumbs_down").toString();
-                event.getChannel().sendMessage(new EmbedBuilder().setColor(Wrapper.getAmbientColor()).setTitle(stringJoiner.toString(), permalink).setFooter(date).addField("Definition", definition, true).addField("Example", example, true).addField("Author", author, true).addField("Thumbs Up", thumbsup, true).addField("Thumbs Down", thumbsdown, true).build()).queue();
+                event.getChannel().sendMessage(new EmbedBuilder().setColor(Utility.getAmbientColor()).setTitle(stringJoiner.toString(), permalink).setFooter(date).addField("Definition", definition, true).addField("Example", example, true).addField("Author", author, true).addField("Thumbs Up", thumbsup, true).addField("Thumbs Down", thumbsdown, true).build()).queue();
             }
         } catch (IOException ex) {
             event.getChannel().sendMessage("Caught IOException").queue();
             ex.printStackTrace();
         } catch (JSONException ex) {
-            event.getChannel().sendMessage("Nothing found for " + MarkdownUtil.monospace(Wrapper.removeMentions(stringJoiner.toString()))).queue();
+            event.getChannel().sendMessage("Nothing found for " + MarkdownUtil.monospace(Utility.removeMentions(stringJoiner.toString()))).queue();
         }
 
     }

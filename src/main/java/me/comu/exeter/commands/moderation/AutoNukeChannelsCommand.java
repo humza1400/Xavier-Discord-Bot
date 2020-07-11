@@ -17,7 +17,7 @@ public class AutoNukeChannelsCommand implements ICommand {
     private boolean isRunning = false;
     private long delay = 1;
     private final List<String> ancChannels = new ArrayList<>();
-    private ScheduledExecutorService anc;
+    private ScheduledExecutorService anc = Executors.newScheduledThreadPool(1);
     private ScheduledFuture<?> scheduledFuture;
 
     @Override
@@ -33,7 +33,7 @@ public class AutoNukeChannelsCommand implements ICommand {
         }
 
 
-        Thread thread = new Thread(() -> {
+        Runnable thread = (() -> {
             for (String s : ancChannels) {
                 try {
                     TextChannel textChannel = event.getJDA().getTextChannelById(s);
@@ -74,7 +74,7 @@ public class AutoNukeChannelsCommand implements ICommand {
                 return;
             }
             isRunning = false;
-            anc.shutdown();
+            scheduledFuture.cancel(true);
             event.getChannel().sendMessage("Stopped the ANC Executor!").queue();
         } else if (args.get(0).equalsIgnoreCase("list")) {
             event.getChannel().sendMessage("**Channels in the ANC Hash**:\n" + ancChannels.toString()).queue();

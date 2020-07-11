@@ -3,7 +3,7 @@ package me.comu.exeter.commands.admin;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -30,7 +30,7 @@ public class MassDMCommand implements ICommand {
                 int counter = 0;
                 for (Member member : memberList) {
                     if (!member.getUser().isBot()) {
-                        Wrapper.sendPrivateMessage(event.getJDA(), member.getUser().getId(), message);
+                        Utility.sendPrivateMessage(event.getJDA(), member.getUser().getId(), message);
                         counter++;
                         System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
                         Thread.sleep(100);

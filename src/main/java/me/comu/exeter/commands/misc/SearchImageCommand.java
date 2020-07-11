@@ -2,7 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.wrapper.Wrapper;
+import me.comu.exeter.utility.Utility;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jsoup.Jsoup;
@@ -22,7 +22,7 @@ public class SearchImageCommand implements ICommand {
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
         args.forEach(stringJoiner::add);
-        event.getChannel().sendMessage(EmbedUtils.embedImage(Wrapper.extractUrls(searchImage(stringJoiner.toString())).get(1)).setTitle(Wrapper.removeMentions(stringJoiner.toString())).setColor(Wrapper.getAmbientColor()).build()).queue(message -> {
+        event.getChannel().sendMessage(EmbedUtils.embedImage(Utility.extractUrls(searchImage(stringJoiner.toString())).get(1)).setTitle(Utility.removeMentions(stringJoiner.toString())).setColor(Utility.getAmbientColor()).build()).queue(message -> {
             message.addReaction("\u23EE").queue();
             message.addReaction("\u23ED").queue();
         });
@@ -35,11 +35,10 @@ public class SearchImageCommand implements ICommand {
             Document doc1 = Jsoup.connect(googleUrl).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36").timeout(10 * 1000).get();
             Element media = doc1.select("[data-src]").first();
             String finUrl = media.attr("abs:data-src");
-
             finRes= "<a href=\"http://images.google.com/search?tbm=isch&q=" + query + "\"><img src=\"" + finUrl.replace("&quot", "") + "\" border=1/></a>";
 
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         return finRes;
