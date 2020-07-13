@@ -113,6 +113,7 @@ public class CommandManager {
         register(new BegCommand());
         register(new ClearEconomyCommand());
         register(new JackpotCommand());
+        register(new InventoryCommand());
         // MARRIAGE
         register(new MarryCommand(eventWaiter));
         register(new HugCommand());
@@ -134,6 +135,7 @@ public class CommandManager {
         register(new FeedCommand());
         register(new TickleCommand());
         register(new CuddleCommand());
+        register(new ShipCommand());
         //NSFW
         register(new AnalCommand());
         register(new HentaiCommand());

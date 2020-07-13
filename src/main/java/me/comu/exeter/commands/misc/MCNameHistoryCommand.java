@@ -2,6 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -24,7 +25,7 @@ public class MCNameHistoryCommand implements ICommand {
                 return;
             }
             final String igns = String.join(", ", names);
-            event.getChannel().sendMessage("**" + args.get(0) + "'s** name history (" + uuid + "):\n" + igns.replaceAll("@everyone", "everyone").replaceAll("@here", "here")).queue();
+            event.getChannel().sendMessage("**" + args.get(0) + "'s** name history (" + uuid + "):\n" + Utility.removeMentions(igns)).queue();
         }));
     }
 

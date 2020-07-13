@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -22,14 +23,17 @@ public class AntiRaidChannelSafetyCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessage("You don't have permission to toggle ARCS").queue();
+            return;
+
+        }
         StringBuilder categories = new StringBuilder("`Restorable Categories (" + restorableCategories.size() + ")`\n");
         StringBuilder channels = new StringBuilder("`Restorable Channels (" + restorableCategories.size() + ")`\n");
-        for (RestorableCategory restorableCategory : restorableCategories)
-        {
+        for (RestorableCategory restorableCategory : restorableCategories) {
             categories.append(restorableCategory.getName()).append("\n");
         }
-        for (RestorableChannel restorableChannel : restorableChannels)
-        {
+        for (RestorableChannel restorableChannel : restorableChannels) {
             channels.append(restorableChannel.getName()).append("\n");
         }
         event.getChannel().sendMessage(categories.toString()).queue();
@@ -74,15 +78,13 @@ public class AntiRaidChannelSafetyCommand implements ICommand {
         }
     }
 
-    public static void restore()
-    {
+    public static void restore() {
         Core.jda.getCategories().forEach(category -> restorableCategories.add(new RestorableCategory(category)));
         Core.jda.getTextChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
         Core.jda.getVoiceChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
     }
 
-    public static void clear()
-    {
+    public static void clear() {
         restorableCategories.clear();
         restorableChannels.clear();
     }

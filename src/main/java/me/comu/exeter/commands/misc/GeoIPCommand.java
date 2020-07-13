@@ -2,6 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jsoup.Jsoup;
@@ -56,7 +57,7 @@ public class GeoIPCommand implements ICommand {
             embed.setDescription(url.toString());
             event.getChannel().sendMessage(embed.build()).queue();
         } catch (IOException e) {
-            event.getChannel().sendMessage(ip.replaceAll("@everyone", "everyone").replaceAll("@here", "here") + " couldn't be resolved.").queue();
+            event.getChannel().sendMessage(Utility.removeMentions(ip) + " couldn't be resolved.").queue();
         }
     }
 

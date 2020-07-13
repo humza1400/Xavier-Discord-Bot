@@ -4,6 +4,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.util.CompositeKey;
+import me.comu.exeter.utility.Utility;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
@@ -33,7 +34,7 @@ public class WhitelistedCommand implements ICommand {
                 User user = event.getJDA().getUserById(x.getUserID());
                 try {
                     String level = WhitelistCommand.getWhitelistedIDs().get(x);
-                    String name = Objects.requireNonNull(user).getAsTag().replaceAll("([_`~*>])", "\\\\$1") + " - " + level + String.format(" (%s)", Objects.requireNonNull(event.getJDA().getGuildById(x.getGuildID())).getName());
+                    String name = Utility.removeMarkdown(Objects.requireNonNull(user).getAsTag()) + " - " + level + String.format(" (%s)", Objects.requireNonNull(event.getJDA().getGuildById(x.getGuildID())).getName());
                     globalStringBuffer.append(" + ").append(name).append("\n");
                     counter++;
                 } catch (NullPointerException ex) {
@@ -54,7 +55,7 @@ public class WhitelistedCommand implements ICommand {
                 User user = event.getJDA().getUserById(x.getUserID());
                 try {
                     String level = WhitelistCommand.getWhitelistedIDs().get(x);
-                    String name = Objects.requireNonNull(user).getAsTag().replaceAll("([_`~*>])", "\\\\$1") + " - " + level;
+                    String name = Utility.removeMarkdown(Objects.requireNonNull(user).getAsTag()) + " - " + level;
                     stringBuffer.append(" + ").append(name).append("\n");
                     counter2++;
                 } catch (NullPointerException ex) {

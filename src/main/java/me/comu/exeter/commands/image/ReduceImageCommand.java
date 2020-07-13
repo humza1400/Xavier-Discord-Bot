@@ -132,7 +132,7 @@ public class ReduceImageCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"reduceimage", "reduceimg", "shorten", "shortenimage", "shortenimg", "smaller", "smallerimage", "smallerimg"};
+        return new String[]{"reduceimage","shrink", "reduceimg", "shorten", "shortenimage", "shortenimg", "smaller", "smallerimage", "smallerimg"};
     }
 
     @Override

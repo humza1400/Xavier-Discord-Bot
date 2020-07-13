@@ -23,7 +23,7 @@ public class BanCommand implements ICommand {
 
 
         if (!Objects.requireNonNull(member).hasPermission(Permission.BAN_MEMBERS) && member.getIdLong() != Core.OWNERID && !member.getId().equalsIgnoreCase("725452437342912542")) {
-            channel.sendMessage("You don't have permission to ban that user").queue();
+            channel.sendMessage("You don't have permission to ban users").queue();
             return;
         }
 

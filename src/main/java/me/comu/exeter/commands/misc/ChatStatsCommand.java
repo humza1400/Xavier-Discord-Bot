@@ -3,6 +3,7 @@ package me.comu.exeter.commands.misc;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.util.ChatTrackingManager;
+import me.comu.exeter.utility.Utility;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -22,8 +23,8 @@ public class ChatStatsCommand implements ICommand {
                 User user = event.getJDA().getUserById(x);
                 if (counter2 != 11)
                     try {
-                        String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator().replaceAll("`","\\`");
-                        stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(name.replaceAll("([_`~*>])", "\\\\$1")).append(" - ").append(ChatTrackingManager.getChatCredits(user.getId())).append(" messages\n");
+                        String name = Utility.removeMarkdown(Objects.requireNonNull(user).getAsTag());
+                        stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(Utility.removeMarkdown(name)).append(" - ").append(ChatTrackingManager.getChatCredits(user.getId())).append(" messages\n");
                         counter2++;
                     } catch (NullPointerException ex) {
                         event.getChannel().sendMessage("The hash set contained an invalid user and has been automatically resolved. (" + x + ")").queue();

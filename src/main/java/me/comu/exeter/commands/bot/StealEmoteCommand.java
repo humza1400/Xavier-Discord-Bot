@@ -37,6 +37,12 @@ public class StealEmoteCommand implements ICommand {
             event.getChannel().sendMessage("You need to specify a name for the emoji if you're using an attachment").queue();
             return;
         }
+        if (event.getGuild().getEmotes().size() == event.getGuild().getMaxEmotes()) {
+            event.getChannel().sendMessage("You reached the max level of emojis in your guild!").queue();
+            Config.clearCacheDirectory();
+            return;
+        }
+
         if (!event.getMessage().getAttachments().isEmpty() && !args.isEmpty()) {
             String link = event.getMessage().getAttachments().get(0).getUrl();
             String name = args.get(0);
@@ -51,9 +57,7 @@ public class StealEmoteCommand implements ICommand {
                                             message1.editMessage("\u2705 Successfully created " + "<a:" + name + ":" + success.getId() + ">").queue();
                                             Config.clearCacheDirectory();
                                         }, failure -> {
-                                            if (event.getGuild().getEmotes().size() >= event.getGuild().getMaxEmotes()) {
-                                                message.editMessage("You reached the max level of emojis in your guild!").queue();
-                                            } else {
+
                                                 try {
                                                     File file = new File("cache/" + name + ".png");
                                                     BufferedImage bufferedImage = ImageIO.read(file);
@@ -72,7 +76,7 @@ public class StealEmoteCommand implements ICommand {
                                                     Config.clearCacheDirectory();
                                                     ex.printStackTrace();
                                                 }
-                                            }
+
                                         });
                                     } catch (Exception ex) {
                                         message.editMessage("\u274C Something went wrong try again later.").queue();
@@ -91,9 +95,6 @@ public class StealEmoteCommand implements ICommand {
                                             message1.editMessage("\u2705 Successfully created " + "<:" + name + ":" + success.getId() + ">").queue();
                                             Config.clearCacheDirectory();
                                         }, failure -> {
-                                            if (event.getGuild().getEmotes().size() >= event.getGuild().getMaxEmotes()) {
-                                                message.editMessage("You reached the max level of emojis in your guild!").queue();
-                                            } else {
                                                 try {
                                                     File file = new File("cache/" + name + ".png");
                                                     BufferedImage bufferedImage = ImageIO.read(file);
@@ -111,7 +112,6 @@ public class StealEmoteCommand implements ICommand {
                                                     message.editMessage("Something went wrong with resizing the emoji, try again later").queue();
                                                     Config.clearCacheDirectory();
                                                     ex.printStackTrace();
-                                                }
                                             }
                                         });
                                     } catch (Exception ex) {
@@ -147,9 +147,6 @@ public class StealEmoteCommand implements ICommand {
                                         message1.editMessage("\u2705 Successfully created " + "<a:" + name + ":" + success.getId() + ">").queue();
                                         Config.clearCacheDirectory();
                                     }, failure -> {
-                                        if (event.getGuild().getEmotes().size() >= event.getGuild().getMaxEmotes()) {
-                                            message.editMessage("You reached the max level of emojis in your guild!").queue();
-                                        } else {
                                             try {
                                                 File file = new File("cache/" + name + ".png");
                                                 BufferedImage bufferedImage = ImageIO.read(file);
@@ -168,7 +165,6 @@ public class StealEmoteCommand implements ICommand {
                                                 Config.clearCacheDirectory();
                                                 ex.printStackTrace();
                                             }
-                                        }
                                     });
                                 } catch (Exception ex) {
                                     message.editMessage("\u274C Something went wrong try again later.").queue();
@@ -187,9 +183,6 @@ public class StealEmoteCommand implements ICommand {
                                         message1.editMessage("\u2705 Successfully created " + "<:" + name + ":" + success.getId() + ">").queue();
                                         Config.clearCacheDirectory();
                                     }, failure -> {
-                                        if (event.getGuild().getEmotes().size() >= event.getGuild().getMaxEmotes()) {
-                                            message.editMessage("You reached the max level of emojis in your guild!").queue();
-                                        } else {
                                             try {
                                                 File file = new File("cache/" + name + ".png");
                                                 BufferedImage bufferedImage = ImageIO.read(file);
@@ -207,7 +200,6 @@ public class StealEmoteCommand implements ICommand {
                                                 message.editMessage("Something went wrong with resizing the emoji, try again later").queue();
                                                 Config.clearCacheDirectory();
                                                 ex.printStackTrace();
-                                            }
                                         }
                                     });
                                 } catch (Exception ex) {
@@ -237,11 +229,7 @@ public class StealEmoteCommand implements ICommand {
                                     message1.editMessage("\u2705 Successfully created " + "<a:" + name + ":" + success.getId() + ">").queue();
                                     Config.clearCacheDirectory();
                                 }, failure -> {
-                                    if (event.getGuild().getEmotes().size() >= event.getGuild().getMaxEmotes()) {
-                                        message.editMessage("You reached the max level of emojis in your guild!").queue();
-                                    } else {
                                         message.editMessage("\u274C Something went wrong try again later.").queue();
-                                    }
                                 });
                             } catch (Exception ex) {
                                 message.editMessage("\u274C Something went wrong try again later.").queue();
@@ -261,11 +249,7 @@ public class StealEmoteCommand implements ICommand {
                                     message1.editMessage("\u2705 Successfully created " + "<:" + name + ":" + success.getId() + ">").queue();
                                     Config.clearCacheDirectory();
                                 }, failure -> {
-                                    if (event.getGuild().getEmotes().size() >= event.getGuild().getMaxEmotes()) {
-                                        message.editMessage("You reached the max level of emojis in your guild!").queue();
-                                    } else {
                                         message.editMessage("\u274C Something went wrong try again later.").queue();
-                                    }
                                 });
                             } catch (Exception ex) {
                                 message.editMessage("\u274C Something went wrong try again later.").queue();
@@ -291,7 +275,7 @@ public class StealEmoteCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Adds the given emoji, link, or attachment as ab emote to the server\n `" + Core.PREFIX + getInvoke() + " [emote] <emote-name>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Adds the given emoji, link, or attachment as an emote to the server\n `" + Core.PREFIX + getInvoke() + " [emote] <emote-name>`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

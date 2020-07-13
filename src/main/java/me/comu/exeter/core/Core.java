@@ -8,6 +8,7 @@ import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.musicplayer.TrackScheduler;
+import me.comu.exeter.pagination.method.Pages;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -85,6 +86,7 @@ public class Core {
             jda.addEventListener(new SnipeEvent());
             jda.addEventListener(new ReactionRoleEvent());
             jda.addEventListener(new UsernamePresenceUpdateEvent());
+            Pages.activate(jda);
             TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(GuildMusicManager.schedulerHook));
             logger.info("Successfully booted");
         } catch (LoginException | InterruptedException e) {
@@ -92,12 +94,10 @@ public class Core {
             e.printStackTrace();
         }
     }
-
     static void shutdownThread() {
         LoginGUI.running = false;
         LoginGUI.jStatusField.setText("NOT RUNNING");
         jda.shutdownNow();
     }
-
 }
 

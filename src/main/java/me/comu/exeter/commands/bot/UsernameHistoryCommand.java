@@ -7,7 +7,6 @@ import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
@@ -25,9 +24,13 @@ public class UsernameHistoryCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        System.out.println(usernames.toString());
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please mention a valid user or specify a user-id").queue();
+            event.getChannel().sendMessage("Please mention a valid user or specify a user-id\nOur current database consists of **" + usernames.size() + "** users").queue();
+            return;
+        }
+        if (event.getAuthor().getIdLong() == Core.OWNERID && args.get(0).equalsIgnoreCase("-logall")) {
+            event.getChannel().sendMessage("`Logging all names...`").queue();
+            logAllNames(event.getJDA());
             return;
         }
         if (args.get(0).equalsIgnoreCase("clear") && event.getAuthor().getIdLong() == Core.OWNERID) {
@@ -48,7 +51,7 @@ public class UsernameHistoryCommand implements ICommand {
                         StringBuilder stringBuilder = new StringBuilder("Note: This is just what the bot has gathered locally and is not complete\n");
                         HashMap<String, String> hashMap = usernames.get(args.get(0));
                         for (Map.Entry<String, String> entry : hashMap.entrySet()) {
-                            String lol = entry.getKey() + ": " + entry.getValue().replaceAll("([_`~*>])", "\\\\$1");
+                            String lol = entry.getKey() + ": " + Utility.removeMarkdown(entry.getValue());
                             stringBuilder.append(MarkdownUtil.codeblock(lol));
                         }
                         event.getChannel().sendMessage(new EmbedBuilder()
@@ -73,7 +76,7 @@ public class UsernameHistoryCommand implements ICommand {
                 StringBuilder stringBuilder = new StringBuilder("Note: This is just what the bot has gathered locally and is not complete\n");
                 HashMap<String, String> hashMap = usernames.get(user.getId());
                 for (Map.Entry<String, String> entry : hashMap.entrySet()) {
-                    String lol = entry.getKey() + ": " + entry.getValue().replaceAll("([_`~*>])", "\\\\$1");
+                    String lol = entry.getKey() + ": " + Utility.removeMarkdown(entry.getValue());
                     stringBuilder.append(MarkdownUtil.codeblock(lol));
                 }
                 event.getChannel().sendMessage(new EmbedBuilder()
@@ -97,30 +100,17 @@ public class UsernameHistoryCommand implements ICommand {
     }
 
     public static void logAllNames(JDA jda) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
         for (Guild guild : jda.getGuilds()) {
-            for (Member member : guild.getMembers()) {
-                if (usernames.isEmpty()) {
-                    HashMap<String, String> tempMap = new HashMap<>();
-                    tempMap.put(dtf.format(Instant.now()), member.getUser().getAsTag());
-                    usernames.put(member.getId(), tempMap);
+            System.out.println("loading guild: " +guild.getName());
+            guild.loadMembers(member -> {
+                System.out.println("loading " + member.getUser().getAsTag());
+                if (!usernames.containsKey(member.getId())) {
+                    HashMap<String, String> hashMap = new HashMap<>();
+                    hashMap.put(dtf.format(Instant.now()), member.getUser().getAsTag());
+                    usernames.put(member.getId(), hashMap);
                     System.out.println("Added " + member.getUser().getAsTag());
-                } else {
-                    for (Map.Entry<String, HashMap<String, String>> entry : usernames.entrySet()) {
-                        String userId = entry.getKey();
-                        HashMap<String, String> hashMap = entry.getValue();
-                        for (String name : hashMap.values()) {
-                            if (!usernames.containsKey(userId) && !hashMap.containsValue(name)) {
-                                HashMap<String, String> tempMap = new HashMap<>();
-                                tempMap.put(dtf.format(Instant.now()), member.getUser().getAsTag());
-                                usernames.put(member.getId(), tempMap);
-                                System.out.println("Added " + member.getUser().getAsTag());
-                            }
-                        }
-                    }
                 }
-
-            }
+            });
         }
         UsernameHistoryHandler.saveUsernameHistoryConfig();
     }

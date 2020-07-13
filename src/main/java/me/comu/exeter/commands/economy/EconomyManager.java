@@ -6,14 +6,6 @@ public class EconomyManager {
 
     private static HashMap<String, Integer> users = new HashMap<>();
 
-//    public EconomyManager(Guild guild)
-//    {
-//        for (Member member : guild.getMembers())
-//        {
-//            users.put(member, 0.0);
-//        }
-//    }
-
     public static void setBalance(String user, int amount) {
         users.put(user, amount);
     }

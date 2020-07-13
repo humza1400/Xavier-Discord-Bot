@@ -63,7 +63,7 @@ public class NitroGenCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"gennitro"};
+        return new String[] {"gennitro","nitro"};
     }
 
     @Override

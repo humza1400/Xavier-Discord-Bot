@@ -33,7 +33,6 @@ public class SetSuggestionChannelCommand implements ICommand {
         TextChannel channel = event.getChannel();
         logChannelID = channel.getIdLong();
         channelName = channel.getName();
-        //event.getChannel().sendMessage("Suggestion channel bound to `#" + channelName + "`").queue();
         event.getChannel().sendMessage(EmbedUtils.embedMessage("Please use " + Core.PREFIX + "suggest [suggestion] to give your suggestion to the server!").setTitle("Suggestion Channel Set To #" + channelName).setColor(Color.BLUE).setFooter("Suggested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();
         bound = true;
     }

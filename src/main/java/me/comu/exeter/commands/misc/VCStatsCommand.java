@@ -3,6 +3,7 @@ package me.comu.exeter.commands.misc;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.util.VCTrackingManager;
+import me.comu.exeter.utility.Utility;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -35,9 +36,9 @@ public class VCStatsCommand implements ICommand {
                 User user = event.getJDA().getUserById(x);
                 if (counter2 != 11) {
                     try {
-                        String name = Objects.requireNonNull(user).getName() + "#" + user.getDiscriminator().replaceAll("`", "\\`");
+                        String name = Utility.removeMarkdown(Objects.requireNonNull(user).getAsTag());
                         if (!(minuteMap.get(user.getId()) > 100000) && !(minuteMap.get(user.getId()) < 0) && !(hourMap.get(user.getId()) > 100000) && !(hourMap.get(user.getId()) < 0)) {
-                            stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(name.replaceAll("([_`~*>])", "\\\\$1")).append(" : ").append(hourMap.get(user.getId())).append(" hours ").append(minuteMap.get(user.getId()) % 60).append(" minutes\n");
+                            stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(Utility.removeMarkdown(name)).append(" : ").append(hourMap.get(user.getId())).append(" hours ").append(minuteMap.get(user.getId()) % 60).append(" minutes\n");
                             counter2++;
                         }
                     } catch (NullPointerException ex) {

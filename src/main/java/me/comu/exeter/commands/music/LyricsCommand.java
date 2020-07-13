@@ -179,6 +179,7 @@ public class LyricsCommand implements ICommand {
                                             event.getChannel().sendMessage(embedBuilder.build()).queue();
                                         }
                                     } catch (IOException e) {
+                                        message.editMessage("Encountered an error when locating lyrics.").queue();
                                         response.close();
                                         throw new RuntimeException(e);
                                     }

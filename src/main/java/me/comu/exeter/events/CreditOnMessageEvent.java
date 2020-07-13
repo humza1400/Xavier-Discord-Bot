@@ -4,6 +4,8 @@ import me.comu.exeter.commands.bot.ShowCreditMessagesCommand;
 import me.comu.exeter.commands.economy.EconomyManager;
 import me.comu.exeter.commands.misc.AFKCommand;
 import me.comu.exeter.util.ChatTrackingManager;
+import me.comu.exeter.utility.Utility;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -23,8 +25,8 @@ public class CreditOnMessageEvent extends ListenerAdapter {
         double d = Math.random();
         int amount = new Random().nextInt(31);
         if (d > 0.98 && amount != 0) {
-            if (ShowCreditMessagesCommand.creditNotifications)
-                event.getChannel().sendMessage(Objects.requireNonNull(event.getMember()).getUser().getName().replaceAll("([_`~*>])", "\\\\$1") + " got lucky and received " + MarkdownUtil.monospace(Integer.toString(amount)) + " credits!").queue();
+            if (ShowCreditMessagesCommand.creditNotifications && event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_WRITE))
+                event.getChannel().sendMessage(Utility.removeMarkdown(Objects.requireNonNull(event.getMember()).getUser().getName()) + " got lucky and received " + MarkdownUtil.monospace(Integer.toString(amount)) + " credits!").queue();
 
             if (EconomyManager.verifyUser(event.getAuthor().getId()))
                 EconomyManager.getUsers().put(event.getAuthor().getId(), 0);
@@ -52,7 +54,7 @@ public class CreditOnMessageEvent extends ListenerAdapter {
                 if (AFKCommand.afkUsers.get(member.getId()) == null) {
                     event.getChannel().sendMessage(Objects.requireNonNull(event.getGuild().getMemberById(member.getId())).getUser().getAsTag() + " is currently AFK.").queue();
                 } else {
-                    String message = AFKCommand.afkUsers.get(member.getId()).replaceAll("([_`~*>])", "\\\\$1");
+                    String message = Utility.removeMarkdown(AFKCommand.afkUsers.get(member.getId()));
                     event.getChannel().sendMessage(Objects.requireNonNull(event.getGuild().getMemberById(member.getId())).getUser().getAsTag() + " is currently AFK for `" + message + "`").queue();
                 }
             }

@@ -3,6 +3,7 @@ package me.comu.exeter.commands.moderation;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -21,7 +22,7 @@ public class FilterCommand implements ICommand {
             event.getChannel().sendMessage(getHelp()).queue();
             return;
         }
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR)) {
             event.getChannel().sendMessage("You don't have permission to toggle the filter").queue();
             return;
         }

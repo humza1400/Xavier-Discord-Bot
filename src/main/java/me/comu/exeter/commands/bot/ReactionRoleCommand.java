@@ -15,6 +15,7 @@ public class ReactionRoleCommand implements ICommand {
     public static String roleID;
     public static Emote emoji;
 
+    // make this into an event waiter
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
@@ -46,7 +47,7 @@ public class ReactionRoleCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Creates a reaction role with a message\n`" + Core.PREFIX + getInvoke() + "[message-id] <role-id> (emoji)`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Creates a reaction role with a message\n`" + Core.PREFIX + getInvoke() + " [message-id] <role-id> (emoji)`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override

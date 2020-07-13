@@ -77,7 +77,7 @@ public class JackpotCommand implements ICommand {
                 return;
             }
             if (autojackpot) {
-                jackpotExecutor = anc.scheduleAtFixedRate(winnerThread, 10, 10, TimeUnit.SECONDS);
+                jackpotExecutor = anc.scheduleAtFixedRate(winnerThread, 1, 1, TimeUnit.HOURS);
                 running = true;
                 event.getChannel().sendMessage("Started the jackpot! **" + Core.PREFIX + "jackpot info** for more information!").queue();
                 textChannel = event.getChannel().getId();
@@ -94,7 +94,7 @@ public class JackpotCommand implements ICommand {
             if (running) {
                 jackpotExecutor.cancel(true);
                 running = false;
-                event.getChannel().sendMessage("Stopped the jackpot!").queue();
+                event.getChannel().sendMessage("Stopped the jackpot! All credits have been returned to their original users").queue();
                 return;
             } else {
                 event.getChannel().sendMessage("The jackpot isn't running").queue();
@@ -149,12 +149,12 @@ public class JackpotCommand implements ICommand {
             } else {
                 if (jackpot.containsKey(member.getId())) {
                     int preCash = jackpot.get(member.getId());
-                    event.getChannel().sendMessage("**" + member.getUser().getAsTag() + "** has added **$" + amount + "** to the jackpot, totaling **$" + getTotalCash() + "**").queue();
+                    event.getChannel().sendMessage("**" + member.getUser().getAsTag() + "** has added **$" + amount + "** to the jackpot, totaling **$" + getTotalCash() + amount + "**").queue();
                     EconomyManager.setBalance(member.getId(), EconomyManager.getBalance(member.getId()) - amount);
                     jackpot.replace(member.getId(), preCash + amount);
                     EcoJSONHandler.saveEconomyConfig();
                 } else {
-                    event.getChannel().sendMessage("**" + member.getUser().getAsTag().replaceAll("([_`~*>])", "\\\\$1") + "** has entered the jackpot with **$" + amount + "** (" + (getTotalCash() == 0 ? "100" : Utility.round((double) amount / (double) getTotalCash() * 100, 2)) + "% of the total cash-pool)").queue();
+                    event.getChannel().sendMessage("**" + Utility.removeMarkdown(member.getUser().getAsTag()) + "** has entered the jackpot with **$" + amount + "** (" + (getTotalCash() == 0 ? "100" : Utility.round((double) amount / (double) getTotalCash() * 100, 2)) + "% of the total cash-pool)").queue();
                     EconomyManager.setBalance(member.getId(), EconomyManager.getBalance(member.getId()) - amount);
                     jackpot.put(member.getId(), amount);
                     EcoJSONHandler.saveEconomyConfig();
