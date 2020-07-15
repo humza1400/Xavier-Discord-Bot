@@ -27,6 +27,7 @@ public class SkipCommand implements ICommand {
         AudioManager audioManager = event.getGuild().getAudioManager();
         VoiceChannel voiceChannel = audioManager.getConnectedChannel();
         TextChannel textChannel = event.getChannel();
+
         if (!audioManager.isConnected()) {
             textChannel.sendMessage("I'm not even connected to a voice channel bro").queue();
             return;

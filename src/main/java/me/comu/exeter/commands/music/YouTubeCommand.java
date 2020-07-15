@@ -63,6 +63,7 @@ public class YouTubeCommand implements ICommand {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return "You're being rate-limited by the YouTube API, please try again later";
         }
         return responseUrl;
     }

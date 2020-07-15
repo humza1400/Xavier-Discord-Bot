@@ -26,7 +26,7 @@ public class SuggestCommand implements ICommand {
         if (event.getChannel().getIdLong() == SetSuggestionChannelCommand.logChannelID) {
             StringJoiner stringJoiner = new StringJoiner(" ");
             args.forEach(stringJoiner::add);
-            event.getChannel().sendMessage(EmbedUtils.embedMessage(stringJoiner.toString()).setColor(Color.BLUE).setFooter("Suggested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue((message -> {
+            event.getChannel().sendMessage(EmbedUtils.embedMessage(stringJoiner.toString()).setColor(Color.BLUE).setFooter("Suggested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue((message -> {
                 event.getChannel().addReactionById(message.getId(), "U+1F44D").queue();
                 event.getChannel().addReactionById(message.getId(), "U+1F44E").queue();
             }));

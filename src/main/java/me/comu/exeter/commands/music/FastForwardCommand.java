@@ -38,12 +38,13 @@ public class FastForwardCommand implements ICommand {
             textChannel.sendMessage("There is no song playing to fast forward").queue();
             return;
         }
-        int time = -1;
+        int time;
         try {
             time = Integer.parseInt(args.get(0));
 
         }  catch (NumberFormatException ex) {
             textChannel.sendMessage("Please insert a valid number to seek to.").queue();
+            return;
         }
         player.getPlayingTrack().setPosition(Utility.timeToMS(0, 0, time));
         event.getChannel().sendMessage("Fast-forwarded by " + time + " seconds").queue();

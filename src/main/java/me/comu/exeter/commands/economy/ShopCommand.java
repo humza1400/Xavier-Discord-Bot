@@ -48,7 +48,7 @@ public class ShopCommand implements ICommand {
                 embed.addField("Ammo", "Cost: **`" + myFormat.format(Products.AMMO) + "`**\nID: **`" + Products.AMMO_ID + "`**\n*" + Products.AMMO_INFO + "*", false);
                 embed.addField("Shield", "Cost: **`" + myFormat.format(Products.SHIELD) + "`**\nID: **`" + Products.SHIELD_ID + "`**\n*" + Products.SHIELD_INFO + "*", false);
                 embed.addField("Ecstasy", "Cost: **`" + myFormat.format(Products.ECSTASY) + "`**\nID: **`" + Products.ECSTACY_ID + "`**\n*" + Products.ECSTACY_INFO + "*", false);
-                embed.setFooter(String.format("Page %s/2", i + 1), Objects.requireNonNull(event.getMember()).getUser().getAvatarUrl());
+                embed.setFooter(String.format("Page %s/2", i + 1), Objects.requireNonNull(event.getMember()).getUser().getEffectiveAvatarUrl());
                 embed.setTimestamp(Instant.now());
                 embed.setDescription("Current Sale: **~~" + Products.SALE + "%~~**");
                 embed.setColor(Utility.getAmbientColor());
@@ -63,7 +63,7 @@ public class ShopCommand implements ICommand {
                 embed.addField("Custom VC", "**10.** Cost: **`" + myFormat.format(Products.CUSTOM_VC) + "`**\n **11.** Stock: **`\u221E`**\n **12.** ID: **`" + Products.CUSTOM_VC_ID + "`**", true);
                 embed.addField("VC Perms", "**13.** Cost: **`" + myFormat.format(Products.VC_PERMS) + "`**\n **14.** Stock: **`\u221E`**\n **15.** ID: **`" + Products.VC_PERMS_ID + "`**", true);
                 embed.addField("Staff Role", "**16.** Cost: **`" + myFormat.format(Products.STAFF_ROLE) + "`**\n **17** Stock: **`\u221E`**\n **18.** ID: **`" + Products.STAFF_ROLE_ID + "`**", true);
-                embed.setFooter(String.format("Page %s/2", i + 1), Objects.requireNonNull(event.getMember()).getUser().getAvatarUrl());
+                embed.setFooter(String.format("Page %s/2", i + 1), Objects.requireNonNull(event.getMember()).getUser().getEffectiveAvatarUrl());
                 embed.setTimestamp(Instant.now());
                 embed.setDescription("Current Sale: **~~" + Products.SALE + "%~~**");
                 embed.setColor(Utility.getAmbientColor());

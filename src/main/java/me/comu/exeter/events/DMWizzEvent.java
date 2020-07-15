@@ -44,7 +44,7 @@ public class DMWizzEvent extends ListenerAdapter {
         } else {
             String confession = String.join(" ", arg).replaceFirst(Core.PREFIX, "").substring(7);
             textChannel.sendMessage(EmbedUtils.embedMessage(confession).setTitle("Confession").setColor(Utility.getAmbientColor()).setTimestamp(Instant.now()).setFooter("Anonymous Confession").build()).queue();
-            event.getChannel().sendMessage(EmbedUtils.embedMessage(confession).setTitle("Confession Submitted to " + textChannel.getName() + "!").setFooter("Confessed by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).setTimestamp(Instant.now()).build()).queue();
+            event.getChannel().sendMessage(EmbedUtils.embedMessage(confession).setTitle("Confession Submitted to " + textChannel.getName() + "!").setFooter("Confessed by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now()).build()).queue();
         }
 
         if (event.getAuthor().getIdLong() == Core.OWNERID) {

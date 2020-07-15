@@ -2,6 +2,7 @@ package me.comu.exeter.events;
 
 import me.comu.exeter.commands.moderation.AutoMuteCommand;
 import me.comu.exeter.commands.moderation.FilterCommand;
+import me.comu.exeter.commands.moderation.MuteCommand;
 import me.comu.exeter.commands.moderation.SetMuteRoleCommand;
 import me.comu.exeter.core.Core;
 import net.dv8tion.jda.api.Permission;
@@ -41,6 +42,7 @@ public class FilterEvent extends ListenerAdapter {
                                     event.getMessage().delete().reason("Sent Invite Link").queue(null, null);
                                     event.getChannel().sendMessage("Invite links are not allowed, " + event.getMember().getAsMention() + ". **Enjoy your mute. (" + warning + ")**").queue();
                                     event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).queue();
+                                    MuteCommand.mutedUsers.add(event.getMember().getId());
                                     return;
                                 }
                                 AutoMuteCommand.users.replace(event.getMember().getId(), warning + 1);
@@ -63,6 +65,7 @@ public class FilterEvent extends ListenerAdapter {
                                     event.getMessage().delete().reason("Mass Mentioned").queue(null, null);
                                     event.getChannel().sendMessage("Mass mentions are not allowed, " + event.getMember().getAsMention() + ". **Enjoy your mute. (" + warning + ")**").queue();
                                     event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).queue();
+                                    MuteCommand.mutedUsers.add(event.getMember().getId());
                                     return;
                                 }
                                 AutoMuteCommand.users.replace(event.getMember().getId(), warning + 1);

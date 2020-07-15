@@ -74,6 +74,4 @@ class Listener extends ListenerAdapter {
             manager.handle(event);
         }
     }
-
-
 }

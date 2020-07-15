@@ -24,7 +24,7 @@ dependencies {
     implementation group: 'com.google.guava', name: 'guava', version: '28.0-jre'
     implementation group: 'me.duncte123', name: 'botCommons', version: '1.0.61'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.26'
-    implementation group: 'net.dv8tion', name: 'JDA', version: '4.2.0_172'
+    implementation group: 'net.dv8tion', name: 'JDA', version: '4.2.0_178'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.10.2'
     implementation group: 'javax.mail', name: 'mail', version: '1.4.7'
     implementation group: 'org.openjfx', name: 'javafx-swing', version: '8'

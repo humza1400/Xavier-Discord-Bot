@@ -38,16 +38,17 @@ public class Utility {
     public static final Map<String, String> marriedUsers = new HashMap<>();
     public static boolean beingProcessed = false;
 
-    public static String removeMentions(String string)
-    {
-        return string.replaceAll("@everyone", "@\u200beveryone").replaceAll("@here","\u200bhere").replaceAll("@&", "@\u200b&");
+    public static String removeMentions(String string) {
+        return string.replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere").replaceAll("@&", "@\u200b&");
     }
 
-    public static String removeMarkdown(String string)
-    {
+    public static String removeMarkdown(String string) {
         return string.replaceAll("([_`~*>])", "\\\\$1");
     }
 
+    public static String removeMentionsAndMarkdown(String string) {
+        return string.replaceAll("@everyone", "@\u200beveryone").replaceAll("@here", "\u200bhere").replaceAll("@&", "@\u200b&").replaceAll("([_`~*>])", "\\\\$1");
+    }
 
     public static void sendPrivateMessage(JDA jda, String userId, String content) {
         RestAction<User> action = jda.retrieveUserById(userId);
@@ -88,6 +89,16 @@ public class Utility {
         else if (marriedUsers.containsValue(user))
             return getKeyByValue(marriedUsers, user);
         return "No Married User";
+    }
+
+    public static boolean isUrl(String input) {
+        try {
+            new URL(input);
+
+            return true;
+        } catch (MalformedURLException ignored) {
+            return false;
+        }
     }
 
     public static long timeToMS(int hours, int minutes, int seconds) {
@@ -211,7 +222,7 @@ public class Utility {
         sourceCalendar.setTimeZone(sourceTimeZone);
 
         Calendar targetCalendar = Calendar.getInstance();
-        for (int field : new int[] {Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, Calendar.HOUR, Calendar.MINUTE, Calendar.SECOND, Calendar.MILLISECOND}) {
+        for (int field : new int[]{Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, Calendar.HOUR, Calendar.MINUTE, Calendar.SECOND, Calendar.MILLISECOND}) {
             targetCalendar.set(field, sourceCalendar.get(field));
         }
         targetCalendar.setTimeZone(targetTimeZone);
@@ -219,7 +230,7 @@ public class Utility {
         return targetCalendar.getTime();
     }
 
-    public static void saveImage(String imageUrl, String path, String name)  {
+    public static void saveImage(String imageUrl, String path, String name) {
         try {
             System.out.println("attempting to save " + imageUrl);
             URLConnection connection = new URL(imageUrl).openConnection();
@@ -345,6 +356,7 @@ public class Utility {
 
         return response;
     }
+
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
@@ -352,6 +364,17 @@ public class Utility {
         value = value * factor;
         long tmp = Math.round(value);
         return (double) tmp / factor;
+    }
+
+    public static String getYouTubeId(String youTubeUrl) {
+        String pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed/)[^#&?]*";
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(youTubeUrl);
+        if (matcher.find()) {
+            return matcher.group();
+        } else {
+            return "error";
+        }
     }
 }
 

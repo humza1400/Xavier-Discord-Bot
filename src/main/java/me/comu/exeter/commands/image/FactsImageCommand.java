@@ -1,4 +1,4 @@
-package me.comu.exeter.commands.misc;
+package me.comu.exeter.commands.image;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class FactsCommand implements ICommand {
+public class FactsImageCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -48,6 +48,6 @@ public class FactsCommand implements ICommand {
 
     @Override
     public Category getCategory() {
-        return Category.MISC;
+        return Category.IMAGE;
     }
 }

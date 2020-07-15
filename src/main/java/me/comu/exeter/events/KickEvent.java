@@ -42,14 +42,14 @@ public class KickEvent extends ListenerAdapter {
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
                         LocalDateTime now = LocalDateTime.now();
                         String botCheck = Objects.requireNonNull(member).getUser().isBot() ? "`Yes`" : "`No`";
-                        Utility.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Kick`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
-                        Utility.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Kick`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
+                        Utility.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + Utility.removeMarkdown(event.getGuild().getName()) + "**\nWizzer: `" + Utility.removeMarkdown(member.getUser().getAsTag()) + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Kick`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
+                        Utility.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + Utility.removeMarkdown(event.getGuild().getName()) + "**\nWizzer: `" + Utility.removeMarkdown(member.getUser().getAsTag()) + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Kick`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
                         if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
                             for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
                                 if (Utility.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                     User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                     if (whitelistUser != null && !whitelistUser.isBot())
-                                        Utility.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + event.getGuild().getName() + "**\nWizzer: `" + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Kick`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
+                                        Utility.sendPrivateMessage(event.getJDA(), Objects.requireNonNull(event.getJDA().getUserById(x.getUserID())).getId(), "**Anti-Raid Report For " + Utility.removeMarkdown(event.getGuild().getName()) + "**\nWizzer: `" + Utility.removeMarkdown(member.getUser().getAsTag()) + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `Kick`\nBot: " + botCheck + "\nAction Taken: `Banned User`");
                                 }
                             }
                         }

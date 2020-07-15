@@ -24,7 +24,7 @@ public class InventoryCommand implements ICommand {
         if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle(event.getAuthor().getName() + "'s Inventory");
-            embedBuilder.setThumbnail(event.getAuthor().getAvatarUrl());
+            embedBuilder.setThumbnail(event.getAuthor().getEffectiveAvatarUrl());
             embedBuilder.setColor(Utility.getAmbientColor());
             embedBuilder.setDescription("**Protection** - " + (protection.contains(Objects.requireNonNull(event.getMember()).getId()) ? "`True`" : "`False`")+"\n**Shield** - " + (shield.containsKey(Objects.requireNonNull(event.getMember()).getId()) ? "`" + shield.get(event.getMember().getId()) + "`" : "`None`") + "\n**Draco** - " + (draco.contains(event.getMember().getId()) ? "`Strapped with it`" : "`Ain't strapped with it`")+"\n**Glock** - " + (glock.contains(event.getMember().getId()) ? "Got it on me" : "`I'mma get caught lackin`") + "\n**Ammo** - " + (ammo.containsKey(event.getMember().getId()) ? "`" + ammo.get(event.getMember().getId()) + "`" : "`None`") + "\n**Ecstasy** - " + (ecstasy.containsKey(event.getMember().getId()) ? "`" + ecstasy.get(event.getMember().getId()) + "`" : "`None`"));
             embedBuilder.setTimestamp(Instant.now());

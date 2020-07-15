@@ -55,7 +55,7 @@ public class ChangeBotAvatarCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"botavatar", "changebotpfp", "botpfp", "setbotpfp", "setbotavatar"};
+        return new String[]{"botavatar", "changebotpfp", "botpfp", "setbotpfp", "setbotavatar","setavatar"};
     }
 
     @Override

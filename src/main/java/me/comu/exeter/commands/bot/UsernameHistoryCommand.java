@@ -58,7 +58,7 @@ public class UsernameHistoryCommand implements ICommand {
                                 .setTitle(user.getAsTag() + "'s Name History (" + user.getId() + ")")
                                 .setColor(Utility.getAmbientColor())
                                 .setDescription(stringBuilder.toString())
-                                .setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl())
+                                .setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl())
                                 .build()).queue();
                     }
                 }, failure -> event.getChannel().sendMessage("No user exists in my cache with that ID").queue());
@@ -83,7 +83,7 @@ public class UsernameHistoryCommand implements ICommand {
                         .setTitle(user.getAsTag() + "'s Name History (" + user.getId() + ")")
                         .setColor(Utility.getAmbientColor())
                         .setDescription(stringBuilder.toString())
-                        .setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl())
+                        .setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl())
                         .build()).queue();
             }
         }

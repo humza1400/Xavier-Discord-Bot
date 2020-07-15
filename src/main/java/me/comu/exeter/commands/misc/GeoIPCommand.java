@@ -52,7 +52,7 @@ public class GeoIPCommand implements ICommand {
             embed.addField("Postal Code", "**" + postalcode + "**", true);
             embed.addField("Latitude", "**" + latitude + "**", true);
             embed.addField("Longitude", "**" + longitude + "**", true);
-            embed.setFooter("Requested by " + Objects.requireNonNull(event.getMember()).getUser().getName() + "#" + event.getMember().getUser().getDiscriminator(), event.getMember().getUser().getAvatarUrl());
+            embed.setFooter("Requested by " + Objects.requireNonNull(event.getMember()).getUser().getName() + "#" + event.getMember().getUser().getDiscriminator(), event.getMember().getUser().getEffectiveAvatarUrl());
             embed.setTimestamp(Instant.now());
             embed.setDescription(url.toString());
             event.getChannel().sendMessage(embed.build()).queue();

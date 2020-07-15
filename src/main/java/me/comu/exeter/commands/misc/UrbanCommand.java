@@ -34,7 +34,7 @@ public class UrbanCommand implements ICommand {
                 .url("https://mashape-community-urban-dictionary.p.rapidapi.com/define?term=" + link)
                 .get()
                 .addHeader("x-rapidapi-host", "mashape-community-urban-dictionary.p.rapidapi.com")
-                .addHeader("x-rapidapi-key", "994cd14985mshaa0c788e9757c0dp192967jsn161c66f2a722")
+                .addHeader("x-rapidapi-key", "\u0039\u0039\u0034\u0063\u0064\u0031\u0034\u0039\u0038\u0035\u006d\u0073\u0068\u0061\u0061\u0030\u0063\u0037\u0038\u0038\u0065\u0039\u0037\u0035\u0037\u0063\u0030\u0064\u0070\u0031\u0039\u0032\u0039\u0036\u0037\u006a\u0073\u006e\u0031\u0036\u0031\u0063\u0036\u0036\u0066\u0032\u0061\u0037\u0032\u0032")
                 .build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {

@@ -44,7 +44,7 @@ public class WarnCommand implements ICommand {
                     embedBuilder.setColor(0xFFDE53);
                     embedBuilder.setTitle(":warning:Warning:warning:");
                     embedBuilder.setDescription("Warned " + target.getAsMention());
-                    embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+                    embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl());
                     embedBuilder.setTimestamp(Instant.now());
                     event.getMessage().delete().queueAfter(3, TimeUnit.MILLISECONDS);
                     event.getChannel().sendMessage(embedBuilder.build()).queue();
@@ -56,7 +56,7 @@ public class WarnCommand implements ICommand {
                     int subIndex = Core.PREFIX.length() + 5;
                     String reason = message.substring(subIndex).replaceFirst(args.get(0), "");
                     embedBuilder.setDescription("Warned " + target.getAsMention() + " for `" + reason + "`");
-                    embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+                    embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl());
                     embedBuilder.setTimestamp(Instant.now());
                     event.getMessage().delete().queueAfter(3, TimeUnit.MILLISECONDS);
                     event.getChannel().sendMessage(embedBuilder.build()).queue();
@@ -69,7 +69,7 @@ public class WarnCommand implements ICommand {
                 embedBuilder.setColor(0xFFDE53);
                 embedBuilder.setTitle(":warning:Warning:warning:");
                 embedBuilder.setDescription("Warned " + target.getAsMention());
-                embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+                embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl());
                 embedBuilder.setTimestamp(Instant.now());
                 event.getMessage().delete().queueAfter(3, TimeUnit.MILLISECONDS);
                 event.getChannel().sendMessage(embedBuilder.build()).queue();
@@ -82,7 +82,7 @@ public class WarnCommand implements ICommand {
                     int subIndex = Core.PREFIX.length() + 5 + target.getAsMention().length();
                     String reason = message.substring(subIndex);
                     embedBuilder.setDescription("Warned " + target.getAsMention() + " for `" + reason + "`");
-                    embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
+                    embedBuilder.setFooter("Warned by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl());
                     embedBuilder.setTimestamp(Instant.now());
                 event.getMessage().delete().queueAfter(3, TimeUnit.MILLISECONDS);
                     event.getChannel().sendMessage(embedBuilder.build()).queue();

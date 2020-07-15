@@ -37,8 +37,7 @@ public class TokenInfoCommand implements ICommand {
                     .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) discord/0.0.306 Chrome/78.0.3904.130 Electron/7.1.11 Safari/537.36")
                     .addHeader("Content-Type", "application/x-www-form-urlencoded")
                     .build();
-            try {
-                Response response = okHttpClient.newCall(botRequest).execute();
+            try (Response response = okHttpClient.newCall(botRequest).execute()){
                 if (response.code() == 200) {
                     String jsonResponse = Objects.requireNonNull(response.body()).string();
                     event.getChannel().sendMessage(MarkdownUtil.codeblock("Printed oAuth information", jsonResponse)).queue();
@@ -56,8 +55,7 @@ public class TokenInfoCommand implements ICommand {
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bot " + args.get(0))
                     .build();
-            try {
-                Response response = okHttpClient.newCall(botRequest).execute();
+            try (Response response = okHttpClient.newCall(botRequest).execute()){
                 if (response.code() == 200) {
                     String jsonResponse = Objects.requireNonNull(response.body()).string();
                     JsonParser parser = new JsonParser();

@@ -21,7 +21,6 @@ public class ClearQueueCommand implements ICommand {
             textChannel.sendMessage("I'm not even connected to a voice channel bro").queue();
             return;
         }
-        audioManager.isConnected();
         if (!Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
             event.getChannel().sendMessage("You need to be in the same voice channel as me to clear the queue").queue();
             return;

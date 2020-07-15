@@ -24,7 +24,7 @@ public class ShipCommand implements ICommand {
             List<Member> members = event.getMessage().getMentionedMembers();
             if (event.getMessage().getMentionedMembers().size() == 1) {
                 if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-                    event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();
+                    event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
                 } else {
                     event.getChannel().sendMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").queue();
                 }
@@ -32,7 +32,7 @@ public class ShipCommand implements ICommand {
                 Member member1 = members.get(0);
                 Member member2 = members.get(1);
                 if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-                    event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(member2.getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();
+                    event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(member2.getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
                 } else {
                     event.getChannel().sendMessage("**" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(member2.getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").queue();
                 }
@@ -44,7 +44,7 @@ public class ShipCommand implements ICommand {
                     event.getChannel().sendMessage("Couldn't find that member, try mentioning them instead").queue();
                 } else {
                     if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-                        event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();
+                        event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
                     } else {
                         event.getChannel().sendMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").queue();
                     }
@@ -54,7 +54,7 @@ public class ShipCommand implements ICommand {
                 List<Member> members2 = event.getGuild().getMembersByName(args.get(0), true);
                 if (!members1.isEmpty() && !members2.isEmpty()) {
                     if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-                        event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(members1.get(0).getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(members2.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();
+                        event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(members1.get(0).getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(members2.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
                     } else {
                         event.getChannel().sendMessage("**" + Utility.removeMarkdown(members1.get(0).getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(members2.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").queue();
                     }

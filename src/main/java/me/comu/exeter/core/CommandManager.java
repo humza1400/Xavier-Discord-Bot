@@ -169,6 +169,26 @@ public class CommandManager {
         register(new StaticImageCommand());
         register(new WarpImageCommand());
         register(new WindowPerspectiveImageCommand());
+        register(new SupremeImageCommand());
+        register(new FactsImageCommand());
+        register(new DidYouMeanImageCommand());
+        register(new MagikImageCommand());
+        register(new ThreatImageCommand());
+        register(new BaguetteImageCommand());
+        register(new ClydeImageCommand());
+        register(new DistractBfImageCommand());
+        register(new CaptchaImageCommand());
+        register(new WhoWouldWinImageCommand());
+        register(new ChangeMyMindImageCommand());
+        register(new KannagenImageCommand());
+        register(new iPhoneImageCommand());
+        register(new KmsImageCommand());
+        register(new FurryImageCommand());
+        register(new TrapImageCommand());
+        register(new TrumpTweetImageCommand());
+        register(new DeepFryImageCommand());
+        register(new BlurpifyImageCommand());
+        register(new PHCommentImageCommand());
         // MISC
         register(new PingCommand());
         register(new SKSKSKCommand());
@@ -180,7 +200,6 @@ public class CommandManager {
         register(new IDLookupCommand());
         register(new HastebinCommand());
         register(new TagToID());
-        register(new SupremeCommand());
         register(new ServerPfpCommand());
         register(new WizzCommand());
         register(new InviteManagerCommand());
@@ -216,10 +235,14 @@ public class CommandManager {
         register(new PenisCommand());
         register(new ReverseGoogleSearchCommand());
         register(new LeetSpeakCommand());
-        register(new FactsCommand());
         register(new GetRGBCommand());
         register(new ShortenURLCommand());
         register(new TweetCommand());
+        register(new TranslateCommand());
+        register(new QuoteCommand());
+        register(new RandomWordCommand());
+        register(new GoogleCommand());
+        register(new InstagramCommand());
         // MODERATION
         register(new BindLogChannelCommand());
         register(new SetRainbowRoleCommand());
@@ -286,7 +309,9 @@ public class CommandManager {
         register(new FastForwardCommand());
         register(new RepeatCommand());
         register(new YouTubeCommand());
+        register(new ShuffleCommand());
         register(new LastFMCommand());
+        register(new AutoPlayCommand());
         // OWNER
         register(new CreateTextChannelCommand());
         register(new DeleteTextChannelsCommand());

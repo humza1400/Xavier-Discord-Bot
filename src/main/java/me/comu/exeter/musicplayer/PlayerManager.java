@@ -22,7 +22,6 @@ public class PlayerManager {
     private static PlayerManager INSTANCE;
     private final AudioPlayerManager playerManager;
     private final Map<Long, GuildMusicManager> musicManagers;
-    public static boolean loop;
 
     private PlayerManager() {
         this.musicManagers = new HashMap<>();
@@ -63,7 +62,7 @@ public class PlayerManager {
                     firstTrack = playlist.getTracks().remove(0);
                 }
 
-                channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
+                channel.sendMessage("Adding to queue **" + firstTrack.getInfo().title + "** from a playlist of **" + playlist.getTracks().size() + "** songs").queue();
 
                 play(musicManager, firstTrack);
 

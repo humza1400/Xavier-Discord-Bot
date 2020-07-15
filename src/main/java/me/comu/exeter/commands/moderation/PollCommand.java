@@ -50,7 +50,7 @@ public class PollCommand implements ICommand {
             embedBuilder.addField("Option 1", option1, false);
             embedBuilder.addField("Option 2", option2, false);
             embedBuilder.setColor(Color.BLUE);
-            embedBuilder.setFooter("Poll created by " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+            embedBuilder.setFooter("Poll created by " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getEffectiveAvatarUrl());
             event.getChannel().sendTyping().queue();
             event.getChannel().sendMessage(embedBuilder.build()).queue((message1) -> {
                         message1.addReaction("\u0031\u20E3").queue();

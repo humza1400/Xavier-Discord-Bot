@@ -56,7 +56,7 @@ public class KickCommand implements ICommand {
                             return;
                         }
                         event.getGuild().kick(Objects.requireNonNull(member1), args.get(0)).queue();
-                        event.getChannel().sendMessage("Kicked " + member1.getUser().getAsTag() + " for `" + stringJoiner.toString() + "`").queue();
+                        event.getChannel().sendMessage("Kicked **" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "** for `" + stringJoiner.toString() + "`").queue();
                         return;
                     }
                     if (!event.getGuild().getSelfMember().canInteract(Objects.requireNonNull(member1))) {
@@ -67,7 +67,7 @@ public class KickCommand implements ICommand {
                         return;
                     }
                     event.getGuild().kick(Objects.requireNonNull(member1)).queue(null, failure -> event.getChannel().sendMessage("You don't have permissions to kick that user").queue());
-                    event.getChannel().sendMessage("Kicked " + member1.getUser().getAsTag()).queue();
+                    event.getChannel().sendMessage("Kicked **" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "**").queue();
                     return;
 
                 } catch (NullPointerException ex) {
@@ -91,7 +91,7 @@ public class KickCommand implements ICommand {
                     event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
                     return;
                 }
-                channel.sendMessage(String.format("Kicked %#s", target.getUser())).queue();
+                channel.sendMessage(String.format("Kicked **%s**", Utility.removeMarkdown(target.getUser().getAsTag()))).queue();
             } else {
                 try {
                     if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
@@ -103,7 +103,7 @@ public class KickCommand implements ICommand {
                     event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
                     return;
                 }
-                channel.sendMessage(String.format("Kicked %#s for `%s`", target.getUser(), reason)).queue();
+                channel.sendMessage(String.format("Kicked **%s** for `%s`", Utility.removeMarkdown(target.getUser().getAsTag()), reason)).queue();
             }
             return;
         }
@@ -119,7 +119,7 @@ public class KickCommand implements ICommand {
                 event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
                 return;
             }
-            channel.sendMessage(String.format("Kicked %#s", target.getUser())).queue();
+            channel.sendMessage(String.format("Kicked **%s**", Utility.removeMarkdown(target.getUser().getAsTag()))).queue();
         } else {
             try {
                 if (!Objects.requireNonNull(event.getMember()).canInteract(target)) {
@@ -131,7 +131,7 @@ public class KickCommand implements ICommand {
                 event.getChannel().sendMessage("My role is not high enough to kick that user!").queue();
                 return;
             }
-            channel.sendMessage(String.format("Kicked %#s for %s", target.getUser(), reason)).queue();
+            channel.sendMessage(String.format("Kicked **%s** for %s", Utility.removeMarkdown(target.getUser().getAsTag()), reason)).queue();
         }
 
 

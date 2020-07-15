@@ -35,7 +35,7 @@ public class SetConfessionChannelCommand implements ICommand {
         TextChannel channel = event.getChannel();
         logChannelID = channel.getIdLong();
         channelName = channel.getName();
-        event.getChannel().sendMessage(EmbedUtils.embedMessage("Please DM the bot `" + Core.PREFIX + "confess [confession]` to give your anonymous confession to the server!").setTitle("Confession Channel Set To #" + channelName).setColor(Color.BLUE).setFooter("Confessed by " + event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl()).build()).queue();
+        event.getChannel().sendMessage(EmbedUtils.embedMessage("Please DM the bot `" + Core.PREFIX + "confess [confession]` to give your anonymous confession to the server!").setTitle("Confession Channel Set To #" + channelName).setColor(Color.BLUE).setFooter("Confessed by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
         bound = true;
     }
 

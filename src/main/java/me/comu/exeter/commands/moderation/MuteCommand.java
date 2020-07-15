@@ -9,11 +9,15 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class MuteCommand implements ICommand {
+
+    public static List<String> mutedUsers = new ArrayList<>();
+
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         TextChannel channel = event.getChannel();
@@ -57,9 +61,11 @@ public class MuteCommand implements ICommand {
                 if (reason.equals("")) {
                     event.getGuild().addRoleToMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason(String.format("Muted by %#s", event.getAuthor())).queue();
                     channel.sendMessage(String.format("Muted %s", target.getAsMention())).queue();
+                    mutedUsers.add(target.getId());
                 } else {
                     event.getGuild().addRoleToMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason(String.format("Muted by %#s for %s", event.getAuthor(), reason)).queue();
                     channel.sendMessage(String.format("Muted %s for `%s`", target.getAsMention(), reason)).queue();
+                    mutedUsers.add(target.getId());
                 }
             } catch (HierarchyException ex) {
                 channel.sendMessage("I cannot mute anyone whilst the mute role is at a higher precedent than my own").queue();
@@ -77,9 +83,11 @@ public class MuteCommand implements ICommand {
             if (reason.equals("")) {
                 event.getGuild().addRoleToMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason(String.format("Muted by %#s", event.getAuthor())).queue();
                 channel.sendMessage(String.format("Muted %s", target.getAsMention())).queue();
+                mutedUsers.add(target.getId());
             } else {
                 event.getGuild().addRoleToMember(target, Objects.requireNonNull(event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId())))).reason(String.format("Muted by %#s for %s", event.getAuthor(), reason)).queue();
                 channel.sendMessage(String.format("Muted %s for `%s`", target.getAsMention(), reason)).queue();
+                mutedUsers.add(target.getId());
             }
         } catch (HierarchyException ex) {
             channel.sendMessage("I cannot mute anyone whilst the mute role is at a higher precedent than my own").queue();

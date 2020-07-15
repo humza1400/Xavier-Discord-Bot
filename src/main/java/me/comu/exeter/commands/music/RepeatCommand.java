@@ -5,6 +5,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
+import me.comu.exeter.musicplayer.TrackScheduler;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -21,6 +22,7 @@ public class RepeatCommand implements ICommand {
         GuildMusicManager guildMusicManager = playerManager.getGuildMusicManager(event.getGuild());
         AudioManager audioManager = event.getGuild().getAudioManager();
         VoiceChannel voiceChannel = audioManager.getConnectedChannel();
+        TrackScheduler scheduler = guildMusicManager.scheduler;
         AudioPlayer player = guildMusicManager.player;
         TextChannel textChannel = event.getChannel();
 
@@ -28,7 +30,6 @@ public class RepeatCommand implements ICommand {
             textChannel.sendMessage("I'm not even connected to a voice channel bro").queue();
             return;
         }
-        audioManager.isConnected();
         if (!Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
             event.getChannel().sendMessage("You need to be in the same voice channel as me to loop a song").queue();
             return;
@@ -38,11 +39,11 @@ public class RepeatCommand implements ICommand {
             textChannel.sendMessage("There is no song playing to loop").queue();
             return;
         }
-        if(PlayerManager.loop) {
-            PlayerManager.loop = false;
+        if(scheduler.isRepeating()) {
+            scheduler.setRepeating(false);
             event.getChannel().sendMessage("Current tracks will no longer be looped").queue();
         }else {
-            PlayerManager.loop = true;
+            scheduler.setRepeating(true);
             event.getChannel().sendMessage("Current tracks will now be looped").queue();
         }
 

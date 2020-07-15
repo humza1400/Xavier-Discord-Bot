@@ -55,7 +55,7 @@ public class BanCommand implements ICommand {
                         StringJoiner stringJoiner1 = new StringJoiner(" ");
                         args.stream().skip(1).forEach(stringJoiner1::add);
                         event.getGuild().ban(member1, 0, stringJoiner1.toString()).queue();
-                        event.getChannel().sendMessage("Banned " + member1.getUser().getAsTag() + " for `" + stringJoiner1.toString() + "`").queue();
+                        event.getChannel().sendMessage("Banned **" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "** for `" + stringJoiner1.toString() + "`").queue();
                         return;
                     }
                     if (!event.getGuild().getSelfMember().canInteract(Objects.requireNonNull(member1))) {
@@ -66,7 +66,7 @@ public class BanCommand implements ICommand {
                         return;
                     }
                     event.getGuild().ban(member1, 0).queue();
-                    event.getChannel().sendMessage("Banned " + member1.getUser().getAsTag()).queue();
+                    event.getChannel().sendMessage("Banned **" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "**").queue();
                     return;
 
 
@@ -91,7 +91,7 @@ public class BanCommand implements ICommand {
                     return;
                 }
                 event.getGuild().ban(target, 0).reason(String.format("Banned by %#s", event.getAuthor())).queue();
-                channel.sendMessage(String.format("Banned %s", target.getUser().getAsTag())).queue();
+                channel.sendMessage(String.format("Banned **%s**", Utility.removeMarkdown(target.getUser().getAsTag()))).queue();
             } else {
                 if (!selfMember.canInteract(target)) {
                     event.getChannel().sendMessage("My role is not high enough to ban that user!").queue();
@@ -102,7 +102,7 @@ public class BanCommand implements ICommand {
                     return;
                 }
                 event.getGuild().ban(target, 0).reason(String.format("Banned by %#s for %s", event.getAuthor(), reason)).queue();
-                channel.sendMessage(String.format("Banned %s for `%s`", target.getUser().getAsTag(), reason)).queue();
+                channel.sendMessage(String.format("Banned **%s** for `%s`", Utility.removeMarkdown(target.getUser().getAsTag()), reason)).queue();
             }
             return;
         }

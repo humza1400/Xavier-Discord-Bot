@@ -30,7 +30,7 @@ public class AboutCommand implements ICommand {
         embedBuilder.addField("Information", "Powered by IntelliJ IDEA & Gradle 5.6.2", false);
         embedBuilder.addField("Help", "`" + Core.PREFIX + "help" + '`' , false);
         embedBuilder.setColor(0x521e8a);
-        embedBuilder.setFooter("Requested By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+        embedBuilder.setFooter("Requested By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getEffectiveAvatarUrl());
         event.getChannel().sendTyping().queue();
         event.getChannel().sendMessage(embedBuilder.build()).queue();
         embedBuilder.clear();

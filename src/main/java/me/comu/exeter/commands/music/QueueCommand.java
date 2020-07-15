@@ -14,18 +14,18 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
+import java.util.Queue;
 
 public class QueueCommand implements ICommand {
 
-    private static BlockingQueue<AudioTrack> uniQueue;
+    private static Queue<AudioTrack> uniQueue;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         TextChannel channel = event.getChannel();
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(event.getGuild());
-        BlockingQueue<AudioTrack> queue = musicManager.scheduler.getQueue();
+        Queue<AudioTrack> queue = musicManager.scheduler.getQueue();
         uniQueue = queue;
         if (queue.isEmpty()) {
             channel.sendMessage("The queue is empty").queue();
@@ -34,26 +34,19 @@ public class QueueCommand implements ICommand {
 
         int trackCount = Math.min(queue.size(), 20);
         List<AudioTrack> tracks = new ArrayList<>(queue);
-        EmbedBuilder builder = new EmbedBuilder().setTitle("Music Queue (" + queue.size() + ")").setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now());
-
+        EmbedBuilder builder = new EmbedBuilder().setTitle("Showing " + trackCount + "/"+ queue.size() + " Songs in the Queue").setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now());
+        int counter = 0;
         for (int i = 0; i < trackCount; i++) {
             AudioTrack track = tracks.get(i);
             AudioTrackInfo info = track.getInfo();
-
-            builder.appendDescription(String.format(
-                    "%s - %s (%s)\n",
-                    info.title,
-                    info.author,
-                    info.length
-
-            ));
+            builder.appendDescription(String.format("**" + ++counter + ".** %s - %s (%s)\n", info.title, info.author, info.length));
         }
 
         channel.sendMessage(builder.build()).queue();
 
     }
 
-    public static BlockingQueue<AudioTrack> getQueue()
+    public static Queue<AudioTrack> getQueue()
     {
         return uniQueue;
     }

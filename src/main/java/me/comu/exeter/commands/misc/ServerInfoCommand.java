@@ -41,7 +41,7 @@ public class ServerInfoCommand implements ICommand {
                 .setThumbnail(guild.getIconUrl())
                 .addField("Information", generalInfo, false)
                 .addField("Roles, Channels, & Member Counts", memberInfo, false)
-                .setFooter("Requested By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+                .setFooter("Requested By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getEffectiveAvatarUrl());
 
         event.getChannel().sendMessage(embed.build()).queue();
     }

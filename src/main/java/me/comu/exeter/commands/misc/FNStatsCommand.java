@@ -44,7 +44,7 @@ public class FNStatsCommand implements ICommand {
                 String jsonResponse = Objects.requireNonNull(response.body()).string();
                 JSONObject jsonObject = new JSONObject(jsonResponse);
                 if (jsonResponse.contains("error")) {
-                    event.getChannel().sendMessage("Couldn't find player: `" + Utility.removeMentions(username)+ "`.").queue();
+                    event.getChannel().sendMessage("Couldn't find player: `" + Utility.removeMentions(username) + "`.").queue();
                     return;
                 }
                 JSONArray stats = jsonObject.getJSONArray("lifeTimeStats");
@@ -87,6 +87,9 @@ public class FNStatsCommand implements ICommand {
         if (console.equalsIgnoreCase("psn") || console.equalsIgnoreCase("ps4") || console.equalsIgnoreCase("playstation") || console.equalsIgnoreCase("playstation4")) {
             return "psn";
         }
+        if (console.equalsIgnoreCase("switch") || console.equalsIgnoreCase("nintendo") || console.equalsIgnoreCase("nintendoswitch")  || console.equalsIgnoreCase("mobile") || console.equalsIgnoreCase("phone") || console.equalsIgnoreCase("android") || console.equalsIgnoreCase("ios") || console.equalsIgnoreCase("cell") || console.equalsIgnoreCase("cellphone")) {
+            return "touch";
+        }
         return null;
     }
 
@@ -100,6 +103,10 @@ public class FNStatsCommand implements ICommand {
         if (console.equalsIgnoreCase("psn") || console.equalsIgnoreCase("ps4") || console.equalsIgnoreCase("playstation") || console.equalsIgnoreCase("playstation4")) {
             return "Playstation 4";
         }
+        if (console.equalsIgnoreCase("switch") || console.equalsIgnoreCase("nintendo") || console.equalsIgnoreCase("nintendoswitch")  || console.equalsIgnoreCase("mobile") || console.equalsIgnoreCase("phone") || console.equalsIgnoreCase("android") || console.equalsIgnoreCase("ios") || console.equalsIgnoreCase("cell") || console.equalsIgnoreCase("cellphone")) {
+            return "touch";
+        }
+
         return null;
     }
 

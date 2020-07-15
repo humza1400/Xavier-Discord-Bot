@@ -11,10 +11,15 @@ import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
+import me.comu.exeter.pagination.method.Pages;
+import me.comu.exeter.pagination.model.Page;
+import me.comu.exeter.pagination.type.PageType;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.*;
-import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -24,10 +29,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class LyricsCommand implements ICommand {
 
@@ -65,8 +68,6 @@ public class LyricsCommand implements ICommand {
 
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
-            EmbedBuilder embedBuilder2 = new EmbedBuilder();
-            EmbedBuilder embedBuilder3 = new EmbedBuilder();
             Request request = new Request.Builder().addHeader("Authorization", "\u0042\u0065\u0061\u0072\u0065\u0072 \u002d\u006c\u0030\u0051\u0047\u0047\u0067\u0037\u0044\u0076\u0052\u0074\u0052\u0033\u0057\u0075\u0048\u0071\u006f\u0034\u0031\u0058\u0038\u0069\u0067\u0064\u0061\u0034\u0061\u0034\u0048\u0050\u0055\u004d\u0064\u0056\u0043\u0071\u0061\u0078\u0068\u0058\u0049\u0051\u006a\u0049\u0063\u0059\u0072\u0047\u004c\u0066\u0042\u0055\u0068\u0077\u0078\u0048\u0064\u006a\u004d\u006d\u0071\u0056").url(searchUrl).build();
             httpClient.newCall(request).enqueue(new Callback() {
                 @Override
@@ -107,12 +108,8 @@ public class LyricsCommand implements ICommand {
                                     String full_title = jsonObject.getJSONObject("response").getJSONObject("song").toMap().get("full_title").toString();
                                     if (songPlaying) {
                                         embedBuilder.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author, "", false);
-                                        embedBuilder2.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author, "", false);
-                                        embedBuilder3.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author, "", false);
                                     } else {
                                         embedBuilder.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(full_title, "", false);
-                                        embedBuilder2.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(full_title, "", false);
-                                        embedBuilder3.setThumbnail(song_thumbnail).setFooter("Powered by Genius\u2122", "https://images.genius.com/8ed669cadd956443e29c70361ec4f372.1000x1000x1.png").setColor(0xFFFB00).addField(full_title, "", false);
                                     }
                                     final String songUrl = jsonObject.getJSONObject("response").getJSONObject("song").toMap().get("url").toString();
                                     String lyrics;
@@ -120,64 +117,26 @@ public class LyricsCommand implements ICommand {
                                     message.delete().queue();
                                     try (InputStream stream = getInputStreamFor(songUrl);
                                          BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-                                        lyrics = findLyrics(reader);
-                                        if (formatLyrics(lyrics).length() > 4000) {
-                                            String[] parts = formatLyrics(lyrics).split("\n");
-                                            StringBuilder stringBuilder = new StringBuilder();
-                                            StringBuilder stringBuilder2 = new StringBuilder();
-                                            StringBuilder stringBuilder3 = new StringBuilder();
-                                            for (int i = 0; i < parts.length / 3; i++) {
-                                                stringBuilder.append(parts[i]).append("\n");
-                                            }
-                                            for (int i = (parts.length / 3); i < (2*parts.length)/3; i++) {
-                                                stringBuilder2.append(parts[i]).append("\n");
-                                            }
-                                            for (int i = (2*parts.length)/3; i < parts.length; i++) {
-                                                stringBuilder3.append(parts[i]).append("\n");
-                                            }
-                                            if (stringBuilder.toString().length() > 2048)
-                                            {
-                                                String[] lines = stringBuilder.toString().split("\n");
-                                                String[] lines2 = stringBuilder2.toString().split("\n");
-                                                String[] both = ArrayUtils.addAll(lines, lines2);
-                                                stringBuilder.setLength(0);
-                                                stringBuilder2.setLength(0);
-                                                for (int i = 0; i < (both.length / 2)-7; i++) {
-                                                    stringBuilder.append(both[i]).append("\n");
-                                                }
-                                                for (int i = (both.length / 2)-7; i < both.length; i++) {
-                                                    stringBuilder2.append(both[i]).append("\n");
-                                                }
-                                            }
-                                            System.out.println(stringBuilder.toString());
-                                            System.out.println("-------------------------");
-                                            System.out.println(stringBuilder2.toString());
-                                            System.out.println("-------------------------");
-                                            System.out.println(stringBuilder3.toString());
-                                            embedBuilder.setDescription(stringBuilder.toString());
-                                            embedBuilder2.setDescription(stringBuilder2.toString());
-                                            embedBuilder3.setDescription(stringBuilder3.toString());
-                                            event.getChannel().sendMessage(embedBuilder.build()).queue();
-                                            event.getChannel().sendMessage(embedBuilder2.build()).queue();
-                                            event.getChannel().sendMessage(embedBuilder3.build()).queue();
-                                        } else if (formatLyrics(lyrics).length() > 2000) {
-                                            String[] parts = formatLyrics(lyrics).split("\n");
-                                            StringBuilder stringBuilder = new StringBuilder();
-                                            StringBuilder stringBuilder2 = new StringBuilder();
-                                            for (int i = 0; i < parts.length / 2; i++) {
-                                                stringBuilder.append(parts[i]).append("\n");
-                                            }
-                                            for (int i = (parts.length / 2); i < parts.length; i++) {
-                                                stringBuilder2.append(parts[i]).append("\n");
-                                            }
-                                            embedBuilder.setDescription(stringBuilder.toString());
-                                            embedBuilder2.setDescription(stringBuilder2.toString());
-                                            event.getChannel().sendMessage(embedBuilder.build()).queue();
-                                            event.getChannel().sendMessage(embedBuilder2.build()).queue();
-                                        } else {
-                                            embedBuilder.setDescription(formatLyrics(lyrics));
-                                            event.getChannel().sendMessage(embedBuilder.build()).queue();
+                                        lyrics = formatLyrics(findLyrics(reader));
+                                        System.out.println(lyrics);
+                                        ArrayList<Page> pages = new ArrayList<>();
+                                        MessageBuilder messageBuilder = new MessageBuilder();
+                                        messageBuilder.setContent(lyrics);
+                                        Queue<Message> messages = messageBuilder.buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                                        for (Message message : messages) {
+                                            embedBuilder.setDescription(message.getContentRaw());
+                                            pages.add(new Page(PageType.EMBED, embedBuilder.build()));
                                         }
+                                        if (pages.size() > 1)
+                                        {
+                                            Page page = pages.get(pages.size()-1);
+                                            MessageEmbed messageEmbed = (MessageEmbed) page.getContent();
+                                            String preLyrics = messageEmbed.getDescription();
+                                            String postLyrics = preLyrics + lyrics.substring(lyrics.length()-1);
+                                            pages.set(pages.size()-1, new Page(PageType.EMBED, embedBuilder.setDescription(postLyrics).build()));
+
+                                        }
+                                        event.getChannel().sendMessage((MessageEmbed) pages.get(0).getContent()).queue(success -> Pages.paginate(success, pages, false, 60, TimeUnit.SECONDS));
                                     } catch (IOException e) {
                                         message.editMessage("Encountered an error when locating lyrics.").queue();
                                         response.close();

@@ -37,6 +37,8 @@ public class StealEmoteCommand implements ICommand {
             event.getChannel().sendMessage("You need to specify a name for the emoji if you're using an attachment").queue();
             return;
         }
+        System.out.println(event.getGuild().getEmotes().size());
+        System.out.println(event.getGuild().getMaxEmotes());
         if (event.getGuild().getEmotes().size() == event.getGuild().getMaxEmotes()) {
             event.getChannel().sendMessage("You reached the max level of emojis in your guild!").queue();
             Config.clearCacheDirectory();
@@ -159,7 +161,7 @@ public class StealEmoteCommand implements ICommand {
                                                     Config.clearCacheDirectory();
                                                     message.editMessage("Something went wrong with resizing the emoji, try again later").queue();
                                                 });
-                                            } catch (IOException ex)
+                                            } catch (Exception ex)
                                             {
                                                 message.editMessage("Something went wrong with resizing the emoji, try again later").queue();
                                                 Config.clearCacheDirectory();

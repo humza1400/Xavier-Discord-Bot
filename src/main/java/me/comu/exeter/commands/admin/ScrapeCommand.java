@@ -34,7 +34,7 @@ public class ScrapeCommand implements ICommand {
             embedBuilder.addField("Queued Scraped Users | (" +memberCount +")", args.get(0), true);
             embedBuilder.addField("Users:","[" + memberName + "]", true);
             embedBuilder.setColor(0x521e8a);
-            embedBuilder.setFooter("Scraped By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+            embedBuilder.setFooter("Scraped By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getEffectiveAvatarUrl());
             event.getChannel().sendTyping().queue();
             event.getChannel().sendMessage(embedBuilder.build()).queue();
             long time = System.currentTimeMillis();

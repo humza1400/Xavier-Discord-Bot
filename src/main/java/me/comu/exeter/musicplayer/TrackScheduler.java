@@ -10,23 +10,26 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * This class schedules tracks for the audio player. It contains the queue of tracks.
  */
 public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer player;
-    private final BlockingQueue<AudioTrack> queue;
+    private final Queue<AudioTrack> queue;
     private static TextChannel textChannel;
+    private boolean repeating = false;
 
     /**
      * @param player The audio player this scheduler uses
      */
     TrackScheduler(AudioPlayer player) {
         this.player = player;
-        this.queue = new LinkedBlockingQueue<>();
+        this.queue = new LinkedList<>();
     }
 
     /**
@@ -43,8 +46,13 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
-    public BlockingQueue<AudioTrack> getQueue() {
+    public Queue<AudioTrack> getQueue() {
         return queue;
+    }
+
+    public void shuffle()
+    {
+        Collections.shuffle((List<?>) queue);
     }
 
     /**
@@ -59,7 +67,7 @@ public class TrackScheduler extends AudioEventAdapter {
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         // loop
-        boolean loop = PlayerManager.loop && (endReason == AudioTrackEndReason.FINISHED);
+        boolean loop = isRepeating() && (endReason == AudioTrackEndReason.FINISHED);
         // save old track
         AudioTrack loopTrack = null;
         if (loop) {
@@ -78,6 +86,14 @@ public class TrackScheduler extends AudioEventAdapter {
         if (loop) {
             queue(loopTrack);
         }
+    }
+
+    public boolean isRepeating() {
+        return repeating;
+    }
+
+    public void setRepeating(boolean repeating) {
+        this.repeating = repeating;
     }
 
     public static TextChannel getTextChannel() {

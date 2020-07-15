@@ -26,7 +26,7 @@ public class GuildLookUpCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Gets the guild associated with the specified ID\n`" + Core.PREFIX + getInvoke() + "[id]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Gets the guild associated with the specified ID\n`" + Core.PREFIX + getInvoke() + " [id]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
