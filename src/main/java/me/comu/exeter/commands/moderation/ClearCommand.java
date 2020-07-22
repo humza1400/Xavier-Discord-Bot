@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 public class ClearCommand implements ICommand {
 
-    //TODO: add an embed clear
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         TextChannel channel = event.getChannel();
@@ -76,10 +75,10 @@ public class ClearCommand implements ICommand {
             return;
         } else if (args.get(0).equalsIgnoreCase("embed") || args.get(0).equalsIgnoreCase("embeds")) {
             event.getChannel().getHistory().retrievePast(100).queue((messages -> {
-                List<Message> messageStream = messages.stream().filter(message -> message.getAttachments().size() > 0).collect(Collectors.toList());
+                List<Message> messageStream = messages.stream().filter(message -> message.getEmbeds().size() > 0).collect(Collectors.toList());
                 int size = messageStream.size();
                 messageStream.forEach(message -> message.delete().queue());
-                event.getChannel().sendMessage("Deleted `" + size + "` messages that contained images").queue(message -> message.delete().queueAfter(3, TimeUnit.SECONDS));
+                event.getChannel().sendMessage("Deleted `" + size + "` messages that contained embeds").queue(message -> message.delete().queueAfter(3, TimeUnit.SECONDS));
 
             }));
             return;
