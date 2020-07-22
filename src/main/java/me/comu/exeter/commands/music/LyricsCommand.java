@@ -6,6 +6,7 @@ import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import me.comu.exeter.commands.admin.UnbanAllCommand;
+import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
@@ -72,6 +73,8 @@ public class LyricsCommand implements ICommand {
             httpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Config.clearCacheDirectory();
+                    event.getChannel().sendMessage("Something went wrong when accessing the endpoint").queue();
                     e.printStackTrace();
                 }
 
@@ -95,6 +98,8 @@ public class LyricsCommand implements ICommand {
                         httpClient.newCall(request).enqueue(new Callback() {
                             @Override
                             public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                Config.clearCacheDirectory();
+                                event.getChannel().sendMessage("Something went wrong when accessing the endpoint").queue();
                                 e.printStackTrace();
                             }
 
@@ -127,13 +132,12 @@ public class LyricsCommand implements ICommand {
                                             embedBuilder.setDescription(message.getContentRaw());
                                             pages.add(new Page(PageType.EMBED, embedBuilder.build()));
                                         }
-                                        if (pages.size() > 1)
-                                        {
-                                            Page page = pages.get(pages.size()-1);
+                                        if (pages.size() > 1) {
+                                            Page page = pages.get(pages.size() - 1);
                                             MessageEmbed messageEmbed = (MessageEmbed) page.getContent();
                                             String preLyrics = messageEmbed.getDescription();
-                                            String postLyrics = preLyrics + lyrics.substring(lyrics.length()-1);
-                                            pages.set(pages.size()-1, new Page(PageType.EMBED, embedBuilder.setDescription(postLyrics).build()));
+                                            String postLyrics = preLyrics + lyrics.substring(lyrics.length() - 1);
+                                            pages.set(pages.size() - 1, new Page(PageType.EMBED, embedBuilder.setDescription(postLyrics).build()));
 
                                         }
                                         event.getChannel().sendMessage((MessageEmbed) pages.get(0).getContent()).queue(success -> Pages.paginate(success, pages, false, 60, TimeUnit.SECONDS));

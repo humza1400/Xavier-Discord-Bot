@@ -39,7 +39,7 @@ public class StretchImageCommand implements ICommand {
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
                     CompletableFuture.supplyAsync(() -> image)
-                            .thenApply(img -> resizeImage(img))
+                            .thenApply(this::resizeImage)
                             .completeOnTimeout(null, 10, TimeUnit.SECONDS)
                             .thenAccept(processedImage -> {
                                 if (processedImage == null) {
@@ -51,7 +51,7 @@ public class StretchImageCommand implements ICommand {
                                         File newFilePNG = new File("cache/image" + newRandom + ".png");
                                         ImageIO.write(processedImage, "png", newFilePNG);
                                         message.delete().queue();
-                                        event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                        event.getChannel().sendFile(newFilePNG, "swag.png").queue(lol -> Config.clearCacheDirectory());
                                         Utility.beingProcessed = false;
                                     } catch (Exception ignored) {
                                         message.editMessage("Something went wrong with processing the image").queue();
@@ -75,7 +75,7 @@ public class StretchImageCommand implements ICommand {
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
                     CompletableFuture.supplyAsync(() -> image)
-                            .thenApply(img -> resizeImage(img))
+                            .thenApply(this::resizeImage)
                             .completeOnTimeout(null, 10, TimeUnit.SECONDS)
                             .thenAccept(processedImage -> {
                                 if (processedImage == null) {
@@ -87,7 +87,7 @@ public class StretchImageCommand implements ICommand {
                                         File newFilePNG = new File("cache/image" + newRandom + ".png");
                                         ImageIO.write(processedImage, "png", newFilePNG);
                                         message.delete().queue();
-                                        event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                        event.getChannel().sendFile(newFilePNG, "swag.png").queue(lol -> Config.clearCacheDirectory());
                                         Utility.beingProcessed = false;
                                     } catch (Exception ignored) {
                                         message.editMessage("Something went wrong with processing the image").queue();

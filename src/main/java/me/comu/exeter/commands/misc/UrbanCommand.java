@@ -73,7 +73,7 @@ public class UrbanCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"urbandictionary", "gethip"};
+        return new String[]{"urbandictionary","ud", "gethip"};
     }
 
     @Override

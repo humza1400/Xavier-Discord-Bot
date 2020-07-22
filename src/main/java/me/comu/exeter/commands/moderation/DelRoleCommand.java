@@ -15,18 +15,18 @@ public class DelRoleCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_ROLES) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to create roles").queue();
+            event.getChannel().sendMessage("You don't have permission to delete roles").queue();
             return;
         }
 
         if (!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
-            event.getChannel().sendMessage("I don't have permissions to create roles").queue();
+            event.getChannel().sendMessage("I don't have permissions to delete roles").queue();
             return;
         }
 
         if (args.isEmpty())
         {
-            event.getChannel().sendMessage("Please enter a role name to create").queue();
+            event.getChannel().sendMessage("Please enter a role name to delete").queue();
             return;
         }
         try {

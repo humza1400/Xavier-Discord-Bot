@@ -59,7 +59,7 @@ public class SearchImageCommand implements ICommand {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("all")
     private List<String> searchImage(String query) {
         List<String> images = new ArrayList<>();
         String ckey = "\u0041\u0049\u007a\u0061\u0053\u0079\u0041\u006c\u0073\u0039\u007a\u0072\u0056\u0056\u0051\u0074\u005a\u006b\u0073\u006d\u002d\u0074\u004d\u0072\u004b\u004c\u0068\u006d\u0058\u0078\u0033\u0054\u0031\u0068\u0072\u0074\u005f\u0035\u0063";

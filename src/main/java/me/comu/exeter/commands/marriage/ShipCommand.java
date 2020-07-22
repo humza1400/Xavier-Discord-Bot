@@ -24,17 +24,17 @@ public class ShipCommand implements ICommand {
             List<Member> members = event.getMessage().getMentionedMembers();
             if (event.getMessage().getMentionedMembers().size() == 1) {
                 if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-                    event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
+                    event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped!").setImage(getShipImage(event.getAuthor().getEffectiveAvatarUrl(), members.get(0).getUser().getEffectiveAvatarUrl())).setTitle("Ship \u2764").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
                 } else {
-                    event.getChannel().sendMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").queue();
+                    event.getChannel().sendMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped!").queue();
                 }
             } else {
                 Member member1 = members.get(0);
                 Member member2 = members.get(1);
                 if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-                    event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(member2.getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
+                    event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(member2.getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped!").setTitle("Ship \u2764").setImage(getShipImage(member1.getUser().getEffectiveAvatarUrl(), member2.getUser().getEffectiveAvatarUrl())).setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
                 } else {
-                    event.getChannel().sendMessage("**" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(member2.getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").queue();
+                    event.getChannel().sendMessage("**" + Utility.removeMarkdown(member1.getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(member2.getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped!").queue();
                 }
             }
         } else {
@@ -44,19 +44,19 @@ public class ShipCommand implements ICommand {
                     event.getChannel().sendMessage("Couldn't find that member, try mentioning them instead").queue();
                 } else {
                     if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-                        event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
+                        event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped!").setImage(getShipImage(event.getAuthor().getEffectiveAvatarUrl(), members.get(0).getUser().getEffectiveAvatarUrl())).setTitle("Ship \u2764").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
                     } else {
-                        event.getChannel().sendMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").queue();
+                        event.getChannel().sendMessage("**" + Utility.removeMarkdown(event.getAuthor().getAsTag()) + "** and **" + Utility.removeMarkdown(members.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped!").queue();
                     }
                 }
             } else {
                 List<Member> members1 = event.getGuild().getMembersByName(args.get(0), true);
-                List<Member> members2 = event.getGuild().getMembersByName(args.get(0), true);
+                List<Member> members2 = event.getGuild().getMembersByName(args.get(1), true);
                 if (!members1.isEmpty() && !members2.isEmpty()) {
                     if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-                        event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(members1.get(0).getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(members2.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").setTitle("Ship").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
+                        event.getChannel().sendMessage(EmbedUtils.embedMessage("**" + Utility.removeMarkdown(members1.get(0).getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(members2.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped!").setImage(getShipImage(members1.get(0).getUser().getEffectiveAvatarUrl(), members2.get(0).getUser().getEffectiveAvatarUrl())).setTitle("Ship \u2764").setColor(Utility.getAmbientColor()).setFooter("Shipped by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
                     } else {
-                        event.getChannel().sendMessage("**" + Utility.removeMarkdown(members1.get(0).getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(members2.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped! \u2764").queue();
+                        event.getChannel().sendMessage("**" + Utility.removeMarkdown(members1.get(0).getUser().getAsTag()) + "** and **" + Utility.removeMarkdown(members2.get(0).getUser().getAsTag()) + "** have a **" + chance + "%** of being shipped!").queue();
                     }
                 } else {
                     event.getChannel().sendMessage("Couldn't find both members, try mentioning them instead").queue();
@@ -64,6 +64,11 @@ public class ShipCommand implements ICommand {
             }
         }
     }
+
+    private String getShipImage(String url, String url2) {
+        return "https://api.alexflipnote.dev//ship?user=" + url + "&user2=" + url2;
+    }
+
 
     @Override
     public String getHelp() {

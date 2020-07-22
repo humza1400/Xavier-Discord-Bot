@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class AutoPlayCommand implements ICommand {
 
-    public static List<String> autoPlayGuilds = new ArrayList<>();
+    public static final List<String> autoPlayGuilds = new ArrayList<>();
     private final YouTube youTube;
 
     public AutoPlayCommand() {

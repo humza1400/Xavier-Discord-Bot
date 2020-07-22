@@ -36,8 +36,9 @@ public class CopyRolesCommand implements ICommand {
 
     }
 
-    static void clearCopiedRoles(List<RestorableRole> roles)
-    {roles.clear();}
+    static void clearCopiedRoles(List<RestorableRole> roles) {
+        roles.clear();
+    }
 
 
     @Override

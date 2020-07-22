@@ -2,20 +2,33 @@ package me.comu.exeter.commands.misc;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
 public class DogCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage(EmbedUtils.embedImage(getCatUrl()).build()).queue();
+        try {
+            BufferedImage img = ImageIO.read(new URL(getCatUrl()));
+            File file = new File("cache/downloaded.png");
+            ImageIO.write(img, "png", file);
+            event.getChannel().sendFile(file, "swag.png").queue(lol -> Config.clearCacheDirectory());
+        } catch (Exception ex)
+        {
+            Config.clearCacheDirectory();
+            event.getChannel().sendMessage("Somethign went wrong, try again later").queue();
+        }
     }
 
     private String getCatUrl() {

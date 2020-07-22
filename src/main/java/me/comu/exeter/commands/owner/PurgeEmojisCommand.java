@@ -1,4 +1,4 @@
-package me.comu.exeter.commands.nuke;
+package me.comu.exeter.commands.owner;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;

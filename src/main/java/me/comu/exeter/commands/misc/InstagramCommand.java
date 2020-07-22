@@ -12,12 +12,16 @@ import okhttp3.Response;
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class InstagramCommand implements ICommand {
+
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy h:mm a").withLocale(Locale.US).withZone(ZoneId.of("America/New_York"));
+
     @SuppressWarnings("unchecked")
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -30,7 +34,7 @@ public class InstagramCommand implements ICommand {
 
 
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(endpoint.replace("{name}", args.get(0))).get().build();
+        Request request = new Request.Builder().addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36").url(endpoint.replace("{name}", args.get(0))).get().build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 String jsonResponse = Objects.requireNonNull(response.body()).string();
@@ -44,11 +48,33 @@ public class InstagramCommand implements ICommand {
                 String bioName = (String) userObject.get("full_name");
                 String bioDesc = (String) userObject.get("biography");
                 String firstPic = null;
+                String caption = null;
+                int comments = -1;
+                int likes = -1;
+                int epoch = -1;
+                NumberFormat myFormat = NumberFormat.getInstance();
+                ArrayList<?> objects = ((HashMap<String, ArrayList<?>>) userObject.get("edge_owner_to_timeline_media")).get("edges");
+                if (!objects.isEmpty())
+                {
+                    HashMap<String, HashMap<?, ?>> hashMap = ((HashMap<String, HashMap<?, ?>>) objects.get(0));
+                    HashMap<?, ?> nodeMap = hashMap.get("node");
+                    firstPic = (String) nodeMap.get("display_url");
+                    likes = ((HashMap<String, Integer>) nodeMap.get("edge_liked_by")).get("count");
+                    comments = ((HashMap<String, Integer>) nodeMap.get("edge_media_to_comment")).get("count");
+                    epoch = (Integer) nodeMap.get("taken_at_timestamp");
+                    ArrayList<?> captionList = ((HashMap<String, ArrayList<?>>) nodeMap.get("edge_media_to_caption")).get("edges");
+                    if (!captionList.isEmpty())
+                    {
+                        HashMap<String, HashMap<?, ?>> hashMap1 = ((HashMap<String, HashMap<?, ?>>) captionList.get(0));
+                        HashMap<String, String> nodeMap1 = (HashMap<String, String>) hashMap1.get("node");
+                        caption = nodeMap1.get("text");
+                    }
+                }
+                String timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epoch), ZoneId.of("GMT")).format(dtf);
                 Boolean isPrivate = (Boolean) userObject.get("is_private");
                 boolean isVerified = (Boolean) userObject.get("is_verified");
                 EmbedBuilder embedBuilder = new EmbedBuilder();
-                NumberFormat myFormat = NumberFormat.getInstance();
-                embedBuilder.setTitle(bioName);
+                embedBuilder.setTitle(bioName.equals("") ? null : bioName);
                 embedBuilder.setThumbnail(pfp);
                 embedBuilder.setAuthor(username,"https://instagram.com/" + args.get(0), isVerified ? "https://cdn.discordapp.com/emojis/732783207468236870.gif?v=1" : null);
                 embedBuilder.setDescription(bioDesc);
@@ -59,6 +85,14 @@ public class InstagramCommand implements ICommand {
                 if (isPrivate)
                 {
                     embedBuilder.setFooter("Private Account", "https://cdn.discordapp.com/emojis/732806672447438850.png?v=1");
+                } else if (firstPic != null){
+                    embedBuilder.setImage(firstPic);
+                    if (caption != null)
+                    {
+                        embedBuilder.setFooter(caption + "\n\n" + myFormat.format(likes) + " likes | " + myFormat.format(comments) + " comments\n" + "Posted on " + timestamp);
+                    } else {
+                        embedBuilder.setFooter(myFormat.format(likes) + " likes | " + myFormat.format(comments) + " comments\n" + "Posted on " + timestamp);
+                    }
                 }
                 event.getChannel().sendMessage(embedBuilder.build()).queue();
             } else {

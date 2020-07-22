@@ -56,7 +56,7 @@ public class Utility {
     }
 
     public static <T, E> Set<T> getKeysByValue(Map<T, E> map, E value) {
-        Set<T> keys = new HashSet<T>();
+        Set<T> keys = new HashSet<>();
         for (Map.Entry<T, E> entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
                 keys.add(entry.getKey());
@@ -149,7 +149,7 @@ public class Utility {
 
 
     }
-
+    // inclusive
     public static int randomNum(int start, int end) {
 
         if (end < start) {
@@ -160,7 +160,9 @@ public class Utility {
 
         return (int) Math.floor(Math.random() * (end - start + 1) + start);
     }
-
+    public static String removeLastChar(String str) {
+        return str.substring(0, str.length() - 1);
+    }
     public static JsonElement getJsonFromURL(String url) throws IOException, IllegalArgumentException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()

@@ -587,12 +587,12 @@ public class AntiRaidEvent extends ListenerAdapter {
                             if (AntiRaidChannelSafetyCommand.restorableCategories.stream().anyMatch((restorableCategory -> restorableCategory.getId().equals(event.getId())))) {
                                 AntiRaidChannelSafetyCommand.restorableCategories.stream().filter(restorableCategory -> restorableCategory.getGuildId().equals(event.getGuild().getId())).filter(restorableCategory -> restorableCategory.getId().equals(event.getId())).forEach((restorableCategory -> event.getGuild().createCategory(restorableCategory.getName()).setPosition(restorableCategory.getPosition()).queue((category -> {
                                     HashMap<Integer, String> hashMap = restorableCategory.getChildTextChannels();
-                                    for (Map.Entry entry : hashMap.entrySet()) {
-                                        event.getGuild().createTextChannel((String) entry.getValue()).setParent(category).setPosition((int) entry.getKey()).queue();
+                                    for (Map.Entry<Integer, String> entry : hashMap.entrySet()) {
+                                        event.getGuild().createTextChannel( entry.getValue()).setParent(category).setPosition( entry.getKey()).queue();
                                     }
                                     HashMap<Integer, String> hashMap2 = restorableCategory.getChildVoiceChannels();
-                                    for (Map.Entry entry : hashMap2.entrySet()) {
-                                        event.getGuild().createVoiceChannel((String) entry.getValue()).setParent(category).setPosition((int) entry.getKey()).queue();
+                                    for (Map.Entry<Integer, String> entry : hashMap2.entrySet()) {
+                                        event.getGuild().createVoiceChannel( entry.getValue()).setParent(category).setPosition( entry.getKey()).queue();
                                     }
                                     AntiRaidChannelSafetyCommand.restore();
                                 }))));

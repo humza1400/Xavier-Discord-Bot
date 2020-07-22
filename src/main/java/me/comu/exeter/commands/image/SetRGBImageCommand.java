@@ -85,7 +85,7 @@ public class SetRGBImageCommand implements ICommand {
                 }
                 File newFilePNG = new File("cache/image" + newRandom + ".png");
                 ImageIO.write(image, "png", newFilePNG);
-                event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                event.getChannel().sendFile(newFilePNG, "swag.png").queue(lol -> Config.clearCacheDirectory());
                 Utility.beingProcessed = false;
             } catch (Exception ex) {
                 event.getChannel().sendMessage("Something went wrong with processing the image").queue();
@@ -107,7 +107,7 @@ public class SetRGBImageCommand implements ICommand {
                 }
                 File newFilePNG = new File("cache/image" + newRandom + ".png");
                 ImageIO.write(image, "png", newFilePNG);
-                event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                event.getChannel().sendFile(newFilePNG, "swag.png").queue(lol -> Config.clearCacheDirectory());
                 Utility.beingProcessed = false;
             } catch (Exception ex) {
                 event.getChannel().sendMessage("Something went wrong with processing the image").queue();

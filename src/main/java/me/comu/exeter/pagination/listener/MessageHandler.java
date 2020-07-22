@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class MessageHandler extends ListenerAdapter {
-    private Map<String, Consumer<MessageReactionAddEvent>> events = new HashMap<>();
+    private final Map<String, Consumer<MessageReactionAddEvent>> events = new HashMap<>();
 
     public void addEvent(String id, Consumer<MessageReactionAddEvent> act) {
         events.put(id, act);

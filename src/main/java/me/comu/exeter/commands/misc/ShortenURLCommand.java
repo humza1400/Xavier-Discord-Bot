@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static me.duncte123.botcommons.web.WebParserUtils.toJSONObject;
 
@@ -29,13 +30,8 @@ public class ShortenURLCommand implements ICommand {
             event.getChannel().sendMessage("I couldn't resolve the URL, sorry").queue();
             return;
         }
-        pendingRequest.async((s) -> {
-            if (s == null) {
-                event.getChannel().sendMessage("I couldn't resolve the URL, sorry").queue();
-            } else {
-                event.getChannel().sendMessage(s).queue();
-            }
-        });
+        pendingRequest.async((s) -> event.getChannel().sendMessage(Objects.requireNonNullElse(s, "I couldn't resolve the URL, sorry")).queue());
+
     }
 
     public static PendingRequest<String> shortenUrl(String url, ObjectMapper mapper) {
@@ -83,7 +79,7 @@ public class ShortenURLCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"bitly", "googl", "goo.gl", "bit.ly", "cutly", "cut.ly", "shorturl","shorten", "urlshorten"};
+        return new String[]{"bitly", "googl", "goo.gl", "bit.ly", "cutly", "cut.ly", "shorturl", "shorten", "urlshorten"};
     }
 
     @Override

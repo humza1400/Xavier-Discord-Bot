@@ -1,5 +1,6 @@
 package me.comu.exeter.commands.misc;
 
+import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -17,8 +18,7 @@ import java.util.StringJoiner;
 public class TweetCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (args.size() < 2)
-        {
+        if (args.size() < 2) {
             event.getChannel().sendMessage("Please specify a user and what you want the tweet to say").queue();
             return;
         }
@@ -32,6 +32,7 @@ public class TweetCommand implements ICommand {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Config.clearCacheDirectory();
                 event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
                 e.printStackTrace();
             }

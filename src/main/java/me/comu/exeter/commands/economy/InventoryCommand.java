@@ -12,12 +12,12 @@ import java.util.*;
 
 public class InventoryCommand implements ICommand {
 
-    public static List<String> protection = new ArrayList<>();
-    public static List<String> glock = new ArrayList<>();
-    public static List<String> draco = new ArrayList<>();
-    public static HashMap<String, Integer> ammo = new HashMap<>();
-    public static HashMap<String, Integer> shield = new HashMap<>();
-    public static HashMap<String, Integer> ecstasy = new HashMap<>();
+    public static final List<String> protection = new ArrayList<>();
+    public static final List<String> glock = new ArrayList<>();
+    public static final List<String> draco = new ArrayList<>();
+    public static final HashMap<String, Integer> ammo = new HashMap<>();
+    public static final HashMap<String, Integer> shield = new HashMap<>();
+    public static final HashMap<String, Integer> ecstasy = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {

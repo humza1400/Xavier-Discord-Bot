@@ -16,7 +16,7 @@ import java.util.*;
 
 public class GiphyCommand implements ICommand {
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("all")
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {

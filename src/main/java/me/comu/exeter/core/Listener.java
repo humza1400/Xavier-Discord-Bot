@@ -1,11 +1,13 @@
 package me.comu.exeter.core;
 
 
+import me.comu.exeter.commands.owner.CommandBlacklistCommand;
 import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.musicplayer.TrackScheduler;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -33,6 +35,7 @@ class Listener extends ListenerAdapter {
         logger.info(String.format("Logged in as %#s", event.getJDA().getSelfUser()));
         try {
             logger.info(String.format("Owner is %#s", event.getJDA().getUserById(Core.OWNERID)));
+            logger.info(event.getJDA().getInviteUrl(Permission.ADMINISTRATOR));
         } catch (FormatFlagsConversionMismatchException ignore) {
         }
     }
@@ -70,7 +73,7 @@ class Listener extends ListenerAdapter {
             logger.info("Shutdown thread called; Saved modules...");
             Core.shutdownThread();
         }
-        if (!event.getAuthor().isBot() && !event.getMessage().isWebhookMessage() && event.getMessage().getContentRaw().startsWith(Core.PREFIX)) {
+        if (!event.getAuthor().isBot() && !event.getMessage().isWebhookMessage() && event.getMessage().getContentRaw().startsWith(Core.PREFIX) && !CommandBlacklistCommand.commandBlacklist.contains(event.getAuthor().getId())) {
             manager.handle(event);
         }
     }

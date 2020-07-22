@@ -59,7 +59,7 @@ public class LockdownCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"ld"};
+        return new String[] {"ld","lock","lockchannel"};
     }
 
      @Override

@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class ClearCommand implements ICommand {
+
+    //TODO: add an embed clear
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         TextChannel channel = event.getChannel();
@@ -72,7 +74,18 @@ public class ClearCommand implements ICommand {
 
             }));
             return;
+        } else if (args.get(0).equalsIgnoreCase("embed") || args.get(0).equalsIgnoreCase("embeds")) {
+            event.getChannel().getHistory().retrievePast(100).queue((messages -> {
+                List<Message> messageStream = messages.stream().filter(message -> message.getAttachments().size() > 0).collect(Collectors.toList());
+                int size = messageStream.size();
+                messageStream.forEach(message -> message.delete().queue());
+                event.getChannel().sendMessage("Deleted `" + size + "` messages that contained images").queue(message -> message.delete().queueAfter(3, TimeUnit.SECONDS));
+
+            }));
+            return;
         }
+
+
         try {
             if (Integer.parseInt(args.get(0)) >= 100) {
                 event.getMessage().delete().queue(onDelete -> {
@@ -86,7 +99,7 @@ public class ClearCommand implements ICommand {
                 });
             }
         } catch (NumberFormatException ex) {
-            event.getChannel().sendMessage("Please insert a valid number of messages to purge or purge the bot messages.").queue();
+            event.getChannel().sendMessage("Please insert a valid number of messages to purge or purge the bot/images messages.").queue();
         }
     }
 

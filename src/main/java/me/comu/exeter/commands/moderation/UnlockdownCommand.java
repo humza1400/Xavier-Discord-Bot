@@ -63,7 +63,7 @@ public class UnlockdownCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"unlockdown","releaselock","uld","openchannel"};
+        return new String[] {"unlockdown","releaselock","unlockdownchannel","unlockchannel","uld","openchannel"};
     }
 
      @Override

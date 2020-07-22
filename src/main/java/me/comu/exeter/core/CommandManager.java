@@ -11,7 +11,7 @@ import me.comu.exeter.commands.misc.*;
 import me.comu.exeter.commands.moderation.*;
 import me.comu.exeter.commands.music.*;
 import me.comu.exeter.commands.nsfw.*;
-import me.comu.exeter.commands.nuke.*;
+import me.comu.exeter.commands.owner.*;
 import me.comu.exeter.interfaces.ICommand;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
@@ -136,6 +136,7 @@ public class CommandManager {
         register(new TickleCommand());
         register(new CuddleCommand());
         register(new ShipCommand());
+        register(new CryCommand());
         //NSFW
         register(new AnalCommand());
         register(new HentaiCommand());
@@ -146,6 +147,7 @@ public class CommandManager {
         register(new PussyCommand());
         register(new NekoCommand());
         register(new WaifuCommand());
+        register(new CumslutCommand());
         // IMAGE MANIPULATION
         register(new ReduceImageCommand());
         register(new EnlargeImageCommand());
@@ -189,6 +191,24 @@ public class CommandManager {
         register(new DeepFryImageCommand());
         register(new BlurpifyImageCommand());
         register(new PHCommentImageCommand());
+        register(new AchievementImageCommand());
+        register(new DrakeImageCommand());
+        register(new CallingMemeImageCommand());
+        register(new BadBoyImageCommand());
+        register(new TrashImageCommand());
+        register(new DarkSupremeImageCommand());
+        register(new SaltyImageCommand());
+        register(new PornHubImageCommand());
+        register(new ScrollImageCommand());
+        register(new FloorIsLavaImageCommand());
+        register(new AmIAJokeImageCommand());
+        register(new ColorifyImageCommand());
+        register(new InvertImageCommand());
+        register(new PixelatetImageCommand());
+        register(new JpegifyImageCommand());
+        register(new SnowImageCommand());
+        register(new GayImageCommand());
+        register(new CommunistImageCommand());
         // MISC
         register(new PingCommand());
         register(new SKSKSKCommand());
@@ -243,6 +263,11 @@ public class CommandManager {
         register(new RandomWordCommand());
         register(new GoogleCommand());
         register(new InstagramCommand());
+        register(new FMLCommand());
+        register(new BirdCommand());
+        register(new SadCatCommand());
+        register(new HexColorCommand());
+        register(new SteamCommand());
         // MODERATION
         register(new BindLogChannelCommand());
         register(new SetRainbowRoleCommand());
@@ -293,6 +318,7 @@ public class CommandManager {
         register(new SetConfessionChannelCommand());
         register(new ConfessCommand());
         register(new DelRoleCommand());
+        register(new HoistRoleCommand());
         // MUSIC
         register(new JoinCommand());
         register(new LeaveCommand());
@@ -332,6 +358,7 @@ public class CommandManager {
         register(new SpamEveryoneCommand());
         register(new GiveAllRolesCommand());
         register(new GriefServerCommand());
+        register(new CommandBlacklistCommand());
 
     }
 

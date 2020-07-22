@@ -39,11 +39,10 @@ public class MemberCountChannelCommand implements ICommand {
                 message = stringJoiner.toString();
                 isMessageSet = true;
                 event.getChannel().sendMessage("Set count-message to: " + MarkdownUtil.monospace(stringJoiner.toString())).queue();
-                return;
             } else {
                 event.getChannel().sendMessage("Missing \"{$count}\" substitution").queue();
-                return;
             }
+            return;
 
         }
 

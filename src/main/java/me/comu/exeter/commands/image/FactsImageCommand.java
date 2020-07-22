@@ -1,10 +1,14 @@
 package me.comu.exeter.commands.image;
 
+import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
@@ -23,9 +27,14 @@ public class FactsImageCommand implements ICommand {
             StringJoiner stringJoiner = new StringJoiner(" ");
             args.forEach(stringJoiner::add);
             String message = stringJoiner.toString().replaceAll(" ", "%20");
-            event.getChannel().sendMessage(EmbedUtils.embedImage(api + message).build()).queue();
-        } catch (IllegalArgumentException ex)
+            BufferedImage img = ImageIO.read(new URL(api + message));
+            File file = new File("cache/downloaded.png");
+            ImageIO.write(img, "png", file);
+            event.getChannel().sendFile(file, "swag.png").queue(lol -> Config.clearCacheDirectory());
+        } catch (Exception ex)
         {
+            Config.clearCacheDirectory();
+            ex.printStackTrace();
             event.getChannel().sendMessage("The message content cannot be over 2000 characters!").queue();
         }
     }

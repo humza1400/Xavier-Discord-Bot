@@ -1,5 +1,6 @@
 package me.comu.exeter.commands.nsfw;
 
+import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -28,6 +29,7 @@ public class AnalCommand implements ICommand {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Config.clearCacheDirectory();
                 event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
                 e.printStackTrace();
             }
@@ -38,7 +40,7 @@ public class AnalCommand implements ICommand {
                     String jsonResponse = Objects.requireNonNull(response.body()).string();
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     String url = jsonObject.toMap().get("url").toString();
-                        event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
+                    event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
                 } else {
                     event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
                 }

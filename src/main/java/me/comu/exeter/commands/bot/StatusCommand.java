@@ -21,7 +21,7 @@ import java.util.Objects;
 public class StatusCommand implements ICommand {
 
     private final String CLOUDAPI = "https://cloudpanel-api.ionos.com/v5";
-    private Runtime runtime = Runtime.getRuntime();
+    private final Runtime runtime = Runtime.getRuntime();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {

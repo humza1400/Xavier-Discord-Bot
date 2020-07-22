@@ -21,7 +21,6 @@ public class JackpotCommand implements ICommand {
     private static final HashMap<String, Integer> jackpot = new HashMap<>();
     private ScheduledFuture<?> jackpotExecutor;
     private final ScheduledExecutorService anc = Executors.newScheduledThreadPool(2);
-    ;
     private boolean running = false;
     private boolean autojackpot = true;
     private String textChannel;

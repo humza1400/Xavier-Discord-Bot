@@ -56,7 +56,7 @@ public class GetRGBCommand implements ICommand {
 
             File newFilePNG = new File("cache/image" + newRandom + ".png");
             ImageIO.write(image, "png", newFilePNG);
-            event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+            event.getChannel().sendFile(newFilePNG, "swag.png").queue(lol -> Config.clearCacheDirectory());
         } catch (Exception ignored) {
             event.getChannel().sendMessage("Something went wrong with processing the RGB").queue();
         }

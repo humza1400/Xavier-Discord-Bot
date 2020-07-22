@@ -51,7 +51,7 @@ public class EnlargeImageCommand implements ICommand {
                                             File newFilePNG = new File("cache/image" + newRandom + ".png");
                                             ImageIO.write(processedImage, "png", newFilePNG);
                                             message.delete().queue();
-                                            event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                            event.getChannel().sendFile(newFilePNG, "swag.png").queue(lol -> Config.clearCacheDirectory());
                                             Utility.beingProcessed = false;
                                         } catch (Exception ignored) {
                                             message.editMessage("Something went wrong with processing the image").queue();
@@ -87,7 +87,7 @@ public class EnlargeImageCommand implements ICommand {
                                             File newFilePNG = new File("cache/image" + newRandom + ".png");
                                             ImageIO.write(processedImage, "png", newFilePNG);
                                             message.delete().queue();
-                                            event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                            event.getChannel().sendFile(newFilePNG, "swag.png").queue(lol -> Config.clearCacheDirectory());
                                             Utility.beingProcessed = false;
                                         } catch (Exception ignored) {
                                             message.editMessage("Something went wrong with processing the image").queue();

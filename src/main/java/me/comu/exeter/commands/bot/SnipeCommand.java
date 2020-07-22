@@ -32,11 +32,18 @@ public class SnipeCommand implements ICommand {
         }
 
         if (containedAttachments) {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(Utility.extractUrls(contentDeleted).get(0)).setColor(Utility.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl()).build()).queue();
+            String link = Utility.extractUrls(contentDeleted).get(0);
+            event.getChannel().sendMessage(EmbedUtils.embedImage(link).setColor(Utility.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl()).build()).queue();
         } else {
-            EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setColor(Utility.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl());
-            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            if (Utility.extractUrls(contentDeleted).isEmpty()) {
+                EmbedBuilder embedBuilder = new EmbedBuilder();
+                embedBuilder.setColor(Utility.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl());
+                event.getChannel().sendMessage(embedBuilder.build()).queue();
+            } else {
+                EmbedBuilder embedBuilder = new EmbedBuilder();
+                embedBuilder.setColor(Utility.getAmbientColor()).setImage(Utility.extractUrls(contentDeleted).get(0)).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl());
+                event.getChannel().sendMessage(embedBuilder.build()).queue();
+            }
 
         }
 

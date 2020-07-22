@@ -1,5 +1,6 @@
 package me.comu.exeter.commands.nsfw;
 
+import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -33,6 +34,7 @@ public class BoobsCommand implements ICommand {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Config.clearCacheDirectory();
                 event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
                 e.printStackTrace();
             }

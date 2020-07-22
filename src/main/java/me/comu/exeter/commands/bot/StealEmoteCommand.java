@@ -230,9 +230,7 @@ public class StealEmoteCommand implements ICommand {
                                 event.getGuild().createEmote(name, Icon.from(new File("cache/" + name + ".gif"))).queue(success -> {
                                     message1.editMessage("\u2705 Successfully created " + "<a:" + name + ":" + success.getId() + ">").queue();
                                     Config.clearCacheDirectory();
-                                }, failure -> {
-                                        message.editMessage("\u274C Something went wrong try again later.").queue();
-                                });
+                                }, failure -> message.editMessage("\u274C Something went wrong try again later.").queue());
                             } catch (Exception ex) {
                                 message.editMessage("\u274C Something went wrong try again later.").queue();
                                 ex.printStackTrace();
@@ -250,9 +248,7 @@ public class StealEmoteCommand implements ICommand {
                                 event.getGuild().createEmote(name, Icon.from(new File("cache/" + name + ".png"))).queue(success -> {
                                     message1.editMessage("\u2705 Successfully created " + "<:" + name + ":" + success.getId() + ">").queue();
                                     Config.clearCacheDirectory();
-                                }, failure -> {
-                                        message.editMessage("\u274C Something went wrong try again later.").queue();
-                                });
+                                }, failure -> message.editMessage("\u274C Something went wrong try again later.").queue());
                             } catch (Exception ex) {
                                 message.editMessage("\u274C Something went wrong try again later.").queue();
                                 ex.printStackTrace();

@@ -1,15 +1,5 @@
 package me.comu.exeter.commands.image;
 
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.GaussianBlur;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import me.comu.exeter.core.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
@@ -19,19 +9,48 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 public class BlurImageCommand implements ICommand {
 
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (Utility.beingProcessed) {
+        {
+            String url = "https://api.alexflipnote.dev/filter/blur?image=";
+
+            if (args.isEmpty() && event.getMessage().getAttachments().isEmpty()) {
+                url = url + event.getAuthor().getEffectiveAvatarUrl();
+            }
+
+            if (!event.getMessage().getMentionedMembers().isEmpty()) {
+                url = url + event.getMessage().getMentionedMembers().get(0).getUser().getEffectiveAvatarUrl().replace(".gif", ".png");
+            } else if (!args.isEmpty() && !Utility.isUrl(args.get(0))) {
+                event.getChannel().sendMessage("I couldn't resolve the specified URL").queue();
+                return;
+            }
+
+            if (!args.isEmpty() && Utility.isUrl(args.get(0))) {
+                url = url + args.get(0).replace(".gif", ".png");
+            } else if (!event.getMessage().getAttachments().isEmpty()) {
+                url = url + event.getMessage().getAttachments().get(0).getUrl();
+            }
+            try {
+                BufferedImage img = ImageIO.read(new URL(url));
+                File file = new File("cache/downloaded.png");
+                ImageIO.write(img, "png", file);
+                event.getChannel().sendFile(file, "swag.png").queue(lol -> Config.clearCacheDirectory());
+            } catch (Exception ex) {
+                Config.clearCacheDirectory();
+                event.getChannel().sendMessage("Something went wrong, try again later").queue();
+            }
+
+
+        }
+    }
+/*        if (Utility.beingProcessed) {
             event.getChannel().sendMessage("An image is already being processed, please wait.").queue();
             return;
         }
@@ -48,7 +67,7 @@ public class BlurImageCommand implements ICommand {
                     Utility.saveImage(args.get(0), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
-                          /*              int radius = 11;
+                          *//*              int radius = 11;
                     int size = radius * 2 + 1;
                     float weight = 1.0f / (size * size);
                     float[] data = new float[size * size];
@@ -59,7 +78,7 @@ public class BlurImageCommand implements ICommand {
 
                     Kernel kernel = new Kernel(size, size, data);
                     ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-                    BufferedImage bufferedImage = op.filter(image, null);*/
+                    BufferedImage bufferedImage = op.filter(image, null);*//*
                     CompletableFuture.supplyAsync(() -> image)
                             .thenApply(this::blurImg)
                             .completeOnTimeout(null, 10, TimeUnit.SECONDS)
@@ -73,7 +92,7 @@ public class BlurImageCommand implements ICommand {
                                         File newFilePNG = new File("cache/image" + newRandom + ".png");
                                         ImageIO.write(processedImage, "png", newFilePNG);
                                         message.delete().queue();
-                                        event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                        event.getChannel().sendFile(newFilePNG, "swag.png").queue(lol -> Config.clearCacheDirectory());
                                         Utility.beingProcessed = false;
                                     } catch (Exception ignored) {
                                         message.editMessage("Something went wrong with processing the image").queue();
@@ -96,7 +115,7 @@ public class BlurImageCommand implements ICommand {
                     Utility.saveImage(event.getMessage().getAttachments().get(0).getUrl(), "cache", "image" + random);
                     File file = new File("cache/image" + random + ".png");
                     BufferedImage image = ImageIO.read(file);
-      /*              int radius = 11;
+      *//*              int radius = 11;
                     int size = radius * 2 + 1;
                     float weight = 1.0f / (size * size);
                     float[] data = new float[size * size];
@@ -107,7 +126,7 @@ public class BlurImageCommand implements ICommand {
 
                     Kernel kernel = new Kernel(size, size, data);
                     ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-                    BufferedImage bufferedImage = op.filter(image, null);*/
+                    BufferedImage bufferedImage = op.filter(image, null);*//*
                     CompletableFuture.supplyAsync(() -> image)
                             .thenApply(this::blurImg)
                             .completeOnTimeout(null, 10, TimeUnit.SECONDS)
@@ -121,7 +140,7 @@ public class BlurImageCommand implements ICommand {
                                         File newFilePNG = new File("cache/image" + newRandom + ".png");
                                         ImageIO.write(processedImage, "png", newFilePNG);
                                         message.delete().queue();
-                                        event.getChannel().sendFile(newFilePNG).queue(lol -> Config.clearCacheDirectory());
+                                        event.getChannel().sendFile(newFilePNG, "swag.png").queue(lol -> Config.clearCacheDirectory());
                                         Utility.beingProcessed = false;
                                     } catch (Exception ignored) {
                                         message.editMessage("Something went wrong with processing the image").queue();
@@ -172,7 +191,7 @@ public class BlurImageCommand implements ICommand {
         }
         Platform.exit();
         return imageContainer[0];
-    }
+    }*/
 
 
     @Override
