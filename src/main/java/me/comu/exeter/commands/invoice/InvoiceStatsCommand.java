@@ -28,7 +28,7 @@ public class InvoiceStatsCommand implements ICommand {
             event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You aren't authorized to run this command").build()).queue();
             return;
         }
-
+        // TODO: make the interface look cleaner
         if (!args.isEmpty()) {
             if (args.get(0).equalsIgnoreCase("list")) {
                 sendListMessage(event, null);
@@ -60,22 +60,44 @@ public class InvoiceStatsCommand implements ICommand {
                 double other = 0;
                 int hCount = 0;
                 int tCount = 0;
+                int hTotal = 0;
+                int tTotal = 0;
+                int totalMsgs = 0;
                 int totalDays = 1;
                 int quotaDays = 0;
+                double hTotalAmount = 0;
+                double tTotalAmount = 0;
                 Date dateObj = new Date();
+                List<String> datesChecked = new ArrayList<>();
                 String date = Invoice.dateFormat.format(dateObj);
+                if (getTotalForDay(date) >= 50) {
+                    quotaDays++;
+                }
                 for (Invoice invoice : Invoice.invoices) {
-                    if (!date.equalsIgnoreCase(invoice.getDate())) totalDays++;
+                    if (!datesChecked.contains(invoice.getDate()) && !date.equalsIgnoreCase(invoice.getDate())) {
+                        datesChecked.add(invoice.getDate());
+                        totalDays++;
+                        if (getTotalForDay(invoice.getDate()) >= 50) {
+                            quotaDays++;
+                        }
+                    }
                     total += invoice.getAmount();
+                    totalMsgs += invoice.getTotalMsgs();
+                    hTotal += invoice.getFMsgs();
+                    tTotal += invoice.getTMsgs();
                     if (invoice.getFMsgs() > invoice.getTMsgs()) {
                         hCount++;
+                        hTotalAmount += invoice.getAmount();
                     } else if (invoice.getFMsgs() < invoice.getTMsgs()) {
                         tCount++;
+                        tTotalAmount += invoice.getAmount();
                     } else {
                         if (invoice.getInvoicer().equalsIgnoreCase(future)) {
                             hCount++;
+                            hTotalAmount += invoice.getAmount();
                         } else if (invoice.getInvoicer().equalsIgnoreCase(tiger)) {
                             tCount++;
+                            tTotalAmount += invoice.getAmount();
                         }
                     }
                     if (invoice.getPaymentGateway().equalsIgnoreCase("cashapp")) {
@@ -89,22 +111,30 @@ public class InvoiceStatsCommand implements ICommand {
                     }
                 }
                 double avgPerOrder = (double) Math.round(total / Invoice.invoices.size() * 100) / 100;
-                double avgPerDay = (double) Math.round(total / totalDays  * 100) / 100;
+                double avgPerDay = (double) Math.round(total / totalDays * 100) / 100;
+                double avgCashapp = (double) Math.round(cashapp / totalDays * 100) / 100;
+                double avgCrypto = (double) Math.round(crypto / totalDays * 100) / 100;
+                double avgAmazonGC = (double) Math.round(amazongc / totalDays * 100) / 100;
+                double avgOther = (double) Math.round(other / totalDays * 100) / 100;
                 int avgTicketsPerDay = Invoice.invoices.size() / totalDays;
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.setColor(Core.getInstance().getColorTheme());
                 embedBuilder.setAuthor("Invoice Statistics");
-                embedBuilder.setDescription("**All-Time:**");
+                embedBuilder.setDescription("**All-Time Records**");
                 embedBuilder.addField("Total", "`$" + (total == 0 ? String.format("%.0f", total) : String.format("%.2f", total)) + "`", true);
                 embedBuilder.addField("Tickets", "`" + Invoice.invoices.size() + "`", true);
-                embedBuilder.addField("CashApp", "`$" + (cashapp == 0 ? String.format("%.0f", cashapp) : String.format("%.2f", cashapp)) + "`\n`" + "$/day`", true);
-                embedBuilder.addField("Amazon GC", "`$" + (amazongc == 0 ? String.format("%.0f", amazongc) : String.format("%.2f", amazongc)) + "`\n`" + "$/day`", true);
-                embedBuilder.addField("Crypto", "`$" + (crypto == 0 ? String.format("%.0f", crypto) : String.format("%.2f", crypto)) + "`\n`"+ "$/day`", true);
-                embedBuilder.addField("Other", "`$" + (other == 0 ? String.format("%.0f", other) : String.format("%.2f", other)) + "`\n`"+ "$/day`", true);
-                embedBuilder.addField("Information","```Quota Days Reached: " + quotaDays + "/" + totalDays + "\nAverage: $" + avgPerOrder + " per/order\n\nFuture: \n\t" + hCount + " tickets\n\t"+ " tickets/day\n\t" + "$" + "/day\nTiger: \n\t" + tCount + " tickets\n\t" + " tickets/day\n\t $" + "/day" + "```", false);
+                embedBuilder.addField("CashApp", "`$" + (cashapp == 0 ? String.format("%.0f", cashapp) : String.format("%.2f", cashapp)) + "`\n`$" + (avgCashapp == 0 ? String.format("%.0f", avgCashapp) : String.format("%.2f", avgCashapp))+ "/day`", true);
+                embedBuilder.addField("Amazon GC", "`$" + (amazongc == 0 ? String.format("%.0f", amazongc) : String.format("%.2f", amazongc)) + "`\n`$" + (avgAmazonGC == 0 ? String.format("%.0f", avgAmazonGC) : String.format("%.2f", avgAmazonGC)) + "/day`", true);
+                embedBuilder.addField("Crypto", "`$" + (crypto == 0 ? String.format("%.0f", crypto) : String.format("%.2f", crypto)) + "`\n`$" + (avgCrypto == 0 ? String.format("%.0f", avgCrypto) : String.format("%.2f", avgCrypto)) + "/day`", true);
+                embedBuilder.addField("Other", "`$" + (other == 0 ? String.format("%.0f", other) : String.format("%.2f", other)) + "`\n`$" + (avgOther == 0 ? String.format("%.0f", avgOther) : String.format("%.2f", avgOther)) + "/day`", true);
+                embedBuilder.addField("Information", "```Quota Days Reached: " + quotaDays + "/" + totalDays +  "\nTotal Messages: " + totalMsgs + "\nAverage: $" + avgPerOrder + " per order\n\nFuture: \n\t" + hCount + " tickets\n\t" + hCount / totalDays + " tickets/day\n\t" + "$" + String.format("%.2f", hTotalAmount / totalDays) + "/day\n\t$" + String.format("%.2f", hTotalAmount / Invoice.invoices.size()) + "/ticket\n\t" + hTotal / Invoice.invoices.size() + " msgs/ticket\n\t" + hTotal / totalDays + " msgs/day" + "\nTiger: \n\t" + tCount + " tickets\n\t" + tCount / totalDays + " tickets/day\n\t$" + String.format("%.2f", tTotalAmount / totalDays) + "/day\n\t$" + String.format("%.2f", tTotalAmount / Invoice.invoices.size()) + " /ticket\n\t" + tTotal / Invoice.invoices.size() + " msgs/ticket\n\t" + tTotal / totalDays + " msgs/day" + "```", false);
                 embedBuilder.setFooter("Average: " + avgTicketsPerDay + " orders/day • " + "$" + (avgPerDay == 0 ? String.format("%.0f", avgPerDay) : String.format("%.2f", avgPerDay) + "/day"));
                 event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
                 return;
+            } else if (args.get(0).equalsIgnoreCase("future")) {
+
+            } else if (args.get(0).equalsIgnoreCase("tiger")) {
+
             } else {
                 sendListMessage(event, null);
                 return;
@@ -173,7 +203,7 @@ public class InvoiceStatsCommand implements ICommand {
         embedBuilder.addField("Amazon GC", "`$" + (amazongc == 0 ? String.format("%.0f", amazongc) : String.format("%.2f", amazongc)) + "`", true);
         embedBuilder.addField("Crypto", "`$" + (crypto == 0 ? String.format("%.0f", crypto) : String.format("%.2f", crypto)) + "`", true);
         embedBuilder.addField("Other", "`$" + (other == 0 ? String.format("%.0f", other) : String.format("%.2f", other)) + "`", true);
-        embedBuilder.addField("Today's Info", totalToday >= 50 ? "```Quota Reached \u2705\nAverage: $" + avgToday + "\nFuture: " + hCount + "\nTiger: " + tCount + "```" : "```Quota Reached \u274C\nAverage: $" + avgToday + "\nH: " + hCount + "\nT: " + tCount + "```", false);
+        embedBuilder.addField("Today's Info", totalToday >= 50 ? "```Quota Reached \u2705\nAverage: $" + avgToday + "\nFuture: " + hCount + "\nTiger: " + tCount + "```" : "```Quota Reached \u274C\nAverage: $" + avgToday + "\nFuture: " + hCount + "\nTiger: " + tCount + "```", false);
         embedBuilder.setFooter("Total Yesterday: $" + (yesterdayTotal == 0 ? String.format("%.0f", yesterdayTotal) : String.format("%.2f", yesterdayTotal)) + " • " + "Average: " + "$" + (avg == 0 ? String.format("%.0f", avg) : String.format("%.2f", avg) + "/day"));
         event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
     }
@@ -202,7 +232,7 @@ public class InvoiceStatsCommand implements ICommand {
         }
         StringBuilder stringBuilder = new StringBuilder();
         invoiceDateAmountMap.keySet().forEach(invoice -> stringBuilder.append("`").append(invoice.getDate()).append("` - **$").append(String.format("%.02f", invoice.getAmount())).append("** (").append(invoice.getId()).append(")\n"));
-        EmbedBuilder embedBuilder = new EmbedBuilder().setTitle(date == null ? invoiceDateAmountMap.size() + " Invoices\n" : invoiceDateAmountMap.size() + " Invoices on " + date + "\n").setColor(Core.getInstance().getColorTheme()).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now());
+        EmbedBuilder embedBuilder = new EmbedBuilder().setTitle(date == null ? invoiceDateAmountMap.size() + " Invoices\n" : invoiceDateAmountMap.size() + " Invoices on " + date + " - $" + getTotalForDay(date) + "\n").setColor(Core.getInstance().getColorTheme()).setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now());
         ArrayList<Page> pages = new ArrayList<>();
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder.setContent(stringBuilder.toString());
@@ -240,6 +270,7 @@ public class InvoiceStatsCommand implements ICommand {
         }
         return amount;
     }
+
     private List<Invoice> getInvoiceByDate(String date) {
         List<Invoice> invoices = new ArrayList<>();
         Invoice.invoices.stream().filter(invoice -> invoice.getDate().equalsIgnoreCase(date)).forEach(invoices::add);
@@ -253,7 +284,7 @@ public class InvoiceStatsCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Checks the Invoice stats\n`" + Core.PREFIX + getInvoke() + " [list][date]/[alltime]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Checks the Invoice stats\n`" + Core.PREFIX + getInvoke() + " [id]/[list]/[date]/[alltime]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -263,7 +294,7 @@ public class InvoiceStatsCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"istats", "invoicestat", "invoicestatistics", "statisticsinvoices", "statinvoices", "statisticsinvoice", "invoicestats", "invoices"};
+        return new String[]{"istats", "invoicestat", "invoicestatistics", "statisticsinvoices", "statinvoices", "statisticsinvoice", "invoicestats", "invoices", "invoicefetch", "getinvoice", "invoiceget", "seeinvoice", "invoicesee"};
     }
 
     @Override

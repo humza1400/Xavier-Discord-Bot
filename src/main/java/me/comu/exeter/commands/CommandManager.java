@@ -6,10 +6,8 @@ import me.comu.exeter.commands.admin.*;
 import me.comu.exeter.commands.bot.*;
 import me.comu.exeter.commands.economy.*;
 import me.comu.exeter.commands.image.*;
-import me.comu.exeter.commands.invoice.FetchInvoiceCommand;
 import me.comu.exeter.commands.invoice.InvoiceCommand;
 import me.comu.exeter.commands.invoice.InvoiceStatsCommand;
-import me.comu.exeter.commands.invoice.SetInvoiceChannelCommand;
 import me.comu.exeter.commands.marriage.*;
 import me.comu.exeter.commands.misc.*;
 import me.comu.exeter.commands.moderation.*;
@@ -379,8 +377,6 @@ public class CommandManager {
         // INVOICE
         register(new InvoiceCommand());
         register(new InvoiceStatsCommand());
-        register(new SetInvoiceChannelCommand());
-        register(new FetchInvoiceCommand());
         // VOICE
         register(new EchoCommand());
         // OWNER

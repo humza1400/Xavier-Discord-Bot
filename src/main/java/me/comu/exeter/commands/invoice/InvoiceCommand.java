@@ -111,6 +111,7 @@ public class InvoiceCommand implements ICommand {
         if (hasNote) embedBuilder.addField("Notes", "```\n" + stringJoiner + "```", true);
         embedBuilder.setFooter("ID: " + id + " • " + date);
         event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
+        event.getChannel().getManager().setName(amount.substring(2, amount.indexOf(".")) + " confirmed").queue();
         Core.getInstance().saveConfig(Core.getInstance().getInvoiceHandler());
     }
 
