@@ -13,16 +13,16 @@ public class DivorceCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (!Utility.isMarried(event.getAuthor().getId())) {
-            event.getChannel().sendMessage("You can't divorce anyone if you're not married!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You can't divorce anyone if you're not married!").build()).queue();
             return;
         }
         List<Member> members = event.getMessage().getMentionedMembers();
         if (members.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a person to divorce").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a person to divorce.").build()).queue();
             return;
         }
         if (!Utility.isMarried(members.get(0).getId())) {
-            event.getChannel().sendMessage("That user isn't even married to anyone...").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("That user isn't even married to anyone...").build()).queue();
             return;
         }
         String marriedUser = Utility.getMarriedUser(event.getAuthor().getId());
@@ -35,7 +35,7 @@ public class DivorceCommand implements ICommand {
                 Utility.marriedUsers.remove(marriedUser);
             }
         }
-        event.getChannel().sendMessage("How sad, " + event.getAuthor().getAsMention() + " has divorced their beloved " + members.get(0).getAsMention() + ".").queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("How sad, " + event.getAuthor().getAsMention() + " has divorced their beloved " + members.get(0).getAsMention() + ".").build()).queue();
     }
 
     @Override
@@ -56,5 +56,10 @@ public class DivorceCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MARRIAGE;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

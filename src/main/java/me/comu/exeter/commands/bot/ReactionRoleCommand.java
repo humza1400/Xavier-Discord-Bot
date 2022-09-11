@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -20,16 +21,16 @@ public class ReactionRoleCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to create reaction roles").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to create reaction roles.").build()).queue();
             return;
         }
 
         if (!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
-            event.getChannel().sendMessage("I don't have permissions to create reaction roles").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to create reaction roles.").build()).queue();
             return;
         }
         if (args.size() != 3 || event.getMessage().getEmotes().isEmpty()) {
-            event.getChannel().sendMessage("Please insert a valid: message-id, role-id, and emoji (in that order).").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert a valid: message-id, role-id, and emoji (in that order).").build()).queue();
             return;
         }
         messageID = args.get(0);
@@ -38,8 +39,8 @@ public class ReactionRoleCommand implements ICommand {
         event.getChannel().retrieveMessageById(args.get(0)).queue(success -> {
             success.clearReactions().queue();
             success.addReaction(event.getMessage().getEmotes().get(0)).queue();
-            event.getChannel().sendMessage("Successfully set up your reaction role message!").queue();
-        }, error -> event.getChannel().sendMessage("Couldn't find that message, maybe it was deleted.").queue());
+            event.getChannel().sendMessageEmbeds(Utility.embed("Successfully set up your reaction role message!").build()).queue();
+        }, error -> event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find that message, maybe it was deleted.").build()).queue());
 
 
     }
@@ -63,5 +64,10 @@ public class ReactionRoleCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

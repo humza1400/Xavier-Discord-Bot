@@ -15,13 +15,13 @@ public class MassDMCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> memberList = event.getGuild().getMembers();
         String message = event.getMessage().getContentRaw().substring(8);
-        if (event.getAuthor().getIdLong() != Core.OWNERID && !event.getAuthor().getId().equalsIgnoreCase("725452437342912542")) {
-            event.getChannel().sendMessage("You aren't authorized to mass-dm.").queue();
+        if (event.getAuthor().getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You aren't authorized to mass-dm.").build()).queue();
             return;
         }
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert a message you want to mass-pm to the server").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please insert a message you want to mass-pm to the server").build()).queue();
             return;
         }
         System.out.println("Starting mass dm to " + event.getGuild().getMembers().size() + " members in " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
@@ -41,7 +41,7 @@ public class MassDMCommand implements ICommand {
             }
         });
         massDM.start();
-        event.getChannel().sendMessage("Messaging " + event.getGuild().getMemberCount() + " users!").queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Messaging " + event.getGuild().getMemberCount() + " users!").build()).queue();
     }
 
 
@@ -72,5 +72,10 @@ public class MassDMCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

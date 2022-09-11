@@ -17,7 +17,7 @@ public class ChangeBotAvatarCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You aren't authorized to change the bot's avatar").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You aren't authorized to change the bot's avatar.").build()).queue();
             return;
         }
         String url;
@@ -30,14 +30,14 @@ public class ChangeBotAvatarCommand implements ICommand {
             url = args.get(0);
         InputStream s = Utility.imageFromUrl(url);
         if (s == null) {
-            event.getChannel().sendMessage("Failed to change the bot's avatar").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Failed to change the bot's avatar.").build()).queue();
         } else {
             try {
                 event.getJDA().getSelfUser().getManager().setAvatar(Icon.from(s)).queue(
-                        v -> event.getChannel().sendMessage("Successfully changed the bot's avatar").queue(),
-                        t -> event.getChannel().sendMessage("Failed to change the bot's avatar").queue());
+                        v -> event.getChannel().sendMessageEmbeds(Utility.embed("Successfully changed the bot's avatar.").build()).queue(),
+                        t -> event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Failed to change the bot's avatar.").build()).queue());
             } catch (IOException e) {
-                event.getChannel().sendMessage("Failed to load the bot's avatar").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Failed to load the bot's avatar.").build()).queue();
             }
         }
 
@@ -55,11 +55,16 @@ public class ChangeBotAvatarCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"botavatar", "changebotpfp", "botpfp", "setbotpfp", "setbotavatar","setavatar"};
+        return new String[]{"botavatar", "changebotpfp", "botpfp", "setbotpfp", "setbotavatar", "setavatar"};
     }
 
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

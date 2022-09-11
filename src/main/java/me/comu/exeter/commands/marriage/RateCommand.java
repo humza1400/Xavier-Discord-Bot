@@ -16,7 +16,7 @@ public class RateCommand implements ICommand {
         int random = (int) (Math.random() * 100) + 1;
         if (args.isEmpty())
         {
-            event.getChannel().sendMessage(String.format("**%s** rates themselves %s%% :flushed:", Objects.requireNonNull(event.getMember()).getEffectiveName(), random)).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(String.format("**%s** rates themselves %s%% :flushed:", Objects.requireNonNull(event.getMember()).getEffectiveName(), random)).build()).queue();
             return;
         }
 
@@ -24,17 +24,14 @@ public class RateCommand implements ICommand {
         if (!args.isEmpty() && mentionedMembers.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
-                return;
-            } else if (targets.size() > 1) {
-                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0)) + ".").build()).queue();
                 return;
             }
-            event.getChannel().sendMessage(String.format("**%s** rates **%s** %s%%", Objects.requireNonNull(event.getMember()).getEffectiveName(), targets.get(0).getEffectiveName(), random)).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(String.format("**%s** rates **%s** %s%%", Objects.requireNonNull(event.getMember()).getEffectiveName(), targets.get(0).getEffectiveName(), random)).build()).queue();
         }
         else if (!args.isEmpty())
         {
-            event.getChannel().sendMessage(String.format("**%s** rates **%s** %s%%", Objects.requireNonNull(event.getMember()).getEffectiveName(), mentionedMembers.get(0).getEffectiveName(), random)).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(String.format("**%s** rates **%s** %s%%", Objects.requireNonNull(event.getMember()).getEffectiveName(), mentionedMembers.get(0).getEffectiveName(), random)).build()).queue();
         }
     }
 
@@ -56,5 +53,10 @@ public class RateCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MARRIAGE;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.lang.management.ManagementFactory;
@@ -20,10 +21,7 @@ public class UptimeCommand implements ICommand {
         long numberOfMinutes = (uptimeInSeconds / 60) - (numberOfHours * 60);
         long numberOfSeconds = uptimeInSeconds % 60;
 
-        event.getChannel().sendMessageFormat(
-                "Uptime: `%s hours, %s minutes, %s seconds`",
-                numberOfHours, numberOfMinutes, numberOfSeconds
-        ).queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed(String.format("Uptime: **%s hours, %s minutes, %s seconds**", numberOfHours, numberOfMinutes, numberOfSeconds)).build()).queue();
     }
     @Override
     public String getHelp() {
@@ -43,5 +41,10 @@ public class UptimeCommand implements ICommand {
   @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

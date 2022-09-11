@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -20,7 +21,7 @@ public class BotsCommand implements ICommand {
         for (Member m : bots) {
             buffer.append(count++).append(". ").append(m.getAsMention()).append("\n");
         }
-        event.getChannel().sendMessage("Total bots: `" + bots.size() + "`\n" + buffer.toString()).queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Total bots: `" + bots.size() + "`\n" + buffer).build()).queue();
     }
 
     @Override
@@ -41,5 +42,10 @@ public class BotsCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

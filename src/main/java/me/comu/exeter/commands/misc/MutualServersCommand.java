@@ -3,7 +3,7 @@ package me.comu.exeter.commands.misc;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -21,32 +21,29 @@ public class MutualServersCommand implements ICommand {
             StringBuilder stringBuffer = new StringBuilder();
             for (Guild guild : mutualGuilds)
                 stringBuffer.append("**").append(guild.getName()).append("** (").append(guild.getId()).append(")\n");
-            event.getChannel().sendMessage(EmbedUtils.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).build()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator()).setColor(Core.getInstance().getColorTheme()).build()).queue();
             return;
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
         if (!memberList.isEmpty()) {
-                List<Guild> mutualGuilds = memberList.get(0).getUser().getMutualGuilds();
-                StringBuilder stringBuffer = new StringBuilder();
-                for (Guild guild : mutualGuilds)
-                    stringBuffer.append("**").append(guild.getName()).append("** (").append(guild.getId()).append(")\n");
-                event.getChannel().sendMessage(EmbedUtils.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + memberList.get(0).getUser().getName() + "#" + memberList.get(0).getUser().getDiscriminator()).build()).queue();
-                return;
+            List<Guild> mutualGuilds = memberList.get(0).getUser().getMutualGuilds();
+            StringBuilder stringBuffer = new StringBuilder();
+            for (Guild guild : mutualGuilds)
+                stringBuffer.append("**").append(guild.getName()).append("** (").append(guild.getId()).append(")\n");
+            event.getChannel().sendMessageEmbeds(Utility.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + memberList.get(0).getUser().getName() + "#" + memberList.get(0).getUser().getDiscriminator()).setColor(Core.getInstance().getColorTheme()).build()).queue();
+            return;
         }
         if (!args.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
-                return;
-            } else if (targets.size() > 1) {
-                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0) + ".")).build()).queue();
                 return;
             }
             List<Guild> mutualGuilds = targets.get(0).getUser().getMutualGuilds();
             StringBuilder stringBuffer = new StringBuilder();
             for (Guild guild : mutualGuilds)
                 stringBuffer.append("**").append(guild.getName()).append("** (").append(guild.getId()).append(")\n");
-            event.getChannel().sendMessage(EmbedUtils.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + targets.get(0).getUser().getName() + "#" + targets.get(0).getUser().getDiscriminator()).build()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embedMessage(stringBuffer.toString()).setTitle("Mutual Guilds with " + targets.get(0).getUser().getName() + "#" + targets.get(0).getUser().getDiscriminator()).setColor(Core.getInstance().getColorTheme()).build()).queue();
         }
     }
 
@@ -65,8 +62,13 @@ public class MutualServersCommand implements ICommand {
         return new String[]{"mutuals", "mutualservers"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

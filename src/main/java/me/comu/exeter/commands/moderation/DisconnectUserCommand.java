@@ -17,35 +17,32 @@ public class DisconnectUserCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.VOICE_MOVE_OTHERS) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to disconnect a user from VC").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to disconnect a user from VC").build()).queue();
             return;
         }
 
         if (!event.getGuild().getSelfMember().hasPermission(Permission.VOICE_MOVE_OTHERS)) {
-            event.getChannel().sendMessage("I don't have permissions to disconnect that user").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to disconnect that user").build()).queue();
             return;
         }
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a user to disconnect from VC").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify a user to disconnect from VC").build()).queue();
             return;
         }
         if (mentionedMembers.isEmpty())
         {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0) + ".")).build()).queue();
                 return;
-            } else if (targets.size() > 1) {
-                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
-                return;
-            }
+            } 
             if (Objects.requireNonNull(targets.get(0).getVoiceState()).inVoiceChannel())
             {
                 event.getGuild().kickVoiceMember(targets.get(0)).queue();
-                event.getChannel().sendMessage("Disconnected " + targets.get(0).getAsMention() + " from VC!").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Disconnected " + targets.get(0).getAsMention() + " from VC!").build()).queue();
             } else {
-                event.getChannel().sendMessage("That user is not in a voice channel.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("That user is not in a voice channel.").build()).queue();
             }
             return;
         }
@@ -53,9 +50,9 @@ public class DisconnectUserCommand implements ICommand {
         if (Objects.requireNonNull(member.getVoiceState()).inVoiceChannel())
         {
          event.getGuild().kickVoiceMember(member).queue();
-         event.getChannel().sendMessage("Disconnected " + member.getAsMention() + " from VC!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Disconnected " + member.getAsMention() + " from VC!").build()).queue();
         } else {
-            event.getChannel().sendMessage("That user is not in a voice channel.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("That user is not in a voice channel.").build()).queue();
         }
 
     }
@@ -78,5 +75,10 @@ public class DisconnectUserCommand implements ICommand {
      @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

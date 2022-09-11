@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -16,7 +17,7 @@ public class ScrapeCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty())
         {
-            event.getChannel().sendMessage("Please specify what protocol scrape you would like to use.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify what protocol scrape you would like to use.").build()).queue();
             return;
         }
         List<Member> memberList = event.getGuild().getMembers();
@@ -36,12 +37,12 @@ public class ScrapeCommand implements ICommand {
             embedBuilder.setColor(0x521e8a);
             embedBuilder.setFooter("Scraped By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getEffectiveAvatarUrl());
             event.getChannel().sendTyping().queue();
-            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
             long time = System.currentTimeMillis();
-            event.getChannel().sendMessage("A;; users scraped to `Swag's Test Server` in `#ilovemen`").queue(response -> response.editMessageFormat("users scraped to `Swag's Test Server` in `#ilovemen` (%d ms)" , System.currentTimeMillis() - time).queue());
+            event.getChannel().sendMessageEmbeds(Utility.embed("users scraped to `Swag's Test Server` in `#ilovemen`").build()).queue(response -> response.editMessageFormat("users scraped to `Swag's Test Server` in `#ilovemen` (%d ms)" , System.currentTimeMillis() - time).queue());
             embedBuilder.clear();
         } catch (IllegalArgumentException e) {
-            event.getChannel().sendMessage("Value cannot be longer than 1024 characters!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Value cannot be longer than 1024 characters!").build()).queue();
         }
 
 
@@ -65,5 +66,10 @@ public class ScrapeCommand implements ICommand {
    @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

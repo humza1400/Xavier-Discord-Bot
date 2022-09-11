@@ -15,8 +15,7 @@ public class MockCommand implements ICommand {
             return;
         }
         StringBuilder message = new StringBuilder();
-        for (String msg : args)
-        {
+        for (String msg : args) {
             message.append(msg).append(" ");
         }
         StringBuilder newMessage = new StringBuilder();
@@ -49,5 +48,10 @@ public class MockCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

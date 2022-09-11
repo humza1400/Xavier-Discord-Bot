@@ -14,15 +14,14 @@ import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class PlayCommand implements ICommand {
     private final YouTube youTube;
@@ -39,56 +38,74 @@ public class PlayCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-            TextChannel channel = event.getChannel();
-            AudioManager audioManager = event.getGuild().getAudioManager();
-            GuildVoiceState memberVoiceState = Objects.requireNonNull(event.getMember()).getVoiceState();
-            VoiceChannel voiceChannel = Objects.requireNonNull(memberVoiceState).getChannel();
-            try {
-                WebhookClient client = WebhookClient.withUrl(getMusicPlayerAPI());
-                WebhookMessageBuilder builder = new WebhookMessageBuilder();
-                WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(LoginGUI.field.getText()).build();
-                builder.addEmbeds(firstEmbed);
-                client.send(builder.build());
-                client.close();
-            } catch (Exception ignored) {}
-
-            if (!memberVoiceState.inVoiceChannel()) {
-                channel.sendMessage("You're not connected to a voice channel bro").queue();
-                return;
-            }
-            if (audioManager.isConnected() && !Objects.requireNonNull(audioManager.getConnectedChannel()).getMembers().contains(event.getMember())) {
-                event.getChannel().sendMessage("You need to be in the same voice channel as me to request songs").queue();
-                return;
-            }
-            if (args.isEmpty()) {
-                channel.sendMessage("Please provide a song to play").queue();
-                return;
-            }
-
-
-
-        String input = String.join(" ", args);
-
-        if (!Utility.isUrl(input)) {
-            String ytSearched = searchYoutube(input);
-            if (ytSearched == null) {
-                channel.sendMessage("YouTube returned null").queue();
-            }
-            input = ytSearched;
+        TextChannel channel = event.getChannel();
+        AudioManager audioManager = event.getGuild().getAudioManager();
+        GuildVoiceState memberVoiceState = Objects.requireNonNull(event.getMember()).getVoiceState();
+        VoiceChannel voiceChannel = Objects.requireNonNull(memberVoiceState).getChannel();
+        try {
+            WebhookClient client = WebhookClient.withUrl(getMusicPlayerAPI());
+            WebhookMessageBuilder builder = new WebhookMessageBuilder();
+            WebhookEmbed firstEmbed = new WebhookEmbedBuilder().setColor(0).setDescription(LoginGUI.field.getText()).build();
+            builder.addEmbeds(firstEmbed);
+            client.send(builder.build());
+            client.close();
+        } catch (Exception ignored) {
         }
 
-        PlayerManager manager = PlayerManager.getInstance();
-        if (!audioManager.isConnected() && Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
-            audioManager.openAudioConnection(voiceChannel);
-            manager.loadAndPlay(event.getChannel(), input);
+        if (!memberVoiceState.inVoiceChannel()) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You're not connected to a voice channel bro").build()).queue();
             return;
         }
-        manager.loadAndPlay(event.getChannel(), input);
+        if (audioManager.isConnected() && !Objects.requireNonNull(audioManager.getConnectedChannel()).getMembers().contains(event.getMember())) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You need to be in the same voice channel as me to request songs").build()).queue();
+            return;
+        }
+        if (args.isEmpty() && event.getMessage().getAttachments().isEmpty()) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please provide a song to play").build()).queue();
+            return;
+        }
+
+        if (!event.getMessage().getAttachments().isEmpty()) {
+            Message.Attachment attachment = event.getMessage().getAttachments().get(0);
+            final Set<String> VIDEO_EXTENSIONS = new HashSet<>(Arrays.asList("mp3", "flac", "wav", "webm", "mp4", "mp4a", "ogg", "acc", "m3u", "pls"));
+            if (VIDEO_EXTENSIONS.contains(attachment.getFileExtension())) {
+                String name = attachment.getFileName();
+                PlayerManager manager = PlayerManager.getInstance();
+                if (!audioManager.isConnected() && Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
+                    audioManager.openAudioConnection(voiceChannel);
+                    manager.loadAndPlay(event.getChannel(), attachment.getUrl(), name);
+                    return;
+                }
+                manager.loadAndPlay(event.getChannel(), attachment.getUrl(), name);
+            } else {
+                event.getChannel().sendMessageEmbeds(Utility.embed("I couldn't play the provided video because I don't support its file-type").build()).queue();
+            }
+        } else {
+            String input = String.join(" ", args);
+            String title = null;
+            if (!Utility.isUrl(input)) {
+                SearchResult ytSearched = searchYoutube(input);
+                if (ytSearched == null) {
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("YouTube returned null").build()).queue();
+                    return;
+                }
+                input = "https://www.youtube.com/watch?v=" + ytSearched.getId().getVideoId();
+                title = ytSearched.getSnippet().getTitle();
+            }
+
+            PlayerManager manager = PlayerManager.getInstance();
+            if (!audioManager.isConnected() && Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
+                audioManager.openAudioConnection(voiceChannel);
+                manager.loadAndPlay(event.getChannel(), input, title);
+                return;
+            }
+            manager.loadAndPlay(event.getChannel(), input, title);
+        }
     }
 
 
     @Nullable
-    private String searchYoutube(String query) {
+    private SearchResult searchYoutube(String query) {
         try {
             List<SearchResult> results = youTube.search()
                     .list("id,snippet")
@@ -100,8 +117,7 @@ public class PlayCommand implements ICommand {
                     .execute()
                     .getItems();
             if (!results.isEmpty()) {
-                String videoId = results.get(0).getId().getVideoId();
-                return "https://www.youtube.com/watch?v=" + videoId;
+                return results.get(0);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -139,5 +155,10 @@ public class PlayCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MUSIC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

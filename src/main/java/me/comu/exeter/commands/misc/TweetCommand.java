@@ -1,9 +1,10 @@
 package me.comu.exeter.commands.misc;
 
-import me.comu.exeter.core.Config;
+import me.comu.exeter.utility.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
+
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,7 @@ public class TweetCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.size() < 2) {
-            event.getChannel().sendMessage("Please specify a user and what you want the tweet to say").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a user and what you want the tweet to say").build()).queue();
             return;
         }
         String username = args.get(0);
@@ -33,7 +34,7 @@ public class TweetCommand implements ICommand {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Config.clearCacheDirectory();
-                event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed(Utility.ERROR_EMOTE + " Something went wrong making a request to the endpoint").build()).queue();
                 e.printStackTrace();
             }
 
@@ -43,9 +44,9 @@ public class TweetCommand implements ICommand {
                     String jsonResponse = Objects.requireNonNull(response.body()).string();
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     String url = jsonObject.toMap().get("message").toString();
-                    event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embedImage(url).setColor(Core.getInstance().getColorTheme()).build()).queue();
                 } else {
-                    event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed(Utility.ERROR_EMOTE + " Something went wrong making a request to the endpoint").build()).queue();
                 }
 
             }
@@ -65,11 +66,16 @@ public class TweetCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"twitter"};
+        return new String[]{"twitter", "twt"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

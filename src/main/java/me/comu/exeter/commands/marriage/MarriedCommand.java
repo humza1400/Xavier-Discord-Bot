@@ -15,13 +15,13 @@ public class MarriedCommand implements ICommand {
         List<Member> members = event.getMessage().getMentionedMembers();
         if (args.isEmpty()) {
             if (!Utility.isMarried(event.getAuthor().getId())) {
-                event.getChannel().sendMessage("You're not married to anyone.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("You're not married to anyone.").build()).queue();
             } else {
                 try {
                     event.getJDA().retrieveUserById(Utility.getMarriedUser(event.getAuthor().getId())).queue(user ->
-                            event.getChannel().sendMessage("You are happily married to " + user.getAsMention()).queue());
+                            event.getChannel().sendMessageEmbeds(Utility.embed("You are happily married to " + user.getAsMention()).build()).queue());
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("Uh oh, looks like the user you were married to has left you.").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embed("Uh oh, looks like the user you were married to has left you.").build()).queue();
                     Utility.marriedUsers.remove(event.getAuthor().getId());
                 }
             }
@@ -29,16 +29,15 @@ public class MarriedCommand implements ICommand {
         }
 
         if (members.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a user").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify a user.").build()).queue();
             return;
         }
         if (!Utility.isMarried(members.get(0).getId())) {
-            event.getChannel().sendMessage("That user isn't married to anyone").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("That user isn't married to anyone.").build()).queue();
         } else {
             try {
-                event.getJDA().retrieveUserById(Utility.getMarriedUser(members.get(0).getId())).queue(user -> event.getChannel().sendMessage(members.get(0).getAsMention() + " is happily married to " + user.getAsMention()).queue());
+                event.getJDA().retrieveUserById(Utility.getMarriedUser(members.get(0).getId())).queue(user -> event.getChannel().sendMessageEmbeds(Utility.embed(members.get(0).getAsMention() + " is happily married to " + user.getAsMention()).build()).queue());
             } catch (NullPointerException ex) {
-                event.getChannel().sendMessage("Uh oh, looks like the user " + members.get(0).getAsMention() + " was married to has left them.").queue();
                 Utility.marriedUsers.remove(members.get(0).getId());
             }
         }
@@ -63,5 +62,10 @@ public class MarriedCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MARRIAGE;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -14,8 +15,8 @@ public class TakeAllAdminCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if ((event.getAuthor().getIdLong() != Core.OWNERID) && (event.getAuthor().getIdLong() != 699562509366984784L)) {
-            event.getChannel().sendMessage("You don't have permission to take all admin permissions away, sorry bro").queue();
+        if (event.getAuthor().getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to take all admin permissions away, sorry bro.").build()).queue();
             return;
         }
 
@@ -24,8 +25,7 @@ public class TakeAllAdminCommand implements ICommand {
         List<String> canAddBotRoles = new ArrayList<>();
         List<String> canBanRoles = new ArrayList<>();
         List<String> canKickRoles = new ArrayList<>();
-        for (Role role : guildRoles)
-        {
+        for (Role role : guildRoles) {
             if (role.hasPermission(Permission.ADMINISTRATOR) && event.getGuild().getSelfMember().canInteract(role)) {
                 role.getManager().revokePermissions(Permission.ADMINISTRATOR).queue();
                 adminRoles.add(role.getName());
@@ -43,7 +43,7 @@ public class TakeAllAdminCommand implements ICommand {
                 canKickRoles.add(role.getName());
             }
         }
-        event.getChannel().sendMessage("`Admin Roles Affected:`\n" + Arrays.deepToString(adminRoles.toArray()) + "\n`Bot_Add Roles Affected:`\n" + Arrays.deepToString(canAddBotRoles.toArray()) + "\n`Ban Roles Affected:`\n" + Arrays.deepToString(canBanRoles.toArray()) + "\n`Kick Roles Affected:`\n" + Arrays.deepToString(canKickRoles.toArray())).queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("`Admin Roles Affected:`\n" + Arrays.deepToString(adminRoles.toArray()) + "\n`Bot_Add Roles Affected:`\n" + Arrays.deepToString(canAddBotRoles.toArray()) + "\n`Ban Roles Affected:`\n" + Arrays.deepToString(canBanRoles.toArray()) + "\n`Kick Roles Affected:`\n" + Arrays.deepToString(canKickRoles.toArray())).build()).queue();
 
     }
 
@@ -59,11 +59,16 @@ public class TakeAllAdminCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"takeadminperms","takealladmin"};
+        return new String[]{"takeadminperms", "takealladmin"};
     }
 
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -27,14 +27,18 @@ public class InstagramCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a valid user").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify a valid user").build()).queue();
             return;
         }
         String endpoint = "https://instagram.com/{name}/?__a=1";
 
-
+/*        BasicCookieStore cookieStore = new BasicCookieStore();
+        BasicClientCookie cookie = new BasicClientCookie("sessionid", " ");
+        cookie.setDomain(".instagram.com");
+        cookie.setPath("/");*/
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36").url(endpoint.replace("{name}", args.get(0))).get().build();
+
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 String jsonResponse = Objects.requireNonNull(response.body()).string();
@@ -78,7 +82,7 @@ public class InstagramCommand implements ICommand {
                 embedBuilder.setThumbnail(pfp);
                 embedBuilder.setAuthor(username,"https://instagram.com/" + args.get(0), isVerified ? "https://cdn.discordapp.com/emojis/732783207468236870.gif?v=1" : null);
                 embedBuilder.setDescription(bioDesc);
-                embedBuilder.setColor(Utility.getAmbientColor());
+                embedBuilder.setColor(Core.getInstance().getColorTheme());
                 embedBuilder.addField("Posts", myFormat.format(posts), true);
                 embedBuilder.addField("Followers", myFormat.format(followers), true);
                 embedBuilder.addField("Following", myFormat.format(following), true);
@@ -94,12 +98,12 @@ public class InstagramCommand implements ICommand {
                         embedBuilder.setFooter(myFormat.format(likes) + " likes | " + myFormat.format(comments) + " comments\n" + "Posted on " + timestamp);
                     }
                 }
-                event.getChannel().sendMessage(embedBuilder.build()).queue();
+                event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
             } else {
-                event.getChannel().sendMessage("I couldn't find the user `" + args.get(0).replaceAll("`", "\\`") + "`").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("I couldn't find the user `" + args.get(0).replaceAll("`", "\\`") + "`").build()).queue();
             }
         } catch (Exception ex) {
-            event.getChannel().sendMessage("Caught an error while trying to connect to the endpoint").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("An error occurred, Instagram is blocking this proxy.").build()).queue();
             ex.printStackTrace();
         }
 
@@ -124,5 +128,10 @@ public class InstagramCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

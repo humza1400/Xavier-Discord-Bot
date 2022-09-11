@@ -2,6 +2,7 @@ package me.comu.exeter.commands.owner;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -11,13 +12,13 @@ import java.util.Random;
 public class CreateVoiceChannelCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("725452437342912542")) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             return;
         }
         try {
             int input = Integer.parseInt(args.get(0));
             for (int i = 0; i < input; i++) {
-                event.getGuild().createVoiceChannel("GRIEFED BY SWAG" + (this.getRandom())).setUserlimit(69).queue();
+                event.getGuild().createVoiceChannel("champagnepapi" + (this.getRandom())).setUserlimit(69).queue();
                 if (i == input - 1) {
                     event.getMessage().delete().queue();
 //                    EmbedBuilder eb = new EmbedBuilder();
@@ -27,7 +28,7 @@ public class CreateVoiceChannelCommand implements ICommand {
                 }
             }
         } catch (NumberFormatException | ArrayIndexOutOfBoundsException ex) {
-            event.getChannel().sendMessage("Insert an amount of voice channels to create, dummy! ").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Insert an amount of voice channels to create, dummy!").build()).queue();
         }
 
     }
@@ -54,5 +55,10 @@ public class CreateVoiceChannelCommand implements ICommand {
      @Override
     public Category getCategory() {
         return Category.OWNER;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

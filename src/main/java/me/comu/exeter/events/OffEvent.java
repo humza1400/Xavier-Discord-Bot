@@ -1,10 +1,9 @@
 package me.comu.exeter.events;
 
-import me.comu.exeter.commands.admin.AntiRaidCommand;
 import me.comu.exeter.commands.admin.WhitelistCommand;
 import me.comu.exeter.commands.moderation.OffCommand;
 import me.comu.exeter.core.Core;
-import me.comu.exeter.util.CompositeKey;
+import me.comu.exeter.objects.WhitelistKey;
 import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -30,12 +29,12 @@ public class OffEvent extends ListenerAdapter {
 
         // Webhook Anti-Raid Event
 
-        if (AntiRaidCommand.isActive() && event.getMessage().isWebhookMessage() && (!(event.getMessage().getMentionedUsers().isEmpty() || event.getMessage().getMentionedRoles().isEmpty()) || event.getMessage().getContentRaw().contains(".gg/"))) {
+        if (Utility.isAntiRaidEnabled(event.getGuild().getId()) && event.getMessage().isWebhookMessage() && (!(event.getMessage().getMentionedUsers().isEmpty() || event.getMessage().getMentionedRoles().isEmpty()) || event.getMessage().getContentRaw().contains(".gg/"))) {
             event.getMessage().delete().queue();
             event.getChannel().retrieveWebhooks().queue((webhooks -> {
                 for (Webhook webhook : webhooks) {
                     event.getChannel().deleteWebhookById(webhook.getId()).queue((specificwebhook -> {
-                        if (webhook.getOwner() != null && webhook.getOwner().getIdLong() != (Core.OWNERID) && !webhook.getOwner().getId().equals(event.getJDA().getSelfUser().getId()) && !webhook.getOwner().getId().equals(event.getGuild().getOwnerId()) && !Utility.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), webhook.getOwner().getId(), event.getGuild().getId()) && Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), webhook.getOwner().getId()))) != 0 && Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), webhook.getOwner().getId()))) != 1 && Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(CompositeKey.of(event.getGuild().getId(), webhook.getOwner().getId()))) != 2) {
+                        if (webhook.getOwner() != null && webhook.getOwner().getIdLong() != (Core.OWNERID) && !webhook.getOwner().getId().equals(event.getJDA().getSelfUser().getId()) && !webhook.getOwner().getId().equals(event.getGuild().getOwnerId()) && !Utility.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), webhook.getOwner().getId(), event.getGuild().getId()) && Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(WhitelistKey.of(event.getGuild().getId(), webhook.getOwner().getId()))) != 0 && Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(WhitelistKey.of(event.getGuild().getId(), webhook.getOwner().getId()))) != 1 && Integer.parseInt(WhitelistCommand.getWhitelistedIDs().get(WhitelistKey.of(event.getGuild().getId(), webhook.getOwner().getId()))) != 2) {
                             if (event.getGuild().getSelfMember().canInteract(webhook.getOwner())) {
                                 Member member = webhook.getOwner();
                                 if (member != null && !event.getGuild().getSelfMember().canInteract(member))
@@ -67,13 +66,13 @@ public class OffEvent extends ListenerAdapter {
                                 String rolesRemoved = (stringArray.length == 0) ? "@\u200beveryone" : Arrays.deepToString(stringArray);
                                 String userComu = Objects.requireNonNull(event.getJDA().getUserById(Core.OWNERID)).getId();
                                 String userOwner = Objects.requireNonNull(event.getGuild().getOwner()).getUser().getId();
-                                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a MM/dd/yyyy");
+                                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a MM/dd/yyyy");
                                 LocalDateTime now = LocalDateTime.now();
                                 String botCheck = member.getUser().isBot() ? "`Yes`" : "`No`";
                                 Utility.sendPrivateMessage(event.getJDA(), userComu, "**Anti-Raid Report For " + Utility.removeMarkdown(event.getGuild().getName()) + "**\nWizzer: `" + Utility.removeMarkdown(member.getUser().getAsTag())+ " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `WEBHOOK`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                                 Utility.sendPrivateMessage(event.getJDA(), userOwner, "**Anti-Raid Report For " + Utility.removeMarkdown(event.getGuild().getName()) + "**\nWizzer: `" + Utility.removeMarkdown(member.getUser().getAsTag()) + " (" + member.getId() + ")`\nWhen: `" + dtf.format(now) + "`" + "\nType: `WEBHOOK`\nBot: " + botCheck + "\nAction Taken: `Roles Removed`\nRoles Removed: `" + rolesRemoved + "`");
                                 if (!WhitelistCommand.getWhitelistedIDs().isEmpty()) {
-                                    for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+                                    for (WhitelistKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
                                         if (Utility.isWhitelisted(WhitelistCommand.getWhitelistedIDs(), x.getUserID(), x.getGuildID()) && x.getGuildID().equals(event.getGuild().getId())) {
                                             User whitelistUser = event.getJDA().getUserById(x.getUserID());
                                             if (!Objects.requireNonNull(whitelistUser).isBot())

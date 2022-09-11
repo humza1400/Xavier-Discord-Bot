@@ -6,7 +6,8 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
+
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -23,13 +24,12 @@ public class NowPlayingCommand implements ICommand {
         AudioPlayer player = guildMusicManager.player;
 
         if (player.getPlayingTrack() == null) {
-            channel.sendMessage("There is no song currently playing").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("There is no song currently playing").build()).queue();
             return;
         }
         // add loading bar
         AudioTrackInfo info = player.getPlayingTrack().getInfo();
-        channel.sendMessage(EmbedUtils.embedMessage(String.format("**Playing** [%s](%s)\n%s %s - %s\n", info.title, info.uri, player.isPaused() ? "\u23F8" : "\u25B6", formatTime(player.getPlayingTrack().getPosition()), formatTime(player.getPlayingTrack().getDuration())
-        )).build()).queue();
+        channel.sendMessageEmbeds(Utility.embedMessage(String.format("**Playing** [%s](%s)\n%s %s - %s\n", info.title, info.uri, player.isPaused() ? "\u23F8" : "\u25B6", formatTime(player.getPlayingTrack().getPosition()), formatTime(player.getPlayingTrack().getDuration()))).setColor(Core.getInstance().getColorTheme()).build()).queue();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class NowPlayingCommand implements ICommand {
         return new String[]{"np", "playing"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MUSIC;
     }
@@ -58,5 +58,10 @@ public class NowPlayingCommand implements ICommand {
         final long seconds = timeInMillis % TimeUnit.MINUTES.toMillis(1) / TimeUnit.SECONDS.toMillis(1);
 
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

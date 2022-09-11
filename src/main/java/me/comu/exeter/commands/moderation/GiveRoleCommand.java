@@ -19,22 +19,22 @@ public class GiveRoleCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_ROLES) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to modify that user").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to manage roles").build()).queue();
             return;
         }
 
 
         if (!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
-            event.getChannel().sendMessage("I don't have permissions to modify that user").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to modify that user").build()).queue();
             return;
         }
 
         if (event.getMessage().getContentRaw().equalsIgnoreCase(Core.PREFIX + "role") || event.getMessage().getContentRaw().equalsIgnoreCase(Core.PREFIX + "giverole")) {
-            event.getChannel().sendMessage("Please specify a valid user and valid role").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a valid user and valid role").build()).queue();
             return;
         }
         if (args.size() < 2) {
-            event.getChannel().sendMessage("Please specify a valid user and a valid role").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a valid user and a valid role").build()).queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase("all")) {
@@ -45,7 +45,7 @@ public class GiveRoleCommand implements ICommand {
                 try {
                     Role role = Objects.requireNonNull(event.getGuild().getRoleById(args.get(1)));
                     if (!event.getGuild().getSelfMember().canInteract(role)) {
-                        event.getChannel().sendMessage("I don't have permission to interact with that role!").queue();
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permission to interact with that role!").build()).queue();
                         return;
                     }
                     if (event.getMember().canInteract(role)) {
@@ -54,21 +54,18 @@ public class GiveRoleCommand implements ICommand {
                                 event.getGuild().addRoleToMember(m, role).reason("Given by " + event.getAuthor().getAsTag()).queue();
                             }
                         }
-                        event.getChannel().sendMessage("Giving everyone the `" + role.getName() + "` role, this may take some time").queue();
+                        event.getChannel().sendMessageEmbeds(Utility.embed("Giving everyone the `" + role.getName() + "` role, this may take some time").build()).queue();
                         return;
                     } else {
-                        event.getChannel().sendMessage("You don't have permission to interact with that role!").queue();
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to interact with that role!").build()).queue();
                         return;
                     }
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("Couldn't find a role matching that ID").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find a role matching that ID").build()).queue();
                 } catch (NumberFormatException ex) {
-                    event.getChannel().sendMessage("Couldn't find the role " + Utility.removeMentions(stringJoiner.toString())).queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the role " + Utility.removeMentions(stringJoiner.toString())).build()).queue();
                     return;
                 }
-            } else if (roles.size() > 1) {
-                event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
-                return;
             }
             if (event.getMember().canInteract(roles.get(0))) {
                 for (Member m : event.getGuild().getMembers()) {
@@ -76,12 +73,11 @@ public class GiveRoleCommand implements ICommand {
                         event.getGuild().addRoleToMember(m, roles.get(0)).reason("Given by " + event.getAuthor().getAsTag()).queue();
                     }
                 }
-                event.getChannel().sendMessage("Giving everyone the `" + roles.get(0).getName() + "` role, this may take some time").queue();
-                return;
+                event.getChannel().sendMessageEmbeds(Utility.embed("Giving everyone the `" + roles.get(0).getName() + "` role, this may take some time").build()).queue();
             } else {
-                event.getChannel().sendMessage("You don't have permission to interact with that role!").queue();
-                return;
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to interact with that role!").build()).queue();
             }
+            return;
         }
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
         if (mentionedMembers.isEmpty()) {
@@ -90,62 +86,54 @@ public class GiveRoleCommand implements ICommand {
             args.stream().skip(1).forEach(stringJoiner::add);
             List<Role> roles = event.getGuild().getRolesByName(stringJoiner.toString(), true);
             if (members.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
-                return;
-            } else if (members.size() > 1) {
-                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0) + ".")).build()).queue();
                 return;
             }
             if (roles.isEmpty()) {
                 try {
                     Role role = Objects.requireNonNull(event.getGuild().getRoleById(args.get(1)));
                     if (!event.getMember().canInteract(role)) {
-                        event.getChannel().sendMessage("You cannot modify a role or user whilst it is a higher precedent than your own").queue();
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You cannot modify a role or user whilst it is a higher precedent than your own").build()).queue();
                         return;
                     }
                     if (!event.getGuild().getSelfMember().canInteract(role)) {
-                        event.getChannel().sendMessage("I cannot modify a role or user whilst it is a higher precedent than my own").queue();
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I cannot modify a role or user whilst it is a higher precedent than my own").build()).queue();
                         return;
                     }
                     if (members.get(0).getRoles().contains(role)) {
                         event.getGuild().removeRoleFromMember(members.get(0), role).queue();
-                        event.getChannel().sendMessage("Removed **" + role.getName() + "** from **" + members.get(0).getAsMention() + "**.").queue();
-                        return;
+                        event.getChannel().sendMessageEmbeds(Utility.embed("Removed **" + role.getName() + "** from **" + members.get(0).getAsMention() + "**.").build()).queue();
                     } else {
                         event.getGuild().addRoleToMember(members.get(0), role).reason("Given by " + event.getAuthor().getAsTag()).queue();
-                        event.getChannel().sendMessage("Added **" + role.getName() + "** to **" + members.get(0).getAsMention() + "**.").queue();
-                        return;
+                        event.getChannel().sendMessageEmbeds(Utility.embed("Added **" + role.getName() + "** to **" + members.get(0).getAsMention() + "**.").build()).queue();
                     }
-
+                    return;
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("Couldn't find a role matching that ID").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find a role matching that ID").build()).queue();
                 } catch (NumberFormatException ex) {
-                    event.getChannel().sendMessage("Couldn't find the role " + Utility.removeMentions(stringJoiner.toString())).queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the role " + Utility.removeMentions(stringJoiner.toString())).build()).queue();
                     return;
                 }
-            } else if (roles.size() > 1) {
-                event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
-                return;
             }
             if (!event.getMember().canInteract(roles.get(0))) {
-                event.getChannel().sendMessage("You cannot modify a role or user whilst it is a higher precedent than your own").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You cannot modify a role or user whilst it is a higher precedent than your own").build()).queue();
                 return;
             }
             if (members.get(0).getRoles().contains(roles.get(0))) {
                 try {
                     event.getGuild().removeRoleFromMember(members.get(0), roles.get(0)).queue();
-                    event.getChannel().sendMessage("Removed **" + roles.get(0).getName() + "** from **" + members.get(0).getAsMention() + "**.").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embed("Removed **" + roles.get(0).getName() + "** from **" + members.get(0).getAsMention() + "**.").build()).queue();
                     return;
                 } catch (HierarchyException ex) {
-                    event.getChannel().sendMessage("I cannot modify a role or user whilst it is a higher precedent than my own").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I cannot modify a role or user whilst it is a higher precedent than my own").build()).queue();
                     return;
                 }
             }
             try {
                 event.getGuild().addRoleToMember(members.get(0), roles.get(0)).reason("Given by " + event.getAuthor().getAsTag()).queue();
-                event.getChannel().sendMessage("Added **" + roles.get(0).getName() + "** to **" + members.get(0).getAsMention() + "**.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Added **" + roles.get(0).getName() + "** to **" + members.get(0).getAsMention() + "**.").build()).queue();
             } catch (HierarchyException ex) {
-                event.getChannel().sendMessage("I cannot modify a role or user whilst it is a higher precedent than my own").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I cannot modify a role or user whilst it is a higher precedent than my own").build()).queue();
             }
             return;
         }
@@ -156,52 +144,48 @@ public class GiveRoleCommand implements ICommand {
             try {
                 Role role = Objects.requireNonNull(event.getGuild().getRoleById(args.get(1)));
                 if (!event.getMember().canInteract(role)) {
-                    event.getChannel().sendMessage("You cannot modify a role or user whilst it is a higher precedent than your own").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You cannot modify a role or user whilst it is a higher precedent than your own").build()).queue();
                     return;
                 }
                 if (!event.getGuild().getSelfMember().canInteract(role)) {
-                    event.getChannel().sendMessage("I cannot modify a role or user whilst it is a higher precedent than my own").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I cannot modify a role or user whilst it is a higher precedent than my own").build()).queue();
                     return;
                 }
                 if (mentionedMembers.get(0).getRoles().contains(role)) {
                     event.getGuild().removeRoleFromMember(mentionedMembers.get(0), role).queue();
-                    event.getChannel().sendMessage("Removed **" + role.getName() + "** from **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
-                    return;
+                    event.getChannel().sendMessageEmbeds(Utility.embed("Removed **" + role.getName() + "** from **" + mentionedMembers.get(0).getAsMention() + "**.").build()).queue();
                 } else {
                     event.getGuild().addRoleToMember(mentionedMembers.get(0), role).reason("Given by " + event.getAuthor().getAsTag()).queue();
-                    event.getChannel().sendMessage("Added **" + role.getName() + "** to **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
-                    return;
+                    event.getChannel().sendMessageEmbeds(Utility.embed("Added **" + role.getName() + "** to **" + mentionedMembers.get(0).getAsMention() + "**.").build()).queue();
                 }
+                return;
 
             } catch (NullPointerException ex) {
-                event.getChannel().sendMessage("Couldn't find a role matching that ID").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find a role matching that ID").build()).queue();
             } catch (NumberFormatException ex) {
-                event.getChannel().sendMessage("Couldn't find the role " + Utility.removeMentions(stringJoiner.toString())).queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the role " + Utility.removeMentions(stringJoiner.toString())).build()).queue();
                 return;
             }
-        } else if (roles.size() > 1) {
-            event.getChannel().sendMessage("Multiple roles found! Try using the role ID instead.").queue();
-            return;
         }
         if (!event.getMember().canInteract(roles.get(0))) {
-            event.getChannel().sendMessage("You cannot modify a role or user whilst it is a higher precedent than your own").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You cannot modify a role or user whilst it is a higher precedent than your own").build()).queue();
             return;
         }
         if (mentionedMembers.get(0).getRoles().contains(roles.get(0))) {
             try {
                 event.getGuild().removeRoleFromMember(mentionedMembers.get(0), roles.get(0)).queue();
-                event.getChannel().sendMessage("Removed **" + roles.get(0).getName() + "** from **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Removed **" + roles.get(0).getName() + "** from **" + mentionedMembers.get(0).getAsMention() + "**.").build()).queue();
                 return;
             } catch (HierarchyException ex) {
-                event.getChannel().sendMessage("I cannot modify a role or user whilst it is a higher precedent than my own").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I cannot modify a role or user whilst it is a higher precedent than my own").build()).queue();
                 return;
             }
         }
         try {
             event.getGuild().addRoleToMember(mentionedMembers.get(0), roles.get(0)).reason("Given by " + event.getAuthor().getAsTag()).queue();
-            event.getChannel().sendMessage("Added **" + roles.get(0).getName() + "** to **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Added **" + roles.get(0).getName() + "** to **" + mentionedMembers.get(0).getAsMention() + "**.").build()).queue();
         } catch (HierarchyException ex) {
-            event.getChannel().sendMessage("I cannot modify a role or user whilst it is a higher precedent than my own").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I cannot modify a role or user whilst it is a higher precedent than my own").build()).queue();
         }
 
     }
@@ -224,5 +208,10 @@ public class GiveRoleCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

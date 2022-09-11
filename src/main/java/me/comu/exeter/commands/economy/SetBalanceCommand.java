@@ -1,8 +1,8 @@
 package me.comu.exeter.commands.economy;
 
 import me.comu.exeter.core.Core;
-import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -17,13 +17,13 @@ public class SetBalanceCommand implements ICommand {
 
         int amount;
 
-        if ((event.getAuthor().getIdLong() != Core.OWNERID) && (event.getAuthor().getIdLong() != 699562509366984784L)) {
-            event.getChannel().sendMessage("You don't have permission to set balances, sorry bro").queue();
+        if (event.getAuthor().getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to set balances, sorry bro.").build()).queue();
             return;
         }
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert a valid user an amount").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert a valid user an amount.").build()).queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase("all") || args.get(0).equalsIgnoreCase("everyone") && args.size() == 2) {
@@ -31,11 +31,11 @@ public class SetBalanceCommand implements ICommand {
                 try {
                     EconomyManager.setBalance(x, Integer.parseInt(args.get(1)));
                 } catch (NumberFormatException ex) {
-                    event.getChannel().sendMessage("That number is either invalid or too large").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("That number is either invalid or too large.").build()).queue();
                     return;
                 }
             }
-            event.getChannel().sendMessage("Successfully set everyone's balance to **" + args.get(1) + "** credits.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Successfully set everyone's balance to **" + args.get(1) + "** credits.").build()).queue();
             return;
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
@@ -45,7 +45,7 @@ public class SetBalanceCommand implements ICommand {
             else
                 amount = Integer.parseInt(args.get(1));
         } catch (NumberFormatException ex) {
-            event.getChannel().sendMessage("That number is either invalid or too large").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("That number is either invalid or too large.").build()).queue();
             return;
         }
 //        if (EconomyManager.verifyUser(event.getMember().getUser()))
@@ -54,15 +54,15 @@ public class SetBalanceCommand implements ICommand {
 //        }
         if (memberList.isEmpty()) {
             EconomyManager.setBalance(Objects.requireNonNull(event.getMember()).getUser().getId(), amount);
-            event.getChannel().sendMessage(String.format("Set your balance to **%s**! %s", amount, event.getMember().getAsMention())).queue();
-            EcoJSONHandler.saveEconomyConfig();
+            event.getChannel().sendMessageEmbeds(Utility.embed(String.format("Set your balance to **%s**! %s", amount, event.getMember().getAsMention())).build()).queue();
+            Core.getInstance().saveConfig(Core.getInstance().getEcoHandler());
             return;
         }
 //            if (EconomyManager.verifyUser(memberList.get(0).getUser())) EconomyManager.getUsers().put(memberList.get(0).getUser(), 0.0);
         EconomyManager.setBalance(memberList.get(0).getUser().getId(), amount);
-        event.getChannel().sendMessage(String.format("Set the balance of %s to **%s**!", memberList.get(0).getAsMention(), amount)).queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed(String.format("Set the balance of %s to **%s**!", memberList.get(0).getAsMention(), amount)).build()).queue();
 
-        EcoJSONHandler.saveEconomyConfig();
+        Core.getInstance().saveConfig(Core.getInstance().getEcoHandler());
     }
 
     @Override
@@ -83,5 +83,10 @@ public class SetBalanceCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ECONOMY;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -16,7 +17,7 @@ public class SKSKSKCommand implements ICommand {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR)) {
-            event.getChannel().sendMessage("my analytics show that you are a blackie, therefore i have blocked you from executing this command").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("my analytics show that you are -----, therefore i have blocked you from executing this command").build()).queue();
             return;
         }
         if (mentionedMembers.isEmpty()) {
@@ -54,4 +55,10 @@ public class SKSKSKCommand implements ICommand {
     public Category getCategory() {
         return Category.MISC;
     }
+
+    @Override
+    public boolean isPremium() {
+        return false;
+    }
+
 }

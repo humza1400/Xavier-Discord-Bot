@@ -27,10 +27,10 @@ public class ShopCommand implements ICommand {
         if (event.getAuthor().getIdLong() == Core.OWNERID && args.size() == 2 && args.get(0).equalsIgnoreCase("sale")) {
             try {
                 Products.SALE = Integer.parseInt(args.get(1));
-                event.getChannel().sendMessage("Set the marketplace sale to " + Products.SALE + "%").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Set the marketplace sale to " + Products.SALE + "%").build()).queue();
                 return;
             } catch (Exception ex) {
-                event.getChannel().sendMessage("Invalid sale price number!").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid sale price number!" + Products.SALE + "%").build()).queue();
                 return;
             }
         }
@@ -50,8 +50,9 @@ public class ShopCommand implements ICommand {
                 embed.addField("Ecstasy", "Cost: **`" + myFormat.format(Products.ECSTASY) + "`**\nID: **`" + Products.ECSTACY_ID + "`**\n*" + Products.ECSTACY_INFO + "*", false);
                 embed.setFooter(String.format("Page %s/2", i + 1), Objects.requireNonNull(event.getMember()).getUser().getEffectiveAvatarUrl());
                 embed.setTimestamp(Instant.now());
+                embed.setColor(Core.getInstance().getColorTheme());
                 embed.setDescription("Current Sale: **~~" + Products.SALE + "%~~**");
-                embed.setColor(Utility.getAmbientColor());
+                embed.setColor(Core.getInstance().getColorTheme());
             }
             if (i == 1) {
                 embed.clear();
@@ -65,12 +66,13 @@ public class ShopCommand implements ICommand {
                 embed.addField("Staff Role", "**16.** Cost: **`" + myFormat.format(Products.STAFF_ROLE) + "`**\n **17** Stock: **`\u221E`**\n **18.** ID: **`" + Products.STAFF_ROLE_ID + "`**", true);
                 embed.setFooter(String.format("Page %s/2", i + 1), Objects.requireNonNull(event.getMember()).getUser().getEffectiveAvatarUrl());
                 embed.setTimestamp(Instant.now());
+                embed.setColor(Core.getInstance().getColorTheme());
                 embed.setDescription("Current Sale: **~~" + Products.SALE + "%~~**");
-                embed.setColor(Utility.getAmbientColor());
+                embed.setColor(Core.getInstance().getColorTheme());
             }
             pages.add(new Page(PageType.EMBED, embed.build()));
         }
-        event.getChannel().sendMessage((MessageEmbed) pages.get(0).getContent()).queue(success -> Pages.paginate(success, pages, false, 60, TimeUnit.SECONDS));
+        event.getChannel().sendMessageEmbeds((MessageEmbed) pages.get(0).getContent()).queue(success -> Pages.paginate(success, pages, false, 60, TimeUnit.SECONDS));
     }
 
 
@@ -92,5 +94,10 @@ public class ShopCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ECONOMY;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

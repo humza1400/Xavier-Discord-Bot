@@ -1,7 +1,6 @@
 package me.comu.exeter.commands.economy;
 
 import me.comu.exeter.core.Core;
-import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -19,14 +18,14 @@ public class BegCommand implements ICommand {
         }
         double d = Math.random();
         if (d > 0.29) {
-            event.getChannel().sendMessage("Keep begging bud...").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Keep begging bud...").build()).queue();
         } else {
             int begMoney = Utility.randomNum(0, 10);
             EconomyManager.setBalance(event.getMember().getUser().getId(), EconomyManager.getBalance(event.getMember().getUser().getId()) + begMoney);
-            event.getChannel().sendMessage(Utility.removeMentions(String.format("Aight, **%s**, I'll pity you with **%s** credits.", event.getMember().getEffectiveName(), begMoney))).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(Utility.removeMentions(String.format("Aight, **%s**, I'll pity you with **%s** credits.", event.getMember().getEffectiveName(), begMoney))).build()).queue();
         }
 
-        EcoJSONHandler.saveEconomyConfig();
+        Core.getInstance().saveConfig(Core.getInstance().getEcoHandler());
     }
 
     @Override
@@ -47,5 +46,10 @@ public class BegCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ECONOMY;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

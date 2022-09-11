@@ -1,8 +1,8 @@
 package me.comu.exeter.commands.economy;
 
 import me.comu.exeter.core.Core;
-import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -20,7 +20,7 @@ public class PayCommand implements ICommand {
 
         if (memberList.isEmpty())
         {
-            event.getChannel().sendMessage("Please specify a member you want to send the money to").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a member you want to send the money to").build()).queue();
             return;
         }
 
@@ -39,28 +39,29 @@ public class PayCommand implements ICommand {
                 amount  = Integer.parseInt(args.get(1));
             if (amount < 0)
             {
-                event.getChannel().sendMessage("You can't pay negative credits!").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You can't pay negative credits!").build()).queue();
                 return;
             } else if (amount == 0)
             {
-                event.getChannel().sendMessage("You can't pay 0 credits!").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You can't pay 0 credits!").build()).queue();
                 return;
             }
         } catch (NumberFormatException ex) {
-            event.getChannel().sendMessage("That number is either invalid or too large").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("That number is either invalid or too large").build()).queue();
             return;
         }
         if (EconomyManager.getBalance(event.getMember().getUser().getId()) < amount)
         {
-            event.getChannel().sendMessage("You don't have **" + amount + "** credits to send!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have **" + amount + "** credits to send!").build()).queue();
             return;
         }
         if (!memberList.isEmpty()) {
             EconomyManager.setBalance(event.getMember().getUser().getId(), EconomyManager.getBalance(event.getMember().getUser().getId()) - amount);
             EconomyManager.setBalance(memberList.get(0).getUser().getId(), EconomyManager.getBalance(memberList.get(0).getUser().getId()) + amount);
-            event.getChannel().sendMessage(String.format("%s has transferred **%s** credits to %s!", event.getMember(), amount, memberList.get(0).getAsMention())).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(String.format("%s has transferred **%s** credits to %s!", event.getMember(), amount, memberList.get(0).getAsMention())).build()).queue();
+
         }
-        EcoJSONHandler.saveEconomyConfig();
+        Core.getInstance().saveConfig(Core.getInstance().getEcoHandler());
     }
 
     @Override
@@ -81,5 +82,10 @@ public class PayCommand implements ICommand {
      @Override
     public Category getCategory() {
         return Category.ECONOMY;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

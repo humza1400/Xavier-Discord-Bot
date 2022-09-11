@@ -17,34 +17,34 @@ public class MembersRoleCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a role").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a role").build()).queue();
             return;
         }
         if (!event.getMessage().getMentionedRoles().isEmpty()) {
             Role role = event.getMessage().getMentionedRoles().get(0);
             List<Member> members = event.getGuild().getMembersWithRoles(role);
             if (members.isEmpty()) {
-                event.getChannel().sendMessage("There are no members in **" + role.getName() + "**").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("There are no members in **" + role.getName() + "**").build()).queue();
             } else {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (Member member : members) stringBuilder.append(member.getAsMention()).append("\n");
-                event.getChannel().sendMessage(new EmbedBuilder().setColor(Utility.getAmbientColor()).setTitle(members.size() + " Members in " + role.getName()).setDescription(stringBuilder.toString()).build()).queue();
+                event.getChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Core.getInstance().getColorTheme()).setTitle(members.size() + " Members in " + role.getName()).setDescription(stringBuilder.toString()).build()).queue();
             }
         } else {
             StringJoiner stringJoiner = new StringJoiner(" ");
             args.forEach(stringJoiner::add);
             String roleName = stringJoiner.toString();
             if (event.getGuild().getRolesByName(roleName, true).isEmpty()) {
-                event.getChannel().sendMessage("No role found with that name, maybe try using the role-id or mentioning it instead?").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("No role found with that name, maybe try using the role-id or mentioning it instead?").build()).queue();
             } else {
                 Role role = event.getGuild().getRolesByName(roleName, true).get(0);
                 List<Member> members = event.getGuild().getMembersWithRoles(role);
                 if (members.isEmpty())
-                    event.getChannel().sendMessage("There are no members in **" + role.getName() + "**").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embed("There are no members in **" + role.getName() + "**").build()).queue();
                 else {
                     StringBuilder stringBuilder = new StringBuilder();
                     for (Member member : members) stringBuilder.append(member.getAsMention()).append("\n");
-                    event.getChannel().sendMessage(new EmbedBuilder().setColor(Utility.getAmbientColor()).setTitle(members.size() + " Members in " + role.getName()).setDescription(stringBuilder.toString()).build()).queue();
+                    event.getChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Core.getInstance().getColorTheme()).setTitle(members.size() + " Members in " + role.getName()).setDescription(stringBuilder.toString()).build()).queue();
                 }
             }
         }
@@ -68,5 +68,10 @@ public class MembersRoleCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

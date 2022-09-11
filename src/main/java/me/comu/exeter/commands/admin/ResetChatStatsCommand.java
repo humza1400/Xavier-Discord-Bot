@@ -3,6 +3,7 @@ package me.comu.exeter.commands.admin;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.util.ChatTrackingManager;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -13,11 +14,11 @@ public class ResetChatStatsCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if ( Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to reset the chat stats.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to reset the chat stats.").build()).queue();
             return;
         }
         ChatTrackingManager.resetAllChatCredits();
-        event.getChannel().sendMessage("Successfully reset **ALL** chat statistics").queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Successfully reset **ALL** chat statistics").build()).queue();
     }
 
     @Override
@@ -37,5 +38,10 @@ public class ResetChatStatsCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

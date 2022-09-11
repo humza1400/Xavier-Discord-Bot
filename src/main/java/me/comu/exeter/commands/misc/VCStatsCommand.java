@@ -4,7 +4,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.util.VCTrackingManager;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
@@ -42,7 +42,7 @@ public class VCStatsCommand implements ICommand {
                             counter2++;
                         }
                     } catch (NullPointerException ex) {
-                        event.getChannel().sendMessage("The hash set contained an invalid user and has been automatically resolved. (" + x + ")").queue();
+//                        event.getChannel().sendMessage("The hash set contained an invalid user and has been automatically resolved. (" + x + ")").queue();
                         VCTrackingManager.removeJoinedUser(x);
                         VCTrackingManager.removeLeaveUser(x);
                     }
@@ -50,16 +50,16 @@ public class VCStatsCommand implements ICommand {
                 }
 
             }
-            event.getChannel().sendMessage(EmbedUtils.embedMessage("**Most Active VC Leaderbaords:**\n" + stringBuffer.toString()).build()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embedMessage("**Most Active VC Leaderbaords:**\n" + stringBuffer).setColor(Core.getInstance().getColorTheme()).build()).queue();
         } else {
             if (Objects.requireNonNull(event.getMessage().getMentionedMembers().get(0).getVoiceState()).inVoiceChannel()) {
-                event.getChannel().sendMessage("You can't use this command while in a VC").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You can't use this command while in a VC").build()).queue();
                 return;
             }
             try {
-                event.getChannel().sendMessage(event.getMessage().getMentionedMembers().get(0).getAsMention() + " has been in VC for " + MarkdownUtil.bold(Long.toString(hourMap.get(event.getMessage().getMentionedMembers().get(0).getId()))) + " hours " + MarkdownUtil.bold(Long.toString(minuteMap.get(event.getMessage().getMentionedMembers().get(0).getId()) % 60)) + " minutes.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed(event.getMessage().getMentionedMembers().get(0).getAsMention() + " has been in VC for " + MarkdownUtil.bold(Long.toString(hourMap.get(event.getMessage().getMentionedMembers().get(0).getId()))) + " hours " + MarkdownUtil.bold(Long.toString(minuteMap.get(event.getMessage().getMentionedMembers().get(0).getId()) % 60)) + " minutes.").build()).queue();
             } catch (NullPointerException ex) {
-                event.getChannel().sendMessage(event.getMessage().getMentionedMembers().get(0).getAsMention() + " has not joined VC.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed(event.getMessage().getMentionedMembers().get(0).getAsMention() + " has not joined VC.").build()).queue();
             }
         }
     }
@@ -82,5 +82,10 @@ public class VCStatsCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

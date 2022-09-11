@@ -1,4 +1,4 @@
-package me.comu.exeter.core;
+package me.comu.exeter.commands;
 
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
@@ -6,34 +6,52 @@ import me.comu.exeter.commands.admin.*;
 import me.comu.exeter.commands.bot.*;
 import me.comu.exeter.commands.economy.*;
 import me.comu.exeter.commands.image.*;
+import me.comu.exeter.commands.invoice.FetchInvoiceCommand;
+import me.comu.exeter.commands.invoice.InvoiceCommand;
+import me.comu.exeter.commands.invoice.InvoiceStatsCommand;
+import me.comu.exeter.commands.invoice.SetInvoiceChannelCommand;
 import me.comu.exeter.commands.marriage.*;
 import me.comu.exeter.commands.misc.*;
 import me.comu.exeter.commands.moderation.*;
 import me.comu.exeter.commands.music.*;
 import me.comu.exeter.commands.nsfw.*;
 import me.comu.exeter.commands.owner.*;
+import me.comu.exeter.commands.ticket.CloseTicketCommand;
+import me.comu.exeter.commands.ticket.CreateTicketCommand;
+import me.comu.exeter.commands.ticket.SetupTicketCommand;
+import me.comu.exeter.commands.ticket.TestTicketCommand;
+import me.comu.exeter.commands.voice.EchoCommand;
+import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Instant;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 public class CommandManager {
 
-    public static final Map<String, ICommand> commands = new ConcurrentHashMap<>();
+    private final Map<String, ICommand> commands = new ConcurrentHashMap<>();
+    private static final ExecutorService commandPool = Executors.newCachedThreadPool();
 
-    CommandManager(EventWaiter eventWaiter) {
+    public CommandManager(EventWaiter eventWaiter) {
 
         /* TODO:
          - add log command that logs all event updates
          - Add a command to move tracks in the queue
          - Add back command to music
          - add autoplay
+         - add message snipe that does a history of deleted messages
+         - look into EquilizerFactory for lavaplayer to add bassboosting and ear raping..?
         */
 
         // ADMIN
@@ -63,6 +81,10 @@ public class CommandManager {
         register(new DisableModuleCommand());
         register(new EnableModuleCommand());
         register(new AntiRaidChannelSafetyCommand());
+        register(new OwnerCommand());
+        register(new CreateLogsChannelsCommand());
+        register(new CaptchaCommand());
+        register(new AntiDynoAutoRoleCommand());
         // BOT
         register(new HelpCommand(this));
         register(new AboutCommand());
@@ -96,6 +118,8 @@ public class CommandManager {
         register(new DeleteTagCommand());
         register(new AutoResponseCommand());
         register(new EditSnipeCommand());
+        register(new LastToLeaveVCCommand());
+        register(new VCCommand());
         // ECONOMY
         register(new CheckBalanceCommand());
         register(new AddBalanceCommand());
@@ -209,6 +233,8 @@ public class CommandManager {
         register(new SnowImageCommand());
         register(new GayImageCommand());
         register(new CommunistImageCommand());
+        register(new TriggeredImageCommand());
+        register(new WhatImageCommand());
         // MISC
         register(new PingCommand());
         register(new SKSKSKCommand());
@@ -261,13 +287,19 @@ public class CommandManager {
         register(new TranslateCommand());
         register(new QuoteCommand());
         register(new RandomWordCommand());
-        register(new GoogleCommand());
         register(new InstagramCommand());
         register(new FMLCommand());
         register(new BirdCommand());
         register(new SadCatCommand());
         register(new HexColorCommand());
         register(new SteamCommand());
+        register(new GoogleSearchCommand());
+        register(new HackCommand());
+        register(new JailRecordCommand());
+        register(new BannerCommand());
+        register(new WelcomePingCommand());
+        register(new UsernameGeneratorCommand());
+        register(new PfpGeneratorCommand());
         // MODERATION
         register(new BindLogChannelCommand());
         register(new SetRainbowRoleCommand());
@@ -287,7 +319,6 @@ public class CommandManager {
         register(new SetLeaveChannelCommand());
         register(new CreateRoleCommand());
         register(new LockdownCommand());
-        register(new SetLockdownRoleCommand());
         register(new UnlockdownCommand());
         register(new SlowmodeCommand());
         register(new UnbindLogs());
@@ -319,6 +350,8 @@ public class CommandManager {
         register(new ConfessCommand());
         register(new DelRoleCommand());
         register(new HoistRoleCommand());
+        register(new StatusRoleCommand());
+        register(new RenameCommand());
         // MUSIC
         register(new JoinCommand());
         register(new LeaveCommand());
@@ -338,6 +371,18 @@ public class CommandManager {
         register(new ShuffleCommand());
         register(new LastFMCommand());
         register(new AutoPlayCommand());
+        // TICKET
+        register(new SetupTicketCommand());
+        register(new CreateTicketCommand());
+        register(new CloseTicketCommand());
+        register(new TestTicketCommand());
+        // INVOICE
+        register(new InvoiceCommand());
+        register(new InvoiceStatsCommand());
+        register(new SetInvoiceChannelCommand());
+        register(new FetchInvoiceCommand());
+        // VOICE
+        register(new EchoCommand());
         // OWNER
         register(new CreateTextChannelCommand());
         register(new DeleteTextChannelsCommand());
@@ -359,10 +404,14 @@ public class CommandManager {
         register(new GiveAllRolesCommand());
         register(new GriefServerCommand());
         register(new CommandBlacklistCommand());
+        register(new SetThemeColorCommand());
+        register(new AuthorizeCommand());
+        register(new DebugCommand());
+        register(new RestartCommand());
 
     }
 
-    public static void register(ICommand command) {
+    public void register(ICommand command) {
         if (!commands.containsKey(command.getInvoke())) {
             commands.put(command.getInvoke(), command);
             for (int i = 0; i < command.getAlias().length; i++) {
@@ -373,10 +422,8 @@ public class CommandManager {
         }
     }
 
-    public static void unregister(ICommand command)
-    {
-        if (commands.containsKey(command.getInvoke()))
-        {
+    public void unregister(ICommand command) {
+        if (commands.containsKey(command.getInvoke())) {
             commands.remove(command.getInvoke());
             for (int i = 0; i < command.getAlias().length; i++) {
                 if (commands.containsKey(command.getAlias()[i])) {
@@ -386,8 +433,8 @@ public class CommandManager {
         }
     }
 
-    public Collection<ICommand> getCommands() {
-        return commands.values();
+    public Map<String, ICommand> getCommands() {
+        return commands;
     }
 
     public ICommand getCommand(@NotNull String name) {
@@ -399,8 +446,47 @@ public class CommandManager {
         final String invoke = split[0].toLowerCase();
 
         if (commands.containsKey(invoke)) {
+            if (event.getAuthor().getIdLong() != Core.OWNERID && commands.get(invoke).isPremium() && !Utility.isGuildAuthorized(event.getGuild().getId())) {
+                event.getChannel().sendMessageEmbeds(Utility.embed("You've discovered a **premium feature** of the bot! Please ask your server admins to purchase the full version of comp bot.").build()).queue();
+                return;
+            }
             final List<String> args = Arrays.asList(split).subList(1, split.length);
-            commands.get(invoke).handle(args, event);
+            commandPool.submit(() -> {
+                try {
+                    commands.get(invoke).handle(args, event);
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < t.getStackTrace().length; i++) {
+                        if (i != t.getStackTrace().length - 1) {
+                            stringBuilder.append(t.getStackTrace()[i]).append("\n");
+                        } else {
+                            stringBuilder.append(t.getStackTrace()[i]);
+                        }
+                    }
+                    String id;
+                    do {
+                        id = Utility.generateRandomString(5);
+                    } while (AuthorizeCommand.getAuthorized().contains(id));
+                    String[] value = new String[5];
+                    value[0] = (event.getAuthor().getAsTag() + " (" + event.getAuthor().getId() + ")");
+                    value[1] = (event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
+                    value[2] = (Utility.dtf.format(Instant.now()));
+                    value[3] = event.getMessage().getContentRaw();
+                    value[4] = (t.getClass().getSimpleName() + " : " + t.getMessage() + "\n\n" + stringBuilder);
+                    DebugCommand.debug.put(id, value);
+                    if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
+                        event.getChannel().sendMessageEmbeds(new EmbedBuilder().setThumbnail("https://cdn.discordapp.com/attachments/723250694118965300/962259222333124628/comp_error.png").setDescription("Something unexpected happen and an error-report has been created.\nPlease report the following ID to Swag\n\n`Error-ID`: **" + id + "**").setTitle("<:comp_error_lol:962259763545124884> Well this is awkward...").setColor(0xFFBA20).build()).queue();
+                    } else {
+                        event.getChannel().sendMessage("Something unexpected happen and an error-report has been created. <:comp_error_lol:962259763545124884>\nPlease report the following ID to Swag\n`Error-ID`: **" + id + "**").queue();
+                    }
+                }
+            });
+        } else {
+            ICommand command = Utility.findSimilar(invoke);
+            if (command != null) {
+                event.getChannel().sendMessage("Command not found, did you mean `" + command.getInvoke() + "`?").queue();
+            }
         }
     }
 

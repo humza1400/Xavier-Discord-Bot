@@ -14,23 +14,23 @@ public class TagCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a tag or check the tags: `" + Core.PREFIX + getInvoke() + " tag-list`.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a tag or check the tags: `" + Core.PREFIX + getInvoke() + " tag-list`.").build()).queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase("tag-list")) {
             if (CreateTagCommand.tags.isEmpty()) {
-                event.getChannel().sendMessage("No tags have been set. Set one by doing `" + Core.PREFIX + "createtag [tag] <content>`.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("No tags have been set. Set one by doing `" + Core.PREFIX + "createtag [tag] <content>`.").build()).queue();
                 return;
             }
             StringBuilder stringBuilder = new StringBuilder("__All Tags:__\n");
             CreateTagCommand.tags.forEach((k, v) -> stringBuilder.append("`").append(k).append("`: ").append(v).append("\n"));
-            event.getChannel().sendMessage(stringBuilder.toString()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(stringBuilder.toString()).build()).queue();
             return;
         }
         if (CreateTagCommand.tags.containsKey(args.get(0)))
-            event.getChannel().sendMessage(CreateTagCommand.tags.get(args.get(0))).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(CreateTagCommand.tags.get(args.get(0))).build()).queue();
         else
-            event.getChannel().sendMessage("`" + Utility.removeMentions(args.get(0)) + "` does not exist as a tag!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("`" + Utility.removeMentions(args.get(0)) + "` does not exist as a tag!").build()).queue();
     }
 
     @Override
@@ -51,5 +51,10 @@ public class TagCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

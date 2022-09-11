@@ -2,7 +2,8 @@ package me.comu.exeter.commands.nsfw;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
+
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +19,7 @@ public class NekoCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (!event.getChannel().isNSFW()) {
-            event.getChannel().sendMessage("You can only use this command in NSFW channels").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You can only use this command in NSFW channels").build()).queue();
             return;
         }
         String petUrl = "https://nekos.life/api/v2/img/nsfw_neko_gif";
@@ -28,7 +29,7 @@ public class NekoCommand implements ICommand {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed(Utility.ERROR_EMOTE + " Something went wrong making a request to the endpoint").build()).queue();
                 e.printStackTrace();
             }
 
@@ -38,9 +39,9 @@ public class NekoCommand implements ICommand {
                     String jsonResponse = Objects.requireNonNull(response.body()).string();
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     String url = jsonObject.toMap().get("url").toString();
-                    event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embedImage(url).setColor(Core.getInstance().getColorTheme()).build()).queue();
                 } else {
-                    event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed(Utility.ERROR_EMOTE + " Something went wrong making a request to the endpoint").build()).queue();
                 }
             }
         });
@@ -65,5 +66,10 @@ public class NekoCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.NSFW;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -4,6 +4,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -14,10 +15,8 @@ public class PauseCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager guildMusicManager = playerManager.getGuildMusicManager(event.getGuild());
-
         guildMusicManager.player.setPaused(true);
-        event.getChannel().sendMessage("Paused the queue").queue();
-
+        event.getChannel().sendMessageEmbeds(Utility.embed("Paused the queue").build()).queue();
     }
 
     @Override
@@ -38,5 +37,10 @@ public class PauseCommand implements ICommand {
      @Override
     public Category getCategory() {
         return Category.MUSIC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

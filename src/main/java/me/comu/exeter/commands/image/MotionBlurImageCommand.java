@@ -10,7 +10,7 @@ import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import me.comu.exeter.core.Config;
+import me.comu.exeter.utility.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
@@ -169,5 +169,10 @@ public class MotionBlurImageCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.IMAGE;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

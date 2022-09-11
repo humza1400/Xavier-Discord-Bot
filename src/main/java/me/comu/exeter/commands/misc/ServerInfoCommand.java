@@ -16,10 +16,10 @@ public class ServerInfoCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         Guild guild = event.getGuild();
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a");
-        String generalInfo = String.format("**Owner**: <@%s>\n**Region**: %s\n**Creation Date**: %s\n**Security Level**: %s",
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy h:mm a");
+        String generalInfo = String.format("**Owner**: <@%s>\n**Boosts**: %d\n**Creation Date**: %s\n**Security Level**: %s",
                 guild.getOwnerId(),
-                guild.getRegion().getName(),
+                guild.getBoostCount(),
                 guild.getTimeCreated().format(timeFormatter),
                 convertVerificationLevel(guild.getVerificationLevel())
         );
@@ -43,7 +43,7 @@ public class ServerInfoCommand implements ICommand {
                 .addField("Roles, Channels, & Member Counts", memberInfo, false)
                 .setFooter("Requested By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getEffectiveAvatarUrl());
 
-        event.getChannel().sendMessage(embed.build()).queue();
+        event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
 
     @Override
@@ -75,5 +75,10 @@ public class ServerInfoCommand implements ICommand {
      @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

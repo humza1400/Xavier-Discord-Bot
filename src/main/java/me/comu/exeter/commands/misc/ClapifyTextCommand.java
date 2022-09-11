@@ -10,22 +10,21 @@ import java.util.List;
 public class ClapifyTextCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (args.isEmpty())
-        {
+        if (args.isEmpty()) {
             event.getChannel().sendMessage("Please insert some text to clapify").queue();
             return;
         }
-        if (event.getMessage().getContentRaw().toLowerCase().startsWith(Core.PREFIX + "clapify"))
-    {
-        String newMessage = event.getMessage().getContentRaw().replace(Core.PREFIX + "clapify", "").replaceAll(" ", ":clap:");
-        newMessage += ":clap:";
-        event.getMessage().delete().queue();
-        event.getChannel().sendMessage(newMessage).queue();
-    } else { String newMessage = event.getMessage().getContentRaw().replace(Core.PREFIX + "clap", "").replaceAll(" ", ":clap:");
-        newMessage += ":clap:";
-        event.getMessage().delete().queue();
-        event.getChannel().sendMessage(newMessage).queue();
-    }
+        if (event.getMessage().getContentRaw().toLowerCase().startsWith(Core.PREFIX + "clapify")) {
+            String newMessage = event.getMessage().getContentRaw().replace(Core.PREFIX + "clapify", "").replaceAll(" ", ":clap:");
+            newMessage += ":clap:";
+            event.getMessage().delete().queue();
+            event.getChannel().sendMessage(newMessage).queue();
+        } else {
+            String newMessage = event.getMessage().getContentRaw().replace(Core.PREFIX + "clap", "").replaceAll(" ", ":clap:");
+            newMessage += ":clap:";
+            event.getMessage().delete().queue();
+            event.getChannel().sendMessage(newMessage).queue();
+        }
     }
 
     @Override
@@ -40,11 +39,16 @@ public class ClapifyTextCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"clap"};
+        return new String[]{"clap"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

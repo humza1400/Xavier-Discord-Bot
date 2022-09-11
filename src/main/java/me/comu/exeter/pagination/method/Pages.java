@@ -339,7 +339,7 @@ public class Pages {
         if (p.getType() == PageType.TEXT) {
             msg.editMessage((Message) p.getContent()).queue(null, Pages::doNothing);
         } else {
-            msg.editMessage((MessageEmbed) p.getContent()).queue(null, Pages::doNothing);
+            msg.editMessageEmbeds((MessageEmbed) p.getContent()).queue(null, Pages::doNothing);
         }
     }
 
@@ -350,7 +350,7 @@ public class Pages {
         if (p.getType() == PageType.TEXT) {
             msg.editMessage((Message) p.getContent()).queue(s -> out.set(event.getReactionEmote().getName()));
         } else {
-            msg.editMessage((MessageEmbed) p.getContent()).queue(s -> out.set(event.getReactionEmote().getName()));
+            msg.editMessageEmbeds((MessageEmbed) p.getContent()).queue(s -> out.set(event.getReactionEmote().getName()));
         }
 
         return out.get();

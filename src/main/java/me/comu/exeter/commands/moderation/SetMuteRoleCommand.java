@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -21,21 +20,20 @@ public class SetMuteRoleCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        TextChannel channel = event.getChannel();
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
         if ((!Objects.requireNonNull(member).hasPermission(Permission.MANAGE_ROLES)) && Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            channel.sendMessage("You don't have permission to set the mute role").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to set the mute role").build()).queue();
             return;
         }
         if ((!selfMember.hasPermission(Permission.MANAGE_ROLES))) {
-            channel.sendMessage("I don't have permissions to set the mute role").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to set the mute role").build()).queue();
             return;
         }
 
         if (args.size() != 1) {
-            channel.sendMessage("Please specify a role").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify a role").build()).queue();
             return;
         }
 
@@ -43,7 +41,7 @@ public class SetMuteRoleCommand implements ICommand {
             verifyMuteRole(event.getGuild());
             Role role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));
             rolesMap.put(event.getGuild().getId(), Objects.requireNonNull(role).getId());
-            channel.sendMessage("Mute role successfully set to `" + Objects.requireNonNull(role).getName() + "`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Mute role successfully set to `" + Objects.requireNonNull(role).getName() + "`").build()).queue();
         } catch (NullPointerException | NumberFormatException ex) {
             List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
             if (roles.isEmpty()) {
@@ -57,7 +55,7 @@ public class SetMuteRoleCommand implements ICommand {
             verifyMuteRole(event.getGuild());
             Role role = roles.get(0);
             rolesMap.put(event.getGuild().getId(), Objects.requireNonNull(role).getId());
-            channel.sendMessage("Mute role successfully set to `" + role.getName() + "`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Mute role successfully set to `" + role.getName() + "`").build()).queue();
         }
 
     }
@@ -96,5 +94,10 @@ public class SetMuteRoleCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

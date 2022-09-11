@@ -1,10 +1,10 @@
 package me.comu.exeter.commands.marriage;
 
-import me.comu.exeter.core.Config;
+import me.comu.exeter.utility.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.*;
@@ -28,7 +28,7 @@ public class SmugCommand implements ICommand {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Config.clearCacheDirectory();
-                event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed(Utility.ERROR_EMOTE + " Something went wrong making a request to the endpoint").build()).queue();
                 e.printStackTrace();
             }
 
@@ -39,7 +39,7 @@ public class SmugCommand implements ICommand {
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     String url = jsonObject.toMap().get("url").toString();
                     if (args.isEmpty()) {
-                        event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** smugs at themselves :flushed:", event.getMember().getEffectiveName())).build()).queue();
+                        event.getChannel().sendMessageEmbeds(Utility.embedImage(url).setColor(Core.getInstance().getColorTheme()).setTitle(String.format("**%s** smugs at themselves :flushed:", event.getMember().getEffectiveName())).build()).queue();
                         return;
                     }
 
@@ -47,18 +47,15 @@ public class SmugCommand implements ICommand {
                     if (!args.isEmpty() && mentionedMembers.isEmpty()) {
                         List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
                         if (targets.isEmpty()) {
-                            event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
+                            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0)) + ".").build()).queue();
                             return;
-                        } else if (targets.size() > 1) {
-                            event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
-                            return;
-                        }
-                        event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** smugs at **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
+                        } event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0) + ".")).build()).queue();
+                        event.getChannel().sendMessageEmbeds(Utility.embedImage(url).setColor(Core.getInstance().getColorTheme()).setTitle(String.format("**%s** smugs at **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
                     } else if (!args.isEmpty()) {
-                        event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** smugs at **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
+                        event.getChannel().sendMessageEmbeds(Utility.embedImage(url).setColor(Core.getInstance().getColorTheme()).setTitle(String.format("**%s** smugs at **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
                     }
                 } else {
-                    event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed(Utility.ERROR_EMOTE + " Something went wrong making a request to the endpoint").build()).queue();
                 }
             }
         });
@@ -83,5 +80,10 @@ public class SmugCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MARRIAGE;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -19,12 +19,12 @@ public class GeoIPCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert a valid-ip").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert a valid ip address.").build()).queue();
             return;
         }
         String ip = args.get(0);
         if (ip.matches("[a-zA-Z]+") || !(ip.contains(".")) || ip.contains(",") || ip.contains("!") || ip.contains("@") || ip.contains("-") || ip.contains("_") || ip.contains("+") || ip.contains("=") || ip.contains("'") || ip.contains("\"\"") || ip.contains(":") || ip.contains(";") || ip.contains("\\") || ip.contains("|") || ip.contains("[") || ip.contains("{") || ip.contains("]") || ip.contains("}") || ip.contains("#") || ip.contains("$") || ip.contains("%") || ip.contains("^") || ip.contains("&") || ip.contains("*") || ip.contains("(") || ip.contains(")") || ip.contains("<") || ip.contains(">") || ip.contains("?") || ip.contains("`") || ip.contains("~")) {
-            event.getChannel().sendMessage("IP invalid!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid IP.").build()).queue();
             return;
         }
 
@@ -42,6 +42,7 @@ public class GeoIPCommand implements ICommand {
             String latitude = document.select("div.data-item").get(7).text().replaceAll("Latitude:", "");
             String longitude = document.select("div.data-item").get(8).text().replaceAll("Longitude:", "");
             EmbedBuilder embed = new EmbedBuilder();
+            embed.setColor(Core.getInstance().getColorTheme());
             embed.setTitle("Geo Location Look-Up");
             embed.addField("Hostname", "**" + hostname + "**", true);
             embed.addField("IP Address", "**" + ipaddress + "**", true);
@@ -55,9 +56,9 @@ public class GeoIPCommand implements ICommand {
             embed.setFooter("Requested by " + Objects.requireNonNull(event.getMember()).getUser().getName() + "#" + event.getMember().getUser().getDiscriminator(), event.getMember().getUser().getEffectiveAvatarUrl());
             embed.setTimestamp(Instant.now());
             embed.setDescription(url.toString());
-            event.getChannel().sendMessage(embed.build()).queue();
+            event.getChannel().sendMessageEmbeds(embed.build()).queue();
         } catch (IOException e) {
-            event.getChannel().sendMessage(Utility.removeMentions(ip) + " couldn't be resolved.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed(Utility.removeMentions(ip) + " couldn't be resolved.").build()).queue();
         }
     }
 
@@ -80,6 +81,11 @@ public class GeoIPCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }
 

@@ -3,10 +3,11 @@ package me.comu.exeter.commands.bot;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.io.InputStream;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,21 +31,30 @@ public class SnipeCommand implements ICommand {
             event.getChannel().sendMessage("There's nothing to snipe.").queue();
             return;
         }
-
-        if (containedAttachments) {
-            String link = Utility.extractUrls(contentDeleted).get(0);
-            event.getChannel().sendMessage(EmbedUtils.embedImage(link).setColor(Utility.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl()).build()).queue();
-        } else {
-            if (Utility.extractUrls(contentDeleted).isEmpty()) {
-                EmbedBuilder embedBuilder = new EmbedBuilder();
-                embedBuilder.setColor(Utility.getAmbientColor()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl());
-                event.getChannel().sendMessage(embedBuilder.build()).queue();
+        try {
+            if (containedAttachments) {
+                String link = Utility.extractUrls(contentDeleted).get(0);
+                InputStream inputStream = Utility.imageFromUrl(link);
+                if (inputStream != null) {
+                    event.getChannel().sendMessageEmbeds(Utility.embedImage(link).setColor(Core.getInstance().getColorTheme()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl()).build()).queue();
+                } else {
+                    event.getChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Core.getInstance().getColorTheme()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl()).build()).queue();
+                }
             } else {
-                EmbedBuilder embedBuilder = new EmbedBuilder();
-                embedBuilder.setColor(Utility.getAmbientColor()).setImage(Utility.extractUrls(contentDeleted).get(0)).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl());
-                event.getChannel().sendMessage(embedBuilder.build()).queue();
-            }
+                if (Utility.extractUrls(contentDeleted).isEmpty()) {
+                    EmbedBuilder embedBuilder = new EmbedBuilder();
+                    embedBuilder.setColor(Core.getInstance().getColorTheme()).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl());
+                    event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
+                } else {
+                    EmbedBuilder embedBuilder = new EmbedBuilder();
+                    embedBuilder.setColor(Core.getInstance().getColorTheme()).setImage(Utility.extractUrls(contentDeleted).get(0)).setDescription(contentDeleted).setTimestamp(timeDeleted).setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl());
+                    event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
+                }
 
+            }
+        } catch (NullPointerException ex)
+        {
+            event.getChannel().sendMessage("There's nothing to snipe.").queue();
         }
 
 
@@ -62,11 +72,16 @@ public class SnipeCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"snipemessage", "snipemsg"};
+        return new String[]{"snipemessage", "snipemsg","s"};
     }
 
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

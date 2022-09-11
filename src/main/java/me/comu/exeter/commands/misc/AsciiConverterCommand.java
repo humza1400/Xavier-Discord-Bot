@@ -87,4 +87,9 @@ public class AsciiConverterCommand implements ICommand {
     public Category getCategory() {
         return Category.MISC;
     }
+
+    @Override
+    public boolean isPremium() {
+        return false;
+    }
 }

@@ -6,7 +6,7 @@ import me.comu.exeter.pagination.method.Pages;
 import me.comu.exeter.pagination.model.Page;
 import me.comu.exeter.pagination.type.PageType;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -28,7 +28,7 @@ public class SearchImageCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify what image you want to search for").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify what image you want to search for").build()).queue();
             return;
         }
 
@@ -37,25 +37,21 @@ public class SearchImageCommand implements ICommand {
         if (images == null || images.isEmpty()) {
             String scrapedImage = scrapeImage(query);
             if (scrapedImage.equalsIgnoreCase("null")) {
-                event.getChannel().sendMessage("No results found for **" + Utility.removeMarkdown(Utility.removeMentions(query)) + "**").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("No results found for **" + Utility.removeMarkdown(Utility.removeMentions(query)) + "**").build()).queue();
             } else
-                event.getChannel().sendMessage(EmbedUtils.embedImage(Utility.extractUrls(scrapeImage(query)).get(0)).setTitle(query).setColor(Utility.getAmbientColor()).build()).queue();
+                event.getChannel().sendMessageEmbeds(Utility.embedImage(Utility.extractUrls(scrapeImage(query)).get(0)).setTitle(query).setColor(Core.getInstance().getColorTheme()).build()).queue();
         } else {
             EmbedBuilder eb = new EmbedBuilder();
-            eb.setTitle(query);
-            eb.setImage(images.get(0));
-            eb.setFooter(String.format("Page %s/10", 1));
-            eb.setColor(Utility.getAmbientColor());
             ArrayList<Page> pages = new ArrayList<>();
             for (int i = 0; i < images.size(); i++) {
                 eb.clear();
                 eb.setTitle(query);
                 eb.setImage(images.get(i));
                 eb.setFooter(String.format("Page %s/10", i + 1));
-                eb.setColor(Utility.getAmbientColor());
+                eb.setColor(Core.getInstance().getColorTheme());
                 pages.add(new Page(PageType.EMBED, eb.build()));
             }
-            event.getChannel().sendMessage((MessageEmbed) pages.get(0).getContent()).queue(success -> Pages.paginate(success, pages, false, 60, TimeUnit.SECONDS));
+            event.getChannel().sendMessageEmbeds((MessageEmbed) pages.get(0).getContent()).queue(success -> Pages.paginate(success, pages, false, 60, TimeUnit.SECONDS));
         }
     }
 
@@ -122,5 +118,10 @@ public class SearchImageCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

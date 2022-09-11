@@ -1,4 +1,4 @@
-package me.comu.exeter.core;
+package me.comu.exeter.utility;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import me.comu.exeter.logging.Logger;
@@ -29,7 +29,7 @@ public class Config {
 
     }
 
-     static void buildDirectory(String path, String name) {
+     public static void buildDirectory(String path, String name) {
         if (doesExist(path)) {
             Logger.getLogger().print("Running on pre-" + name + " directory");
         } else {

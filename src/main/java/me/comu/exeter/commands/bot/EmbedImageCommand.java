@@ -2,7 +2,8 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
+
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -14,21 +15,20 @@ public class EmbedImageCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty())
         {
-            event.getChannel().sendMessage("Please specify an image-url to embed").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify an image-url to embed.").build()).queue();
             return;
         }
         String url = args.get(0);
         if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS))
         {
             try {
-                event.getChannel().sendMessage(EmbedUtils.embedImage(url).setColor(0).build()).queue();
+                event.getChannel().sendMessageEmbeds(Utility.embedImage(url).setColor(0).build()).queue();
             } catch (IllegalArgumentException ex)
             {
-                event.getChannel().sendMessage("Invalid iamge-url, please try again with a working URL.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid image-url, please try again with a working URL.").build()).queue();
             }
         } else {
-            event.getChannel().sendMessage("No permission to embed images.").queue();
-
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("No permission to embed images.").build()).queue();
         }
     }
 
@@ -50,5 +50,10 @@ public class EmbedImageCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

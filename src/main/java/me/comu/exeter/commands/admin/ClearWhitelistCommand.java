@@ -1,8 +1,8 @@
 package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
-import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -14,13 +14,13 @@ public class ClearWhitelistCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to clear the whitelisted users").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to clear the whitelisted users.").build()).queue();
             return;
         }
         WhitelistCommand.getWhitelistedIDs().clear();
-        WhitelistedJSONHandler.whitelistedIDs.clear();
-        event.getChannel().sendMessage("Successfully cleared all values in the whitelist hash").queue();
-        WhitelistedJSONHandler.saveWhitelistConfig();
+        Core.getInstance().getWhitelistedHandler().getWhitelistedIDs().clear();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Successfully cleared all values in the whitelist hash.").build()).queue();
+        Core.getInstance().getWhitelistedHandler().saveConfig();
     }
 
     @Override
@@ -41,5 +41,10 @@ public class ClearWhitelistCommand implements ICommand {
    @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

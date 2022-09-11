@@ -16,7 +16,7 @@ public class GuildMusicManager {
      * Track scheduler for the player.
      */
     public final TrackScheduler scheduler;
-    public static final String schedulerHook = Core.jda.getToken();
+    public static final String schedulerHook = Core.getInstance().getJDA().getToken();
 
     /**
      * Creates a player and a track scheduler.

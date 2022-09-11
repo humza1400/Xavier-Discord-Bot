@@ -1,8 +1,9 @@
 package me.comu.exeter.commands.image;
 
-import me.comu.exeter.core.Config;
+import me.comu.exeter.utility.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.*;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.concurrent.TimeUnit;
 
 public class PHCommentImageCommand implements ICommand {
 
@@ -47,12 +49,12 @@ public class PHCommentImageCommand implements ICommand {
         }
 
         String url = "https://nekobot.xyz/api/imagegen?type=phcomment&text=" + content + "&username=" + user.getName() + "&image="+user.getEffectiveAvatarUrl();
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().readTimeout(30, TimeUnit.SECONDS).build();
         Request request = new Request.Builder().get().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) { Config.clearCacheDirectory();
-                event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed(Utility.ERROR_EMOTE + " Something went wrong making a request to the endpoint").build()).queue();
                 e.printStackTrace();
             }
 
@@ -64,11 +66,11 @@ public class PHCommentImageCommand implements ICommand {
                     String url = jsonObject.toMap().get("message").toString();
                     BufferedImage img = ImageIO.read(new URL(url));
                     File file = new File("cache/downloaded.png");
-                    ImageIO.write(img, "png", file);
+                    ImageIO.write(img, url.endsWith("gif") ? "gif" : "png", file);
                     event.getChannel().sendFile(file, "swag.png").queue(lol -> Config.clearCacheDirectory());
                 } else {
                     Config.clearCacheDirectory();
-                    event.getChannel().sendMessage("Something went wrong making a request to the endpoint").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed(Utility.ERROR_EMOTE + " Something went wrong making a request to the endpoint").build()).queue();
                 }
 
             }
@@ -96,5 +98,10 @@ public class PHCommentImageCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.IMAGE;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

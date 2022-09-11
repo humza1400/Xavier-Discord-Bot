@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -9,33 +10,35 @@ import java.util.List;
 
 public class ShowCreditMessagesCommand implements ICommand {
 
-    public static boolean creditNotifications = true;
+    public static boolean creditNotifications = false;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
-            event.getChannel().sendMessage("You don't have permission to toggle credit notifications.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to toggle credit notifications.").build()).queue();
             return;
         }
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert a value").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert a value.").build()).queue();
             return;
         }
 
         if (args.get(0).equalsIgnoreCase("true") || args.get(0).equalsIgnoreCase("on")) {
             if (!creditNotifications) {
                 creditNotifications = true;
-                event.getChannel().sendMessage("Credit notification-messages will now be sent.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Credit notification-messages will now be sent.").build()).queue();
             } else
                 event.getChannel().sendMessage("Credit notifications are already enabled").queue();
         } else if (args.get(0).equalsIgnoreCase("false") || args.get(0).equalsIgnoreCase("off")) {
             if (creditNotifications) {
                 creditNotifications = false;
-                event.getChannel().sendMessage("Credit notification-messages will no longer be sent.").queue();
-            } else
-                event.getChannel().sendMessage("Credit notifications are already disabled").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Credit notification-messages will no longer be sent.").build()).queue();
+            } else {
+                event.getChannel().sendMessageEmbeds(Utility.embed("Credit notifications are already disabled.").build()).queue();
+            }
+
         }
 
     }
@@ -59,6 +62,11 @@ public class ShowCreditMessagesCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }
 

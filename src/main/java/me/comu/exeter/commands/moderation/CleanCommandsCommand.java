@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class CleanCommandsCommand implements ICommand {
 
@@ -24,7 +25,10 @@ public class CleanCommandsCommand implements ICommand {
                     }
                 }
                 event.getChannel().purgeMessages(deletedMessages);
-                event.getChannel().sendMessage("Successfully cleaned up **" + deletedMessages.size() + "** messages.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Successfully cleaned up **" + deletedMessages.size() + "** messages.").build()).queue(success -> {
+                    if (success != null)
+                        success.delete().queueAfter(5, TimeUnit.SECONDS);
+                });
                 event.getChannel().getHistory().retrievePast(100).queue((cleanMessages) -> {
                     for (Message message : cleanMessages) {
                         if (message.getContentRaw().startsWith(Core.PREFIX) || message.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
@@ -36,8 +40,7 @@ public class CleanCommandsCommand implements ICommand {
             }));
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
-        if (!memberList.isEmpty() && !args.isEmpty())
-        {
+        if (!memberList.isEmpty() && !args.isEmpty()) {
             List<Message> deletedMessages = new ArrayList<>();
             event.getChannel().getHistory().retrievePast(100).queue((messages -> {
                 for (Message message : messages) {
@@ -46,7 +49,7 @@ public class CleanCommandsCommand implements ICommand {
                     }
                 }
                 event.getChannel().purgeMessages(deletedMessages);
-                event.getChannel().sendMessage("Successfully cleaned up **" + deletedMessages.size() + "** messages from **" + memberList.get(0).getUser().getAsTag() + "**.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Successfully cleaned up **" + deletedMessages.size() + "** messages from **" + memberList.get(0).getUser().getAsTag() + "**.").build()).queue(msg -> msg.delete().queueAfter(5, TimeUnit.SECONDS));
                 event.getChannel().getHistory().retrievePast(100).queue((cleanMessages) -> {
                     for (Message message : cleanMessages) {
                         if (message.getContentRaw().startsWith(Core.PREFIX) || message.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
@@ -57,15 +60,11 @@ public class CleanCommandsCommand implements ICommand {
                 });
             }));
         }
-        if (!args.isEmpty() && memberList.isEmpty())
-        {
+        if (!args.isEmpty() && memberList.isEmpty()) {
             List<Message> deletedMessages = new ArrayList<>();
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
-                return;
-            } else if (targets.size() > 1) {
-                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0) + ".")).build()).queue();
                 return;
             }
             event.getChannel().getHistory().retrievePast(100).queue((messages -> {
@@ -75,7 +74,7 @@ public class CleanCommandsCommand implements ICommand {
                     }
                 }
                 event.getChannel().purgeMessages(deletedMessages);
-                event.getChannel().sendMessage("Successfully cleaned up **" + deletedMessages.size() + "** messages from **" + targets.get(0).getUser().getAsTag() + "**.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Successfully cleaned up **" + deletedMessages.size() + "** messages from **" + targets.get(0).getUser().getAsTag() + "**.").build()).queue(msg -> msg.delete().queueAfter(5, TimeUnit.SECONDS));
                 event.getChannel().getHistory().retrievePast(100).queue((cleanMessages) -> {
                     for (Message message : cleanMessages) {
                         if (message.getContentRaw().startsWith(Core.PREFIX) || message.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
@@ -100,11 +99,16 @@ public class CleanCommandsCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"cclean","cleanmessages","cleanmsgs"};
+        return new String[]{"cclean", "cleanmessages", "cleanmsgs"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -16,16 +16,18 @@ public class MCNameHistoryCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert an IGN").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please insert an IGN").build()).queue();
             return;
         }
         fetchUUID(args.get(0), (uuid) -> fetchNameHistory(uuid, names -> {
             if (names == null || names.isEmpty()) {
-                event.getChannel().sendMessage("UUID Returned Null").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("UUID Returned Null").build()).queue();
                 return;
             }
-            final String igns = String.join(", ", names);
-            event.getChannel().sendMessage("**" + args.get(0) + "'s** name history (" + uuid + "):\n" + Utility.removeMentions(igns)).queue();
+            List<String> newNames = new ArrayList<>();
+            names.forEach(name -> newNames.add("`" + name + "`"));
+            final String igns = String.join(", ", newNames);
+            event.getChannel().sendMessageEmbeds(Utility.embed("**" + args.get(0) + "'s** name history (" + uuid + "):\n" + Utility.removeMentions(igns)).build()).queue();
         }));
     }
 
@@ -59,11 +61,16 @@ public class MCNameHistoryCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"mcign", "mcignhistory", "ignhistory", "ign"};
+        return new String[]{"mcign", "mcignhistory", "ignhistory", "ign", "mcname", "mcnames"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

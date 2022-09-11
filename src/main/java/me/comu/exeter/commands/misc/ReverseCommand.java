@@ -2,6 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -11,11 +12,10 @@ public class ReverseCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert some text to flip").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please insert some text to flip").build()).queue();
             return;
         }
-        if (event.getMessage().getContentRaw().toLowerCase().startsWith(Core.PREFIX + "reverse"))
-        {
+        if (event.getMessage().getContentRaw().toLowerCase().startsWith(Core.PREFIX + "reverse")) {
             event.getMessage().delete().queue();
             String msg = event.getMessage().getContentRaw().replace(Core.PREFIX + "reverse", "");
             event.getChannel().sendMessage(reverseText(msg)).queue();
@@ -26,11 +26,9 @@ public class ReverseCommand implements ICommand {
         }
     }
 
-    private String reverseText(String text)
-    {
+    private String reverseText(String text) {
         StringBuilder buffer = new StringBuilder();
-        for(int i = text.length() - 1; i >= 0; i--)
-        {
+        for (int i = text.length() - 1; i >= 0; i--) {
             buffer.append(text.charAt(i));
         }
         return buffer.toString();
@@ -48,11 +46,16 @@ public class ReverseCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"flip"};
+        return new String[]{"flip"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

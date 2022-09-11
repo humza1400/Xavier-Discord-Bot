@@ -1,15 +1,15 @@
 package me.comu.exeter.core;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import me.comu.exeter.commands.CommandManager;
+import me.comu.exeter.commands.Listener;
 import me.comu.exeter.events.*;
-import me.comu.exeter.handlers.EcoJSONHandler;
-import me.comu.exeter.handlers.UsernameHistoryHandler;
-import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.musicplayer.TrackScheduler;
 import me.comu.exeter.pagination.method.Pages;
-import me.duncte123.botcommons.web.WebUtils;
+import me.comu.exeter.utility.Config;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -22,14 +22,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static me.comu.exeter.core.Core.jda;
 
 public class LoginGUI extends JFrame implements ActionListener {
     // login
+    private final Core core = new Core();
+    private JDA jda;
     private JButton startButton;
     private JButton stopButton;
     private JLabel jLabelLoginConfig;
@@ -119,7 +119,7 @@ public class LoginGUI extends JFrame implements ActionListener {
         stopButton.addActionListener(this);
         jLabelLoginConfig.setFont(new Font("Tahoma", Font.PLAIN, 14));
         jLabelLoginConfig.setForeground(new Color(255, 255, 255));
-        jLabelLoginConfig.setText("Made by swag#0014 | " + dtf.format(now));
+        jLabelLoginConfig.setText("Made by swag | " + dtf.format(now));
         jLabelLoginConfig.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jbackarrowLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
         jbackarrowLabel.setForeground(new Color(255, 255, 255));
@@ -157,7 +157,7 @@ public class LoginGUI extends JFrame implements ActionListener {
             jLabelLoginConfig.setText("Bot Must Be Running");
         } else if (shouldRenderConfigurations) {
             if (jLabelLoginConfig.getText().equalsIgnoreCase("bot must be running"))
-                jLabelLoginConfig.setText("Made by swag#0014 | " + dtf.format(now));
+                jLabelLoginConfig.setText("Made by swag | " + dtf.format(now));
             shouldRenderConfigurations = false;
             ConfigGUI configGUI = new ConfigGUI();
             configGUI.setVisible(true);
@@ -185,6 +185,8 @@ public class LoginGUI extends JFrame implements ActionListener {
                     jStatusField.setText("NOT AUTHORIZED");
                     return;
                 }*/
+                Core.setInstance(core);
+                jda = Core.getInstance().getJDA();
                 jStatusField.setText("AUTHORIZED");
                 stopButton.setText("Stop");
                 String TOKEN = field.getText().trim();
@@ -192,12 +194,9 @@ public class LoginGUI extends JFrame implements ActionListener {
                 CommandManager commandManager = new CommandManager(eventWaiter);
                 Listener listener = new Listener(commandManager);
                 org.slf4j.Logger logger = LoggerFactory.getLogger(Core.class);
-                WebUtils.setUserAgent("Mozilla/5.0 Discord Bot");
                 Config.buildDirectory("cache", "cache");
-                EcoJSONHandler.loadEconomyConfig(new File("economy.json"));
-                WhitelistedJSONHandler.loadWhitelistConfig(new File("whitelisted.json"));
-                UsernameHistoryHandler.loadUsernameHistoryConfig(new File("unhistory.json"));
-                jda = JDABuilder.create(TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("ily swag", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
+                core.loadConfigs();
+                jda = JDABuilder.create(TOKEN, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).setActivity(Activity.streaming("yuh", "https://www.twitch.tv/souljaboy/")).addEventListeners(listener).build().awaitReady();
                 jda.addEventListener(eventWaiter);
                 jda.addEventListener(new KickEvent());
                 jda.addEventListener(new BanEvent());
@@ -221,6 +220,7 @@ public class LoginGUI extends JFrame implements ActionListener {
                 jda.addEventListener(new SnipeEvent());
                 jda.addEventListener(new ReactionRoleEvent());
                 Pages.activate(jda);
+                core.setCommandManager(commandManager);
                 TrackScheduler.startAudioManager(PlayerManager.buildMusicPlayer(GuildMusicManager.schedulerHook));
                 logger.info("Successfully booted");
                 jStatusField.setText("Running | " + jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator());

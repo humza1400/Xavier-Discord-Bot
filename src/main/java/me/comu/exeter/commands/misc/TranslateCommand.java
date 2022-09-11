@@ -3,6 +3,7 @@ package me.comu.exeter.commands.misc;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.*;
 
@@ -15,11 +16,10 @@ import java.util.StringJoiner;
 public class TranslateCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-      if (args.isEmpty())
-      {
-          event.getChannel().sendMessage("Please specify what you want translated").queue();
-          return;
-      }
+        if (args.isEmpty()) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify what you want translated").build()).queue();
+            return;
+        }
         OkHttpClient client = new OkHttpClient();
         String language = args.get(0);
         StringJoiner stringJoiner = new StringJoiner(" ");
@@ -35,18 +35,16 @@ public class TranslateCommand implements ICommand {
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
         try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful())
-            {
+            if (response.isSuccessful()) {
                 String jsonResponse = Objects.requireNonNull(response.body()).string();
                 Logger.getLogger().print(jsonResponse + "\n");
             } else {
-                event.getChannel().sendMessage("Something went wrong when accessing the endpoint | " + response.code()).queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong when accessing the endpoint | " + response.code()).build()).queue();
                 System.out.println(Objects.requireNonNull(response.body()).string());
             }
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
-            event.getChannel().sendMessage("Something went wrong when translating").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong when translating").build()).queue();
         }
     }
 
@@ -62,11 +60,16 @@ public class TranslateCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"trans"};
+        return new String[]{"trans"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

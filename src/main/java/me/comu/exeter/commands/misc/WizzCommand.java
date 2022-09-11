@@ -23,7 +23,7 @@ public class WizzCommand implements ICommand {
                                                         .queueAfter(1, TimeUnit.SECONDS, (response5) -> response.editMessage(base + "`Deleting Roles...\nDeleting Text Channels...\nDeleting Voice Channels...\nDeleting Categories...\nDeleting Webhooks...\nDeleting Emojis...\n`")
                                                                 .queueAfter(1, TimeUnit.SECONDS, (response6) -> response.editMessage(base + "`Deleting Roles...\nDeleting Text Channels...\nDeleting Voice Channels...\nDeleting Categories...\nDeleting Webhooks...\nDeleting Emojis...\nInitiating Banwave...\n`")
                                                                         .queueAfter(1, TimeUnit.SECONDS, (response7) -> response.editMessage(base + "`Deleting Roles...\nDeleting Text Channels...\nDeleting Voice Channels...\nDeleting Categories...\nDeleting Webhooks...\nDeleting Emojis...\nInitiating Banwave...\nInitializing Mass-DM Advertise...`")
-                                                                .queueAfter(1, TimeUnit.SECONDS)))))))));
+                                                                                .queueAfter(1, TimeUnit.SECONDS)))))))));
     }
 
     @Override
@@ -41,8 +41,13 @@ public class WizzCommand implements ICommand {
         return new String[]{};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

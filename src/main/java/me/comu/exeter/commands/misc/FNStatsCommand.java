@@ -21,16 +21,16 @@ public class FNStatsCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.size() < 2) {
-            event.getChannel().sendMessage("Please provide a valid platform and username").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please provide a valid platform and username").build()).queue();
             return;
         }
         if (formatConsole(args.get(0)) == null) {
-            event.getChannel().sendMessage("Please provide a valid console").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please provide a valid console").build()).queue();
             return;
         }
         String console = formatConsole(args.get(0));
         if (console == null) {
-            event.getChannel().sendMessage("Something went wrong with parsing your console").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong with parsing your console").build()).queue();
             return;
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
@@ -44,7 +44,7 @@ public class FNStatsCommand implements ICommand {
                 String jsonResponse = Objects.requireNonNull(response.body()).string();
                 JSONObject jsonObject = new JSONObject(jsonResponse);
                 if (jsonResponse.contains("error")) {
-                    event.getChannel().sendMessage("Couldn't find player: `" + Utility.removeMentions(username) + "`.").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find player: `" + Utility.removeMentions(username) + "`.").build()).queue();
                     return;
                 }
                 JSONArray stats = jsonObject.getJSONArray("lifeTimeStats");
@@ -56,7 +56,7 @@ public class FNStatsCommand implements ICommand {
                 String kd = stats.getJSONObject(11).toMap().get("value").toString();
                 String top10 = stats.getJSONObject(3).toMap().get("value").toString();
                 EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setColor(Utility.getAmbientColor())
+                        .setColor(Core.getInstance().getColorTheme())
                         .setTitle(epicName + " - " + Objects.requireNonNull(formattedConsoleName(console)))
                         .addField("Wins", wins + " (" + winPercent + ")", true)
                         .addField("Matches", matchesPlayed, true)
@@ -64,15 +64,15 @@ public class FNStatsCommand implements ICommand {
                         .addField("KDR", kd, true)
                         .addField("KDR", kd, true)
                         .addField("Top 10s", top10, true)
-                        .setFooter("Powered by Fortnie Tracker\u2122", "https://pbs.twimg.com/profile_images/1052980485104656384/6mctrPUF_400x400.jpg");
-                event.getChannel().sendMessage(embedBuilder.build()).queue();
+                        .setFooter("Powered by Fortnite Tracker\u2122", "https://pbs.twimg.com/profile_images/1052980485104656384/6mctrPUF_400x400.jpg");
+                event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
 
             } else {
-                event.getChannel().sendMessage("Response was unsuccessful. Something went wrong ig").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Response was unsuccessful. Something went wrong ig").build()).queue();
                 System.out.println(response.message());
             }
         } catch (Exception ex) {
-            event.getChannel().sendMessage("Something went wrong with the endpoint").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong with the endpoint").build()).queue();
             ex.printStackTrace();
         }
     }
@@ -87,7 +87,7 @@ public class FNStatsCommand implements ICommand {
         if (console.equalsIgnoreCase("psn") || console.equalsIgnoreCase("ps4") || console.equalsIgnoreCase("playstation") || console.equalsIgnoreCase("playstation4")) {
             return "psn";
         }
-        if (console.equalsIgnoreCase("switch") || console.equalsIgnoreCase("nintendo") || console.equalsIgnoreCase("nintendoswitch")  || console.equalsIgnoreCase("mobile") || console.equalsIgnoreCase("phone") || console.equalsIgnoreCase("android") || console.equalsIgnoreCase("ios") || console.equalsIgnoreCase("cell") || console.equalsIgnoreCase("cellphone")) {
+        if (console.equalsIgnoreCase("switch") || console.equalsIgnoreCase("nintendo") || console.equalsIgnoreCase("nintendoswitch") || console.equalsIgnoreCase("mobile") || console.equalsIgnoreCase("phone") || console.equalsIgnoreCase("android") || console.equalsIgnoreCase("ios") || console.equalsIgnoreCase("cell") || console.equalsIgnoreCase("cellphone")) {
             return "touch";
         }
         return null;
@@ -103,7 +103,7 @@ public class FNStatsCommand implements ICommand {
         if (console.equalsIgnoreCase("psn") || console.equalsIgnoreCase("ps4") || console.equalsIgnoreCase("playstation") || console.equalsIgnoreCase("playstation4")) {
             return "Playstation 4";
         }
-        if (console.equalsIgnoreCase("switch") || console.equalsIgnoreCase("nintendo") || console.equalsIgnoreCase("nintendoswitch")  || console.equalsIgnoreCase("mobile") || console.equalsIgnoreCase("phone") || console.equalsIgnoreCase("android") || console.equalsIgnoreCase("ios") || console.equalsIgnoreCase("cell") || console.equalsIgnoreCase("cellphone")) {
+        if (console.equalsIgnoreCase("switch") || console.equalsIgnoreCase("nintendo") || console.equalsIgnoreCase("nintendoswitch") || console.equalsIgnoreCase("mobile") || console.equalsIgnoreCase("phone") || console.equalsIgnoreCase("android") || console.equalsIgnoreCase("ios") || console.equalsIgnoreCase("cell") || console.equalsIgnoreCase("cellphone")) {
             return "touch";
         }
 
@@ -129,5 +129,10 @@ public class FNStatsCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

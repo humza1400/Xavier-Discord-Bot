@@ -17,7 +17,7 @@ public class ProxiesCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a proxy-type (HTTP, HTTPS, SOCKS4, SOCKS5").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify a proxy-type (HTTP, HTTPS, SOCKS4, SOCKS5").build()).queue();
             return;
         }
         String HTTP = "https://api.proxyscrape.com/?request=displayproxies&proxytype=http&timeout=1500";
@@ -49,9 +49,9 @@ public class ProxiesCommand implements ICommand {
             Stream<String> stream = input.lines().limit(20);
             stream.forEach(thing -> stringBuilder.append(thing).append("\n"));
             input.close();
-            event.getChannel().sendMessage(new EmbedBuilder().setDescription(stringBuilder.toString()).setColor(Utility.getRandomColor()).build()).queue();
+            event.getChannel().sendMessageEmbeds(new EmbedBuilder().setDescription(stringBuilder.toString()).setColor(Core.getInstance().getColorTheme()).build()).queue();
         } catch (Exception ignored) {
-            event.getChannel().sendMessage("Something went wrong with connecting to the endpoint").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong with connecting to the endpoint").build()).queue();
         }
 
 
@@ -75,5 +75,10 @@ public class ProxiesCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -17,16 +18,16 @@ public class SetLeaveChannelCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to set the farewell channel").queue();
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_CHANNEL) && event.getMember().getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to set the farewell channel").build()).queue();
             return;
         }
         if (bound) {
-            event.getChannel().sendMessage("Farewell channel already bound. Nullifying...").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Farewell channel already bound. Nullifying...").build()).queue();
         }
         TextChannel channel = event.getChannel();
         logChannelID = channel.getIdLong();
-        event.getChannel().sendMessage("Farewell channel bound to `#" + event.getChannel().getName() + "`").queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Farewell channel bound to `#" + event.getChannel().getName() + "`").build()).queue();
         bound = true;
     }
 
@@ -48,5 +49,10 @@ public class SetLeaveChannelCommand implements ICommand {
      @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

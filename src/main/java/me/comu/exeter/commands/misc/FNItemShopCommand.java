@@ -126,7 +126,7 @@ public class FNItemShopCommand implements ICommand {
                 Date date = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd");
                 EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setColor(Utility.getAmbientColor())
+                        .setColor(Core.getInstance().getColorTheme())
                         .setTitle("Fortnite Daily Item-Shop - " + dateFormat.format(date))
                         .setDescription("Resets everyday at 8:00 PM EST")
                         .addField("", "**__[" + item1Name + "](" + item1Link + ")__**\n**Rarity:** `" + item1Rarity + "`\n**Cost:** `" + item1vBucks + "`", true)
@@ -145,14 +145,14 @@ public class FNItemShopCommand implements ICommand {
                         .addField("", "**__[" + item14Name + "](" + item14Link + ")__**\n**Rarity:** `" + item14Rarity + "`\n**Cost:** `" + item14vBucks + "`", true)
                         .addField("", "**__[" + item15Name + "](" + item15Link + ")__**\n**Rarity:** `" + item15Rarity + "`\n**Cost:** `" + item15vBucks + "`", true)
                         .addField("", "**__[" + item16Name + "](" + item16Link + ")__**\n**Rarity:** `" + item16Rarity + "`\n**Cost:** `" + item16vBucks + "`", true)
-                        .setFooter("Powered by Fortnie Tracker\u2122", "https://pbs.twimg.com/profile_images/1052980485104656384/6mctrPUF_400x400.jpg");
-                event.getChannel().sendMessage(embedBuilder.build()).queue();
+                        .setFooter("Powered by Fortnite Tracker\u2122", "https://wallpapercave.com/uwp/uwp1069633.jpeg");
+                event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
             } else {
-                event.getChannel().sendMessage("Response was unsuccessful. Something went wrong ig").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Response was unsuccessful. Something went wrong ig").build()).queue();
                 System.out.println(response.message());
             }
         } catch (Exception ex) {
-            event.getChannel().sendMessage("Something went wrong with the endpoint").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong with the endpoint").build()).queue();
             ex.printStackTrace();
         }
     }
@@ -170,11 +170,16 @@ public class FNItemShopCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"fnitemshop","fnshop", "fortniteitemshop", "itemshopfn", "dailyshop"};
+        return new String[]{"fnitemshop", "fnshop", "fortniteitemshop", "itemshopfn", "dailyshop"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -13,18 +14,21 @@ public class LeaveGuildCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (event.getAuthor().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("No permission").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("No Permission.").build()).queue();
             return;
         }
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Successfully left " + event.getGuild().getName()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Successfully left " + event.getGuild().getName()).build()).queue();
             event.getGuild().leave().queue();
+            return;
         }
         String id = args.get(0);
         try {
             Objects.requireNonNull(event.getJDA().getGuildById(id)).leave().queue();
-        } catch (Exception ex) {event.getChannel().sendMessage("Invalid Guild Snowfalke").queue();}
-        event.getChannel().sendMessage("Successfully left " + Objects.requireNonNull(event.getJDA().getGuildById(id)).getName()).queue();
+        } catch (Exception ex) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid Guild Snowfalke").build()).queue();
+        }
+        event.getChannel().sendMessageEmbeds(Utility.embed("Successfully left " + Objects.requireNonNull(event.getJDA().getGuildById(id)).getName()).build()).queue();
     }
 
     @Override
@@ -42,8 +46,13 @@ public class LeaveGuildCommand implements ICommand {
         return new String[]{"leaveguild", "gleave", "sleave"};
     }
 
-   @Override
+    @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

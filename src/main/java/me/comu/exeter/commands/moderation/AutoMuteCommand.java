@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
@@ -21,37 +22,37 @@ public class AutoMuteCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage(getHelp()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed(getHelp()).build()).queue();
             return;
         }
         if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR)) {
-            event.getChannel().sendMessage("You don't have permission to toggle Auto-Mute").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to toggle Auto-Mute").build()).queue();
             return;
         }
         if (!SetMuteRoleCommand.isMuteRoleSet(event.getGuild())) {
-            event.getChannel().sendMessage("Please specify a mute-role before you set-up Auto-Mute").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify a mute-role before you set-up Auto-Mute").build()).queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase("threshold") || args.get(0).equalsIgnoreCase("chances") || args.get(0).equalsIgnoreCase("attempts") || args.get(0).equalsIgnoreCase("range")) {
             if (args.size() != 2 && !StringUtils.isNumeric(args.get(1))) {
-                event.getChannel().sendMessage("Please specify a valid threshold number").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a valid threshold number").build()).queue();
                 return;
             }
             threshold = Integer.parseInt(args.get(1));
-            event.getChannel().sendMessage("Auto-Mute threshold successfuly set to `" + threshold + "`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Auto-Mute threshold successfully set to `" + threshold + "`").build()).queue();
         }
         if (args.get(0).equalsIgnoreCase("true") || args.get(0).equalsIgnoreCase("on")) {
             if (!active) {
                 active = true;
-                event.getChannel().sendMessage("Auto-Mute is now active").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Auto-Mute is now **active**").build()).queue();
             } else
-                event.getChannel().sendMessage("Auto-Mute is already enabled").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Auto-Mute is already enabled").build()).queue();
         } else if (args.get(0).equalsIgnoreCase("false") || args.get(0).equalsIgnoreCase("off")) {
             if (active) {
                 active = false;
-                event.getChannel().sendMessage("Auto-Mute is no longer active").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Auto-Mute is **no longer active**").build()).queue();
             } else
-                event.getChannel().sendMessage("Auto-Mute is already disabled").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Auto-Mute is already disabled").build()).queue();
         }
     }
 
@@ -67,11 +68,16 @@ public class AutoMuteCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"automod"};
+        return new String[]{"automod"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

@@ -2,7 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -18,10 +18,10 @@ public class MemberCountCommand implements ICommand {
         String memberInfo = String.format(
                 "**Total Members**: %s\n**Online Members**: %s\n**Offline Members**: %s\n**Bot Count**: %s",
                 guild.getMemberCache().size(),
-                guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus()  == OnlineStatus.ONLINE).count() + guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.DO_NOT_DISTURB).count() + guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.IDLE).count() ,
-                guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.OFFLINE).count() + guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.INVISIBLE).count() ,
+                guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.ONLINE).count() + guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.DO_NOT_DISTURB).count() + guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.IDLE).count(),
+                guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.OFFLINE).count() + guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.INVISIBLE).count(),
                 guild.getMemberCache().stream().filter((m) -> m.getUser().isBot()).count());
-        event.getChannel().sendMessage(EmbedUtils.embedMessage(memberInfo).build()).queue();
+        event.getChannel().sendMessageEmbeds(Utility.embedMessage(memberInfo).setColor(Core.getInstance().getColorTheme()).build()).queue();
     }
 
     @Override
@@ -36,11 +36,16 @@ public class MemberCountCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"usercount","mcount","ucount","mc"};
+        return new String[]{"usercount", "mcount", "ucount", "mc"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

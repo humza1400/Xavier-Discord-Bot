@@ -11,13 +11,13 @@ import java.util.Random;
 public class CreateWebhookCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("725452437342912542")) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             return;
         }
         int input = Math.min(Integer.parseInt(args.get(0)), 10);
         for (int i = 0; i < input; i++) {
             try {
-                event.getChannel().createWebhook("GRIEFED BY SWAG " + getRandom()).queue();
+                event.getChannel().createWebhook("champagnepapi " + getRandom()).queue();
             } catch (Exception ignored) {
 
             }
@@ -50,5 +50,10 @@ public class CreateWebhookCommand implements ICommand {
      @Override
     public Category getCategory() {
         return Category.OWNER;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

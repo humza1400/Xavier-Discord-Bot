@@ -4,9 +4,13 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.objects.RestorableCategory;
 import me.comu.exeter.objects.RestorableChannel;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class CopyChannelsCommand implements ICommand {
 
@@ -17,14 +21,14 @@ public class CopyChannelsCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong()) {
-            event.getChannel().sendMessage("You don't have permission to copy the channels").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to copy the channels.").build()).queue();
             return;
         }
         clearCopiedChannels();
         event.getGuild().getCategories().forEach(category -> restorableCategories.add(new RestorableCategory(category)));
         event.getGuild().getChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
         copied = true;
-        event.getChannel().sendMessage("Successfully copied `" + event.getGuild().getTextChannels().size() + "` text channels, `" + event.getGuild().getVoiceChannels().size() + "` voice channels, and `" + event.getGuild().getCategories().size() + "` categories.").queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Successfully copied **" + event.getGuild().getTextChannels().size() + "** text channels, **" + event.getGuild().getVoiceChannels().size() + "** voice channels, and **" + event.getGuild().getCategories().size() + "** categories.").build()).queue();
 
 
     }
@@ -53,5 +57,10 @@ public class CopyChannelsCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

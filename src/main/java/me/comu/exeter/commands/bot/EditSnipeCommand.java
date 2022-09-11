@@ -3,7 +3,7 @@ package me.comu.exeter.commands.bot;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -33,20 +33,20 @@ public class EditSnipeCommand implements ICommand {
         }
 
         if (containedAttachments) {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(Utility.extractUrls(preContentDeleted).get(0))
-                    .setColor(Utility.getAmbientColor())
+            event.getChannel().sendMessageEmbeds(Utility.embedImage(Utility.extractUrls(preContentDeleted).get(0))
+                    .setColor(Core.getInstance().getColorTheme())
                     .addField("Before", preContentDeleted, false)
                     .addField("After", postContentDeleted, false)
                     .setTimestamp(timeDeleted)
                     .setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl()).build()).queue();
         } else {
             EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setColor(Utility.getAmbientColor())
+            embedBuilder.setColor(Core.getInstance().getColorTheme())
                     .addField("Before", preContentDeleted, false)
                     .addField("After", postContentDeleted, false)
                     .setTimestamp(timeDeleted)
                     .setAuthor(Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getAsTag(), null, Objects.requireNonNull(event.getGuild().getMemberById(author)).getUser().getEffectiveAvatarUrl());
-            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
         }
 
 
@@ -64,11 +64,16 @@ public class EditSnipeCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"esnipe", "esnipemessage", "esnipemsg"};
+        return new String[]{"esnipe", "es", "esnipemessage", "esnipemsg"};
     }
 
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -18,20 +19,20 @@ public class BindLogChannelCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("Currently owner-only.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Currently owner-only.").build()).queue();
             return;
         }
         if (bound) {
-            event.getChannel().sendMessage("Chat-log channel already bound. Nullifying...").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Chat-log channel already bound. Nullifying...").build()).queue();
         }
         if (bound && !args.isEmpty() && args.get(0).equalsIgnoreCase("null")) {
-            event.getChannel().sendMessage("Unbound the current logs channel: `" + channelName + "`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Unbound the current logs channel: `" + channelName + "`").build()).queue();
             return;
         }
         TextChannel channel = event.getChannel();
         logChannelID = channel.getIdLong();
         channelName = channel.getName();
-        event.getChannel().sendMessage("Log channel bound to `#" + channelName + "`").queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Log channel bound to `#" + channelName + "`").build()).queue();
         bound = true;
     }
 
@@ -54,5 +55,10 @@ public class BindLogChannelCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

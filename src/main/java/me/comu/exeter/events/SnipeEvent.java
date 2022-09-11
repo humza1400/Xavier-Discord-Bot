@@ -14,6 +14,10 @@ public class SnipeEvent extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
+        if (event.getAuthor().isBot())
+        {
+            return;
+        }
         if (SnipeCommand.messages.size() > 200) {
             SnipeCommand.messages.clear();
         }

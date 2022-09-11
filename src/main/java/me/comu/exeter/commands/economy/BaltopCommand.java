@@ -2,12 +2,13 @@ package me.comu.exeter.commands.economy;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class BaltopCommand implements ICommand {
@@ -17,6 +18,8 @@ public class BaltopCommand implements ICommand {
         LinkedHashMap<String, Integer> collect = EconomyManager.getUsers().entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         int counter2 = 1;
         for (String x : collect.keySet()) {
+            if (Pattern.matches("[a-zA-Z]", x))
+                continue;
             User user = event.getJDA().getUserById(x);
             if (counter2 != 11)
                 try {
@@ -24,12 +27,13 @@ public class BaltopCommand implements ICommand {
                     stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(name).append(" - ").append(EconomyManager.getBalance(user.getId())).append(" credits\n");
                     counter2++;
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("The economy config contained an invalid user and has automatically been resolved. (" + x + ")").queue();
+//                    event.getChannel().sendMessage("The economy config contained an invalid user and has automatically been resolved. (" + x + ")").queue();
                     EconomyManager.removeUser(x);
+                    collect.remove(x);
                 }
 
         }
-        event.getChannel().sendMessage(EmbedUtils.embedMessage(MarkdownUtil.bold("Top 10 Rich List:") +"\n" + stringBuffer.toString()).build()).queue();
+        event.getChannel().sendMessageEmbeds(Utility.embedMessage(MarkdownUtil.bold("Top 10 Rich List:") + "\n" + stringBuffer).setColor(Core.getInstance().getColorTheme()).build()).queue();
 
     }
 
@@ -51,5 +55,10 @@ public class BaltopCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ECONOMY;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

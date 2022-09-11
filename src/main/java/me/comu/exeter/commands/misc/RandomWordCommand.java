@@ -34,11 +34,11 @@ public class RandomWordCommand implements ICommand {
                 String definition = jsonMap.get("definition");
                 String pos = jsonMap.get("pos");
                 String example = jsonMap.get("example");
-                event.getChannel().sendMessage(new EmbedBuilder().setColor(Utility.getAmbientColor()).addField("Word", word, false).
+                event.getChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Core.getInstance().getColorTheme()).addField("Word", word, false).
                         addField("Definition", definition, false).addField("Part-Of-Speech", pos, false).addField("Example", example, false).setTimestamp(Instant.now()).build()).queue();
             }
         } catch (Exception ex) {
-            event.getChannel().sendMessage("Caught an error when connecting to the endpoint").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Caught an error when connecting to the endpoint").build()).queue();
             ex.printStackTrace();
         }
 
@@ -62,5 +62,10 @@ public class RandomWordCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

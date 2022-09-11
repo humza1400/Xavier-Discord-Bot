@@ -14,26 +14,26 @@ public class DeleteTagCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to delete tags, sorry bro").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to delete tags, sorry bro.").build()).queue();
             return;
         }
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert a valid tag to delete").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert a valid tag to delete.").build()).queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase("all-tags") && (Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) || event.getMember().getIdLong() == Core.OWNERID)) {
-            event.getChannel().sendMessage("Successfully cleared all tags (" + CreateTagCommand.tags.size() + ")").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Successfully cleared all tags (" + CreateTagCommand.tags.size() + ")").build()).queue();
             CreateTagCommand.tags.clear();
             return;
         } else {
-            event.getChannel().sendMessage("You need administrator permissions to clear all tags").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You need administrator permissions to clear all tags").build()).queue();
         }
         if (CreateTagCommand.tags.containsKey(args.get(0))) {
             CreateTagCommand.tags.remove(args.get(0));
-            event.getChannel().sendMessage("Successfully removed `" + Utility.removeMentions(args.get(0)) + "`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Successfully removed `" + Utility.removeMentions(args.get(0)) + "`").build()).queue();
         } else {
-            event.getChannel().sendMessage("No tag exists with the name of `" + Utility.removeMentions(args.get(0)) + "`. Reference " + Core.PREFIX + "tag tag-list").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("No tag exists with the name of `" + Utility.removeMentions(args.get(0)) + "`. Reference " + Core.PREFIX + "tag tag-list").build()).queue();
         }
 
 
@@ -57,5 +57,10 @@ public class DeleteTagCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

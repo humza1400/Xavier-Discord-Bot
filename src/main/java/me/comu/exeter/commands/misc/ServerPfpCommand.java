@@ -2,7 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import java.util.Objects;
 public class ServerPfpCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(Objects.requireNonNull(event.getGuild().getIconUrl()).concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embedImage(Objects.requireNonNull(event.getGuild().getIconUrl()).concat("?size=256&f=.gif")).setColor(Core.getInstance().getColorTheme()).build()).queue();
     }
 
     @Override
@@ -33,5 +33,10 @@ public class ServerPfpCommand implements ICommand {
      @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

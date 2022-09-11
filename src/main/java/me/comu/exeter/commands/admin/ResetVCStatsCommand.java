@@ -3,6 +3,7 @@ package me.comu.exeter.commands.admin;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.util.VCTrackingManager;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -13,12 +14,12 @@ public class ResetVCStatsCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if ( Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to reset the voice-channel stats.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to reset the voice-channel stats.").build()).queue();
             return;
         }
         VCTrackingManager.resetAllJoinTimes();
         VCTrackingManager.resetAllLeaveTimes();
-        event.getChannel().sendMessage("Successfully reset **ALL** voice-channel statistics").queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Successfully reset **ALL** voice-channel statistics.").build()).queue();
     }
 
     @Override
@@ -38,5 +39,10 @@ public class ResetVCStatsCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

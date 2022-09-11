@@ -18,21 +18,21 @@ public class OnCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to turn someone on").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to turn someone on").build()).queue();
             return;
         }
 
         if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-            event.getChannel().sendMessage("I don't have permissions to turn someone on").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to turn someone on").build()).queue();
             return;
         }
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a user to turn on").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify a user to turn on").build()).queue();
             return;
         }
         if (OffCommand.offedUsers.isEmpty()) {
-            event.getChannel().sendMessage("No user is currently turned off.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("No user is currently turned off.").build()).queue();
             return;
         }
 
@@ -40,25 +40,30 @@ public class OnCommand implements ICommand {
         if (!args.isEmpty() && mentionedMembers.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
-                return;
-            } else if (targets.size() > 1) {
-                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                Member member = Utility.findSimilarMember(args.get(0), event.getGuild().getMembers());
+                if (member != null) {
+                    if (OffCommand.offedUsers.contains(member.getId())) {
+                        OffCommand.offedUsers.remove(member.getId());
+                        event.getChannel().sendMessageEmbeds(Utility.embed("Ok, Turned on **" + member.getAsMention() + "**.").build()).queue();
+                    } else
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed(targets.get(0).getAsMention() + " is not turned off.").build()).queue();
+                    return;
+                }
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0) + ".")).build()).queue();
                 return;
             }
             if (OffCommand.offedUsers.contains(targets.get(0).getId())) {
                 OffCommand.offedUsers.remove(targets.get(0).getId());
-                event.getChannel().sendMessage("Ok, Turned on **" + targets.get(0).getAsMention() + "**.").queue();
-            }
-            else
-                event.getChannel().sendMessage(targets.get(0).getAsMention() + " is not turned off.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Ok, Turned on **" + targets.get(0).getAsMention() + "**.").build()).queue();
+            } else
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed(targets.get(0).getAsMention() + " is not turned off.").build()).queue();
         } else if (!args.isEmpty()) {
             if (OffCommand.offedUsers.contains(mentionedMembers.get(0).getId())) {
                 OffCommand.offedUsers.remove(mentionedMembers.get(0).getId());
-                event.getChannel().sendMessage("Ok, Turned on **" + mentionedMembers.get(0).getAsMention() + "**.").queue();
-            }
-            else
-                event.getChannel().sendMessage(mentionedMembers.get(0).getAsMention() + " is not turned off.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Ok, Turned on **" + mentionedMembers.get(0).getAsMention() + "**.").build()).queue();
+            } else
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed(mentionedMembers.get(0).getAsMention() + " is not turned off.").build()).queue();
+
         }
     }
 
@@ -80,5 +85,10 @@ public class OnCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

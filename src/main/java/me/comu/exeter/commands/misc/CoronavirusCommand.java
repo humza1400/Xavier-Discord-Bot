@@ -2,13 +2,13 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.awt.*;
-import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public class CoronavirusCommand implements ICommand {
             String postTime = LocalTime.parse(preTime, DateTimeFormatter.ofPattern("HH:mm")).format(DateTimeFormatter.ofPattern("hh:mm a"));
             String preDate = document.getAllElements().get(79).text().replace("GMT","").replace(preTime, "").trim();
             String date = preDate + " "+ postTime;
-            event.getChannel().sendMessage(new EmbedBuilder().setTitle("COVID-19 Pandemic").setColor(Color.RED).setFooter(date, "https://bit.ly/3gTb2Ug")
+            event.getChannel().sendMessageEmbeds(new EmbedBuilder().setTitle("COVID-19 Pandemic").setColor(Color.RED).setFooter(date, "https://bit.ly/3gTb2Ug")
                     .addField("Total Cases:", cases, true)
                     .addField("Active Cases:", activeCases, true)
                     .addField("Closed Cases:", closedCases, true)
@@ -38,8 +38,8 @@ public class CoronavirusCommand implements ICommand {
                     .addField("Deaths:", deaths, true)
                     .addField("Recovered:", recovered, true)
                     .build()).queue();
-        } catch (IOException ex) {
-            event.getChannel().sendMessage("Error'd when trying to scrape data").queue();
+        } catch (Exception ex) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Error'd when trying to scrape data").build()).queue();
         }
     }
 
@@ -55,11 +55,16 @@ public class CoronavirusCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"corona", "coronastats", "cvirus"};
+        return new String[]{"corona", "coronastats", "cvirus","covid","covid-19"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

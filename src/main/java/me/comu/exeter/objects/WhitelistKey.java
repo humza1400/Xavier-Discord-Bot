@@ -1,13 +1,13 @@
-package me.comu.exeter.util;
+package me.comu.exeter.objects;
 
 import java.util.Objects;
 
-public class CompositeKey {
+public class WhitelistKey {
 
     private final String guildID;
     private final String userID;
 
-    public CompositeKey(String guildID, String userID) {
+    public WhitelistKey(String guildID, String userID) {
         this.guildID = guildID;
         this.userID = userID;
     }
@@ -20,8 +20,8 @@ public class CompositeKey {
         return userID;
     }
 
-    public static CompositeKey of(String guildID, String userID) {
-        return new CompositeKey(guildID, userID);
+    public static WhitelistKey of(String guildID, String userID) {
+        return new WhitelistKey(guildID, userID);
     }
 
 
@@ -29,7 +29,7 @@ public class CompositeKey {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CompositeKey that = (CompositeKey) o;
+        WhitelistKey that = (WhitelistKey) o;
         return Objects.equals(guildID, that.guildID) &&
                 Objects.equals(userID, that.userID);
     }

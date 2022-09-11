@@ -2,36 +2,45 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
+
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class ServerBannerCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage(EmbedUtils.embedImage(Objects.requireNonNull(event.getGuild().getBannerUrl()).concat("?size=256&f=.gif")).setColor(Objects.requireNonNull(event.getMember()).getColor()).build()).queue();
+        if (event.getGuild().getBannerUrl() == null) {
+            event.getChannel().sendMessageEmbeds(Utility.embed("The server has no banner set.").build()).queue();
+        } else {
+            event.getChannel().sendMessageEmbeds(Utility.embedImage(event.getGuild().getBannerUrl().concat("?size=256&f=.gif")).setColor(Core.getInstance().getColorTheme()).build()).queue();
+        }
     }
 
     @Override
     public String getHelp() {
-        return "Returns the server bammer\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Returns the server banner\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
     public String getInvoke() {
-        return "banner";
+        return "serverbanner";
     }
 
     @Override
     public String[] getAlias() {
-        return new String[]{"guildbanner","serverbanner","bannerpfp"};
+        return new String[]{"guildbanner", "bannerpfp"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

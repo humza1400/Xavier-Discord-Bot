@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -20,16 +21,15 @@ public class NSFWCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
 
         if (!Objects.requireNonNull(member).hasPermission(Permission.MANAGE_CHANNEL) && member.getIdLong() != Core.OWNERID) {
-            channel.sendMessage("You don't have permission to toggle NSFW").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to toggle NSFW").build()).queue();
             return;
         }
         if (!selfMember.hasPermission(Permission.MANAGE_CHANNEL) && (!selfMember.hasPermission(Permission.MANAGE_CHANNEL))) {
-            channel.sendMessage("I don't have permissions to toggle NSFW").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permission to toggle NSFW").build()).queue();
             return;
         }
         channel.getManager().setNSFW(!channel.isNSFW()).queue();
-        event.getChannel().sendMessage(channel.isNSFW() ? "Disabled NSFW for `" + channel.getName() + "`" : "Enabled NSFW for `" + channel.getName() + "`").queue();
-
+        event.getChannel().sendMessageEmbeds(Utility.embed(channel.isNSFW() ? "Disabled NSFW for `" + channel.getName() + "`" : "Enabled NSFW for `" + channel.getName() + "`").build()).queue();
     }
 
     @Override
@@ -44,11 +44,16 @@ public class NSFWCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"setnsfw","togglensfw"};
+        return new String[]{"setnsfw", "togglensfw"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -29,6 +29,7 @@ public class PlayerManager {
         this.playerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
+
     }
 
     public synchronized GuildMusicManager getGuildMusicManager(Guild guild) {
@@ -43,14 +44,14 @@ public class PlayerManager {
         return musicManager;
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl) {
+    public void loadAndPlay(TextChannel channel, String trackUrl, String... info) {
         GuildMusicManager musicManager = getGuildMusicManager(channel.getGuild());
 
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 TrackScheduler.setTextChannel(channel);
-                channel.sendMessage("Adding to queue **" + track.getInfo().title + "**").queue();
+                channel.sendMessage("Adding to queue **" + ((info == null) ? track.getInfo().title : info[0]) + "**").queue();
                 play(musicManager, track);
             }
 
@@ -81,6 +82,7 @@ public class PlayerManager {
         });
 
     }
+
 
     private void play(GuildMusicManager musicManager, AudioTrack track) {
         musicManager.scheduler.queue(track);

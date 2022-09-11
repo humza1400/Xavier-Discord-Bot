@@ -3,6 +3,7 @@ package me.comu.exeter.commands.admin;
 import groovy.lang.GroovyShell;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -29,11 +30,11 @@ public class EvalCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (event.getAuthor().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("Null Error 404 (malicious)?").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Null Error 404 (malicious)?").build()).queue();
             return;
         }
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please supply some arguments to evaluate").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please supply some arguments to evaluate.").build()).queue();
             return;
         }
         try {
@@ -46,9 +47,9 @@ public class EvalCommand implements ICommand {
             engine.setProperty("member", event.getMember());
             String script = imports + event.getMessage().getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);
-            event.getChannel().sendMessage(out == null ? "Executed with error" : "`[DEBUG]:` " + out.toString().replaceAll("JDA","API")).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(out == null ? "Executed with error" : "`[DEBUG]:` " + out.toString().replaceAll("JDA","API")).build()).queue();
         } catch (Exception ex) {
-            event.getChannel().sendMessage(ex.getMessage()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed(ex.getMessage()).build()).queue();
         }
     }
 
@@ -64,11 +65,16 @@ public class EvalCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"evaluate","debug"};
+        return new String[] {"evaluate"};
     }
 
    @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

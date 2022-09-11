@@ -10,7 +10,6 @@ import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
 import me.comu.exeter.utility.Utility;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -43,33 +42,32 @@ public class AutoPlayCommand implements ICommand {
         VoiceChannel voiceChannel = audioManager.getConnectedChannel();
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager guildMusicManager = playerManager.getGuildMusicManager(event.getGuild());
-        TextChannel textChannel = event.getChannel();
         if (!audioManager.isConnected()) {
-            textChannel.sendMessage("I'm not even connected to a voice channel bro").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("I'm not even connected to a voice channel bro").build()).queue();
             return;
         }
         if (!Objects.requireNonNull(voiceChannel).getMembers().contains(event.getMember())) {
-            event.getChannel().sendMessage("You need to be in the same voice channel as me to enable auto-play").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("You need to be in the same voice channel as me to enable auto-play").build()).queue();
             return;
         }
         if (autoPlayGuilds.contains(event.getGuild().getId())) {
             autoPlayGuilds.remove(event.getGuild().getId());
-            event.getChannel().sendMessage("Auto-Play has been **disabled**").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Auto-Play has been **disabled**").build()).queue();
         } else {
             if (guildMusicManager.player.getPlayingTrack() == null) {
-                event.getChannel().sendMessage("You need to be playing a track to turn auto-play on").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You need to be playing a track to turn auto-play on").build()).queue();
                 return;
             }
             AudioTrackInfo info = guildMusicManager.player.getPlayingTrack().getInfo();
             relatedVideoID = Utility.getYouTubeId(info.uri);
             System.out.println("Related video id " + relatedVideoID);
             autoPlayGuilds.add(event.getGuild().getId());
-            event.getChannel().sendMessage("Auto-Play has been **enabled**").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Auto-Play has been **enabled**").build()).queue();
         }
         List<String> videos = searchYoutube(relatedVideoID);
         if (videos == null)
         {
-            event.getChannel().sendMessage("Unfortunately we're being rate limited by youtube and cannot use auto-play at this moment").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Unfortunately we're being rate limited by youtube and cannot use auto-play at this moment").build()).queue();
             autoPlayGuilds.remove(event.getGuild().getId());
         }
         // https://developers.google.com/youtube/v3/guides/implementation/videos
@@ -122,5 +120,10 @@ public class AutoPlayCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MUSIC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

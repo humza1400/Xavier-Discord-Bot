@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -13,11 +14,10 @@ public class InviteCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (event.getAuthor().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("Sorry, but this bot is currently private and made exclusively for the `" + event.getGuild().getName() + "` discord. Please PM swag on Discord for further questions.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Sorry, but this bot is currently private and made exclusively for the `" + event.getGuild().getName() + "` discord. Please PM swag on Discord for further questions.").build()).queue();
             return;
         }
-        event.getChannel().sendMessage(event.getJDA().getInviteUrl(Permission.ADMINISTRATOR)).queue();
-
+        event.getChannel().sendMessageEmbeds(Utility.embed(event.getJDA().getInviteUrl(Permission.ADMINISTRATOR)).build()).queue();
     }
 
     @Override
@@ -38,5 +38,10 @@ public class InviteCommand implements ICommand {
   @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

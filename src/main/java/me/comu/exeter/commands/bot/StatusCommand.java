@@ -50,9 +50,7 @@ public class StatusCommand implements ICommand {
         double jvmMemUsage = memoryBean.getHeapMemoryUsage().getUsed();
         double jvmMemTotal = memoryBean.getHeapMemoryUsage().getMax();
         double jvmMemPercent = Math.floor((jvmMemUsage / jvmMemTotal) * 100);
-
         ThreadMXBean threadBean = ManagementFactory.getThreadMXBean();
-
 
         try {
             if (args.size() > 6 && args.get(5).equalsIgnoreCase("status.api.ionos")) {
@@ -65,19 +63,19 @@ public class StatusCommand implements ICommand {
         }
         if (args.isEmpty()) {
             if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-                event.getChannel().sendMessage(new EmbedBuilder().addField("Bot Status", Core.jda.getStatus().name(), false).addField("Discord API", Objects.requireNonNull(Utility.getDiscordStatus()).toUpperCase(), false).setColor(Utility.getAmbientColor()).setFooter("Operating in " + event.getJDA().getGuilds().size() + " servers. | " + Core.PREFIX + "status -system for more information").build()).queue();
+                event.getChannel().sendMessageEmbeds(new EmbedBuilder().addField("Bot Status", Core.getInstance().getJDA().getStatus().name(), false).addField("Discord API", Objects.requireNonNull(Utility.getDiscordStatus()).toUpperCase(), false).setColor(Core.getInstance().getColorTheme()).setFooter("Operating in " + event.getJDA().getGuilds().size() + " servers. | " + Core.PREFIX + "status -system for more information").build()).queue();
             } else {
-                event.getChannel().sendMessage("Bot Status: `" + Core.jda.getStatus().name() + "` Discord API: `" + Objects.requireNonNull(Utility.getDiscordStatus()).toUpperCase() + "`.\nOperating in " + event.getJDA().getGuilds().size() + " servers.\"" + Core.PREFIX + "status -system for more information").queue();
+                event.getChannel().sendMessage("Bot Status: `" + Core.getInstance().getJDA().getStatus().name() + "` Discord API: `" + Objects.requireNonNull(Utility.getDiscordStatus()).toUpperCase() + "`.\nOperating in " + event.getJDA().getGuilds().size() + " servers.\"" + Core.PREFIX + "status -system for more information").queue();
             }
         } else {
             if (args.get(0).equalsIgnoreCase("-system")) {
                 if (event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_EMBED_LINKS)) {
-                    event.getChannel().sendMessage(new EmbedBuilder()
+                    event.getChannel().sendMessageEmbeds(new EmbedBuilder()
                             .addField("OS Stats", "OS: **" + osName + "**\nOS Version: **" + osVersion + "**\nOS Arch: **" + osArch + "**", false)
                             .addField("Bot Stats", "Cores: **" + cores + "**\nCPU Usage: **" + serverCpuUsage + "**\nRam: **" + Utility.round(serverMemUsage / serverMem * serverMemPercent, 2) + " **", false)
                             .addField("JVM Stats", "CPU Usage: **" + jvmCpuUsage + "**\nRam: **" + Utility.round(jvmMemUsage / jvmMemTotal * jvmMemPercent, 2) + "**\nThread: **" + threadBean.getThreadCount() + "/" + threadBean.getPeakThreadCount() + "**", false)
                             .addField("Memory Stats", "Max Memory: **" + maxMemory + "**\nTotal Memory: **" + totalMemory + "**\nAllocated Memory: **" + allocatedMemory + " **\nUsed Memory: **" + usedMemory + "/" + freeMemory + "**\n", false)
-                            .setColor(Utility.getAmbientColor()).setFooter("Operating in " + event.getJDA().getGuilds().size() + " servers.").build()).queue();
+                            .setColor(Core.getInstance().getColorTheme()).setFooter("Operating in " + event.getJDA().getGuilds().size() + " servers.").build()).queue();
                 } else {
                     event.getChannel().sendMessage(new MessageBuilder()
                             .append("OS Stats", MessageBuilder.Formatting.valueOf("OS: **" + osName + "**\nOS Version: " + osVersion + "\nOS Arch: **" + osArch + "**"))
@@ -115,5 +113,10 @@ public class StatusCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

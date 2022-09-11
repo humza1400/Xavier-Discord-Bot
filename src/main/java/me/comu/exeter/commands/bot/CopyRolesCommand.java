@@ -3,6 +3,7 @@ package me.comu.exeter.commands.bot;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.objects.RestorableRole;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class CopyRolesCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong()) {
-            event.getChannel().sendMessage("You don't have permission to copy the roles").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to copy the roles.").build()).queue();
             return;
         }
         clearCopiedRoles(CopyRolesCommand.roles);
@@ -31,9 +32,7 @@ public class CopyRolesCommand implements ICommand {
             }
         }));
         copied = true;
-        event.getChannel().sendMessage("Successfully copied `" + roles.size() + "` roles.").queue();
-
-
+        event.getChannel().sendMessageEmbeds(Utility.embed("Successfully copied **" + roles.size() + "** roles.").build()).queue();
     }
 
     static void clearCopiedRoles(List<RestorableRole> roles) {
@@ -59,5 +58,10 @@ public class CopyRolesCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

@@ -15,13 +15,13 @@ public class AFKCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (!args.isEmpty() && args.get(0).equalsIgnoreCase("clear") && event.getAuthor().getIdLong() == Core.OWNERID) {
-            event.getChannel().sendMessage("Cleared " + afkUsers.size() + " AFK users!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Cleared " + afkUsers.size() + " AFK users!").build()).queue();
             afkUsers.clear();
             afkUserMessageIndex.clear();
             return;
         }
         if (args.isEmpty() && afkUsers.containsKey(Objects.requireNonNull(event.getMember()).getId())) {
-            event.getChannel().sendMessage(event.getMember().getUser().getAsTag() + " is no longer AFK.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(event.getMember().getUser().getAsTag() + " is no longer AFK.").build()).queue();
             afkUsers.remove(event.getMember().getId());
             afkUserMessageIndex.remove(event.getMember().getId());
             return;
@@ -29,18 +29,22 @@ public class AFKCommand implements ICommand {
         if (afkUsers.containsKey(Objects.requireNonNull(event.getMember()).getId()) && afkUserMessageIndex.get(event.getMember().getId()) == 3) {
             afkUsers.remove(event.getMember().getId());
             afkUserMessageIndex.remove(event.getMember().getId());
-            event.getChannel().sendMessage(event.getMember().getUser().getAsTag() + " is no longer AFK.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(event.getMember().getUser().getAsTag() + " is no longer AFK.").build()).queue();
         } else {
             if (args.isEmpty()) {
                 afkUsers.put(event.getMember().getId(), null);
                 afkUserMessageIndex.put(event.getMember().getId(), 0);
-                event.getChannel().sendMessage(event.getMember().getAsMention() + " is now AFK.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed(event.getMember().getAsMention() + " is now AFK.").build()).queue();
             } else {
                 StringJoiner stringJoiner = new StringJoiner(" ");
                 args.forEach(stringJoiner::add);
+                if (stringJoiner.toString().contains(".gg/")) {
+                    event.getChannel().sendMessageEmbeds(Utility.embed("You can't put invite links as your AFK-Message").build()).queue();
+                    return;
+                }
                 afkUsers.put(event.getMember().getId(), stringJoiner.toString());
                 afkUserMessageIndex.put(event.getMember().getId(), 0);
-                event.getChannel().sendMessage(event.getMember().getAsMention() + " is now AFK: " + Utility.removeMentions(stringJoiner.toString())).queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed(event.getMember().getAsMention() + " is now AFK: " + Utility.removeMentions(stringJoiner.toString())).build()).queue();
             }
         }
     }
@@ -63,5 +67,10 @@ public class AFKCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

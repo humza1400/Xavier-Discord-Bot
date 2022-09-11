@@ -2,6 +2,7 @@ package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -16,17 +17,18 @@ public class ListeningCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to change the streaming status").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to change the streaming status.").build()).queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase("stop"))
         {
-            Core.jda.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
+            Core.getInstance().getJDA().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
             return;
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
         args.forEach(stringJoiner::add);
-        Core.jda.getPresence().setActivity(Activity.listening(stringJoiner.toString()).asRichPresence());
+        Core.getInstance().getJDA().getPresence().setActivity(Activity.listening(stringJoiner.toString()).asRichPresence());
+        event.getChannel().sendMessageEmbeds(Utility.embed("Now listening to " + stringJoiner + ".").build()).queue();
     }
 
 
@@ -48,6 +50,11 @@ public class ListeningCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }
 

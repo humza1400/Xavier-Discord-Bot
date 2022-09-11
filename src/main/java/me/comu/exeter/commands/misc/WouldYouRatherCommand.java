@@ -25,14 +25,13 @@ public class WouldYouRatherCommand implements ICommand {
             embedBuilder.addField("", "or", false);
             embedBuilder.addField("", secondOption, false);
 //            embedBuilder.setColor(new Color(new Random().nextInt(255), new Random().nextInt(255), new Random().nextInt(255)));
-            embedBuilder.setColor(Utility.getAmbientColor());
-            event.getChannel().sendMessage(embedBuilder.build()).queue(message -> {
+            embedBuilder.setColor(Core.getInstance().getColorTheme());
+            event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue(message -> {
                 message.addReaction("\u0031\u20E3").queue();
                 message.addReaction("\u0032\u20E3").queue();
             });
-        } catch (IOException ex)
-        {
-            event.getChannel().sendMessage("Caught IOException").queue();
+        } catch (IOException ex) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Caught IOException").build()).queue();
         }
     }
 
@@ -48,11 +47,16 @@ public class WouldYouRatherCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"wyr"};
+        return new String[]{"wyr"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

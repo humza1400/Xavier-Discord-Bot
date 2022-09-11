@@ -4,6 +4,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.objects.RestorableCategory;
 import me.comu.exeter.objects.RestorableChannel;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -23,8 +24,10 @@ public class AntiRaidChannelSafetyCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
+        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to toggle ARCS").build()).queue();
+
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to toggle ARCS").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to toggle ARCS").build()).queue();
             return;
 
         }
@@ -39,49 +42,48 @@ public class AntiRaidChannelSafetyCommand implements ICommand {
         event.getChannel().sendMessage(categories.toString()).queue();
         event.getChannel().sendMessage(channels.toString()).queue();
         if (args.isEmpty()) {
-            event.getChannel().sendMessage(getHelp()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed(getHelp()).build()).queue();
             return;
         }
         if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
-            event.getChannel().sendMessage("You don't have permission to toggle ARCS").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to toggle ARCS.").build()).queue();
             return;
         }
         if (!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
-            event.getChannel().sendMessage("I don't have permission to toggle ARCS").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permission to toggle ARCS.").build()).queue();
             return;
         }
 
         Runnable backup = (() -> {
             restorableChannels.clear();
             restorableCategories.clear();
-            Core.jda.getCategories().forEach(category -> restorableCategories.add(new RestorableCategory(category)));
-            Core.jda.getTextChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
-            Core.jda.getVoiceChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
+            Core.getInstance().getJDA().getCategories().forEach(category -> restorableCategories.add(new RestorableCategory(category)));
+            Core.getInstance().getJDA().getTextChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
+            Core.getInstance().getJDA().getVoiceChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
         });
         if (args.get(0).equalsIgnoreCase("true") || args.get(0).equalsIgnoreCase("on")) {
             if (!active) {
                 arcs = Executors.newScheduledThreadPool(1);
                 arcs.scheduleAtFixedRate(backup, 0, 3, TimeUnit.HOURS);
                 active = true;
-                event.getChannel().sendMessage("ARCS is now active").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("ARCS is now **active**.").build()).queue();
             } else
-                event.getChannel().sendMessage("ARCS is already enabled").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("ARCS is already enabled.").build()).queue();
         } else if (args.get(0).equalsIgnoreCase("false") || args.get(0).equalsIgnoreCase("off")) {
             if (active) {
                 clear();
                 arcs.shutdown();
                 active = false;
-
-                event.getChannel().sendMessage("ARCS is no longer active").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("ARCS is **no longer active**.").build()).queue();
             } else
-                event.getChannel().sendMessage("ARCS is already disabled").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("ARCS is already disabled.").build()).queue();
         }
     }
 
     public static void restore() {
-        Core.jda.getCategories().forEach(category -> restorableCategories.add(new RestorableCategory(category)));
-        Core.jda.getTextChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
-        Core.jda.getVoiceChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
+        Core.getInstance().getJDA().getCategories().forEach(category -> restorableCategories.add(new RestorableCategory(category)));
+        Core.getInstance().getJDA().getTextChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
+        Core.getInstance().getJDA().getVoiceChannels().stream().filter((guildChannel -> guildChannel.getParent() == null)).forEach(guildChannel -> restorableChannels.add(new RestorableChannel(guildChannel)));
     }
 
     public static void clear() {
@@ -118,5 +120,9 @@ public class AntiRaidChannelSafetyCommand implements ICommand {
         return Category.ADMIN;
     }
 
+    @Override
+    public boolean isPremium() {
+        return true;
+    }
 
 }

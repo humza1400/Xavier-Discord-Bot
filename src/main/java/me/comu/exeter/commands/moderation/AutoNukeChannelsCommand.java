@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -15,20 +16,20 @@ import java.util.concurrent.TimeUnit;
 public class AutoNukeChannelsCommand implements ICommand {
 
     private boolean isRunning = false;
-    private long delay = 1;
+    private long delay = 3;
     private final List<String> ancChannels = new ArrayList<>();
     private ScheduledExecutorService anc = Executors.newScheduledThreadPool(1);
     private ScheduledFuture<?> scheduledFuture;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && Objects.requireNonNull(event.getMember()).getIdLong() != 699562509366984784L) {
-            event.getChannel().sendMessage("You don't have permission to interact with the the ANC").queue();
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to interact with the the ANC").build()).queue();
             return;
         }
 
         if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-            event.getChannel().sendMessage("I don't have permissions to start the ANC").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to start the ANC").build()).queue();
             return;
         }
 
@@ -40,8 +41,8 @@ public class AutoNukeChannelsCommand implements ICommand {
                     if (textChannel != null) {
                         textChannel.createCopy().setNSFW(textChannel.isNSFW()).setSlowmode(textChannel.getSlowmode()).setParent(textChannel.getParent()).setPosition(textChannel.getPosition()).queue((textChannel1 -> {
                             ancChannels.remove(textChannel.getId());
-                            textChannel.delete().queue();
-                            textChannel1.sendMessage("Channel Auto Nuked! Current Delay: `" + delay + "` hours").queue();
+                            textChannel.delete().reason("Auto Nuked").queue();
+                            textChannel1.sendMessageEmbeds(Utility.embed("Channel Auto Nuked! Current Delay: `" + delay + "` hours").build()).queue();
                             ancChannels.add(textChannel1.getId());
                         }));
                     }
@@ -53,47 +54,47 @@ public class AutoNukeChannelsCommand implements ICommand {
 
         if (args.isEmpty()) {
             if (ancChannels.contains(event.getChannel().getId())) {
-                event.getChannel().sendMessage("Removed `" + event.getChannel().getName() + "` from the ANC hash").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Removed `" + event.getChannel().getName() + "` from the ANC hash").build()).queue();
                 ancChannels.remove(event.getChannel().getId());
                 return;
             }
-            event.getChannel().sendMessage("`" + event.getChannel().getName() + "` will now be auto-nuked every " + delay + " hours").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("`" + event.getChannel().getName() + "` will now be auto-nuked every " + delay + " hours").build()).queue();
             ancChannels.add(event.getChannel().getId());
         } else if (args.get(0).equalsIgnoreCase("start")) {
             if (isRunning) {
-                event.getChannel().sendMessage("The ANC is already running!").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The ANC is already running!").build()).queue();
                 return;
             }
             anc = Executors.newScheduledThreadPool(1);
             isRunning = true;
             scheduledFuture = anc.scheduleAtFixedRate(thread, 0, delay, TimeUnit.HOURS);
-            event.getChannel().sendMessage("Started the ANC Executor!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Started the ANC Executor!").build()).queue();
         } else if (args.get(0).equalsIgnoreCase("stop")) {
             if (!isRunning) {
-                event.getChannel().sendMessage("The ANC isn't running :|").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The ANC isn't running :|").build()).queue();
                 return;
             }
             isRunning = false;
             scheduledFuture.cancel(true);
-            event.getChannel().sendMessage("Stopped the ANC Executor!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Stopped the ANC Executor!").build()).queue();
         } else if (args.get(0).equalsIgnoreCase("list")) {
-            event.getChannel().sendMessage("**Channels in the ANC Hash**:\n" + ancChannels.toString()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("**Channels in the ANC Hash**:\n" + ancChannels).build()).queue();
         } else if (args.get(0).equalsIgnoreCase("clear")) {
             if (ancChannels.isEmpty()) {
-                event.getChannel().sendMessage("The ANC Hash is already empty!").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The ANC Hash is already empty!").build()).queue();
             } else {
-                event.getChannel().sendMessage("Successfully cleared **" + ancChannels.size() + "** ANC Channels").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Successfully cleared **" + ancChannels.size() + "** ANC Channels").build()).queue();
                 ancChannels.clear();
             }
         } else if (args.get(0).equalsIgnoreCase("delay")) {
             if (args.size() == 1) {
-                event.getChannel().sendMessage("Please insert a delay value").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert a delay value").build()).queue();
             } else {
                 try {
                     delay = Integer.parseInt(args.get(1));
-                    event.getChannel().sendMessage("Channels will now be nuked at `" + delay + "` hour intervals!").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embed("Channels will now be nuked at `" + delay + "` hour intervals!").build()).queue();
                 } catch (Exception ex) {
-                    event.getChannel().sendMessage("Please insert a valid delay value").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert a valid delay value").build()).queue();
                 }
             }
 
@@ -105,12 +106,12 @@ public class AutoNukeChannelsCommand implements ICommand {
                     iterator.remove();
                 }
             }
-            event.getChannel().sendMessage("Cleaned up **" + count + "** ANC Channels!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Cleaned up **" + count + "** ANC Channels!").build()).queue();
         } else if (args.get(0).equalsIgnoreCase("cd") || args.get(0).equalsIgnoreCase("cooldown")) {
             if (isRunning) {
-                event.getChannel().sendMessageFormat("`%s` minutes until next channel nuke.", scheduledFuture.getDelay(TimeUnit.MINUTES)).queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed(String.format("`%s` minutes until next channel nuke.", scheduledFuture.getDelay(TimeUnit.MINUTES))).build()).queue();
             } else {
-                event.getChannel().sendMessage("The ANC is not running!").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The ANC is not running!").build()).queue();
             }
         }
 
@@ -134,5 +135,10 @@ public class AutoNukeChannelsCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

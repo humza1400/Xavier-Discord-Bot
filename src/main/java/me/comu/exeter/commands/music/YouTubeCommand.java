@@ -7,6 +7,7 @@ import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.io.IOException;
@@ -19,8 +20,7 @@ public class YouTubeCommand implements ICommand {
 
     private final YouTube youtube;
 
-    public YouTubeCommand()
-    {
+    public YouTubeCommand() {
         YouTube temp = null;
         try {
             temp = new YouTube.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), null).setApplicationName("Exeter Discord Bot").build();
@@ -32,16 +32,16 @@ public class YouTubeCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (args.isEmpty())
-        {
-            event.getChannel().sendMessage("Please specify a search term").queue();
+        if (args.isEmpty()) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a search term").build()).queue();
             return;
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
         args.forEach(stringJoiner::add);
         event.getChannel().sendMessage(doSearch(stringJoiner.toString())).queue();
     }
-     String doSearch(String queryTerm) {
+
+    private String doSearch(String queryTerm) {
         String responseUrl = "";
         try {
 
@@ -80,11 +80,16 @@ public class YouTubeCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"yt","searchyt","ytsearch"};
+        return new String[]{"yt", "searchyt", "ytsearch"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MUSIC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

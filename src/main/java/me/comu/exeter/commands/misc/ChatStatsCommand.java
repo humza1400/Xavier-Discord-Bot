@@ -4,7 +4,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.util.ChatTrackingManager;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
@@ -27,12 +27,12 @@ public class ChatStatsCommand implements ICommand {
                         stringBuffer.append(MarkdownUtil.bold(Integer.toString(counter2))).append(". ").append(Utility.removeMarkdown(name)).append(" - ").append(ChatTrackingManager.getChatCredits(user.getId())).append(" messages\n");
                         counter2++;
                     } catch (NullPointerException ex) {
-                        event.getChannel().sendMessage("The hash set contained an invalid user and has been automatically resolved. (" + x + ")").queue();
+//                        event.getChannel().sendMessage("The hash set contained an invalid user and has been automatically resolved. (" + x + ")").queue();
                         ChatTrackingManager.removeChatUser(x);
                     }
 
             }
-            event.getChannel().sendMessage(EmbedUtils.embedMessage(MarkdownUtil.bold("Most Active Chatters:") + "\n" + stringBuffer.toString()).build()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embedMessage(MarkdownUtil.bold("Most Active Chatters:") + "\n" + stringBuffer).setColor(Core.getInstance().getColorTheme()).build()).queue();
         } else {
             event.getChannel().sendMessage(event.getMessage().getMentionedMembers().get(0).getAsMention() + " has sent " + MarkdownUtil.bold(Integer.toString(ChatTrackingManager.getChatCredits(event.getMessage().getMentionedMembers().get(0).getId()))) + " messages.").queue();
         }
@@ -56,5 +56,10 @@ public class ChatStatsCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -18,36 +18,36 @@ public class DiscriminatorCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a discriminator").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a discriminator.").build()).queue();
             return;
         }
         if (args.get(0).length() != 4) {
-            event.getChannel().sendMessage("Please specify a valid 4-digit discriminator").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a valid 4-digit discriminator.").build()).queue();
             return;
         }
         if (!StringUtils.isNumeric(args.get(0))) {
-            event.getChannel().sendMessage("Discriminators don't have letters in them, please specify a valid discriminator").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Discriminators don't have letters in them, please specify a valid discriminator.").build()).queue();
             return;
         }
         String tag = args.get(0);
-        List<String> userIDS = Core.jda.getUsers().stream().filter(user -> user.getDiscriminator().equals(tag)).map(ISnowflake::getId).collect(Collectors.toList());
+        List<String> userIDS = Core.getInstance().getJDA().getUsers().stream().filter(user -> user.getDiscriminator().equals(tag)).map(ISnowflake::getId).collect(Collectors.toList());
         if (userIDS.isEmpty()) {
-            event.getChannel().sendMessage("No user found in cache with `" + tag + "` tag.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("No user found in cache with `" + tag + "` tag.").build()).queue();
             return;
         }
         StringBuilder stringBuilder = new StringBuilder(userIDS.size() + " users found with the #" + tag + " tag:\n");
         for (String string : userIDS) {
-            Core.jda.retrieveUserById(string).queue((user) -> stringBuilder.append(user.getAsTag()).append("\n"));
+            Core.getInstance().getJDA().retrieveUserById(string).queue((user) -> stringBuilder.append(user.getAsTag()).append("\n"));
         }
         if (stringBuilder.toString().length() > 1999) {
             try {
-                event.getChannel().sendMessage(new EmbedBuilder().setDescription(Utility.createPaste(stringBuilder.toString(), false)).setColor(Utility.getAmbientColor()).setTitle(userIDS.size() + " users found with the #" + tag + "discriminator:").build()).queue();
+                event.getChannel().sendMessageEmbeds(new EmbedBuilder().setDescription(Utility.createPaste(stringBuilder.toString(), false)).setColor(Core.getInstance().getColorTheme()).setTitle(userIDS.size() + " users found with the `#" + tag + "` discriminator:").build()).queue();
             } catch (IOException ex) {
-                event.getChannel().sendMessage("Connection throttled when making GET request").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Connection throttled when making GET request").build()).queue();
                 ex.printStackTrace();
             }
         } else
-            event.getChannel().sendMessage(new EmbedBuilder().setDescription(stringBuilder.toString().replace(userIDS.size() + " users found with the #" + tag + " tag:", "")).setColor(Utility.getAmbientColor()).setTitle(userIDS.size() + " users found with the #" + tag + " discriminator:").build()).queue();
+            event.getChannel().sendMessageEmbeds(new EmbedBuilder().setDescription(stringBuilder.toString().replace(userIDS.size() + " users found with the #" + tag + " tag:", "")).setColor(Core.getInstance().getColorTheme()).setTitle(userIDS.size() + " users found with the #" + tag + " discriminator:").build()).queue();
     }
 
 
@@ -69,5 +69,10 @@ public class DiscriminatorCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

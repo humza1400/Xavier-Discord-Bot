@@ -22,7 +22,7 @@ public class UrbanCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a word to look up").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a word to look up").build()).queue();
             return;
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
@@ -50,13 +50,13 @@ public class UrbanCommand implements ICommand {
                 String author = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("author").toString();
                 String thumbsup = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("thumbs_up").toString();
                 String thumbsdown = jsonObject.getJSONArray("list").getJSONObject(0).toMap().get("thumbs_down").toString();
-                event.getChannel().sendMessage(new EmbedBuilder().setColor(Utility.getAmbientColor()).setTitle(stringJoiner.toString(), permalink).setFooter(date).addField("Definition", definition, true).addField("Example", example, true).addField("Author", author, true).addField("Thumbs Up", thumbsup, true).addField("Thumbs Down", thumbsdown, true).build()).queue();
+                event.getChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Core.getInstance().getColorTheme()).setTitle(stringJoiner.toString(), permalink).setFooter(date).addField("Definition", definition, true).addField("Example", example, true).addField("Author", author, true).addField("Thumbs Up", thumbsup, true).addField("Thumbs Down", thumbsdown, true).build()).queue();
             }
         } catch (IOException ex) {
-            event.getChannel().sendMessage("Caught IOException").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Encountered an exception when accessing the endpoint.").build()).queue();
             ex.printStackTrace();
         } catch (JSONException ex) {
-            event.getChannel().sendMessage("Nothing found for " + MarkdownUtil.monospace(Utility.removeMentions(stringJoiner.toString()))).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Nothing found for " + MarkdownUtil.monospace(Utility.removeMentions(stringJoiner.toString()))).build()).queue();
         }
 
     }
@@ -79,5 +79,10 @@ public class UrbanCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

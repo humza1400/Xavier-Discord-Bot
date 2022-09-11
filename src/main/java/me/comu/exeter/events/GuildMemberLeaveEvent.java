@@ -19,16 +19,16 @@ public class GuildMemberLeaveEvent extends ListenerAdapter {
         for (Guild g : event.getJDA().getGuilds()) {
             amount += g.getMembers().size();
         }
-        Core.jda.getPresence().setActivity(Activity.watching(String.format("over %s users", amount)));
+        Core.getInstance().getJDA().getPresence().setActivity(Activity.competing(String.format("%s", amount)));
 
         if (ToggleLeaveChannelCommand.isActive()) {
             EmbedBuilder leaveEmbed = new EmbedBuilder();
             leaveEmbed.setColor(0xd60d28);
             leaveEmbed.setDescription(leave.replace("[member]", Objects.requireNonNull(event.getMember()).getAsMention()));
             if (!SetLeaveChannelCommand.bound)
-                Objects.requireNonNull(event.getGuild().getDefaultChannel()).sendMessage(leaveEmbed.build()).queue();
+                Objects.requireNonNull(event.getGuild().getDefaultChannel()).sendMessageEmbeds(leaveEmbed.build()).queue();
             else
-                Objects.requireNonNull(event.getGuild().getTextChannelById(SetLeaveChannelCommand.logChannelID)).sendMessage(leaveEmbed.build()).queue();
+                Objects.requireNonNull(event.getGuild().getTextChannelById(SetLeaveChannelCommand.logChannelID)).sendMessageEmbeds(leaveEmbed.build()).queue();
         }
     }
 

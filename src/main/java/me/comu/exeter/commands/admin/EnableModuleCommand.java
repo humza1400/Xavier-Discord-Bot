@@ -1,53 +1,55 @@
 package me.comu.exeter.commands.admin;
 
-import me.comu.exeter.core.CommandManager;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class EnableModuleCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to enable modules").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to enable modules.").build()).queue();
             return;
         }
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("You need to specify a module to enable").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You need to specify a module to enable.").build()).queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase(getInvoke()) || Arrays.asList(getAlias()).contains(args.get(0))) {
-            event.getChannel().sendMessage("The enable module is always enabled").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You can't enable the enable module lmao.").build()).queue();
             return;
         }
         if (DisableModuleCommand.disabledModules.isEmpty()) {
-            event.getChannel().sendMessage("No modules are current disabled").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("No modules are currently disabled.").build()).queue();
             return;
         }
-        if (isInListOfHash(DisableModuleCommand.disabledModules, args.get(0))) {
+        if (isInListOfHash(args.get(0))) {
             try {
-                Class<?> commandClass = Class.forName(DisableModuleCommand.disabledModules.get(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0))).getClass().getName());
-                CommandManager.register((ICommand) commandClass.getDeclaredConstructor().newInstance());
-                event.getChannel().sendMessage("Successfully enabled " + MarkdownUtil.bold(DisableModuleCommand.disabledModules.get(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0))).getInvoke()) + " in " + MarkdownUtil.monospace(DisableModuleCommand.disabledModules.get(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0))).getCategory().toString()) + ".").queue();
-                DisableModuleCommand.disabledModules.remove(returnListFromHash(DisableModuleCommand.disabledModules, args.get(0)));
+                Class<?> commandClass = Class.forName(DisableModuleCommand.disabledModules.get(returnListFromHash(args.get(0))).getClass().getName());
+                Core.getInstance().getCommandManager().register((ICommand) commandClass.getDeclaredConstructor().newInstance());
+                event.getChannel().sendMessageEmbeds(Utility.embed("Successfully enabled " + MarkdownUtil.bold(DisableModuleCommand.disabledModules.get(returnListFromHash(args.get(0))).getInvoke()) + " in " + MarkdownUtil.monospace(DisableModuleCommand.disabledModules.get(returnListFromHash(args.get(0))).getCategory().toString()) + ".").build()).queue();
+                DisableModuleCommand.disabledModules.remove(returnListFromHash(args.get(0)));
             } catch (ClassNotFoundException ex) {
-                event.getChannel().sendMessage(MarkdownUtil.monospace(Utility.removeMentions(args.get(0))) + " is not disabled or it doesn't exist.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed(MarkdownUtil.monospace(Utility.removeMentions(args.get(0))) + " is not disabled or it doesn't exist.").build()).queue();
             } catch (Exception ex) {
                 ex.printStackTrace();
-                event.getChannel().sendMessage("Something went wrong! :(").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong! :(").build()).queue();
             }
         } else {
-            event.getChannel().sendMessage("Couldn't find disabled module of `" + Utility.removeMentions(args.get(0)) + "`, maybe it's not disabled.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find disabled module of `" + Utility.removeMentions(args.get(0)) + "`, maybe it's not disabled.").build()).queue();
         }
     }
 
-    private static boolean isInListOfHash(Map<List<String>, ICommand> hashMap, String word) {
-        for (List<String> list : hashMap.keySet()) {
+    private static boolean isInListOfHash(String word) {
+        for (List<String> list : DisableModuleCommand.disabledModules.keySet()) {
             for (String string : list)
                 if (string.equalsIgnoreCase(word))
                     return true;
@@ -55,9 +57,9 @@ public class EnableModuleCommand implements ICommand {
         return false;
     }
 
-    private static List<String> returnListFromHash(Map<List<String>, ICommand> hashMap, String word) {
+    private static List<String> returnListFromHash(String word) {
         List<String> fart = new ArrayList<>();
-        for (List<String> list : hashMap.keySet()) {
+        for (List<String> list : DisableModuleCommand.disabledModules.keySet()) {
             for (String string : list)
                 if (string.equalsIgnoreCase(word)) {
                     fart.addAll(list);
@@ -85,5 +87,10 @@ public class EnableModuleCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

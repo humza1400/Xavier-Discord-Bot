@@ -2,10 +2,9 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.time.Instant;
@@ -16,10 +15,8 @@ import java.util.Objects;
 public class AntiRaidConfigCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        Member member = event.getMember();
-        TextChannel channel = event.getChannel();
-        if (!Objects.requireNonNull(member).hasPermission(Permission.ADMINISTRATOR) && Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            channel.sendMessage("You don't have permission to view the anti-raid config.").queue();
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to view the anti-raid config.").build()).queue();
             return;
         }
 
@@ -37,8 +34,9 @@ public class AntiRaidConfigCommand implements ICommand {
         embed.addField("Role Deletions", "**19.** Operational: **`null`**\n **20.** Threshold **`null`**", true);
         embed.setFooter("Anti-Raid Config");
         embed.setTimestamp(Instant.now());
+        embed.setColor(Core.getInstance().getColorTheme());
         embed.setDescription("Allocation: **`null`**");
-        event.getChannel().sendMessage(embed.build()).queue();
+        event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
 
     @Override
@@ -53,11 +51,16 @@ public class AntiRaidConfigCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"arcfg","arconfig","antiraidcfg","cfg"};
+        return new String[]{"arcfg", "arconfig", "antiraidcfg", "cfg"};
     }
 
-   @Override
+    @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

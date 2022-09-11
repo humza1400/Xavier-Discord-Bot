@@ -2,48 +2,42 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 
 public class LockdownCommand implements ICommand {
 
-    public static boolean inLockdown = false;
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        TextChannel channel = event.getChannel();
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
         if (!Objects.requireNonNull(member).hasPermission(Permission.MANAGE_CHANNEL) && (!member.hasPermission(Permission.MANAGE_CHANNEL)) && member.getIdLong() != Core.OWNERID) {
-            channel.sendMessage("You don't have permission to lockdown the channel").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to lockdown the channel").build()).queue();
             return;
         }
         if (!selfMember.hasPermission(Permission.MANAGE_CHANNEL) && (!selfMember.hasPermission(Permission.MANAGE_CHANNEL))) {
-            channel.sendMessage("I don't have permissions to lockdown the channel").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to lockdown the channel").build()).queue();
             return;
         }
-        try {
-         //      PermissionOverride permissionOverride = event.getChannel().getPermissionOverride(everyoneRole);
-        //    PermissionOverrideAction manager = permissionOverride.getManager();
-        if (!SetLockdownRoleCommand.isIsLockdownRoleSet()) {
-            event.getGuild().getPublicRole().getManager().revokePermissions(Permission.MESSAGE_WRITE).queue();
-        } else
-        {
-           SetLockdownRoleCommand.getLockdownRole().getManager().revokePermissions(Permission.MESSAGE_WRITE).queue();
+        if (event.getChannel().getPermissionOverride(event.getGuild().getPublicRole()) != null) {
+            EnumSet<Permission> deniedPermissions = Objects.requireNonNull(event.getChannel().getPermissionOverride(event.getGuild().getPublicRole())).getManager().getDeniedPermissions();
+            if (deniedPermissions.contains(Permission.MESSAGE_WRITE)) {
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed(Utility.ERROR_EMOTE + " Channel is already **locked**!").build()).queue();
+            }
+        } else {
+            event.getChannel().upsertPermissionOverride(event.getGuild().getPublicRole()).setDeny(Permission.MESSAGE_WRITE).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(":lock: Channel has been put on **lockdown**!").build()).queue();
         }
-            inLockdown = true;
-            event.getChannel().sendMessage(":lock: Channel has been put on lockdown!").queue();
-        } catch (NullPointerException npe) {
-            event.getChannel().sendMessage(npe.getMessage()).queue();
-            event.getChannel().sendMessage("Caught an error while trying to lock-down the channel").queue();
-        }
+
     }
 
 
@@ -59,11 +53,16 @@ public class LockdownCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"ld","lock","lockchannel"};
+        return new String[]{"ld", "lock", "lockchannel"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

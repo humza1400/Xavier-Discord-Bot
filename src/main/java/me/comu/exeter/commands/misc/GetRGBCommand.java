@@ -1,6 +1,6 @@
 package me.comu.exeter.commands.misc;
 
-import me.comu.exeter.core.Config;
+import me.comu.exeter.utility.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
@@ -19,7 +19,7 @@ public class GetRGBCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.size() != 3) {
-            event.getChannel().sendMessage("Please specify an RGB color.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify an RGB color.").build()).queue();
             return;
         }
         int r;
@@ -30,13 +30,13 @@ public class GetRGBCommand implements ICommand {
             g = Integer.parseInt(args.get(1));
             b = Integer.parseInt(args.get(2));
         } catch (IllegalArgumentException ex) {
-            event.getChannel().sendMessage("Please insert valid integers").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert valid integers").build()).queue();
             return;
         }
         Range<Integer> range = Range.between(0, 255);
         if (!(range.contains(r) && range.contains(g) && range.contains(b)))
         {
-            event.getChannel().sendMessage("RGB values must be between 0-255 (inclusive)").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("RGB values must be between 0-255 (inclusive)").build()).queue();
             return;
         }
         try {
@@ -58,7 +58,7 @@ public class GetRGBCommand implements ICommand {
             ImageIO.write(image, "png", newFilePNG);
             event.getChannel().sendFile(newFilePNG, "swag.png").queue(lol -> Config.clearCacheDirectory());
         } catch (Exception ignored) {
-            event.getChannel().sendMessage("Something went wrong with processing the RGB").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong with processing the RGB").build()).queue();
         }
 
     }
@@ -81,5 +81,10 @@ public class GetRGBCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

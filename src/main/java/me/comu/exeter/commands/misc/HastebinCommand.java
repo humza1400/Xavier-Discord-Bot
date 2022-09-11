@@ -3,7 +3,6 @@ package me.comu.exeter.commands.misc;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.io.IOException;
@@ -12,13 +11,12 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public class HastebinCommand implements ICommand {
-    
+
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        final TextChannel channel = event.getChannel();
         if (args.isEmpty()) {
-            channel.sendMessage("Missing arguments").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Missing arguments").build()).queue();
             return;
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
@@ -26,9 +24,8 @@ public class HastebinCommand implements ICommand {
         final String body = stringJoiner.toString();
         try {
             event.getChannel().sendMessage(Utility.createPaste(body, false)).queue();
-        } catch (IOException ex)
-        {
-            event.getChannel().sendMessage("Connection throttled when making GET request").queue();
+        } catch (IOException ex) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Connection throttled when making GET request").build()).queue();
             ex.printStackTrace();
         }
 //        this.createPaste(body, (text) -> channel.sendMessage(text).queue());
@@ -71,5 +68,10 @@ public class HastebinCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -14,28 +15,25 @@ public class BlacklistWordCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to blacklist words").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to blacklist words.").build()).queue();
             return;
         }
 
         if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-            event.getChannel().sendMessage("I don't have permissions to manage messages").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to manage messages.").build()).queue();
             return;
         }
-        if (args.isEmpty())
-        {
-            event.getChannel().sendMessage("Please insert a word or phrase to blacklist").queue();
+        if (args.isEmpty()) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert a word or phrase to blacklist.").build()).queue();
             return;
         }
-        if (args.get(0).equalsIgnoreCase("clear"))
-        {
+        if (args.get(0).equalsIgnoreCase("clear")) {
             blacklistedWords.clear();
-            event.getChannel().sendMessage("Clearing the blacklist word hash").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Clearing the blacklist word hash.").build()).queue();
             return;
         }
-        if (args.get(0).equalsIgnoreCase("list"))
-        {
-            event.getChannel().sendMessage(blacklistedWords.toString()).queue();
+        if (args.get(0).equalsIgnoreCase("list")) {
+            event.getChannel().sendMessageEmbeds(Utility.embed(blacklistedWords.toString()).build()).queue();
             return;
         }
 
@@ -43,7 +41,7 @@ public class BlacklistWordCommand implements ICommand {
         args.forEach(stringJoiner::add);
         String message = stringJoiner.toString();
         blacklistedWords.add(message.toLowerCase());
-        event.getChannel().sendMessage("Adding that word to the blacklisted words hash " + event.getMember().getAsMention()).queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Adding that word to the blacklisted words hash " + event.getMember().getAsMention()).build()).queue();
     }
 
     @Override
@@ -64,5 +62,10 @@ public class BlacklistWordCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

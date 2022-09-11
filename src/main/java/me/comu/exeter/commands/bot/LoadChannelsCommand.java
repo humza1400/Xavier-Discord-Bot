@@ -3,6 +3,8 @@ package me.comu.exeter.commands.bot;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -27,20 +29,21 @@ public class LoadChannelsCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong()) {
-            event.getChannel().sendMessage("You don't have permission to load channels").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to load channels.").build()).queue();
             return;
         }
         if (!Objects.requireNonNull(event.getGuild().getSelfMember()).hasPermission(Permission.MANAGE_CHANNEL)) {
-            event.getChannel().sendMessage("I don't have permission to load channels").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permission to load channels.").build()).queue();
             return;
         }
         if (!CopyChannelsCommand.copied) {
-            event.getChannel().sendMessage("No channels are copied").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("No channels are copied.").build()).queue();
             return;
         }
 
-//        event.getChannel().sendMessage(new EmbedBuilder().setTitle("\u26A0 Warning").setDescription("Are you sure you want to load this backup? **All channels will get deleted and reconstructed from the backup!**").setColor(Color.YELLOW).build()).queue((message -> message.addReaction("\u2705").queue((success -> initWaiter(event.getAuthor().getId(), message.getId(), event.getChannel().getId(), event.getJDA(), event)))));
-        loadChannels(event);
+        event.getChannel().sendMessageEmbeds(new EmbedBuilder().setTitle("\u26A0 Warning").setDescription("Are you sure you want to load this backup? **All channels will get deleted and reconstructed from the backup!**").setColor(Core.getInstance().getColorTheme()).build()).queue((message -> message.addReaction("checkmark:959654268250488892").queue((success -> {
+            initWaiter(event.getAuthor().getId(), message.getId(), event.getChannel().getId(), event.getJDA(), event);
+        }))));
     }
 
     private void loadChannels(GuildMessageReceivedEvent event) {
@@ -73,26 +76,26 @@ public class LoadChannelsCommand implements ICommand {
         eventWaiter.waitForEvent(GuildMessageReactionAddEvent.class, (event) -> {
             MessageReaction.ReactionEmote reactionEmote = event.getReactionEmote();
             User user = event.getUser();
-            return !user.isBot() && author.equals(user.getId()) && event.getMessageId().equals(message) && reactionEmote.getEmoji().equals("\u2705");
+            return !user.isBot() && author.equals(user.getId()) && event.getMessageId().equals(message) && reactionEmote.getEmote().getId().equals("959654268250488892");
         }, (event) -> {
             TextChannel textChannel = event.getJDA().getTextChannelById(channel);
             try {
-                Objects.requireNonNull(textChannel).retrieveMessageById(message).queue(message1 -> message1.editMessage(event.getUser().getAsMention() + " has loaded in a backup!").override(true).queue());
+                Objects.requireNonNull(textChannel).retrieveMessageById(message).queue(message1 -> message1.editMessageEmbeds(Utility.embed(event.getUser().getAsMention() + " has loaded in a backup!").build()).override(true).queue());
                 loadChannels(msgRecieveEvent);
             } catch (NullPointerException ex) {
-                Objects.requireNonNull(textChannel).sendMessage("Something went wrong, try again!").queue();
+                Objects.requireNonNull(textChannel).sendMessageEmbeds(Utility.errorEmbed("Something went wrong, try again!").build()).queue();
             }
         }, 10, TimeUnit.SECONDS, () -> {
             TextChannel textChannel = jda.getTextChannelById(channel);
             try {
                 Objects.requireNonNull(textChannel).retrieveMessageById(message).queue(message1 -> {
-                    message1.editMessage("Backup was never confirmed, channel load cancelled.").override(true).queue();
-                    message1.removeReaction("\u2705").queue();
-                    message1.addReaction("\u274C").queue();
+                    message1.editMessageEmbeds(Utility.embed("Backup was never confirmed, channel load cancelled.").build()).override(true).queue();
+                    message1.removeReaction("checkmark:959654268250488892").queue();
+                    message1.addReaction("no:959656234108190760").queue();
                 });
 
             } catch (NullPointerException ex) {
-                Objects.requireNonNull(textChannel).sendMessage("Something went wrong, try again!").queue();
+                Objects.requireNonNull(textChannel).sendMessageEmbeds(Utility.errorEmbed("Something went wrong, try again!").build()).queue();
             }
         });
     }
@@ -115,5 +118,10 @@ public class LoadChannelsCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

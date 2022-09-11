@@ -2,10 +2,10 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
@@ -16,23 +16,22 @@ public class ClearCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        TextChannel channel = event.getChannel();
         Member member = event.getMember();
         Member selfMember = event.getGuild().getSelfMember();
 
         if (!Objects.requireNonNull(member).hasPermission(Permission.MESSAGE_MANAGE) && member.getIdLong() != Core.OWNERID) {
-            channel.sendMessage("You don't have permission to purge messages").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to purge messages").build()).queue();
             return;
         }
 
         if (!selfMember.hasPermission(Permission.MESSAGE_MANAGE)) {
-            channel.sendMessage("I don't have permissions to purge messages").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to purge messages").build()).queue();
             return;
         }
 
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Insert an amount of messages to purge").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Insert an amount of messages to purge").build()).queue();
             return;
         }
         if (args.get(0).equals("bot") || args.get(0).equals("bots")) {
@@ -55,12 +54,14 @@ public class ClearCommand implements ICommand {
                         buffer.append(s).append(", ");
                     }
                     buffer.setCharAt(buffer.length() - 2, '.');
-                    event.getChannel().sendMessage(String.format("Deleted `%s` messages by `%s`", botMessages.size(), buffer.toString())).queue((message -> {
+
+
+                    event.getChannel().sendMessageEmbeds(Utility.embed(String.format("Deleted `%s` messages by `%s`", botMessages.size(), buffer)).build()).queue((message -> {
                         event.getMessage().delete().queueAfter(3, TimeUnit.SECONDS);
                         message.delete().queueAfter(3, TimeUnit.SECONDS);
                     }));
                 } catch (IllegalArgumentException ex) {
-                    event.getChannel().sendMessage("No bot messages found to purge.").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embed("No bot messages found to purge.").build()).queue();
                 }
             }));
             return;
@@ -69,7 +70,7 @@ public class ClearCommand implements ICommand {
                 List<Message> messageStream = messages.stream().filter(message -> message.getAttachments().size() > 0).collect(Collectors.toList());
                 int size = messageStream.size();
                 messageStream.forEach(message -> message.delete().queue());
-                event.getChannel().sendMessage("Deleted `" + size + "` messages that contained images").queue(message -> message.delete().queueAfter(3, TimeUnit.SECONDS));
+                event.getChannel().sendMessageEmbeds(Utility.embed("Deleted `" + size + "` messages that contained images").build()).queue(message -> message.delete().queueAfter(3, TimeUnit.SECONDS));
 
             }));
             return;
@@ -78,7 +79,7 @@ public class ClearCommand implements ICommand {
                 List<Message> messageStream = messages.stream().filter(message -> message.getEmbeds().size() > 0).collect(Collectors.toList());
                 int size = messageStream.size();
                 messageStream.forEach(message -> message.delete().queue());
-                event.getChannel().sendMessage("Deleted `" + size + "` messages that contained embeds").queue(message -> message.delete().queueAfter(3, TimeUnit.SECONDS));
+                event.getChannel().sendMessageEmbeds(Utility.embed("Deleted `" + size + "` messages that contained embeds").build()).queue(message -> message.delete().queueAfter(3, TimeUnit.SECONDS));
 
             }));
             return;
@@ -89,16 +90,16 @@ public class ClearCommand implements ICommand {
             if (Integer.parseInt(args.get(0)) >= 100) {
                 event.getMessage().delete().queue(onDelete -> {
                     event.getChannel().getHistory().retrievePast(100).queue(messages -> event.getChannel().purgeMessages(messages));
-                    event.getChannel().sendMessage(String.format("Cleared %s messages :champagne_glass:", args.get(0))).queue(tempMessage -> tempMessage.delete().queueAfter(2, TimeUnit.SECONDS));
+                    event.getChannel().sendMessageEmbeds(Utility.embed(String.format("Cleared %s messages :champagne_glass:", args.get(0))).build()).queue(tempMessage -> tempMessage.delete().queueAfter(2, TimeUnit.SECONDS));
                 });
             } else {
                 event.getMessage().delete().queue(onDelete -> {
                     event.getChannel().getHistory().retrievePast(Integer.parseInt(args.get(0))).queue((tempMessages) -> event.getChannel().purgeMessages(tempMessages));
-                    event.getChannel().sendMessage(String.format("Cleared %s messages :champagne_glass:", args.get(0))).queue(tempMessage -> tempMessage.delete().queueAfter(2, TimeUnit.SECONDS));
+                    event.getChannel().sendMessageEmbeds(Utility.embed(String.format("Cleared %s messages :champagne_glass:", args.get(0))).build()).queue(tempMessage -> tempMessage.delete().queueAfter(2, TimeUnit.SECONDS));
                 });
             }
         } catch (NumberFormatException ex) {
-            event.getChannel().sendMessage("Please insert a valid number of messages to purge or purge the bot/images messages.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert a valid number of messages to purge or purge the bot/images messages.").build()).queue();
         }
     }
 
@@ -130,6 +131,11 @@ public class ClearCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 
 }

@@ -10,9 +10,10 @@ import java.util.List;
 public class SpamEveryoneCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("725452437342912542")) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             return;
         }
+
         boolean running = true;
         try {
             int input = Integer.parseInt(args.get(0));
@@ -34,7 +35,7 @@ public class SpamEveryoneCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Spams mentions everyone lol.\n`" + Core.PREFIX + getInvoke() + "` [amount]\nAlises: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Spams mentions everyone lol.\n`" + Core.PREFIX + getInvoke() + " [amount]`\nAlises: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -50,5 +51,10 @@ public class SpamEveryoneCommand implements ICommand {
      @Override
     public Category getCategory() {
         return Category.OWNER;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

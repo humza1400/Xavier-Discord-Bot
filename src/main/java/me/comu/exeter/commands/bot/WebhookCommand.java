@@ -5,6 +5,7 @@ import club.minnced.discord.webhook.send.WebhookMessage;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -15,7 +16,7 @@ public class WebhookCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.size() != 2) {
-            event.getChannel().sendMessage("Please provide a webhook link and message").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please provide a webhook link and message").build()).queue();
             return;
         }
         try {
@@ -26,10 +27,10 @@ public class WebhookCommand implements ICommand {
             WebhookMessage message = builder.setContent(stringJoiner.toString()).build();
             client.send(message);
             client.close();
-            event.getChannel().sendMessage("Successfully sent POST request").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Successfully sent POST request").build()).queue();
         } catch (Exception ex)
         {
-            event.getChannel().sendMessage("Invalid Webhook URL").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid Webhook URL").build()).queue();
         }
     }
 
@@ -51,5 +52,10 @@ public class WebhookCommand implements ICommand {
   @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

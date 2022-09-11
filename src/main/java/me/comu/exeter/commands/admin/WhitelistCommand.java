@@ -5,9 +5,8 @@ import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.comu.exeter.core.Core;
-import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.util.CompositeKey;
+import me.comu.exeter.objects.WhitelistKey;
 import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -17,7 +16,8 @@ import java.util.*;
 
 public class WhitelistCommand implements ICommand {
 
-    private static final Map<CompositeKey, String> whitelistedIDs = Collections.checkedMap(new HashMap<>(), CompositeKey.class, String.class);
+    private static final Map<WhitelistKey, String> whitelistedIDs = Collections.checkedMap(new HashMap<>(), WhitelistKey.class, String.class);
+    private static final Map<String, Boolean> guilds = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
@@ -28,13 +28,14 @@ public class WhitelistCommand implements ICommand {
             builder.addEmbeds(firstEmbed);
             client.send(builder.build());
             client.close();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong()) {
-            event.getChannel().sendMessage("You don't have permission to whitelist anyone").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to whitelist anyone.").build()).queue();
             return;
         }
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("You need to specify a user to whitelist").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You need to specify a user to whitelist.").build()).queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase("-g")) {
@@ -44,11 +45,11 @@ public class WhitelistCommand implements ICommand {
             try {
                 int permissionLevel = Integer.parseInt(args.get(1));
                 if (permissionLevel < 0 || permissionLevel > 3) {
-                    event.getChannel().sendMessage("Invalid Permission-Level Index (0-3), try again `" + Core.PREFIX + getInvoke() + "`").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid Permission-Level Index (0-3), try again `" + Core.PREFIX + getInvoke() + "`.").build()).queue();
                     return;
                 }
             } catch (NumberFormatException ex) {
-                event.getChannel().sendMessage("Invalid Permission-Level, try again `" + Core.PREFIX + getInvoke() + "`").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid Permission-Level, try again `" + Core.PREFIX + getInvoke() + "`.").build()).queue();
                 return;
             }
             List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
@@ -59,53 +60,53 @@ public class WhitelistCommand implements ICommand {
                 try {
                     User userID = event.getJDA().getUserById(id);
                     Member member = event.getGuild().getMemberById(Long.parseLong(id));
-                    if (whitelistedIDs.containsKey(CompositeKey.of(guildID, id))) {
-                        event.getChannel().sendMessage("User already whitelisted.").queue();
+                    if (whitelistedIDs.containsKey(WhitelistKey.of(guildID, id))) {
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("User already whitelisted.").build()).queue();
                         return;
                     }
                     if (Objects.requireNonNull(userID).getIdLong() == Core.OWNERID || userID.getId().equals(guildOwnerId)) {
-                        event.getChannel().sendMessage("The owner is automatically whitelisted.").queue();
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The owner is automatically whitelisted.").build()).queue();
                         return;
                     }
-                    if (Objects.requireNonNull(userID).getIdLong() == event.getGuild().getSelfMember().getIdLong()|| userID.getId().equals(guildOwnerId)) {
-                        event.getChannel().sendMessage("The bot is automatically whitelisted.").queue();
+                    if (Objects.requireNonNull(userID).getIdLong() == event.getGuild().getSelfMember().getIdLong() || userID.getId().equals(guildOwnerId)) {
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The bot is automatically whitelisted.").build()).queue();
                         return;
                     }
-                    whitelistedIDs.put(CompositeKey.of(guildID, id), args.get(1));
-                    event.getChannel().sendMessage("Added `" + Utility.removeMarkdown(Objects.requireNonNull(member).getUser().getAsTag()) + "` to the whitelist with level `" + args.get(1) + "`").queue();
-                    WhitelistedJSONHandler.saveWhitelistConfig();
+                    whitelistedIDs.put(WhitelistKey.of(guildID, id), args.get(1));
+                    event.getChannel().sendMessageEmbeds(Utility.embed("Added `" + Utility.removeMarkdown(Objects.requireNonNull(member).getUser().getAsTag()) + "` to the whitelist with level `" + args.get(1) + "`.").build()).queue();
+                    Core.getInstance().saveConfig(Core.getInstance().getWhitelistedHandler());
                 } catch (NumberFormatException ex) {
                     String[] split = id.split("#");
                     try {
                         User user = Objects.requireNonNull(event.getJDA().getUserByTag(split[0], split[1]));
-                        if (whitelistedIDs.containsKey(CompositeKey.of(guildID, user.getId()))) {
-                            event.getChannel().sendMessage("That user is already whitelisted!").queue();
+                        if (whitelistedIDs.containsKey(WhitelistKey.of(guildID, user.getId()))) {
+                            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("That user is already whitelisted!").build()).queue();
                             return;
                         }
                         if (user.getIdLong() == Core.OWNERID || user.getId().equals(guildOwnerId)) {
-                            event.getChannel().sendMessage("The owner is automatically whitelisted.").queue();
+                            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The owner is automatically whitelisted.").build()).queue();
                             return;
                         }
-                        WhitelistCommand.getWhitelistedIDs().put(CompositeKey.of(guildID, user.getId()), args.get(1));
-                        event.getChannel().sendMessage("Successfully added `" + user.getName() + "#" + user.getDiscriminator() + "` to the whitelist with level `" + args.get(1) + "`").queue();
+                        WhitelistCommand.getWhitelistedIDs().put(WhitelistKey.of(guildID, user.getId()), args.get(1));
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Successfully added `" + user.getName() + "#" + user.getDiscriminator() + "` to the whitelist with level `" + args.get(1) + "`.").build()).queue();
                     } catch (NullPointerException | IllegalArgumentException | ArrayIndexOutOfBoundsException exx) {
-                        event.getChannel().sendMessage("Invalid ID + " + Utility.removeMentions(id)).queue();
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid ID + " + Utility.removeMentions(id)).build()).queue();
                     }
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("Invalid ID + " + Utility.removeMentions(id)).queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid ID + " + Utility.removeMentions(id)).build()).queue();
                 }
             } else {
                 if (Utility.isWhitelisted(whitelistedIDs, mentionedMembers.get(0).getId(), guildID)) {
-                    event.getChannel().sendMessage("User already whitelisted.").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("User already whitelisted.").build()).queue();
                     return;
                 }
                 if (mentionedMembers.get(0).getIdLong() == Core.OWNERID || mentionedMembers.get(0).getId().equals(guildOwnerId)) {
-                    event.getChannel().sendMessage("The owner is automatically whitelisted.").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The owner is automatically whitelisted.").build()).queue();
                     return;
                 }
-                whitelistedIDs.put(CompositeKey.of(guildID, mentionedMembers.get(0).getId()), args.get(1));
-                event.getChannel().sendMessage("Added `" + mentionedMembers.get(0).getUser().getName() + "#" + mentionedMembers.get(0).getUser().getDiscriminator() + "` to the whitelist hash with level `" + args.get(1) + "`").queue();
-                WhitelistedJSONHandler.saveWhitelistConfig();
+                whitelistedIDs.put(WhitelistKey.of(guildID, mentionedMembers.get(0).getId()), args.get(1));
+                event.getChannel().sendMessageEmbeds(Utility.embed("Added `" + mentionedMembers.get(0).getUser().getName() + "#" + mentionedMembers.get(0).getUser().getDiscriminator() + "` to the whitelist hash with level `" + args.get(1) + "`.").build()).queue();
+                Core.getInstance().saveConfig(Core.getInstance().getWhitelistedHandler());
             }
 
         } else {
@@ -117,54 +118,54 @@ public class WhitelistCommand implements ICommand {
                 try {
                     User userID = event.getJDA().getUserById(id);
                     Member member = event.getGuild().getMemberById(Long.parseLong(id));
-                    if (whitelistedIDs.containsKey(CompositeKey.of(guildID, id))) {
-                        event.getChannel().sendMessage("User already whitelisted.").queue();
+                    if (whitelistedIDs.containsKey(WhitelistKey.of(guildID, id))) {
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("User already whitelisted.").build()).queue();
                         return;
                     }
                     if (Objects.requireNonNull(userID).getIdLong() == Core.OWNERID || userID.getId().equals(guildOwnerId)) {
-                        event.getChannel().sendMessage("The owner is automatically whitelisted.").queue();
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The owner is automatically whitelisted.").build()).queue();
                         return;
                     }
-                    whitelistedIDs.put(CompositeKey.of(guildID, id), "0");
-                    event.getChannel().sendMessage("Added `" + Objects.requireNonNull(member).getUser().getName() + "#" + member.getUser().getDiscriminator() + "` to the whitelist with level `0`").queue();
-                    WhitelistedJSONHandler.saveWhitelistConfig();
+                    whitelistedIDs.put(WhitelistKey.of(guildID, id), "0");
+                    event.getChannel().sendMessageEmbeds(Utility.embed("Added `" + Objects.requireNonNull(member).getUser().getName() + "#" + member.getUser().getDiscriminator() + "` to the whitelist with level `0`.").build()).queue();
+                    Core.getInstance().saveConfig(Core.getInstance().getWhitelistedHandler());
                 } catch (NumberFormatException ex) {
                     String[] split = id.split("#");
                     try {
                         User user = Objects.requireNonNull(event.getJDA().getUserByTag(split[0], split[1]));
-                        if (whitelistedIDs.containsKey(CompositeKey.of(guildID, user.getId()))) {
-                            event.getChannel().sendMessage("That user is already whitelisted!").queue();
+                        if (whitelistedIDs.containsKey(WhitelistKey.of(guildID, user.getId()))) {
+                            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("That user is already whitelisted!").build()).queue();
                             return;
                         }
                         if (user.getIdLong() == Core.OWNERID || user.getId().equals(guildOwnerId)) {
-                            event.getChannel().sendMessage("The owner is automatically whitelisted.").queue();
+                            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The owner is automatically whitelisted.").build()).queue();
                             return;
                         }
-                        WhitelistCommand.getWhitelistedIDs().put(CompositeKey.of(guildID, user.getId()), "0");
-                        event.getChannel().sendMessage("Successfully added `" + user.getName() + "#" + user.getDiscriminator() + "` to the whitelist with level `0`").queue();
+                        WhitelistCommand.getWhitelistedIDs().put(WhitelistKey.of(guildID, user.getId()), "0");
+                        event.getChannel().sendMessageEmbeds(Utility.embed("Successfully added `" + user.getName() + "#" + user.getDiscriminator() + "` to the whitelist with level `0`.").build()).queue();
                     } catch (NullPointerException | IllegalArgumentException | ArrayIndexOutOfBoundsException exx) {
-                        event.getChannel().sendMessage("Invalid ID + " + Utility.removeMentions(id)).queue();
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid ID + " + Utility.removeMentions(id) + ".").build()).queue();
                     }
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("Invalid ID + " + Utility.removeMentions(id)).queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid ID + " + Utility.removeMentions(id) + ".").build()).queue();
                 }
             } else {
                 if (Utility.isWhitelisted(whitelistedIDs, mentionedMembers.get(0).getId(), guildID)) {
-                    event.getChannel().sendMessage("User already whitelisted.").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("User already whitelisted.").build()).queue();
                     return;
                 }
                 if (mentionedMembers.get(0).getIdLong() == Core.OWNERID || mentionedMembers.get(0).getId().equals(guildOwnerId)) {
-                    event.getChannel().sendMessage("The owner is automatically whitelisted.").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The owner is automatically whitelisted.").build()).queue();
                     return;
                 }
-                whitelistedIDs.put(CompositeKey.of(guildID, mentionedMembers.get(0).getId()), "0");
-                event.getChannel().sendMessage("Added `" + mentionedMembers.get(0).getUser().getName() + "#" + mentionedMembers.get(0).getUser().getDiscriminator() + "` to the whitelist hash with level `0`").queue();
-                WhitelistedJSONHandler.saveWhitelistConfig();
+                whitelistedIDs.put(WhitelistKey.of(guildID, mentionedMembers.get(0).getId()), "0");
+                event.getChannel().sendMessageEmbeds(Utility.embed("Added `" + mentionedMembers.get(0).getUser().getName() + "#" + mentionedMembers.get(0).getUser().getDiscriminator() + "` to the whitelist hash with level `0`").build()).queue();
+                Core.getInstance().saveConfig(Core.getInstance().getWhitelistedHandler());
             }
         }
     }
 
-    public static Map<CompositeKey, String> getWhitelistedIDs() {
+    public static Map<WhitelistKey, String> getWhitelistedIDs() {
         return whitelistedIDs;
     }
 
@@ -172,9 +173,18 @@ public class WhitelistCommand implements ICommand {
         whitelistedIDs.clear();
         for (Map.Entry<String, Map<String, String>> entry : map.entrySet()) {
             for (Map.Entry<String, String> entry1 : entry.getValue().entrySet()) {
-                whitelistedIDs.put(CompositeKey.of(entry.getKey(), entry1.getKey()), entry1.getValue());
+                whitelistedIDs.put(WhitelistKey.of(entry.getKey(), entry1.getKey()), entry1.getValue());
             }
         }
+    }
+
+    public static Map<String, Boolean> getGuilds() {
+        return guilds;
+    }
+
+    public static void setGuilds(Map<String, Boolean> map) {
+        guilds.clear();
+        guilds.putAll(map);
 
     }
 
@@ -208,5 +218,10 @@ public class WhitelistCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

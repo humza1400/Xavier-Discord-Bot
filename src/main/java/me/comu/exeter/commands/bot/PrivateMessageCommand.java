@@ -4,7 +4,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.logging.Logger;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -23,21 +23,21 @@ public class PrivateMessageCommand implements ICommand {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER)) {
-            event.getChannel().sendMessage("You don't have permission to private message anyone").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to private message anyone.").build()).queue();
             return;
         }
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a user to private message").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a user to private message.").build()).queue();
             return;
         }
         if (mentionedMembers.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0)) + ".").build()).queue();
                 return;
             } else if (targets.size() > 1) {
-                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Multiple users found! Try mentioning the user instead.").build()).queue();
                 return;
             }
             StringJoiner stringJoiner = new StringJoiner(" ");
@@ -56,9 +56,9 @@ public class PrivateMessageCommand implements ICommand {
         user.openPrivateChannel().queue((channel) ->
         {
             try {
-                channel.sendMessage(content).queue((success) -> textChannel.sendMessage(EmbedUtils.embedMessage("Successfully messaged " + user.getAsMention()).build()).queue()
+                channel.sendMessage(content).queue((success) -> textChannel.sendMessageEmbeds(Utility.embedMessage("Successfully messaged " + user.getAsMention()).setColor(Core.getInstance().getColorTheme()).build()).queue()
                 , (error) ->
-                        textChannel.sendMessage(EmbedUtils.embedMessage("Couldn't message " + user.getAsMention()).build()).queue());
+                        textChannel.sendMessageEmbeds(Utility.errorEmbed("Couldn't message " + user.getAsMention()).build()).queue());
             } catch (Exception e) {
                 Logger.getLogger().print("Couldn't message " + user.getName() + "#" + user.getDiscriminator());
             }
@@ -83,6 +83,11 @@ public class PrivateMessageCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 
 }

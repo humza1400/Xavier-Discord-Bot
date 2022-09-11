@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -19,7 +20,7 @@ public class ModMailCommand implements ICommand {
             return;
         }
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert a message to send as Mod Mail!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert a message to send as Mod Mail!").build()).queue();
             return;
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
@@ -27,10 +28,12 @@ public class ModMailCommand implements ICommand {
         String message = stringJoiner.toString();
         for (Member member : event.getGuild().getMembers()) {
             if (member.hasPermission(Permission.ADMINISTRATOR) && !member.getUser().isBot()) {
-                member.getUser().openPrivateChannel().flatMap(privateChannel -> privateChannel.sendMessage(message)).queue(null, failure -> event.getChannel().sendMessage(member.getUser().getAsTag() + " has their DMs disabled.").queue());
+                member.getUser().openPrivateChannel().flatMap(privateChannel -> privateChannel.sendMessageEmbeds(Utility.embed(message).build())).queue(null,
+                        failure -> event.getChannel().sendMessageEmbeds(Utility.errorEmbed(member.getUser().getAsTag() + " has their DMs disabled.").build()).queue());
             }
+
         }
-        event.getChannel().sendMessage("Successfully sent out a mod mail!\nExecuted by: " + event.getAuthor().getAsTag()).queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Successfully sent out a mod mail!\nExecuted by: " + event.getAuthor().getAsTag()).build()).queue();
     }
 
     @Override
@@ -51,5 +54,10 @@ public class ModMailCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.OWNER;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

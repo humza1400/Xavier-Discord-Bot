@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -25,27 +24,21 @@ public class SetRainbowRoleCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        TextChannel channel = event.getChannel();
         Member selfMember = event.getGuild().getSelfMember();
         guild = event.getGuild();
 
 
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("Currently only the owner can set the rainbow role due to ratelimit handling.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Currently only the owner can set the rainbow role due to ratelimit handling.").build()).queue();
             return;
         }
         if (!selfMember.hasPermission(Permission.MANAGE_SERVER) && (!selfMember.hasPermission(Permission.MANAGE_ROLES))) {
-            channel.sendMessage("I don't have permissions to set the rainbow role").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to set the rainbow role").build()).queue();
             return;
         }
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a role").queue();
-            return;
-        }
-
-        if (args.size() > 1) {
-            channel.sendMessage("Please specify a role").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify a role").build()).queue();
             return;
         }
 
@@ -53,20 +46,16 @@ public class SetRainbowRoleCommand implements ICommand {
             role = event.getGuild().getRoleById(Long.parseLong(args.get(0)));
             roleID = Objects.requireNonNull(event.getGuild().getRoleById(Long.parseLong(args.get(0)))).getIdLong();
             isRainbowRoleSet = true;
-            channel.sendMessage("Rainbow role successfully set to `" + role.getName() + "`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Rainbow role successfully set to `" + role.getName() + "`").build()).queue();
         } catch (NullPointerException | NumberFormatException ex) {
             List<Role> roles = event.getGuild().getRolesByName(args.get(0), true);
             if (roles.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find role `" + Utility.removeMentions(args.get(0)) + "`. Maybe try using the role ID instead.").queue();
-                return;
-            }
-            if (roles.size() > 1) {
-                event.getChannel().sendMessage("Multiple roles found for `" + args.get(0) + "`. Use the role ID instead.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find role `" + Utility.removeMentions(args.get(0)) + "`. Maybe try using the role ID instead.").build()).queue();
                 return;
             }
             role = roles.get(0);
             isRainbowRoleSet = true;
-            channel.sendMessage("Rainbow role successfully set to `" + role.getName() + "`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Rainbow role successfully set to `" + role.getName() + "`").build()).queue();
         }
 
     }
@@ -86,7 +75,7 @@ public class SetRainbowRoleCommand implements ICommand {
     static void nullifyRainbowRole() {
         role = null;
         isRainbowRoleSet = false;
-        Core.jda.removeEventListener(new RainbowRoleEvent());
+        Core.getInstance().getJDA().removeEventListener(new RainbowRoleEvent());
     }
 
     @Override
@@ -107,5 +96,10 @@ public class SetRainbowRoleCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

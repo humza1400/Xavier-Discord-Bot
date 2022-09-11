@@ -3,13 +3,12 @@ package me.comu.exeter.commands.marriage;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class BootCommand implements ICommand {
@@ -20,7 +19,7 @@ public class BootCommand implements ICommand {
 
         if (args.isEmpty())
         {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** boots themselves :flushed:", event.getMember().getEffectiveName())).build()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(Core.getInstance().getColorTheme()).setTitle(String.format("**%s** boots themselves :flushed:", event.getMember().getEffectiveName())).build()).queue();
             return;
         }
 
@@ -28,17 +27,17 @@ public class BootCommand implements ICommand {
         if (!args.isEmpty() && mentionedMembers.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0)) + ".").build()).queue();
                 return;
             } else if (targets.size() > 1) {
-                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Multiple users found! Try mentioning the user instead.").build()).queue();
                 return;
             }
-            event.getChannel().sendMessage(EmbedUtils.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** boots **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(Core.getInstance().getColorTheme()).setTitle(String.format("**%s** boots **%s**", event.getMember().getEffectiveName(), targets.get(0).getEffectiveName())).build()).queue();
         }
         else if (!args.isEmpty())
         {
-            event.getChannel().sendMessage(EmbedUtils.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(Objects.requireNonNull(event.getMember()).getColor()).setTitle(String.format("**%s** boots **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embedImage(bootUrls[new Random().nextInt(bootUrls.length)]).setColor(Core.getInstance().getColorTheme()).setTitle(String.format("**%s** boots **%s**", event.getMember().getEffectiveName(), mentionedMembers.get(0).getEffectiveName())).build()).queue();
         }
     }
 
@@ -60,5 +59,10 @@ public class BootCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MARRIAGE;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

@@ -2,10 +2,10 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
+
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
@@ -16,7 +16,7 @@ public class SuggestCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (!SetSuggestionChannelCommand.bound) {
-            event.getChannel().sendMessage("Suggestion channel not bound, " + Core.PREFIX + "help setsuggestions").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Suggestion channel not bound, " + Core.PREFIX + "help setsuggestions").build()).queue();
             return;
         }
         if (args.isEmpty()) {
@@ -26,7 +26,7 @@ public class SuggestCommand implements ICommand {
         if (event.getChannel().getIdLong() == SetSuggestionChannelCommand.logChannelID) {
             StringJoiner stringJoiner = new StringJoiner(" ");
             args.forEach(stringJoiner::add);
-            event.getChannel().sendMessage(EmbedUtils.embedMessage(stringJoiner.toString()).setColor(Color.BLUE).setFooter("Suggested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue((message -> {
+            event.getChannel().sendMessageEmbeds(Utility.embedMessage(stringJoiner.toString()).setColor(Core.getInstance().getColorTheme()).setFooter("Suggested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue((message -> {
                 event.getChannel().addReactionById(message.getId(), "U+1F44D").queue();
                 event.getChannel().addReactionById(message.getId(), "U+1F44E").queue();
             }));
@@ -52,5 +52,10 @@ public class SuggestCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

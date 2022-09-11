@@ -18,7 +18,7 @@ public class AboutCommand implements ICommand {
         Member selfMember = event.getGuild().getSelfMember();
 
         if (!selfMember.hasPermission(Permission.MANAGE_SERVER)) {
-            event.getChannel().sendMessage("I don't have permissions to embed messages `(Embed_Links Permission)`").queue();
+            event.getChannel().sendMessage("I don't have permissions to embed messages `(Embed_Links Permission)`.").queue();
             return;
         }
 
@@ -29,10 +29,10 @@ public class AboutCommand implements ICommand {
         embedBuilder.addField("Author", "Swag", false);
         embedBuilder.addField("Information", "Powered by IntelliJ IDEA & Gradle 5.6.2", false);
         embedBuilder.addField("Help", "`" + Core.PREFIX + "help" + '`' , false);
-        embedBuilder.setColor(0x521e8a);
+        embedBuilder.setColor(Core.getInstance().getColorTheme());
         embedBuilder.setFooter("Requested By " + Objects.requireNonNull(event.getMember()).getUser().getAsTag(), event.getMember().getUser().getEffectiveAvatarUrl());
         event.getChannel().sendTyping().queue();
-        event.getChannel().sendMessage(embedBuilder.build()).queue();
+        event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
         embedBuilder.clear();
 
 
@@ -56,5 +56,10 @@ public class AboutCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

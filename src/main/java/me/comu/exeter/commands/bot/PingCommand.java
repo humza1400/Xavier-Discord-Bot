@@ -1,7 +1,8 @@
-package me.comu.exeter.commands.misc;
+package me.comu.exeter.commands.bot;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
@@ -11,14 +12,13 @@ public class PingCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         long time = System.currentTimeMillis();
-        event.getChannel().sendMessage("Ping: ").queue((response ->
-                response.editMessageFormat("Ping: `%dms`", System.currentTimeMillis() - time).queue()
-        ));
+        event.getChannel().sendMessageEmbeds(Utility.embed("Ping: ").build()).queue((response ->
+                response.editMessageEmbeds(Utility.embed(String.format("Ping: **%dms**", System.currentTimeMillis() - time)).build()).queue()));
     }
 
     @Override
     public String getHelp() {
-        return "Gets your latency to the Exeter Bot.\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
+        return "Gets the bot's Latency.\n`" + Core.PREFIX + getInvoke() + "`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
     }
 
     @Override
@@ -33,6 +33,11 @@ public class PingCommand implements ICommand {
 
     @Override
     public Category getCategory() {
-        return Category.MISC;
+        return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

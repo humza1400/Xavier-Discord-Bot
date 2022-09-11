@@ -11,7 +11,7 @@ import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import me.comu.exeter.core.Config;
+import me.comu.exeter.utility.Config;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
@@ -33,12 +33,12 @@ public class AntiqueImageCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (Utility.beingProcessed) {
-            event.getChannel().sendMessage("An image is already being processed, please wait.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("An image is already being processed, please wait.").build()).queue();
             return;
         }
         if (event.getMessage().getAttachments().isEmpty()) {
             if (args.isEmpty()) {
-                event.getChannel().sendMessage("Please insert an image link to manipulate").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert an image link to manipulate").build()).queue();
                 return;
             }
             Utility.beingProcessed = true;
@@ -75,7 +75,6 @@ public class AntiqueImageCommand implements ICommand {
                     message.editMessage("Something went wrong with processing the image").queue();
                     Utility.beingProcessed = false;
                 }
-
             });
         } else {
             Utility.beingProcessed = true;
@@ -111,7 +110,6 @@ public class AntiqueImageCommand implements ICommand {
                     message.editMessage("Something went wrong with processing the image").queue();
                     Utility.beingProcessed = false;
                 }
-
             });
 
         }
@@ -173,5 +171,10 @@ public class AntiqueImageCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.IMAGE;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

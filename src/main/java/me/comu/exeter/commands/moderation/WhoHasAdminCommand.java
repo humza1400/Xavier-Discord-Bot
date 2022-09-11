@@ -2,10 +2,13 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,13 +19,13 @@ public class WhoHasAdminCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_ROLES) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to list the admins").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to list the admins").build()).queue();
             return;
         }
 
 
         if (!event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
-            event.getChannel().sendMessage("I don't have permissions to list the admins").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permissions to list the admins").build()).queue();
             return;
         }
 
@@ -32,13 +35,11 @@ public class WhoHasAdminCommand implements ICommand {
         List<String> canAddBotRoles = new ArrayList<>();
         List<String> canBanRoles = new ArrayList<>();
         List<String> canKickRoles = new ArrayList<>();
-        for (Member member : guildMembers)
-        {
+        for (Member member : guildMembers) {
             if (member.hasPermission(Permission.ADMINISTRATOR)) {
                 adminRoles.add(member.getAsMention());
             }
-            if (member.hasPermission(Permission.MANAGE_SERVER) && !member.hasPermission(Permission.ADMINISTRATOR))
-            {
+            if (member.hasPermission(Permission.MANAGE_SERVER) && !member.hasPermission(Permission.ADMINISTRATOR)) {
                 canAddBotRoles.add(member.getAsMention());
             }
             if (member.hasPermission(Permission.BAN_MEMBERS) && !member.hasPermission(Permission.ADMINISTRATOR)) {
@@ -50,7 +51,7 @@ public class WhoHasAdminCommand implements ICommand {
         }
         StringBuilder buffer = new StringBuilder("`All Members With Administrator Permissions: (" + adminRoles.size() + ")`\n");
         if (!adminRoles.isEmpty()) {
-               buffer.append(adminRoles).append("\n");
+            buffer.append(adminRoles).append("\n");
         } else {
             buffer.append("No Members With **Administrator** Permission\n");
         }
@@ -68,11 +69,11 @@ public class WhoHasAdminCommand implements ICommand {
         }
         buffer.append("`All Members With KICK Permissions: (").append(canKickRoles.size()).append(")`\n");
         if (!canKickRoles.isEmpty()) {
-           buffer.append(canKickRoles).append("\n");
+            buffer.append(canKickRoles).append("\n");
         } else {
             buffer.append("No Members With **KICK** Permission\n");
         }
-        event.getChannel().sendMessage(buffer.toString()).queue();
+        event.getChannel().sendMessageEmbeds(new EmbedBuilder().setDescription(buffer.toString()).setColor(Core.getInstance().getColorTheme()).setTitle("Admins").setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now()).build()).queue();
     }
 
     @Override
@@ -88,11 +89,16 @@ public class WhoHasAdminCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"whohasadmin", "admins","checkadmins"};
+        return new String[]{"whohasadmin", "admins", "checkadmins"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

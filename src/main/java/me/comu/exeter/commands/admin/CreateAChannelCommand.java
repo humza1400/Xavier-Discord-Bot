@@ -2,6 +2,7 @@ package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -14,53 +15,54 @@ import java.util.Objects;
 
 public class CreateAChannelCommand implements ICommand {
 
-    public static final HashMap<String, String> map = new HashMap<>();
-    private static final HashMap<String, String> cacMap = new HashMap<>();
+    public static final HashMap<String, String> vcMap = new HashMap<>();
+    private static final HashMap<String, String> guildCacMap = new HashMap<>();
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && Objects.requireNonNull(event.getMember()).getIdLong() != 699562509366984784L) {
-            event.getChannel().sendMessage("You don't have permission to set the \"Create-A-Channel\" channel").queue();
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && !event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to set the \"Create-A-Channel\" channel.").build()).queue();
             return;
         }
 
         if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
         {
-            event.getChannel().sendMessage("I don't have permission to \"Create-A-Channel\"").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("I don't have permission to \"Create-A-Channel\".").build()).queue();
             return;
         }
 
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify a channel-id").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a Channel-Id.").build()).queue();
+            return;
+        }
+        if (args.get(0).equalsIgnoreCase("clear") || args.get(0).equalsIgnoreCase("null"))
+        {
+            guildCacMap.remove(event.getGuild().getId());
+            event.getChannel().sendMessageEmbeds(Utility.embed("Removed the Create-A-Channel VC.").build()).queue();
             return;
         }
         try {
             VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(args.get(0));
-            verifyCac(event.getGuild());
-            cacMap.put(event.getGuild().getId(), Objects.requireNonNull(voiceChannel).getId());
-            event.getChannel().sendMessage("Create-A-Channel Channel Successfully Set To `" + voiceChannel.getName() + "`").queue();
+            guildCacMap.put(event.getGuild().getId(), Objects.requireNonNull(voiceChannel).getId());
+            event.getChannel().sendMessageEmbeds(Utility.embed("Create-A-Channel Channel Successfully Set To `" + voiceChannel.getName() + "`.").build()).queue();
         } catch (NullPointerException | NumberFormatException ex) {
-            event.getChannel().sendMessage("Invalid Channel-ID").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid Channel-ID.").build()).queue();
         }
 
     }
 
     public static boolean isCacSet(Guild guild) {
 
-        return cacMap.containsKey(guild.getId());
+        return guildCacMap.containsKey(guild.getId());
 
     }
 
-    public static HashMap<String, String> getCacMap() {
+    public static HashMap<String, String> getGuildCacMap() {
 
-        return cacMap;
+        return guildCacMap;
     }
 
-    public static void verifyCac(Guild guild) {
-        if (isCacSet(guild))
-            getCacMap().remove(guild.getId());
-    }
 
     @Override
     public String getHelp() {
@@ -80,5 +82,10 @@ public class CreateAChannelCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

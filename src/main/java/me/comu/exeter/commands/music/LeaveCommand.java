@@ -2,7 +2,7 @@ package me.comu.exeter.commands.music;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import net.dv8tion.jda.api.entities.TextChannel;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -14,28 +14,25 @@ import java.util.Objects;
 public class LeaveCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        TextChannel textChannel = event.getChannel();
         AudioManager audioManager = event.getGuild().getAudioManager();
         VoiceChannel voiceChannel = audioManager.getConnectedChannel();
         if (!audioManager.isConnected()) {
-            textChannel.sendMessage("I'm not even connected to a voice channel bro").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("I'm not even connected to a voice channel bro").build()).queue();
             return;
         }
-        if (Objects.requireNonNull(voiceChannel).getMembers().size() == 1)
-        {
+        if (Objects.requireNonNull(voiceChannel).getMembers().size() == 1) {
             audioManager.closeAudioConnection();
-            textChannel.sendMessage("Successfully disconnected from the voice channel").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Successfully disconnected from the voice channel").build()).queue();
             return;
         }
 
         if (!voiceChannel.getMembers().contains(event.getMember())) {
-            textChannel.sendMessage("You must join the same voice channel as me to disconnect me").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You must join the same voice channel as me to disconnect me").build()).queue();
             return;
         }
 
         audioManager.closeAudioConnection();
-
-        textChannel.sendMessage("Successfully disconnected from the voice channel").queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed("Successfully disconnected from the voice channel").build()).queue();
 
     }
 
@@ -51,11 +48,16 @@ public class LeaveCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"dc","disconnect"};
+        return new String[]{"dc", "disconnect"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MUSIC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

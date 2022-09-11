@@ -12,7 +12,7 @@ import java.util.Objects;
 public class GiveAllRolesCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (!(event.getAuthor().getIdLong() == Core.OWNERID) && !event.getAuthor().getId().equalsIgnoreCase("725452437342912542")) {
+        if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
             return;
         }
         List<Role> guildRoles = event.getGuild().getRoles();
@@ -41,5 +41,10 @@ public class GiveAllRolesCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.OWNER;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

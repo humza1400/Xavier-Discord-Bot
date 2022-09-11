@@ -15,17 +15,17 @@ public class PrefixCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
 
         if (!(event.getAuthor().getIdLong() == Core.OWNERID)) {
-            event.getChannel().sendMessage("You don't have permission to change the prefix, sorry bro").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to change the prefix, sorry bro.").build()).queue();
             return;
         }
 
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert a prefix").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a prefix.").build()).queue();
             return;
         }
         Core.PREFIX = args.get(0);
-        MessageEmbed embed = new EmbedBuilder().addField("Prefix set to", args.get(0), false).setColor(Utility.getRandomColor()).build();
-        event.getChannel().sendMessage(embed).queue();
+        MessageEmbed embed = new EmbedBuilder().addField("Prefix set to", args.get(0), false).setColor(Core.getInstance().getColorTheme()).build();
+        event.getChannel().sendMessageEmbeds(embed).queue();
     }
 
     @Override
@@ -47,6 +47,11 @@ public class PrefixCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }
 

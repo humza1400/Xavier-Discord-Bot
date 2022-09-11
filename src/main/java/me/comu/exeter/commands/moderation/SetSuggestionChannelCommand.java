@@ -2,11 +2,11 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
+
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -20,20 +20,20 @@ public class SetSuggestionChannelCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to set the suggestion channel").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to set the suggestion channel").build()).queue();
             return;
         }
         if (bound && !args.isEmpty() && (args.get(0).equalsIgnoreCase("null") || args.get(0).equalsIgnoreCase("nullify"))) {
-            event.getChannel().sendMessage("Unbound the current suggestion channel: `" + channelName + "`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Unbound the current suggestion channel: `" + channelName + "`").build()).queue();
             bound = false;
             return;
         } else if (bound) {
-            event.getChannel().sendMessage("Suggestion channel already bound. Nullifying...").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Suggestion channel already bound. Nullifying...").build()).queue();
         }
         TextChannel channel = event.getChannel();
         logChannelID = channel.getIdLong();
         channelName = channel.getName();
-        event.getChannel().sendMessage(EmbedUtils.embedMessage("Please use " + Core.PREFIX + "suggest [suggestion] to give your suggestion to the server!").setTitle("Suggestion Channel Set To #" + channelName).setColor(Color.BLUE).setFooter("Suggested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
+        event.getChannel().sendMessageEmbeds(Utility.embedMessage("Please use " + Core.PREFIX + "suggest [suggestion] to give your suggestion to the server!").setTitle("Suggestion Channel Set To #" + channelName).setColor(Core.getInstance().getColorTheme()).setFooter("Suggested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).build()).queue();
         bound = true;
     }
 
@@ -55,5 +55,10 @@ public class SetSuggestionChannelCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

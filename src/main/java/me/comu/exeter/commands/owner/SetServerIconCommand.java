@@ -44,4 +44,9 @@ public class SetServerIconCommand implements ICommand {
     public Category getCategory() {
         return Category.OWNER;
     }
+
+    @Override
+    public boolean isPremium() {
+        return false;
+    }
 }

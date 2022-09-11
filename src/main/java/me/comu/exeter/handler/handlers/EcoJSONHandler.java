@@ -1,7 +1,8 @@
-package me.comu.exeter.handlers;
+package me.comu.exeter.handler.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.comu.exeter.commands.economy.EconomyManager;
+import me.comu.exeter.handler.Handler;
 import me.comu.exeter.logging.Logger;
 import org.json.JSONObject;
 
@@ -11,9 +12,13 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
-public class EcoJSONHandler {
+public class EcoJSONHandler extends Handler {
 
-    public static void saveEconomyConfig() {
+    public EcoJSONHandler(File file) {
+        super(file);
+    }
+
+    public void saveConfig() {
         JSONObject jsonObject = new JSONObject(EconomyManager.getUsers());
         try (FileWriter fileWriter = new FileWriter("economy.json")) {
             fileWriter.write(jsonObject.toString());
@@ -24,17 +29,16 @@ public class EcoJSONHandler {
             e.printStackTrace();
         }
     }
+
     @SuppressWarnings("unchecked")
-    public static void loadEconomyConfig(File file) {
-        if (!file.exists())
-        {
-            boolean didMake = file.mkdir();
-            if (didMake)
-                Logger.getLogger().print("Created economy.json");
-            else
-                Logger.getLogger().print("Failed to create economy.json");
-        }
+    public void loadConfig(File file) {
         try {
+            if (!file.exists()) {
+                if (file.createNewFile())
+                    Logger.getLogger().print("Created economy.json");
+                else
+                    Logger.getLogger().print("Failed to create economy.json");
+            }
             HashMap<String, Integer> userDoubleHashMap = new ObjectMapper().readValue(file, HashMap.class);
             EconomyManager.setUsers(userDoubleHashMap);
             Logger.getLogger().print("Loaded economy.json");

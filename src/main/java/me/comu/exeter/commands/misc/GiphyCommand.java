@@ -3,7 +3,7 @@ package me.comu.exeter.commands.misc;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,13 +29,13 @@ public class GiphyCommand implements ICommand {
                     JSONObject jsonObject = (JSONObject) new JSONObject(jsonResponse).get("data");
                     HashMap<String, HashMap> hashMap = (HashMap<String, HashMap>) jsonObject.toMap().get("images");
                     String gifUrl = (String) hashMap.get("downsized_large").get("url");
-                    event.getChannel().sendMessage(EmbedUtils.embedImage(gifUrl).setColor(Utility.getAmbientColor()).build()).queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embedImage(gifUrl).setColor(Core.getInstance().getColorTheme()).build()).queue();
                 } else {
-                    event.getChannel().sendMessage("Response was unsuccessful. Something went wrong ig").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Response was unsuccessful. Something went wrong ig").build()).queue();
                     System.out.println(response.message());
                 }
             } catch (IOException ex) {
-                event.getChannel().sendMessage("Something went wrong with the endpoint").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong with the endpoint").build()).queue();
                 ex.printStackTrace();
             }
         } else {
@@ -50,18 +50,18 @@ public class GiphyCommand implements ICommand {
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     JSONArray dataArray = (JSONArray) jsonObject.get("data");
                     if (dataArray.isEmpty()) {
-                        event.getChannel().sendMessage("No GIF found for `" + Utility.removeMentions(stringJoiner.toString())).queue();
+                        event.getChannel().sendMessageEmbeds(Utility.embed("No GIF found for `" + Utility.removeMentions(stringJoiner.toString())).build()).queue();
                         return;
                     }
                     HashMap<String, HashMap> hashMap = (HashMap<String, HashMap>) dataArray.getJSONObject(0).toMap().get("images");
                     String gifUrl = (String) hashMap.get("downsized_large").get("url");
-                    event.getChannel().sendMessage(EmbedUtils.embedImage(gifUrl).setColor(Utility.getAmbientColor()).setTitle(stringJoiner.toString()).build()).queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embedImage(gifUrl).setColor(Core.getInstance().getColorTheme()).setTitle(stringJoiner.toString()).build()).queue();
                 } else {
-                    event.getChannel().sendMessage("Response was unsuccessful. Something went wrong ig").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Response was unsuccessful. Something went wrong ig").build()).queue();
                     System.out.println(response.message());
                 }
             } catch (Exception ex) {
-                event.getChannel().sendMessage("Something went wrong with the endpoint").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong with the endpoint").build()).queue();
                 ex.printStackTrace();
             }
         }
@@ -86,5 +86,10 @@ public class GiphyCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

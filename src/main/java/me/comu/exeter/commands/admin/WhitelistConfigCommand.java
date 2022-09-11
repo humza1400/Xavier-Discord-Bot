@@ -5,8 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import me.comu.exeter.core.Core;
-import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 
@@ -29,21 +29,20 @@ public class WhitelistConfigCommand implements ICommand {
                 stringBuilder.append(buffer);
             }
         } catch (IOException ex) {
-            event.getChannel().sendMessage("Couldn't locate `whitelisted.json`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't locate `whitelisted.json`.").build()).queue();
             ex.printStackTrace();
             return;
         }
         String response = stringBuilder.toString();
-        JsonParser parser = new JsonParser();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonElement el = parser.parse(response);
+        JsonElement el = JsonParser.parseString(response);
         response = gson.toJson(el);
         if (response.length() >= 2000) {
-            event.getChannel().sendMessage("File too large!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("File too large!").build()).queue();
             return;
         }
-        event.getChannel().sendMessage(MarkdownUtil.codeblock("json", response)).queue();
-        WhitelistedJSONHandler.saveWhitelistConfig();
+        event.getChannel().sendMessageEmbeds(Utility.embed(MarkdownUtil.codeblock("json", response)).build()).queue();
+        Core.getInstance().saveConfig(Core.getInstance().getWhitelistedHandler());
     }
 
 
@@ -65,6 +64,11 @@ public class WhitelistConfigCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }
 

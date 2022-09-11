@@ -1,10 +1,9 @@
 package me.comu.exeter.commands.economy;
 
 import me.comu.exeter.core.Core;
-import me.comu.exeter.handlers.EcoJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -35,7 +34,7 @@ public class JackpotCommand implements ICommand {
                 if (textChannel1 == null) {
                     return;
                 } else if (textChannel != null) {
-                    textChannel1.sendMessage("Nobody joined the jackpot so there was no winner unfortunately :(").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Nobody joined the jackpot so there was no winner unfortunately :(").build()).queue();
                 }
                 if (!autojackpot) {
                     running = false;
@@ -51,7 +50,7 @@ public class JackpotCommand implements ICommand {
                     Utility.sendPrivateMessage(event.getJDA(), user.getId(), "Hey! You won **$" + getTotalCash() + "** in the jackpot! That's amazing because you only wagered **$" + jackpot.get(user.getId()) + "** meaning you had a " + (double) jackpot.get(user.getId()) / (double) getTotalCash() * 100 + "% chance of winning. **Congrats!**");
                     jackpot.clear();
                 } else {
-                    textChannel1.sendMessage(EmbedUtils.embedMessage(user.getAsMention() + " won **$" + getTotalCash() + "** in the jackpot with **$" + jackpot.get(user.getId()) + " (" + Utility.round((double) jackpot.get(user.getId()) / (double) getTotalCash() * 100, 2) + "%)**").setTitle("$" + getTotalCash() + " Jackpot Finished!").build()).queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embed(user.getAsMention() + " won **$" + getTotalCash() + "** in the jackpot with **$" + jackpot.get(user.getId()) + " (" + Utility.round((double) jackpot.get(user.getId()) / (double) getTotalCash() * 100, 2) + "%)**.").build()).queue();
                     jackpot.clear();
                 }
             });
@@ -66,60 +65,56 @@ public class JackpotCommand implements ICommand {
             EconomyManager.getUsers().put(member.getUser().getId(), 0);
         }
         if (!running && args.isEmpty()) {
-            event.getChannel().sendMessage("The jackpot is currently not running, please tell an admin to start it!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("The jackpot is currently not running, please tell an admin to start it!").build()).queue();
             textChannel = event.getChannel().getId();
             return;
         }
         if (!args.isEmpty() && (args.get(0).equalsIgnoreCase("start")) && (member.hasPermission(Permission.ADMINISTRATOR) || member.getIdLong() == Core.OWNERID)) {
             if (running) {
-                event.getChannel().sendMessage("The jackpot is already running!").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The jackpot is already running!").build()).queue();
                 return;
             }
             if (autojackpot) {
                 jackpotExecutor = anc.scheduleAtFixedRate(winnerThread, 1, 1, TimeUnit.HOURS);
-                running = true;
-                event.getChannel().sendMessage("Started the jackpot! **" + Core.PREFIX + "jackpot info** for more information!").queue();
-                textChannel = event.getChannel().getId();
-                return;
             } else {
                 jackpotExecutor = anc.schedule(winnerThread, 1, TimeUnit.HOURS);
-                running = true;
-                event.getChannel().sendMessage("Started the jackpot! **" + Core.PREFIX + "jackpot info** for more information!").queue();
-                textChannel = event.getChannel().getId();
-                return;
             }
+            running = true;
+            event.getChannel().sendMessageEmbeds(Utility.embed("Started the jackpot! **" + Core.PREFIX + "jackpot info** for more information!").build()).queue();
+            textChannel = event.getChannel().getId();
+            return;
         }
         if (!args.isEmpty() && (args.get(0).equalsIgnoreCase("stop")) && (member.hasPermission(Permission.ADMINISTRATOR) || member.getIdLong() == Core.OWNERID)) {
             if (running) {
                 jackpotExecutor.cancel(true);
                 running = false;
-                event.getChannel().sendMessage("Stopped the jackpot! All credits have been returned to their original users").queue();
-                return;
+                event.getChannel().sendMessageEmbeds(Utility.embed("Stopped the jackpot! All credits have been returned to their original users.").build()).queue();
             } else {
-                event.getChannel().sendMessage("The jackpot isn't running").queue();
-                return;
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The jackpot isn't running.").build()).queue();
             }
+            return;
         }
         if (!args.isEmpty() && args.get(0).equalsIgnoreCase("auto") && (member.hasPermission(Permission.ADMINISTRATOR) || member.getIdLong() == Core.OWNERID)) {
             if (autojackpot) {
                 autojackpot = false;
-                event.getChannel().sendMessage("Jackpots will no longer be started automatically and will need an admin to start them manually.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Jackpots will no longer be started automatically and will need an admin to start them manually.").build()).queue();
             } else {
                 autojackpot = true;
-                event.getChannel().sendMessage("Jackpots will now be started automatically").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Jackpots will now be started automatically.").build()).queue();
             }
             return;
         }
         if (!args.isEmpty() && (args.get(0).equalsIgnoreCase("clear") || args.get(0).equalsIgnoreCase("reset")) && (member.hasPermission(Permission.ADMINISTRATOR) || member.getIdLong() == Core.OWNERID)) {
-            event.getChannel().sendMessage("Successfully cleared a `" + jackpot.size() + "` player jackpot worth `$" + getTotalCash() + "`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Successfully cleared a `" + jackpot.size() + "` player jackpot worth `$" + getTotalCash() + "`").build()).queue();
             jackpot.clear();
             return;
         }
         if (!running && !args.isEmpty() && args.get(0).equalsIgnoreCase("info")) {
-            event.getChannel().sendMessage("There is currently no on-going jackpot.\nPrevious Winner: " + previousWinner + "\nPrevious Prize: $" + previousWinnerPrize).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("There is currently no on-going jackpot.\nPrevious Winner: " + previousWinner + "\nPrevious Prize: $" + previousWinnerPrize).build()).queue();
             return;
         } else if (!running) {
-            event.getChannel().sendMessage("The jackpot is currently not running, please tell an admin to start it!").queue();
+
+            event.getChannel().sendMessageEmbeds(Utility.embed("The jackpot is currently not running, please tell an admin to start it!").build()).queue();
             return;
         }
         if (args.isEmpty()) {
@@ -133,38 +128,37 @@ public class JackpotCommand implements ICommand {
                 event.getJDA().retrieveUserById(entry.getKey()).queue(user ->
                         stringBuilder.append("**").append(user.getAsTag()).append("** - $").append(jackpot.get(user.getId())).append(" (").append((getTotalCash() == 0 ? "100" : Utility.round((double) jackpot.get(user.getId()) / (double) getTotalCash() * 100, 2))).append("%)\n"));
             }
-            event.getChannel().sendMessage(EmbedUtils.embedMessage(stringBuilder.toString()).setTitle("$" + getTotalCash() + " Jackpot").build()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embedMessage(stringBuilder.toString()).setTitle("$" + getTotalCash() + " Jackpot").setColor(Core.getInstance().getColorTheme()).build()).queue();
             textChannel = event.getChannel().getId();
             return;
         }
         try {
             int amount = Integer.parseInt(args.get(0));
             if (amount < 1) {
-                event.getChannel().sendMessage("You can't add negative credits to the jackpot!").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You can't add negative credits to the jackpot!").build()).queue();
                 return;
             }
             if (EconomyManager.getBalance(member.getUser().getId()) < amount) {
-                event.getChannel().sendMessage("You don't have **$" + amount + "** credits to add to the jackpot!").queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("You don't have **$" + amount + "** credits to add to the jackpot!").build()).queue();
             } else {
                 if (jackpot.containsKey(member.getId())) {
                     int preCash = jackpot.get(member.getId());
-                    event.getChannel().sendMessage("**" + member.getUser().getAsTag() + "** has added **$" + amount + "** to the jackpot, totaling **$" + getTotalCash() + amount + "**").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embed("**" + member.getUser().getAsTag() + "** has added **$" + amount + "** to the jackpot, totaling **$" + getTotalCash() + amount + "**").build()).queue();
                     EconomyManager.setBalance(member.getId(), EconomyManager.getBalance(member.getId()) - amount);
                     jackpot.replace(member.getId(), preCash + amount);
-                    EcoJSONHandler.saveEconomyConfig();
+                    Core.getInstance().saveConfig(Core.getInstance().getEcoHandler());
                 } else {
-                    event.getChannel().sendMessage("**" + Utility.removeMarkdown(member.getUser().getAsTag()) + "** has entered the jackpot with **$" + amount + "** (" + (getTotalCash() == 0 ? "100" : Utility.round((double) amount / (double) getTotalCash() * 100, 2)) + "% of the total cash-pool)").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embed("**" + Utility.removeMarkdown(member.getUser().getAsTag()) + "** has entered the jackpot with **$" + amount + "** (" + (getTotalCash() == 0 ? "100" : Utility.round((double) amount / (double) getTotalCash() * 100, 2)) + "% of the total cash-pool)").build()).queue();
                     EconomyManager.setBalance(member.getId(), EconomyManager.getBalance(member.getId()) - amount);
                     jackpot.put(member.getId(), amount);
-                    EcoJSONHandler.saveEconomyConfig();
+                    Core.getInstance().saveConfig(Core.getInstance().getEcoHandler());
                 }
             }
         } catch (Exception ex) {
-            event.getChannel().sendMessage("That number is either invalid or too large").queue();
-
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("That number is either invalid or too large.").build()).queue();
         }
         textChannel = event.getChannel().getId();
-        EcoJSONHandler.saveEconomyConfig();
+        Core.getInstance().saveConfig(Core.getInstance().getEcoHandler());
     }
 
     private int getTotalCash() {
@@ -177,7 +171,7 @@ public class JackpotCommand implements ICommand {
     private String getRandomWinner(int value) {
         Set<String> keysByValue = Utility.getKeysByValue(jackpot, value);
         if (keysByValue.size() > 1) {
-            return (String) keysByValue.toArray()[new Random().nextInt(keysByValue.size()-1)];
+            return (String) keysByValue.toArray()[new Random().nextInt(keysByValue.size() - 1)];
         } else {
             return Utility.getKeyByValue(jackpot, value);
         }
@@ -196,6 +190,7 @@ public class JackpotCommand implements ICommand {
         }
         throw new RuntimeException("idk");
     }
+
     @Override
     public String getHelp() {
         return "See the current jackpot balance and users enrolled in the jackpot as well as put money into it\n" + "`" + Core.PREFIX + getInvoke() + " [info]/[amount][start/reset/stop]/[auto]`\nAliases: `" + Arrays.deepToString(getAlias()) + "`";
@@ -214,5 +209,10 @@ public class JackpotCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ECONOMY;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

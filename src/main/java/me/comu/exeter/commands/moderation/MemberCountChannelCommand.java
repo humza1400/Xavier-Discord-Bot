@@ -2,6 +2,7 @@ package me.comu.exeter.commands.moderation;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -22,25 +23,23 @@ public class MemberCountChannelCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to set the server stats channel").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to set the server stats channel").build()).queue();
             return;
         }
 
-        if (args.isEmpty())
-        {
-            event.getChannel().sendMessage("Please specify a valid voice-channel ID").queue();
+        if (args.isEmpty()) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a valid voice-channel ID").build()).queue();
             return;
         }
-        if (args.get(0).equalsIgnoreCase("message") || args.get(0).equalsIgnoreCase("msg"))
-        {
+        if (args.get(0).equalsIgnoreCase("message") || args.get(0).equalsIgnoreCase("msg")) {
             StringJoiner stringJoiner = new StringJoiner(" ");
             args.stream().skip(1).forEach(stringJoiner::add);
             if (stringJoiner.toString().toLowerCase().contains(("{$count}"))) {
                 message = stringJoiner.toString();
                 isMessageSet = true;
-                event.getChannel().sendMessage("Set count-message to: " + MarkdownUtil.monospace(stringJoiner.toString())).queue();
+                event.getChannel().sendMessageEmbeds(Utility.embed("Set count-message to: " + MarkdownUtil.monospace(stringJoiner.toString())).build()).queue();
             } else {
-                event.getChannel().sendMessage("Missing \"{$count}\" substitution").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Missing \"{$count}\" substitution").build()).queue();
             }
             return;
 
@@ -48,17 +47,17 @@ public class MemberCountChannelCommand implements ICommand {
 
         try {
             VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(args.get(0));
-                isVCSet = true;
-                vcID = Objects.requireNonNull(voiceChannel).getId();
+            isVCSet = true;
+            vcID = Objects.requireNonNull(voiceChannel).getId();
             if (isMessageSet) {
-                voiceChannel.getManager().setName("| " + (event.getGuild().getMembers().size())).queue();
-            } else {
                 voiceChannel.getManager().setName(MemberCountChannelCommand.message.replace("{$count}", Integer.toString(event.getGuild().getMembers().size()))).queue();
+
+            } else {
+                voiceChannel.getManager().setName("| " + (event.getGuild().getMembers().size())).queue();
             }
-                event.getChannel().sendMessage("Servers stats channel set to `" + voiceChannel.getName() + "`").queue();
-        } catch (NullPointerException ex)
-        {
-            event.getChannel().sendMessage("`" + args.get(0) + "` is not a valid voice channel ID.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Servers stats channel set to `" + voiceChannel.getName() + "`").build()).queue();
+        } catch (NullPointerException ex) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("`" + args.get(0) + "` is not a valid voice channel ID.").build()).queue();
         }
     }
 
@@ -74,11 +73,16 @@ public class MemberCountChannelCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"sstats","setstatschannel"};
+        return new String[]{"sstats", "setstatschannel"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MODERATION;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

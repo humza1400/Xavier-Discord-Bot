@@ -2,6 +2,7 @@ package me.comu.exeter.commands.misc;
 
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -15,18 +16,19 @@ public class TokenCommand implements ICommand {
         List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
         if (mentionedMembers.isEmpty()) {
-        event.getChannel().sendMessage("Please specify a user").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify a user").build()).queue();
         } else {
             String list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
             StringBuilder message = new StringBuilder(mentionedMembers.get(0).getAsMention() + "'s account token is: ");
             for (int i = 0; i < 59; i++)
                 message.append(selectAChar(list));
-            event.getChannel().sendMessage(message.toString()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(message.toString()).build()).queue();
+
+        }
 
     }
 
-}
-    private static char selectAChar(String s){
+    private static char selectAChar(String s) {
 
         Random random = new Random();
         int index = random.nextInt(s.length());
@@ -47,11 +49,16 @@ public class TokenCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[]{"gettoken","resolvetoken","grabtoken"};
+        return new String[]{"gettoken", "resolvetoken", "grabtoken"};
     }
 
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

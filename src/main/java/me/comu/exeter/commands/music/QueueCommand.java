@@ -6,6 +6,7 @@ import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.musicplayer.GuildMusicManager;
 import me.comu.exeter.musicplayer.PlayerManager;
+import me.comu.exeter.utility.Utility;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -28,13 +29,13 @@ public class QueueCommand implements ICommand {
         Queue<AudioTrack> queue = musicManager.scheduler.getQueue();
         uniQueue = queue;
         if (queue.isEmpty()) {
-            channel.sendMessage("The queue is empty").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("The queue is empty").build()).queue();
             return;
         }
 
         int trackCount = Math.min(queue.size(), 20);
         List<AudioTrack> tracks = new ArrayList<>(queue);
-        EmbedBuilder builder = new EmbedBuilder().setTitle("Showing " + trackCount + "/"+ queue.size() + " Songs in the Queue").setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now());
+        EmbedBuilder builder = new EmbedBuilder().setColor(Core.getInstance().getColorTheme()).setTitle("Showing " + trackCount + "/" + queue.size() + " Songs in the Queue").setFooter("Requested by " + event.getAuthor().getAsTag(), event.getAuthor().getEffectiveAvatarUrl()).setTimestamp(Instant.now());
         int counter = 0;
         for (int i = 0; i < trackCount; i++) {
             AudioTrack track = tracks.get(i);
@@ -42,12 +43,11 @@ public class QueueCommand implements ICommand {
             builder.appendDescription(String.format("**" + ++counter + ".** %s - %s (%s)\n", info.title, info.author, info.length));
         }
 
-        channel.sendMessage(builder.build()).queue();
+        channel.sendMessageEmbeds(builder.build()).queue();
 
     }
 
-    public static Queue<AudioTrack> getQueue()
-    {
+    public static Queue<AudioTrack> getQueue() {
         return uniQueue;
     }
 
@@ -63,11 +63,16 @@ public class QueueCommand implements ICommand {
 
     @Override
     public String[] getAlias() {
-        return new String[] {"q"};
+        return new String[]{"q"};
     }
 
-     @Override
+    @Override
     public Category getCategory() {
         return Category.MUSIC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

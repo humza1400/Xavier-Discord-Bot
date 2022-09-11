@@ -1,11 +1,10 @@
 package me.comu.exeter.commands.admin;
 
 import me.comu.exeter.core.Core;
-import me.comu.exeter.handlers.WhitelistedJSONHandler;
 import me.comu.exeter.interfaces.ICommand;
-import me.comu.exeter.util.CompositeKey;
+import me.comu.exeter.objects.WhitelistKey;
 import me.comu.exeter.utility.Utility;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -20,17 +19,17 @@ public class WhitelistedCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && event.getMember().getIdLong() != Core.OWNERID) {
-            event.getChannel().sendMessage("You don't have permission to see the whitelisted users").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to see the whitelisted users.").build()).queue();
             return;
         }
         if (WhitelistCommand.getWhitelistedIDs().isEmpty()) {
-            event.getChannel().sendMessage("null").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Nobody is currently whitelisted.").build()).queue();
             return;
         }
         if (event.getAuthor().getIdLong() == Core.OWNERID && !args.isEmpty() && args.get(0).equals("-g")) {
             StringBuilder globalStringBuffer = new StringBuilder();
             int counter = 0;
-            for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+            for (WhitelistKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
                 User user = event.getJDA().getUserById(x.getUserID());
                 try {
                     String level = WhitelistCommand.getWhitelistedIDs().get(x);
@@ -38,19 +37,19 @@ public class WhitelistedCommand implements ICommand {
                     globalStringBuffer.append(" + ").append(name).append("\n");
                     counter++;
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x.getUserID() + ")").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embed("The whitelist config contained an invalid user and was automatically resolved. (" + x.getUserID() + ")").build()).queue();
                     WhitelistCommand.getWhitelistedIDs().remove(x);
-                    WhitelistedJSONHandler.saveWhitelistConfig();
+                    Core.getInstance().saveConfig(Core.getInstance().getWhitelistedHandler());
                 }
             }
-            event.getChannel().sendMessage(EmbedUtils.embedMessage(MarkdownUtil.bold(counter + " Whitelisted Users: (GLOBAL)\n" + globalStringBuffer.toString())).build()).queue();
-            WhitelistedJSONHandler.saveWhitelistConfig();
+            event.getChannel().sendMessageEmbeds(Utility.embedMessage(MarkdownUtil.bold(counter + " Whitelisted Users: (GLOBAL)\n" + globalStringBuffer)).setColor(Core.getInstance().getColorTheme()).build()).queue();
+            Core.getInstance().saveConfig(Core.getInstance().getWhitelistedHandler());
             return;
         }
         StringBuilder stringBuffer = new StringBuilder();
         int counter2 = 0;
 
-        for (CompositeKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
+        for (WhitelistKey x : WhitelistCommand.getWhitelistedIDs().keySet()) {
             if (x.getGuildID().equals(event.getGuild().getId())) {
                 User user = event.getJDA().getUserById(x.getUserID());
                 try {
@@ -59,16 +58,16 @@ public class WhitelistedCommand implements ICommand {
                     stringBuffer.append(" + ").append(name).append("\n");
                     counter2++;
                 } catch (NullPointerException ex) {
-                    event.getChannel().sendMessage("The whitelist config contained an invalid user and was automatically resolved. (" + x.getUserID() + ")").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("The whitelist config contained an invalid user and was automatically resolved. (" + x.getUserID() + ")").build()).queue();
                     WhitelistCommand.getWhitelistedIDs().remove(x);
-                    WhitelistedJSONHandler.saveWhitelistConfig();
+                    Core.getInstance().saveConfig(Core.getInstance().getWhitelistedHandler());
 
                 }
             }
         }
 
-        event.getChannel().sendMessage(EmbedUtils.embedMessage(MarkdownUtil.bold(counter2 + " Whitelisted Users: (LOCAL)\n" + stringBuffer.toString())).build()).queue();
-        WhitelistedJSONHandler.saveWhitelistConfig();
+        event.getChannel().sendMessageEmbeds(Utility.embedMessage(MarkdownUtil.bold(counter2 + " Whitelisted Users: (LOCAL)\n" + stringBuffer)).setColor(Core.getInstance().getColorTheme()).build()).queue();
+        Core.getInstance().saveConfig(Core.getInstance().getWhitelistedHandler());
 
     }
 
@@ -90,5 +89,10 @@ public class WhitelistedCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 }

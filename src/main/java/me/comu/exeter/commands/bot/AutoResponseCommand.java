@@ -15,50 +15,48 @@ public class AutoResponseCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert an auto-response message with content").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please insert an auto-response message with content.").build()).queue();
             return;
         }
         if (args.get(0).equalsIgnoreCase("clear") && (Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) || event.getMember().getIdLong() == Core.OWNERID)) {
-            event.getChannel().sendMessage("Successfully cleared all auto-responses (" + responses.size() + ")").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Successfully cleared all auto-responses (" + responses.size() + ").").build()).queue();
             responses.clear();
             return;
         }
         if (args.get(0).equalsIgnoreCase("response-list")) {
             if (responses.isEmpty()) {
-                event.getChannel().sendMessage("No auto-responses have been set. Set one by doing `" + Core.PREFIX + "autoresponse [content]`.").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("No auto-responses have been set. Set one by doing `" + Core.PREFIX + "autoresponse [content]`.").build()).queue();
                 return;
             }
             StringBuilder stringBuilder = new StringBuilder("__All Auto-Responses:__\n");
             responses.forEach((k, v) -> stringBuilder.append("`").append(k).append("`: ").append(v).append("\n"));
-            event.getChannel().sendMessage(stringBuilder.toString()).queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed(stringBuilder.toString()).build()).queue();
             return;
         }
 
         if (!event.getMessage().getMentionedMembers().isEmpty()) {
-            event.getChannel().sendMessage("You can't ping people in auto-respnoses, sorry.").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You can't ping people in auto-respnoses, sorry.").build()).queue();
             return;
         }
         if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && event.getMessage().getContentRaw().contains(".gg/")) {
-            event.getChannel().sendMessage("Only admins can create auto-responses with discord invites").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Only admins can create auto-responses with discord invites.").build()).queue();
             return;
         }
         StringJoiner stringJoiner = new StringJoiner(" ");
         args.stream().skip(1).forEach(stringJoiner::add);
         if (stringJoiner.toString().isEmpty())
         {
-            event.getChannel().sendMessage("You need to specify content to go alongside the auto-response").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You need to specify content to go alongside the auto-response.").build()).queue();
             return;
         }
         String tag = args.get(0);
         if (responses.containsKey(tag)) {
-            event.getChannel().sendMessage("`" + Utility.removeMentions(args.get(0)) + "` already exists as an auto-response!").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("`" + Utility.removeMentions(args.get(0)) + "` already exists as an auto-response!").build()).queue();
             return;
         }
         String tagMessage = Utility.removeMentions(stringJoiner.toString());
         responses.put(tag, tagMessage);
-        event.getChannel().sendMessage("Successfully added `" + tag + "` with an auto-response of `" + tagMessage + "`").queue();
-
-
+        event.getChannel().sendMessageEmbeds(Utility.embed("Successfully added `" + tag + "` with an auto-response of `" + tagMessage + "`.").build()).queue();
     }
 
     @Override
@@ -79,5 +77,10 @@ public class AutoResponseCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

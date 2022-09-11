@@ -13,18 +13,16 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class UserInfoCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy hh:mm a");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy h:mm a");
         List<Member> memberList = event.getMessage().getMentionedMembers();
-
         if (event.getMessage().getMentionedMembers().isEmpty() && args.isEmpty()) {
             try {
-                MessageEmbed embed = new EmbedBuilder().setColor(Objects.requireNonNull(event.getMember()).getColor())
+                MessageEmbed embed = new EmbedBuilder().setColor(Core.getInstance().getColorTheme())
                         .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                         .addField("Username", event.getMember().getUser().getAsTag(), true)
                         .addField("Online Status", event.getMember().getOnlineStatus().name().replaceAll("_", " "), true)
@@ -36,9 +34,9 @@ public class UserInfoCommand implements ICommand {
                         .addField("Administrator", event.getMember().hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
                         .addField("Account ID", event.getMember().getId(), true)
                         .build();
-                event.getChannel().sendMessage(embed).queue();
+                event.getChannel().sendMessageEmbeds(embed).queue();
             } catch (IllegalArgumentException ex) {
-                MessageEmbed embedEx = new EmbedBuilder().setColor(Objects.requireNonNull(event.getMember()).getColor())
+                MessageEmbed embedEx = new EmbedBuilder().setColor(Core.getInstance().getColorTheme())
                         .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                         .addField("Username", event.getMember().getUser().getAsTag(), true)
                         .addField("Online Status", event.getMember().getOnlineStatus().name().replaceAll("_", " "), true)
@@ -50,7 +48,7 @@ public class UserInfoCommand implements ICommand {
                         .addField("Administrator", event.getMember().hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
                         .addField("Account ID", event.getMember().getId(), true)
                         .build();
-                event.getChannel().sendMessage(embedEx).queue();
+                event.getChannel().sendMessageEmbeds(embedEx).queue();
             }
         }
         if (!args.isEmpty() && !memberList.isEmpty()) {
@@ -64,10 +62,10 @@ public class UserInfoCommand implements ICommand {
                         .addField("Joined Server", memberList.get(0).getTimeJoined().format(timeFormatter), true)
                         .addField("Activity:", displayGameInfo(memberList.get(0)), true)
                         .addField(String.format("Roles: (%s)", memberList.get(0).getRoles().size()), getRolesAsString(memberList.get(0).getRoles()), true)
-                        .addField("Administrator",memberList.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                        .addField("Administrator", memberList.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
                         .addField("Account ID", memberList.get(0).getId(), true)
                         .build();
-                event.getChannel().sendMessage(embed).queue();
+                event.getChannel().sendMessageEmbeds(embed).queue();
             } catch (IllegalArgumentException ex) {
                 MessageEmbed embedEx = new EmbedBuilder().setColor(memberList.get(0).getColor())
                         .setThumbnail(memberList.get(0).getUser().getEffectiveAvatarUrl())
@@ -79,19 +77,40 @@ public class UserInfoCommand implements ICommand {
                         .addField("Joined Server", memberList.get(0).getTimeJoined().format(timeFormatter), true)
                         .addField("Activity:", displayGameInfo(memberList.get(0)), true)
                         .addField(String.format("Roles: (%s)", memberList.get(0).getRoles().size()), "Too many to display", true)
-                        .addField("Administrator",memberList.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                        .addField("Administrator", memberList.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
                         .addField("Account ID", memberList.get(0).getId(), true)
                         .build();
-                event.getChannel().sendMessage(embedEx).queue();
+                event.getChannel().sendMessageEmbeds(embedEx).queue();
             }
         }
         if (!args.isEmpty() && memberList.isEmpty()) {
             List<Member> targets = event.getGuild().getMembersByName(args.get(0), true);
             if (targets.isEmpty()) {
-                event.getChannel().sendMessage("Couldn't find the user " + Utility.removeMentions(args.get(0))).queue();
-                return;
-            } else if (targets.size() > 1) {
-                event.getChannel().sendMessage("Multiple users found! Try mentioning the user instead.").queue();
+                try {
+                    Member member = event.getGuild().getMemberById(Long.parseLong(args.get(0)));
+                    if (member == null) {
+                        event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0) + ".")).build()).queue();
+                    } else {
+                        MessageEmbed embedEx = new EmbedBuilder().setColor(member.getColor())
+                                .setThumbnail(member.getUser().getEffectiveAvatarUrl())
+                                .setThumbnail(member.getUser().getEffectiveAvatarUrl())
+                                .addField("Username", member.getUser().getAsTag(), true)
+                                .addField("Online Status", member.getOnlineStatus().name().replaceAll("_", " "), true)
+                                .addField("Bot Account", member.getUser().isBot() ? "Yes" : "No", true)
+                                .addField("Account Created", member.getUser().getTimeCreated().format(timeFormatter), true)
+                                .addField("Joined Server", member.getTimeJoined().format(timeFormatter), true)
+                                .addField("Activity:", displayGameInfo(member), true)
+                                .addField(String.format("Roles: (%s)", member.getRoles().size()), "Too many to display", true)
+                                .addField("Administrator", member.hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                                .addField("Account ID", member.getId(), true)
+                                .build();
+                        event.getChannel().sendMessageEmbeds(embedEx).queue();
+                    }
+                    return;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Couldn't find the user " + Utility.removeMentions(args.get(0) + ".")).build()).queue();
                 return;
             }
             try {
@@ -104,10 +123,10 @@ public class UserInfoCommand implements ICommand {
                         .addField("Joined Server", targets.get(0).getTimeJoined().format(timeFormatter), true)
                         .addField("Activity:", displayGameInfo(targets.get(0)), true)
                         .addField(String.format("Roles: (%s)", targets.get(0).getRoles().size()), getRolesAsString(targets.get(0).getRoles()), true)
-                        .addField("Administrator",targets.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                        .addField("Administrator", targets.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
                         .addField("Account ID", targets.get(0).getId(), true)
                         .build();
-                event.getChannel().sendMessage(embed).queue();
+                event.getChannel().sendMessageEmbeds(embed).queue();
             } catch (IllegalArgumentException ex) {
                 MessageEmbed embedEx = new EmbedBuilder().setColor(targets.get(0).getColor())
                         .setThumbnail(targets.get(0).getUser().getEffectiveAvatarUrl())
@@ -118,10 +137,10 @@ public class UserInfoCommand implements ICommand {
                         .addField("Joined Server", targets.get(0).getTimeJoined().format(timeFormatter), true)
                         .addField("Activity:", displayGameInfo(targets.get(0)), true)
                         .addField(String.format("Roles: (%s)", targets.get(0).getRoles().size()), "Too many to display", true)
-                        .addField("Administrator",targets.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
+                        .addField("Administrator", targets.get(0).hasPermission(Permission.ADMINISTRATOR) ? "Yes" : "No", true)
                         .addField("Account ID", targets.get(0).getId(), true)
                         .build();
-                event.getChannel().sendMessage(embedEx).queue();
+                event.getChannel().sendMessageEmbeds(embedEx).queue();
             }
 
         }
@@ -143,7 +162,7 @@ public class UserInfoCommand implements ICommand {
             Role tempRole = rolesList.get(0);
             roles = new StringBuilder(tempRole.getName());
             for (int i = 1; i < rolesList.size(); i++) {
-                tempRole =  rolesList.get(i);
+                tempRole = rolesList.get(i);
                 roles.append(", ").append(tempRole.getName());
             }
         } else {
@@ -170,5 +189,10 @@ public class UserInfoCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

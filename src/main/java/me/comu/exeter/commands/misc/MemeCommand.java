@@ -3,7 +3,7 @@ package me.comu.exeter.commands.misc;
 import com.fasterxml.jackson.databind.JsonNode;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.comu.exeter.utility.Utility;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -18,7 +18,7 @@ public class MemeCommand implements ICommand {
         final TextChannel channel = event.getChannel();
         WebUtils.ins.getJSONObject("https://apis.duncte123.me/meme").async((json) -> {
             if (!json.get("success").asBoolean()) {
-                channel.sendMessage("Something went wrong, try again later").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong, try again later").build()).queue();
                 System.out.println(json);
                 return;
             }
@@ -27,9 +27,9 @@ public class MemeCommand implements ICommand {
             final String title = data.get("title").asText();
             final String url = data.get("url").asText();
             final String image = data.get("image").asText();
-            final EmbedBuilder embed = EmbedUtils.embedImageWithTitle(title, url, image);
+            final EmbedBuilder embed = Utility.embedImage(image).setTitle(title, url).setColor(Core.getInstance().getColorTheme());
 
-            channel.sendMessage(embed.build()).queue();
+            channel.sendMessageEmbeds(embed.build()).queue();
         });
     }
 
@@ -51,5 +51,10 @@ public class MemeCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

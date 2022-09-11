@@ -16,7 +16,7 @@ public class SayCommand implements ICommand {
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty())
         {
-            event.getChannel().sendMessage("Please specify a message to say through the bot").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Please specify a message to say through the bot").build()).queue();
         }
         else {
             event.getMessage().delete().queue();
@@ -26,7 +26,7 @@ public class SayCommand implements ICommand {
             message = Utility.removeMentions(message);
             if (message.contains(".gg/"))
             {
-                event.getChannel().sendMessage("Your message contains blacklisted words").queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Your message contains blacklisted words").build()).queue();
                 return;
             }
             event.getChannel().sendMessage(message).queue();
@@ -52,5 +52,10 @@ public class SayCommand implements ICommand {
   @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

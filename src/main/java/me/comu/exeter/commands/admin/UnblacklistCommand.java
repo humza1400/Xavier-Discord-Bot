@@ -3,6 +3,7 @@ package me.comu.exeter.commands.admin;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.interfaces.ICommand;
 import me.comu.exeter.utility.Utility;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -14,19 +15,19 @@ public class UnblacklistCommand implements ICommand {
 
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && event.getMember().getIdLong() != event.getGuild().getOwnerIdLong()) {
-            event.getChannel().sendMessage("You don't have permission to unblacklist anyone").queue();
+        if (Objects.requireNonNull(event.getMember()).getIdLong() != Core.OWNERID && !event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You don't have permission to un-blacklist anyone.").build()).queue();
             return;
         }
         if (args.isEmpty())
         {
-            event.getChannel().sendMessage("You need to specify a user to unblacklist").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("You need to specify a user to un-blacklist.").build()).queue();
             return;
         }
-        if (BlacklistCommand.blacklistedUsers.containsKey(args.get(0)))
+        if (BlacklistCommand.getBlacklistedUsers().containsKey(args.get(0)))
         {
-            BlacklistCommand.blacklistedUsers.remove(args.get(0));
-            event.getChannel().sendMessage("Successfully Removed `" + args.get(0) + "` from the blacklist hash").queue();
+            BlacklistCommand.getBlacklistedUsers().remove(args.get(0));
+            event.getChannel().sendMessageEmbeds(Utility.embed("Successfully Removed `" + args.get(0) + "` from the blacklist hash.").build()).queue();
             return;
         }
         List<Member> memberList = event.getMessage().getMentionedMembers();
@@ -34,15 +35,15 @@ public class UnblacklistCommand implements ICommand {
             String id = args.get(0);
             try {
                 Member member = event.getGuild().getMemberById(Long.parseLong(id));
-                if (!BlacklistCommand.blacklistedUsers.containsKey(id))
+                if (!BlacklistCommand.getBlacklistedUsers().containsKey(id))
                 {
-                    event.getChannel().sendMessage("That user is not blacklisted!").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.errorEmbed("That user is not blacklisted!").build()).queue();
                     return;
                 }
-                BlacklistCommand.blacklistedUsers.remove(id);
-                event.getChannel().sendMessage("Successfully removed `" + Objects.requireNonNull(member).getUser().getName() + "#" + member.getUser().getDiscriminator() + "` from the blacklist").queue();
+                BlacklistCommand.getBlacklistedUsers().remove(id);
+                event.getChannel().sendMessageEmbeds(Utility.embed("Successfully removed `" + Objects.requireNonNull(member).getUser().getName() + "#" + member.getUser().getDiscriminator() + "` from the blacklist").build()).queue();
             } catch (Exception ex) {
-                event.getChannel().sendMessage("Invalid ID + " + Utility.removeMentions(id)).queue();
+                event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Invalid ID + " + Utility.removeMentions(id) + ".").build()).queue();
             }
         }
     }
@@ -65,5 +66,10 @@ public class UnblacklistCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.ADMIN;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

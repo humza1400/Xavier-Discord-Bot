@@ -13,15 +13,14 @@ import java.util.List;
 public class JokeCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
-            event.getChannel().sendMessage(randomJoke()).queue();
+        event.getChannel().sendMessageEmbeds(Utility.embed(randomJoke()).build()).queue();
     }
 
     private String randomJoke() {
         try {
             JsonElement jsonElement = Utility.getJsonFromURL("https://icanhazdadjoke.com/");
             return jsonElement.getAsJsonObject().get("joke").getAsString();
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             return "Something went wrong! (IOException)";
         }
     }
@@ -44,5 +43,10 @@ public class JokeCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

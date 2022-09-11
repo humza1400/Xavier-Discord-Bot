@@ -14,7 +14,7 @@ public class SteamCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please specify who's profile you want to look for").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please specify who's profile you want to look for").build()).queue();
             return;
         }
         try {
@@ -33,7 +33,7 @@ public class SteamCommand implements ICommand {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setAuthor(Utility.removeLastChar(username.replaceFirst("\"", "")), profileUrl.replaceAll("\"", ""));
             embedBuilder.setThumbnail(avatarUrl.replaceAll("\"", ""));
-            embedBuilder.setColor(Utility.getAmbientColor());
+            embedBuilder.setColor(Core.getInstance().getColorTheme());
             if (bio != null)
                 embedBuilder.setDescription(Utility.removeLastChar(bio.substring(1)));
             if (realName != null)
@@ -48,12 +48,12 @@ public class SteamCommand implements ICommand {
                 embedBuilder.addField("Location", Utility.removeLastChar(location.replaceFirst("\"", "")), false);
             }
             embedBuilder.setFooter("Powered by Steam\u2122", "https://cdn.discordapp.com/emojis/733176829254434816.png?v=1");
-            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
         } catch (IllegalArgumentException ex) {
-            event.getChannel().sendMessage("I couldn't find any steam profile linked to `" + Utility.removeMentionsAndMarkdown(args.get(0)) + "`").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("I couldn't find any steam profile linked to `" + Utility.removeMentionsAndMarkdown(args.get(0)) + "`").build()).queue();
         } catch (Exception ex) {
             ex.printStackTrace();
-            event.getChannel().sendMessage("Something went wron when gathering steam information, try again later").queue();
+            event.getChannel().sendMessageEmbeds(Utility.errorEmbed("Something went wrong when gathering steam information, try again later").build()).queue();
         }
     }
 
@@ -76,5 +76,10 @@ public class SteamCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }

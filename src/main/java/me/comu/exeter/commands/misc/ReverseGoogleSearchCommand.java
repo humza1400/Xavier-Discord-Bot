@@ -12,7 +12,7 @@ public class ReverseGoogleSearchCommand implements ICommand {
     @Override
     public void handle(List<String> args, GuildMessageReceivedEvent event) {
         if (args.isEmpty()) {
-            event.getChannel().sendMessage("Please insert an image-link or mention a user").queue();
+            event.getChannel().sendMessageEmbeds(Utility.embed("Please insert an image-link or mention a user").build()).queue();
             return;
         }
         if (!event.getMessage().getMentionedMembers().isEmpty()) {
@@ -22,7 +22,7 @@ public class ReverseGoogleSearchCommand implements ICommand {
                 if (args.get(0).toLowerCase().endsWith("png") || args.get(0).toLowerCase().endsWith("jpg") || args.get(0).toLowerCase().endsWith("jpeg") || args.get(0).toLowerCase().endsWith("gif"))
                     event.getChannel().sendMessage("https://images.google.com/searchbyimage?image_url=" + Utility.removeMentions(args.get(0))).queue();
                 else
-                    event.getChannel().sendMessage("I couldn't resolve an image in that link, try again :|").queue();
+                    event.getChannel().sendMessageEmbeds(Utility.embed("I couldn't resolve an image in that link, try again :|").build()).queue();
             } else {
                 event.getChannel().sendMessage("https://images.google.com/searchbyimage?image_url=" + event.getGuild().getMembersByName(args.get(0), true).get(0).getUser().getEffectiveAvatarUrl()).queue();
             }
@@ -47,5 +47,10 @@ public class ReverseGoogleSearchCommand implements ICommand {
     @Override
     public Category getCategory() {
         return Category.MISC;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return false;
     }
 }
