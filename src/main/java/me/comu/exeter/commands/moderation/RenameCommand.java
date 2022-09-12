@@ -31,8 +31,10 @@ public class RenameCommand implements ICommand {
             return;
         }
         StringBuilder stringBuilder = new StringBuilder();
-        args.forEach(stringBuilder::append);
-        event.getChannel().getManager().setName(stringBuilder.toString()).queue(success -> event.getChannel().sendMessageEmbeds(Utility.embedMessage("Channel renamed to `" + stringBuilder + "`.").build()).queue());
+        args.forEach(msg -> stringBuilder.append("-").append(msg));
+        event.getChannel().getManager().setName(stringBuilder.substring(1)).queue(success -> event.getChannel().sendMessageEmbeds(Utility.embedMessage("Channel renamed to `" + stringBuilder.substring(1) + "`.").build()).queue(), fail -> {
+            event.getChannel().sendMessageEmbeds(Utility.embed("Command on cooldown.").build()).queue();
+        });
     }
 
     @Override

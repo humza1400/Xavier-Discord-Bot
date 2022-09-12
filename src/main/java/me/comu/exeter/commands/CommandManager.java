@@ -352,6 +352,7 @@ public class CommandManager {
         register(new HoistRoleCommand());
         register(new StatusRoleCommand());
         register(new RenameCommand());
+        register(new DeleteCommand());
         // MUSIC
         register(new JoinCommand());
         register(new LeaveCommand());
