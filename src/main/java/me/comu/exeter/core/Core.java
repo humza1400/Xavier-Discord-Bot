@@ -33,9 +33,9 @@ public class Core {
     TODO:
     - Fix anti-nuke for channels to recreate accurately and smartly
     - Add trusted members feature that are allowed to whitelist, unwhitelist, blacklist, and unblacklist
-    - Add config files for blacklists and trusted members
     - add jsonhandler for tickets and archived tickets
-    - TODO: ADD EASY MEMBER CATCHING BY USING FIND SIMILAR METHOD IN UTILITY
+    - fix nsfw cmds (endpoint was removed)
+    - TODO: ADD EASY MEMBER CACHING BY USING FIND SIMILAR METHOD IN UTILITY
      */
 
     private JDA jda;

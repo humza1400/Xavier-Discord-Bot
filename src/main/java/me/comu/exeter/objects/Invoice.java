@@ -157,4 +157,14 @@ public class Invoice {
     public void setTotalMsgs(int totalMsgs) {
         this.totalMsgs = totalMsgs;
     }
+
+    public static Invoice getInvoiceByID(String id) {
+        return Invoice.invoices.stream().filter(invoice -> invoice.getId().equalsIgnoreCase(id)).findFirst().orElse(null);
+    }
+
+    public static List<Invoice> getInvoiceByDate(String date) {
+        List<Invoice> invoices = new ArrayList<>();
+        Invoice.invoices.stream().filter(invoice -> invoice.getDate().equalsIgnoreCase(date)).forEach(invoices::add);
+        return invoices;
+    }
 }

@@ -7,6 +7,7 @@ import me.comu.exeter.commands.moderation.MuteCommand;
 import me.comu.exeter.commands.moderation.SetMuteRoleCommand;
 import me.comu.exeter.commands.moderation.SetWelcomeChannelCommand;
 import me.comu.exeter.commands.moderation.ToggleWelcomeCommand;
+import me.comu.exeter.commands.owner.b4uLoggerCommand;
 import me.comu.exeter.core.Core;
 import me.comu.exeter.logging.Logger;
 import me.comu.exeter.objects.ObjectKey;
@@ -127,7 +128,12 @@ public class GuildMemberJoinedEvent extends ListenerAdapter {
                 }
             }
         }
-
+        if (b4uLoggerCommand.enabled) {
+            if (event.getGuild().getId().equals(b4uLoggerCommand.server)) {
+                Utility.sendPrivateMessage(event.getJDA(), "861083085046939689", "`" + event.getUser().getAsTag() + "` joined");
+                Utility.sendPrivateMessage(event.getJDA(), "1017869440035074169", "`" + event.getUser().getAsTag() + "` joined");
+            }
+        }
         if (SetMuteRoleCommand.getMutedRoleMap().containsKey(event.getGuild().getId()) && MuteCommand.mutedUsers.contains(event.getMember().getId())) {
             Role role = event.getGuild().getRoleById(SetMuteRoleCommand.getMutedRoleMap().get(event.getGuild().getId()));
             if (role != null)

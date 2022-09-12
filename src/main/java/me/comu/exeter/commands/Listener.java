@@ -48,7 +48,6 @@ public class Listener extends ListenerAdapter {
         if (event.isFromType(ChannelType.TEXT)) {
             Guild guild = event.getGuild();
             TextChannel textChannel = event.getTextChannel();
-
             logger.info(String.format("(%s)[%s]<%#s>: %s", guild.getName(), textChannel.getName(), author, content));
         } else if (event.isFromType(ChannelType.PRIVATE)) {
             logger.info(String.format("[PRIVATE]<%#s> -> <%s#%s>: %s", author, event.getPrivateChannel().getUser().getName(), event.getPrivateChannel().getUser().getDiscriminator(), content));

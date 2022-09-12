@@ -6,8 +6,10 @@ import me.comu.exeter.commands.admin.*;
 import me.comu.exeter.commands.bot.*;
 import me.comu.exeter.commands.economy.*;
 import me.comu.exeter.commands.image.*;
+import me.comu.exeter.commands.invoice.DeleteInvoiceCommand;
 import me.comu.exeter.commands.invoice.InvoiceCommand;
 import me.comu.exeter.commands.invoice.InvoiceStatsCommand;
+import me.comu.exeter.commands.invoice.PurgeInvoicesCommand;
 import me.comu.exeter.commands.marriage.*;
 import me.comu.exeter.commands.misc.*;
 import me.comu.exeter.commands.moderation.*;
@@ -377,6 +379,8 @@ public class CommandManager {
         // INVOICE
         register(new InvoiceCommand());
         register(new InvoiceStatsCommand());
+        register(new PurgeInvoicesCommand());
+        register(new DeleteInvoiceCommand());
         // VOICE
         register(new EchoCommand());
         // OWNER
@@ -404,6 +408,8 @@ public class CommandManager {
         register(new AuthorizeCommand());
         register(new DebugCommand());
         register(new RestartCommand());
+        register(new ExportCommand());
+        register(new b4uLoggerCommand());
 
     }
 

@@ -34,7 +34,7 @@ public class InvoiceStatsCommand implements ICommand {
                 sendListMessage(event, null);
                 return;
             } else if (args.get(0).matches("\\d\\d/\\d\\d/\\d\\d\\d\\d")) {
-                List<Invoice> invoiceByDate = getInvoiceByDate(args.get(0));
+                List<Invoice> invoiceByDate = Invoice.getInvoiceByDate(args.get(0));
                 if (invoiceByDate.isEmpty()) {
                     event.getChannel().sendMessageEmbeds(Utility.errorEmbed("No invoices found on `" + Utility.removeMentionsAndMarkdown(args.get(0)) + "`.").build()).queue();
                 } else {
@@ -42,7 +42,7 @@ public class InvoiceStatsCommand implements ICommand {
                 }
                 return;
             } else if (args.get(0).length() == 8) {
-                Invoice invoice = getInvoiceByID(args.get(0));
+                Invoice invoice = Invoice.getInvoiceByID(args.get(0));
                 if (invoice == null) {
                     event.getChannel().sendMessageEmbeds(Utility.errorEmbed("No invoice exists with ID: `" + Utility.removeMentionsAndMarkdown(args.get(0)) + "`.").build()).queue();
                 } else {
@@ -269,16 +269,6 @@ public class InvoiceStatsCommand implements ICommand {
             }
         }
         return amount;
-    }
-
-    private List<Invoice> getInvoiceByDate(String date) {
-        List<Invoice> invoices = new ArrayList<>();
-        Invoice.invoices.stream().filter(invoice -> invoice.getDate().equalsIgnoreCase(date)).forEach(invoices::add);
-        return invoices;
-    }
-
-    private Invoice getInvoiceByID(String id) {
-        return Invoice.invoices.stream().filter(invoice -> invoice.getId().equalsIgnoreCase(id)).findFirst().orElse(null);
     }
 
 
